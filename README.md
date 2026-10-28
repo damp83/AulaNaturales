@@ -15,8 +15,11 @@ Cada misión empieza con tarjetas de repaso (con lectura en voz alta) y sigue co
 elegir respuesta, verdadero/falso, seleccionar varias, ordenar secuencias, clasificar, unir parejas y completar huecos.
 
 ## Gamificación
+- Estética de videojuego: Glo, un glóbulo rojo explorador que reacciona a cada respuesta, fondo animado, música 8 bits y efectos de sonido.
+- Pantalla «¡Preparados… ¡YA!» al empezar cada misión, combos y respuestas de colores con formas.
+- Jefe final: el Virus Gruñón, con barra de vida que baja con cada acierto.
 - Puntos de experiencia (XP), 6 niveles y barra de progreso.
-- 1 a 3 estrellas por misión según los aciertos a la primera.
+- 1 a 3 estrellas por misión según los aciertos a la primera (3 estrellas con un 85 %).
 - Rachas de aciertos y 9 insignias.
 - Mapa del viaje sobre la silueta del cuerpo; las misiones se desbloquean en orden.
 - **Zona de calma**: ejercicio guiado de respiración (inspiración, mantener, espiración) de la pág. 17.
