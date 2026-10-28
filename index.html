@@ -613,6 +613,9 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rand = a => a[Math.floor(Math.random()*a.length)];
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+/* Baraja garantizando que el orden no coincide con el del libro */
+function mix(a, bad, keepBookOrder){ if(a.length<2) return a.slice(); let r, n=0; do { r=shuffle(a); n++; } while(n<50 && ((!keepBookOrder && r.every((v,i)=>v===a[i])) || (bad && bad(r)))); return r; }
+const lastPos = {};
 function load(){ try{ const v = JSON.parse(localStorage.getItem(KEY)); if(v && v.profiles) return v; }catch(e){} return {profiles:{}, current:null, free:false, sound:true, music:false, open:{}}; }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 let S = load(); S.open = S.open || {};
@@ -992,7 +995,7 @@ function buildBoss(t){
   return shuffle(list).slice(0,12);
 }
 function startPlay(w){
-  M = {w, list: w.boss ? buildBoss(CT) : w.ch.slice(), i:0, xp:0, firstOk:0, combo:0, bestCombo:0, mistakes:0, hearts: w.boss?3:null, over:false, res:[]};
+  M = {w, list: w.boss ? buildBoss(CT) : mix(w.ch), i:0, xp:0, firstOk:0, combo:0, bestCombo:0, mistakes:0, hearts: w.boss?3:null, over:false, res:[]};
   pendingBadges = [];
   const v=$('#view-play'); v.setAttribute('style', cvars(w));
   v.innerHTML = `
@@ -1086,7 +1089,9 @@ const RENDER = {
     const isTF = ch.t==='tf';
     const opts = isTF ? ['Verdadero','Falso'] : ch.opts;
     const ans = isTF ? (ch.a?0:1) : ch.a;
-    const order = isTF ? [0,1] : shuffle(opts.map((_,i)=>i));
+    const key = ch.q;
+    const order = isTF ? [0,1] : mix(opts.map((_,i)=>i), r => opts.length>2 && r.indexOf(ans)===lastPos[key], true);
+    if(!isTF) lastPos[key] = order.indexOf(ans);
     const look = k => isTF ? (k===0?{c:'c3',s:'<path d="m4 12 5 5L20 6" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'}:{c:'c0',s:'<path d="M5 5l14 14M19 5 5 19" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>'}) : {c:'c'+(k%4), s:SHAPES[k%4]};
     box.innerHTML = `<div class="opts ${opts.some(o=>o.length>34)?'long':''}">${order.map((i,k)=>{ const l=look(k); return `<button class="opt ${l.c}" type="button" data-i="${i}"><svg class="shape" viewBox="0 0 24 24" aria-hidden="true">${l.s}</svg><span>${esc(opts[i])}</span></button>`; }).join('')}</div>`;
     box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
@@ -1098,7 +1103,7 @@ const RENDER = {
   pick(ch, box){
     const sel = new Set();
     box.innerHTML = `<div class="sort-wrap"><p class="tip">Puedes tocar varias. Después pulsa <b>Comprobar</b>.</p>
-      <div class="chips">${shuffle(ch.opts.map((_,i)=>i)).map(i=>`<button class="tile chip" type="button" aria-pressed="false" data-i="${i}">${esc(ch.opts[i])}</button>`).join('')}</div>
+      <div class="chips">${mix(ch.opts.map((_,i)=>i)).map(i=>`<button class="tile chip" type="button" aria-pressed="false" data-i="${i}">${esc(ch.opts[i])}</button>`).join('')}</div>
       <div><button class="btn" type="button" id="check">Comprobar ✔</button></div></div>`;
     box.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
       const i=+b.dataset.i; b.classList.remove('bad'); sfx('tick');
@@ -1119,7 +1124,7 @@ const RENDER = {
   },
   order(ch, box){
     const n=ch.items.length; let placed=Array(n).fill(null); const locked=Array(n).fill(false);
-    let pool=shuffle(ch.items.map((_,i)=>i)); if(pool.every((v,i)=>v===i)) pool.reverse();
+    let pool=mix(ch.items.map((_,i)=>i));
     let busy=false;
     function draw(badIdx=[]){
       box.innerHTML = `<div class="sort-wrap"><p class="tip">Toca las tarjetas en orden. Si te equivocas al colocar una, tócala para quitarla.</p>
@@ -1142,7 +1147,7 @@ const RENDER = {
     draw();
   },
   classify(ch, box){
-    const items=shuffle(ch.items); let k=0; const got=ch.bins.map(()=>[]);
+    const items=mix(ch.items); let k=0; const got=ch.bins.map(()=>[]);
     function draw(){
       const it=items[k];
       box.innerHTML = `<div class="sort-wrap">
@@ -1164,9 +1169,10 @@ const RENDER = {
   },
   match(ch, box){
     const n=ch.pairs.length; let selL=null, done=0;
+    const L=mix(ch.pairs.map((_,i)=>i)), R=mix(ch.pairs.map((_,i)=>i), r=>r.some((v,k)=>v===L[k]));
     box.innerHTML = `<div class="sort-wrap"><p class="tip">Toca una tarjeta de la izquierda y después su pareja de la derecha.</p>
-      <div class="match"><div class="col">${shuffle(ch.pairs.map((_,i)=>i)).map(i=>`<button class="tile m l" type="button" data-i="${i}">${esc(ch.pairs[i][0])}</button>`).join('')}</div>
-      <div class="col">${shuffle(ch.pairs.map((_,i)=>i)).map(i=>`<button class="tile m r" type="button" data-i="${i}">${esc(ch.pairs[i][1])}</button>`).join('')}</div></div></div>`;
+      <div class="match"><div class="col">${L.map(i=>`<button class="tile m l" type="button" data-i="${i}">${esc(ch.pairs[i][0])}</button>`).join('')}</div>
+      <div class="col">${R.map(i=>`<button class="tile m r" type="button" data-i="${i}">${esc(ch.pairs[i][1])}</button>`).join('')}</div></div></div>`;
     box.querySelectorAll('.m.l').forEach(b=>b.onclick=()=>{
       box.querySelectorAll('.m.l').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); selL=+b.dataset.i; sfx('tick');
     });
@@ -1183,7 +1189,7 @@ const RENDER = {
     });
   },
   fill(ch, box){
-    let k=0; const bank=shuffle([...ch.answers, ...ch.bank]); const used=new Set();
+    let k=0; const bank=mix([...ch.answers, ...ch.bank]); const used=new Set();
     function draw(){
       const sent = ch.parts.map(p=> typeof p==='number'
         ? `<span class="blank ${p<k?'filled':''} ${p===k?'active':''}">${p<k?esc(ch.answers[p]):'____'}</span>` : esc(p)).join('');
