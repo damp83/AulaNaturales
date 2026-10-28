@@ -685,14 +685,40 @@ function setMusic(on){
     st++;
   }, 170);
 }
+/* ---------- Voz: elige la voz en español más natural del dispositivo ---------- */
+let VOICES = [];
+function loadVoices(){ try{ VOICES = (window.speechSynthesis ? speechSynthesis.getVoices() : []).filter(v=>v.lang && /^es/i.test(v.lang)); }catch(e){ VOICES=[]; } }
+if(window.speechSynthesis){ loadVoices(); try{ speechSynthesis.addEventListener('voiceschanged', loadVoices); }catch(e){} }
+function voiceScore(v){
+  const n = v.name.toLowerCase(); let sc = 0;
+  if(/natural|neural|online/.test(n)) sc += 60;          // Edge: «Microsoft Elvira Online (Natural)»
+  if(/premium|enhanced|mejorad|siri/.test(n)) sc += 50;  // iPad/Mac: voces mejoradas
+  if(/google/.test(n)) sc += 35;                         // Chrome: «Google español»
+  if(/m[oó]nica|paulina|marisol|elvira|alvaro|álvaro|helena|lucia|lucía|dalia|jorge|laura/.test(n)) sc += 15;
+  if(/^es[-_]es/i.test(v.lang)) sc += 12; else if(/^es[-_](mx|us|419)/i.test(v.lang)) sc += 6;
+  if(/espeak|compact|eloquence|grandma|grandpa|abuel|bad news|bells|bubbles|jester|organ|trinoids|whisper|zarvox|albert|bahh|boing|cellos|deranged|hysterical|junior|ralph|superstar|wobble/.test(n)) sc -= 80;
+  if(v.localService === false) sc += 5;
+  return sc;
+}
+function bestVoice(){
+  if(!VOICES.length) loadVoices();
+  if(S.voice){ const v = VOICES.find(v=>v.name===S.voice); if(v) return v; }
+  return VOICES.slice().sort((a,b)=>voiceScore(b)-voiceScore(a))[0] || null;
+}
 function speak(text){
   try{
     const s = window.speechSynthesis; if(!s) return;
     s.cancel();
-    const u = new SpeechSynthesisUtterance(text.replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}️]/gu,' ').replace(/→/g,', ').replace(/_+|…/g,', '));
-    u.lang='es-ES'; u.rate=0.9;
-    const v = s.getVoices().find(v=>v.lang && v.lang.toLowerCase().startsWith('es')); if(v) u.voice=v;
-    s.speak(u);
+    const clean = text.replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\uFE0F]/gu,' ').replace(/→/g,', ').replace(/_+|…/g,', ').replace(/\s+/g,' ').trim();
+    const v = bestVoice();
+    // Frase a frase: las pausas suenan más naturales y evita cortes en textos largos
+    const parts = clean.match(/[^.!?¡¿;:]+[.!?;:]*|[¡¿][^!?]+[!?]/g) || [clean];
+    parts.map(p=>p.trim()).filter(Boolean).forEach(p=>{
+      const u = new SpeechSynthesisUtterance(p);
+      u.lang = v ? v.lang : 'es-ES'; if(v) u.voice = v;
+      u.rate = S.voiceRate || 0.95; u.pitch = 1.05;
+      s.speak(u);
+    });
   }catch(e){}
 }
 function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast.t); toast.t=setTimeout(()=>t.hidden=true, 2600); }
@@ -1350,10 +1376,27 @@ function renderTeacher(){
       <div class="tema-toggles panel">${TEMAS.map((t,i)=>`<label class="switch"><span>Tema ${t.n}: ${esc(t.title)} <small style="color:var(--ink-soft);font-weight:400">${hasContent(t)?`(${t.missions.length} misiones + jefe)`:'(sin contenidos todavía)'}</small></span>
           <span style="display:inline-flex;gap:8px;align-items:center">${i===0?'<small style="color:var(--ink-soft)">Siempre abierto</small>':`<input type="checkbox" data-open="${t.id}" ${S.open[t.id]?'checked':''} ${hasContent(t)?'':'disabled'}> Abrir ya`}</span></label>`).join('')}</div>
       <p class="note">Normalmente cada tema se abre cuando el alumno vence al jefe del tema anterior. Marca «Abrir ya» para abrir un tema a toda la clase aunque no hayan terminado el anterior.</p>
+      <h2 class="outline-sm" style="color:var(--gold)">Voz de lectura</h2>
+      <div class="tema-toggles panel">
+        <label class="switch" for="voice-sel"><span>Voz</span>
+          <select id="voice-sel" style="font:inherit;padding:8px 10px;border-radius:12px;border:3px solid var(--edge);background:var(--night);color:#fff;max-width:100%">
+            <option value="">Automática (la más natural)</option>
+            ${VOICES.slice().sort((x,y)=>voiceScore(y)-voiceScore(x)).map(v=>`<option value="${esc(v.name)}" ${S.voice===v.name?'selected':''}>${esc(v.name)} (${esc(v.lang)})</option>`).join('')}
+          </select></label>
+        <label class="switch" for="voice-rate"><span>Velocidad</span>
+          <select id="voice-rate" style="font:inherit;padding:8px 10px;border-radius:12px;border:3px solid var(--edge);background:var(--night);color:#fff">
+            ${[[0.8,'Despacio'],[0.95,'Normal'],[1.1,'Rápida']].map(([r,l])=>`<option value="${r}" ${(S.voiceRate||0.95)==r?'selected':''}>${l}</option>`).join('')}
+          </select></label>
+        <div><button class="btn blue small" type="button" id="voice-test">${ico('sound')} Probar voz</button></div>
+      </div>
+      <p class="note">${VOICES.length ? 'Las voces dependen del dispositivo y del navegador. Las más naturales suelen llamarse «Natural», «Online», «Mejorada» o «Google».' : 'Este navegador todavía no ha cargado sus voces. Pulsa «Probar voz» y vuelve a abrir este panel.'}</p>
       <label class="switch"><input type="checkbox" id="free-mode" ${S.free?'checked':''}> Modo libre: todos los temas y misiones desbloqueados</label>
       <p class="note">Estrellas: 3 con un 85 % de aciertos a la primera, 2 con un 60 % y 1 al terminar. Los contenidos se editan en el archivo <b>contenidos.js</b>.</p>
     </div>`;
   v.querySelector('#tback').onclick = ()=> P() ? (CT ? goMap() : goCourse()) : renderWelcome();
+  v.querySelector('#voice-sel').onchange = e=>{ S.voice=e.target.value||null; save(); speak('¡Hola! Así sonará mi voz.'); };
+  v.querySelector('#voice-rate').onchange = e=>{ S.voiceRate=+e.target.value; save(); speak('¡Hola! Así sonará mi voz.'); };
+  v.querySelector('#voice-test').onclick = ()=>{ speak('¡Hola! Soy Glo. ¿Preparados para explorar la naturaleza?'); };
   v.querySelector('#free-mode').onchange = e=>{ S.free=e.target.checked; save(); toast(S.free?'Modo libre activado':'Modo libre desactivado'); };
   v.querySelectorAll('[data-open]').forEach(c=>c.onchange=()=>{ S.open[c.dataset.open]=c.checked; save(); toast(c.checked?'Tema abierto para la clase':'Tema cerrado'); });
   v.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
