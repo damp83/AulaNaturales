@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Exploradores del Cuerpo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Grandstander:wght@600;800&display=swap">
+<style>
+/* Layout: el cuerpo de un niño es el mapa de niveles; las misiones van al lado como un cuaderno de campo */
+:root{
+  --paper:#EAF3EC; --card:#FFFFFF; --ink:#1B3326; --muted:#557064; --line:#C8DACD;
+  --leaf:#2E7A4C; --leaf-soft:#D6EBDD; --on-leaf:#FFFFFF; --leaf-shadow:#1E5434;
+  --sense:#2F7FB5; --bone:#A97A1E; --lung:#C9557A; --food:#D4761C; --gold:#E3A812;
+  --body:#CFE1D4; --organ-lung:#EFB8C8; --organ-food:#F3CF9E;
+  --ok:#23894A; --ok-soft:#D5F0DE; --bad:#C2412F; --bad-soft:#F8DDD8;
+  --f-display:'Grandstander','Comic Sans MS','Chalkboard SE',system-ui,sans-serif;
+  --f-body:'Andika','Trebuchet MS','Segoe UI',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#112019; --card:#1A2D22; --ink:#E3EFE6; --muted:#9BB4A5; --line:#2F4739;
+    --leaf:#5DBB83; --leaf-soft:#21402E; --on-leaf:#0D1C13; --leaf-shadow:#2F7A4E;
+    --sense:#6CB2E2; --bone:#E2BA5F; --lung:#EE8FAB; --food:#F2A657; --gold:#F2C443;
+    --body:#23392C; --organ-lung:#5A3341; --organ-food:#5A4325;
+    --ok:#5FCB86; --ok-soft:#1D3D29; --bad:#F07A68; --bad-soft:#47231E;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#112019; --card:#1A2D22; --ink:#E3EFE6; --muted:#9BB4A5; --line:#2F4739;
+  --leaf:#5DBB83; --leaf-soft:#21402E; --on-leaf:#0D1C13; --leaf-shadow:#2F7A4E;
+  --sense:#6CB2E2; --bone:#E2BA5F; --lung:#EE8FAB; --food:#F2A657; --gold:#F2C443;
+  --body:#23392C; --organ-lung:#5A3341; --organ-food:#5A4325;
+  --ok:#5FCB86; --ok-soft:#1D3D29; --bad:#F07A68; --bad-soft:#47231E;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5}
+.app{max-width:1080px;margin:0 auto;padding-block:16px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:800;line-height:1.15;margin:0;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.icon{width:1.2em;height:1.2em;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em}
+.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:1.05rem;background:var(--leaf);color:var(--on-leaf);border:0;border-radius:14px;padding:12px 22px;min-height:50px;cursor:pointer;box-shadow:0 4px 0 var(--leaf-shadow);transition:transform .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--leaf-shadow)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.ghost{background:var(--card);color:var(--ink);border:2px solid var(--line);box-shadow:0 3px 0 var(--line)}
+.btn.small{min-height:40px;padding:6px 14px;font-size:.95rem;border-radius:12px}
+.iconbtn{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--card);cursor:pointer;flex:none}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+
+/* Bienvenida */
+.welcome{display:grid;gap:28px;grid-template-columns:1fr;align-items:start;padding-top:12px}
+@media (min-width:820px){.welcome{grid-template-columns:1.1fr 1fr}}
+.welcome h1{font-size:clamp(2.3rem,7vw,3.6rem);color:var(--leaf)}
+.welcome .lead{font-size:1.15rem;max-width:34em;margin-top:12px}
+.unit-tag{display:inline-flex;align-items:center;gap:10px;margin-bottom:14px}
+.unit-num{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--leaf);color:var(--on-leaf);font-family:var(--f-display);font-weight:800;font-size:1.2rem}
+.preview-list{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:10px}
+.preview-list li{display:flex;gap:12px;align-items:center}
+.preview-list .dot{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:2.5px solid var(--c);color:var(--c);background:var(--card);flex:none}
+.panel{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:22px;display:grid;gap:16px}
+.panel h2{font-size:1.5rem}
+.field label{display:block;font-weight:700;margin-bottom:6px}
+.field input{width:100%;font:inherit;font-size:1.15rem;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+.avatars{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.avatar-opt{font-size:2.4rem;aspect-ratio:1;max-width:100%;border-radius:16px;border:3px solid var(--line);background:var(--paper);cursor:pointer}
+.avatar-opt[aria-pressed="true"]{border-color:var(--leaf);background:var(--leaf-soft);transform:scale(1.05)}
+.profiles{display:flex;flex-wrap:wrap;gap:10px}
+.profile-btn{display:flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border-radius:999px;border:2px solid var(--line);background:var(--paper);cursor:pointer;font-weight:700}
+.profile-btn .av{font-size:1.6rem}
+.linkish{background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;padding:6px 0;font-size:.95rem}
+
+/* HUD */
+.hud{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center;background:var(--card);border:2px solid var(--line);border-radius:22px;padding:14px 16px}
+.who{display:flex;align-items:center;gap:12px;background:none;border:0;cursor:pointer;padding:0;text-align:left}
+.who .av{font-size:2.2rem;width:58px;height:58px;display:grid;place-items:center;border-radius:50%;background:var(--leaf-soft)}
+.who b{font-family:var(--f-display);font-size:1.25rem;display:block}
+.who small{color:var(--muted);font-size:.9rem}
+.xp{flex:1 1 220px;min-width:0}
+.xp-top{display:flex;justify-content:space-between;font-size:.9rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{height:16px;border-radius:999px;background:var(--leaf-soft);overflow:hidden;margin-top:4px}
+.bar span{display:block;height:100%;background:var(--leaf);border-radius:999px;transition:width .6s ease}
+.stat{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.stat .icon{width:1.4em;height:1.4em}
+.stat.gold{color:var(--gold)}
+.stat.gold span{color:var(--ink)}
+.hud-tools{display:flex;gap:8px;margin-left:auto}
+
+/* Mapa */
+.map-layout{display:grid;gap:20px;margin-top:20px;grid-template-columns:1fr}
+@media (min-width:780px){.map-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:start}}
+.map-wrap{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:12px;display:grid;justify-items:center}
+.map-wrap h2{font-size:1.2rem;justify-self:start;padding:4px 6px}
+.bodymap{width:100%;max-width:330px;height:auto}
+.bodymap .body circle,.bodymap .body rect{fill:var(--body)}
+.bodymap .limb{stroke:var(--body);stroke-width:36;stroke-linecap:round;fill:none}
+.bodymap .o-lung{fill:var(--organ-lung)}
+.bodymap .o-food{fill:var(--organ-food)}
+.bodymap .trail{fill:none;stroke:var(--muted);stroke-width:3;stroke-dasharray:2 9;stroke-linecap:round;opacity:.7}
+.node{cursor:pointer}
+.node circle.base{fill:var(--card);stroke:var(--c);stroke-width:4}
+.node .ico{color:var(--c)}
+.node.done circle.base{fill:var(--c)}
+.node.done .ico{color:var(--card)}
+.node.locked{cursor:not-allowed}
+.node.locked circle.base{stroke:var(--line);fill:var(--card)}
+.node.locked .ico{color:var(--muted)}
+.node .ring{fill:none;stroke:var(--c);stroke-width:3;opacity:0;transform-box:fill-box;transform-origin:center}
+.node.open .ring{animation:pulse 1.8s ease-out infinite}
+.node:focus-visible circle.base{stroke:var(--gold);stroke-width:6}
+.node .nstars{fill:var(--gold)}
+@keyframes pulse{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(1.7)}}
+.missions{display:grid;gap:12px}
+.mission{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:20px;padding:14px;cursor:pointer;width:100%}
+.mission:hover:not(:disabled){border-color:var(--c)}
+.mission:disabled{cursor:not-allowed;opacity:.65}
+.mission .badge-ico{display:grid;place-items:center;width:54px;height:54px;border-radius:50%;border:3px solid var(--c);color:var(--c);background:var(--paper)}
+.mission .badge-ico .icon{width:28px;height:28px}
+.mission.is-done .badge-ico{background:var(--c);color:var(--card)}
+.mission h3{font-size:1.15rem}
+.mission .meta{font-size:.85rem;color:var(--muted);font-weight:700}
+.stars{display:inline-flex;gap:2px;color:var(--gold)}
+.stars .icon{width:22px;height:22px}
+.stars .off{color:var(--line)}
+.stars .on{fill:var(--gold)}
+.map-extras{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px}
+.extra{display:flex;gap:14px;align-items:center;text-align:left;background:var(--leaf-soft);border:2px solid transparent;border-radius:20px;padding:14px 16px;cursor:pointer}
+.extra:hover{border-color:var(--leaf)}
+.extra .icon{width:34px;height:34px;color:var(--leaf)}
+.extra b{display:block;font-family:var(--f-display);font-size:1.1rem}
+.extra small{color:var(--muted)}
+
+/* Aprende */
+.topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.topbar h1{font-size:clamp(1.5rem,4.5vw,2.2rem);color:var(--c,var(--leaf));flex:1 1 260px;min-width:0}
+.learn-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.lcard{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:18px;display:grid;gap:10px;align-content:start}
+.lcard-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.lcard h3{font-size:1.25rem;color:var(--c)}
+.lcard p{font-size:1.08rem}
+.lcard mark{background:none;color:var(--c);font-weight:700}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{padding:3px 12px;border-radius:999px;background:var(--paper);border:1.5px solid var(--line);font-weight:700;font-size:.95rem}
+.senses{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:1.02rem}
+.senses b{color:var(--c)}
+.steps{margin:0;padding-left:1.4em;display:grid;gap:6px;font-size:1.05rem}
+.steps li::marker{font-family:var(--f-display);font-weight:800;color:var(--c)}
+.flow{display:grid;justify-items:center;gap:2px;text-align:center;font-size:.98rem}
+.flow .box{padding:6px 14px;border-radius:12px;border:2px solid var(--c);font-weight:700;background:var(--paper)}
+.flow .box.fill{background:var(--c);color:var(--card);border-color:var(--c)}
+.flow .arrow{color:var(--muted);font-size:.9rem}
+.flow .split{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin-top:6px}
+.learn-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;align-items:center}
+
+/* Juego */
+.play-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;margin-bottom:16px}
+.play-head .bar{height:20px;margin:0}
+.play-head .bar span{background:var(--c)}
+.play-count{font-size:.85rem;color:var(--muted);font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums}
+.hearts{display:flex;gap:2px;color:var(--bad)}
+.hearts .icon{width:28px;height:28px}
+.hearts .full{fill:var(--bad)}
+.hearts .empty{color:var(--line)}
+.combo{font-weight:800;font-family:var(--f-display);color:var(--food);font-size:1.05rem;white-space:nowrap}
+.qcard{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:20px;display:grid;gap:18px}
+.q{display:flex;gap:12px;align-items:flex-start}
+.q h2{font-family:var(--f-body);font-weight:700;font-size:clamp(1.25rem,3.6vw,1.55rem);line-height:1.35;flex:1;min-width:0}
+.tip{color:var(--muted);font-size:.98rem}
+.opts{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.opts.long{grid-template-columns:1fr}
+.opt,.chip,.card-opt,.slot,.bin,.m{border:2.5px solid var(--line);background:var(--paper);border-radius:16px;cursor:pointer;font-weight:700;transition:transform .08s,background .2s,border-color .2s}
+.opt{min-height:64px;padding:12px 16px;font-size:1.18rem;text-align:left}
+.opt:hover:not(:disabled),.chip:hover:not(:disabled),.card-opt:hover,.bin:hover:not(:disabled),.m:hover:not(:disabled){border-color:var(--c)}
+.opt:active,.chip:active,.card-opt:active,.bin:active,.m:active{transform:scale(.97)}
+.ok{border-color:var(--ok)!important;background:var(--ok-soft)!important}
+.bad{border-color:var(--bad)!important;background:var(--bad-soft)!important;animation:shake .4s}
+.opt:disabled:not(.ok){opacity:.55;cursor:default}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{padding:12px 18px;font-size:1.12rem;min-height:54px}
+.chip[aria-pressed="true"]{border-color:var(--c);background:var(--card);box-shadow:inset 0 0 0 2px var(--c)}
+.chip:disabled{cursor:default}
+.chip:disabled:not(.ok):not([aria-pressed="true"]){opacity:.45}
+.slots{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.slot{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:10px 12px;min-height:56px;font-size:1.05rem;border-style:dashed}
+.slot.filled{border-style:solid;background:var(--card)}
+.slot:disabled{cursor:default;color:var(--muted)}
+.slot.filled:disabled,.slot.ok{color:var(--ink)}
+.num{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--c);color:var(--card);font-family:var(--f-display);flex:none}
+.pool{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.card-opt{padding:12px 14px;font-size:1.05rem;text-align:left;min-height:56px;background:var(--card)}
+.sort-item{justify-self:center;padding:16px 26px;border-radius:18px;background:var(--card);border:3px solid var(--c);font-size:1.4rem;font-weight:700;text-align:center;box-shadow:0 5px 0 var(--line)}
+.sort-wrap{display:grid;gap:14px}
+.bins{display:grid;gap:10px}
+.bins.b2{grid-template-columns:1fr 1fr}
+.bins.b3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.bin{display:grid;align-content:start;gap:6px;padding:14px 8px;min-height:120px;text-align:center}
+.bin-name{font-family:var(--f-display);font-size:1.1rem;color:var(--c)}
+.bin-list{font-size:.85rem;font-weight:400;color:var(--muted);overflow-wrap:anywhere}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.match .col{display:grid;gap:10px;align-content:start}
+.m{padding:12px;min-height:58px;font-size:1.05rem}
+.m.sel{border-color:var(--c);background:var(--card);box-shadow:inset 0 0 0 2px var(--c)}
+.m:disabled{cursor:default}
+.sentence{font-size:1.3rem;line-height:2.2}
+.blank{display:inline-block;min-width:4.5em;text-align:center;border-bottom:3px solid var(--line);padding:0 6px;font-weight:700;color:var(--muted)}
+.blank.active{border-color:var(--c);color:var(--c);background:var(--paper);border-radius:8px 8px 0 0}
+.blank.filled{color:var(--ok);border-color:var(--ok)}
+.feedback{position:sticky;bottom:env(safe-area-inset-bottom,0px);margin-top:16px;border-radius:20px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;border:2.5px solid;z-index:5}
+.feedback.good{background:var(--ok-soft);border-color:var(--ok)}
+.feedback.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.feedback .fb-text{flex:1 1 240px;min-width:0}
+.feedback b{font-family:var(--f-display);font-size:1.3rem;display:block}
+.feedback.good b{color:var(--ok)}
+.feedback.wrong b{color:var(--bad)}
+.float-xp{position:fixed;font-family:var(--f-display);font-weight:800;font-size:1.6rem;color:var(--leaf);pointer-events:none;animation:rise 1.1s ease-out forwards;z-index:30}
+@keyframes rise{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-60px)}}
+
+/* Resultado */
+.result{max-width:620px;margin:20px auto 0;text-align:center;display:grid;gap:18px;justify-items:center}
+.result h1{font-size:clamp(2rem,6vw,2.8rem);color:var(--c)}
+.big-stars{display:flex;gap:10px;color:var(--gold)}
+.big-stars .icon{width:68px;height:68px;stroke-width:1.5}
+.big-stars .on{fill:var(--gold);animation:pop .5s backwards}
+.big-stars .off{color:var(--line)}
+.big-stars .icon:nth-child(2){animation-delay:.2s;transform:translateY(-10px)}
+.big-stars .icon:nth-child(3){animation-delay:.4s}
+@keyframes pop{from{transform:scale(0)}70%{transform:scale(1.25)}}
+.res-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+.res-stats div{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px 6px}
+.res-stats b{display:block;font-family:var(--f-display);font-size:1.6rem;font-variant-numeric:tabular-nums}
+.res-stats small{color:var(--muted);font-size:.85rem}
+.levelup{background:var(--leaf);color:var(--on-leaf);border-radius:16px;padding:12px 18px;font-weight:700;width:100%}
+.new-badges{display:grid;gap:8px;width:100%}
+.new-badge{display:flex;gap:12px;align-items:center;text-align:left;background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:10px 14px}
+.medal{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--gold);color:var(--card);flex:none}
+.medal .icon{width:28px;height:28px}
+
+/* Calma */
+.calm{max-width:560px;margin:0 auto;display:grid;gap:22px;justify-items:center;text-align:center}
+.breath-stage{width:min(80vw,300px);aspect-ratio:1;display:grid;place-items:center;position:relative;max-width:100%}
+.breath{width:46%;aspect-ratio:1;border-radius:50%;background:var(--lung);opacity:.85;transform:scale(1);transition-property:transform;transition-timing-function:ease-in-out}
+.breath-ring{position:absolute;inset:0;border-radius:50%;border:3px dashed var(--line)}
+.breath-label{position:absolute;font-family:var(--f-display);font-weight:800;font-size:1.6rem;color:var(--ink)}
+.phase-steps{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.phase-steps span{padding:6px 14px;border-radius:999px;border:2px solid var(--line);font-weight:700;color:var(--muted)}
+.phase-steps span.on{border-color:var(--lung);color:var(--ink);background:var(--card)}
+.feel{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.feel button{font-size:2.2rem;width:72px;height:72px;border-radius:18px;border:2.5px solid var(--line);background:var(--card);cursor:pointer}
+
+/* Insignias */
+.badge-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr))}
+.bcard{display:flex;gap:12px;align-items:center;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px}
+.bcard.locked .medal{background:var(--line);color:var(--muted)}
+.bcard.locked b{color:var(--muted)}
+.bcard small{color:var(--muted);display:block;font-size:.88rem;line-height:1.35}
+
+/* Docente */
+.table-wrap{overflow-x:auto;background:var(--card);border:2px solid var(--line);border-radius:18px}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+td.num-c{font-variant-numeric:tabular-nums}
+.teacher-tools{display:grid;gap:14px;margin-top:18px}
+.switch{display:flex;gap:10px;align-items:center;font-weight:700}
+.switch input{width:22px;height:22px;accent-color:var(--leaf)}
+.note{color:var(--muted);font-size:.95rem;max-width:62ch}
+
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--paper);padding:12px 20px;border-radius:14px;font-weight:700;z-index:40;max-width:calc(100% - 32px)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:50;width:100%;height:100%}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<main class="app">
+
+  <section id="view-welcome" class="view">
+    <div class="welcome">
+      <div>
+        <div class="unit-tag"><span class="unit-num">1</span><span class="eyebrow">Ciencias de la Naturaleza · El cuerpo humano</span></div>
+        <h1>Exploradores del Cuerpo</h1>
+        <p class="lead">Viaja por el cuerpo humano, supera retos, gana estrellas y consigue insignias. Cada misión repasa una lección de tu libro.</p>
+        <ul class="preview-list" id="preview-list"></ul>
+      </div>
+      <div class="panel" id="profile-panel">
+        <div id="existing-profiles" hidden>
+          <h2>¿Quién juega?</h2>
+          <div class="profiles" id="profiles" style="margin-top:12px"></div>
+        </div>
+        <form id="new-profile" class="panel" style="border:0;padding:0" novalidate>
+          <h2 id="new-title">Crea tu explorador</h2>
+          <div class="field">
+            <label for="pname">¿Cómo te llamas?</label>
+            <input id="pname" maxlength="18" autocomplete="off" placeholder="Escribe tu nombre">
+          </div>
+          <div class="field">
+            <label id="av-label">Elige tu compañero de viaje</label>
+            <div class="avatars" id="avatars" role="group" aria-labelledby="av-label"></div>
+          </div>
+          <button class="btn" type="submit" id="start-btn">¡A explorar!</button>
+        </form>
+        <button class="linkish" type="button" id="teacher-link">Panel del docente</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-map" class="view" hidden>
+    <header class="hud" id="hud"></header>
+    <div class="map-layout">
+      <div class="map-wrap">
+        <h2>Mapa del viaje</h2>
+        <div id="map" style="width:100%;display:grid;justify-items:center"></div>
+      </div>
+      <div class="missions" id="missions"></div>
+    </div>
+    <div class="map-extras">
+      <button class="extra" id="go-calm" type="button">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M3 8h10a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h7"/></svg>
+        <span><b>Zona de calma</b><small>Ejercicio de respiración para relajarte</small></span>
+      </button>
+      <button class="extra" id="go-badges" type="button">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg>
+        <span><b>Mis insignias</b><small id="badge-count">0 de 9 conseguidas</small></span>
+      </button>
+    </div>
+  </section>
+
+  <section id="view-learn" class="view" hidden></section>
+  <section id="view-play" class="view" hidden>
+    <div class="play-head">
+      <button class="iconbtn" id="quit" type="button" aria-label="Salir de la misión"><svg class="icon" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <div>
+        <div class="bar" aria-hidden="true"><span id="pbar" style="width:0"></span></div>
+        <div class="play-count" id="pcount"></div>
+      </div>
+      <div id="play-side"></div>
+    </div>
+    <div class="qcard">
+      <div class="q">
+        <h2 id="qtext"></h2>
+        <button class="iconbtn" id="read-q" type="button" aria-label="Leer en voz alta"><svg class="icon" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg></button>
+      </div>
+      <div id="stage"></div>
+    </div>
+    <div class="feedback" id="feedback" role="status" hidden>
+      <div class="fb-text"><b id="fb-title"></b><span id="fb-msg"></span></div>
+      <button class="btn" id="fb-next" type="button" hidden>Continuar</button>
+    </div>
+  </section>
+  <section id="view-result" class="view" hidden></section>
+  <section id="view-calm" class="view" hidden></section>
+  <section id="view-badges" class="view" hidden></section>
+  <section id="view-teacher" class="view" hidden></section>
+</main>
+<div id="toast" role="status" hidden></div>
+
+<script>
+/* ---------- Iconos ---------- */
+const ICONS = {
+  eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  bone:'<g transform="rotate(-45 12 12)"><circle cx="5" cy="9.6" r="2.6"/><circle cx="5" cy="14.4" r="2.6"/><circle cx="19" cy="9.6" r="2.6"/><circle cx="19" cy="14.4" r="2.6"/><path d="M7.4 10.6h9.2M7.4 13.4h9.2"/></g>',
+  lungs:'<path d="M12 3v9"/><path d="M12 10c-1.5 0-2.5.8-3.2 1.6M12 10c1.5 0 2.5.8 3.2 1.6"/><path d="M8.3 6.5C5.5 6.5 3 11 3 16.5 3 18.5 4 20 6 20s3-1.6 3-3.6V8c0-1-.2-1.5-.7-1.5z"/><path d="M15.7 6.5c2.8 0 5.3 4.5 5.3 10 0 2-1 3.5-3 3.5s-3-1.6-3-3.6V8c0-1 .2-1.5.7-1.5z"/>',
+  apple:'<path d="M12 7.5c-2-1.8-7-1.8-7.8 3.4-.7 4.5 2.2 10.1 4.8 10.1 1.2 0 1.9-.7 3-.7s1.8.7 3 .7c2.6 0 5.5-5.6 4.8-10.1C19 5.7 14 5.7 12 7.5z"/><path d="M12 7.5c0-2 1-3.8 3-4.5"/>',
+  trophy:'<path d="M8 21h8M12 16v5M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4.5a3 3 0 0 0 3 4.5M17 6h2.5a3 3 0 0 1-3 4.5"/>',
+  star:'<path d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z"/>',
+  lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  heart:'<path d="M12 20s-7.5-4.6-9.2-9.3C1.6 7.3 3.7 4 7 4c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.3 0 5.4 3.3 4.2 6.7C19.5 15.4 12 20 12 20z"/>',
+  flame:'<path d="M12 22c4 0 7-2.7 7-7 0-4-3-6.5-4-10-2 1.5-3 3.5-3 5.5C11 9 10 8 9.5 6.5 7 9 5 11.6 5 15c0 4.3 3 7 7 7z"/>',
+  wind:'<path d="M3 8h10a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h7"/>',
+  check:'<path d="m4 12 5 5L20 6"/>',
+  medal:'<circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/>',
+  sound:'<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>',
+  mute:'<path d="M11 5 6 9H2v6h4l5 4z"/><path d="m16 9 6 6M22 9l-6 6"/>',
+  back:'<path d="M15 18 9 12l6-6"/>',
+  teacher:'<path d="M3 5h18v11H3z"/><path d="M8 21l4-5 4 5M7 9h6M7 12h4"/>'
+};
+const ico = (n, cls='') => `<svg class="icon ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
+
+/* ---------- Contenidos (libro: Unidad 1, págs. 12-19) ---------- */
+const WORLDS = [
+  {
+    id:'funciones', title:'¿Cómo funciona nuestro cuerpo?', short:'Las funciones vitales', pages:'Págs. 12-13',
+    color:'--sense', icon:'eye', node:[150,60],
+    learn:[
+      {h:'Las tres funciones vitales', p:'Todos los seres vivos realizamos tres <mark>funciones vitales</mark>: <mark>relación</mark>, <mark>nutrición</mark> y <mark>reproducción</mark>.'},
+      {h:'Función de relación', p:'A través de los <mark>sentidos</mark> captamos lo que sucede a nuestro alrededor y reaccionamos ante ello. Tenemos cinco sentidos y cada uno tiene su órgano.',
+        extra:'<div class="senses"><b>Vista</b><span>los ojos</span><b>Olfato</b><span>la nariz</span><b>Oído</b><span>los oídos</span><b>Gusto</b><span>la lengua</span><b>Tacto</b><span>la piel</span></div>'},
+      {h:'Función de nutrición', p:'Respiramos y tomamos alimentos que nos permiten <mark>crecer</mark> y tener <mark>energía</mark> para realizar nuestras actividades diarias.'},
+      {h:'Función de reproducción', p:'Las personas adultas pueden reproducirse, es decir, <mark>tener hijos e hijas</mark>.'}
+    ],
+    ch:[
+      {t:'mc', q:'¿Cuántas funciones vitales realizamos los seres vivos?', opts:['Dos','Tres','Cinco'], a:1, hint:'Son relación, nutrición y reproducción.'},
+      {t:'match', q:'Une cada sentido con su órgano.', pairs:[['Vista','Ojos'],['Olfato','Nariz'],['Oído','Oídos'],['Gusto','Lengua'],['Tacto','Piel']], hint:'Piensa con qué parte del cuerpo ves, hueles, oyes, saboreas y tocas.'},
+      {t:'mc', q:'Iván coge una mandarina porque ve que es naranja. ¿Qué parte del cuerpo le sirve?', opts:['👁️ Los ojos','👅 La lengua'], a:0, hint:'Para ver el color usamos el sentido de la vista.'},
+      {t:'mc', q:'A Iván le parece que la mandarina es muy suave. ¿Qué parte del cuerpo le sirve?', opts:['👅 La lengua','✋ La piel'], a:1, hint:'Si algo es suave o áspero lo notamos con el tacto.'},
+      {t:'mc', q:'A Iván le resulta muy agradable el olor de la mandarina. ¿Qué parte del cuerpo le sirve?', opts:['👂 Los oídos','👃 La nariz'], a:1, hint:'Los olores los captamos con el sentido del olfato.'},
+      {t:'tf', q:'Una niña toca un cactus, se pincha y aparta la mano. Ha recibido la información por el sentido del tacto.', a:true, hint:'El tacto está en la piel. Por eso nota el pinchazo.'},
+      {t:'classify', q:'¿A qué función vital corresponde cada actividad?', bins:['Relación','Nutrición','Reproducción'],
+        items:[['🥣 Tomar el desayuno',1],['⚽ Jugar en el recreo',0],['🌬️ Respirar',1],['🎵 Escuchar música',0],['👶 Una persona adulta tiene un bebé',2],['🌸 Oler una flor',0],['🍎 Comer fruta',1]],
+        hint:'Relación: usamos los sentidos y reaccionamos. Nutrición: comemos y respiramos. Reproducción: tener hijos e hijas.'},
+      {t:'mc', q:'¿Cuál de las funciones vitales no se puede realizar en la infancia?', opts:['Relación','Nutrición','Reproducción'], a:2, hint:'Solo las personas adultas pueden tener hijos e hijas.'},
+      {t:'tf', q:'Tenemos tres sentidos: la vista, el oído y el gusto.', a:false, hint:'Tenemos cinco sentidos: vista, olfato, oído, gusto y tacto.'}
+    ]
+  },
+  {
+    id:'movemos', title:'¿Cómo nos movemos?', short:'Huesos, articulaciones y músculos', pages:'Págs. 14-15',
+    color:'--bone', icon:'bone', node:[221,205],
+    learn:[
+      {h:'Los huesos', p:'Los <mark>huesos</mark> están en el interior de nuestro cuerpo. Son <mark>duros y rígidos</mark>: no se pueden doblar. El conjunto de todos los huesos se llama <mark>esqueleto</mark>.',
+        extra:'<div class="tags"><span class="tag">cráneo</span><span class="tag">costillas</span><span class="tag">columna vertebral</span><span class="tag">fémur</span><span class="tag">tibia</span></div>'},
+      {h:'Las articulaciones', p:'Las <mark>articulaciones</mark> son las uniones de los huesos. Gracias a ellas podemos <mark>doblar</mark> algunas partes del cuerpo.',
+        extra:'<div class="tags"><span class="tag">hombro</span><span class="tag">codo</span><span class="tag">muñeca</span><span class="tag">rodilla</span><span class="tag">tobillo</span></div>'},
+      {h:'Los músculos', p:'Los <mark>músculos</mark> están bajo la piel y recubren los huesos. Son <mark>blandos y elásticos</mark>: se estiran y se encogen sin romperse. Para movernos, los músculos <mark>tiran de los huesos</mark>.',
+        extra:'<div class="tags"><span class="tag">bíceps</span><span class="tag">pectoral</span><span class="tag">abdominales</span><span class="tag">glúteo</span><span class="tag">gemelos</span></div>'},
+      {h:'Cuida tu cuerpo', p:'Es importante hacer <mark>ejercicio físico</mark> para tener unos huesos y unos músculos sanos.'}
+    ],
+    ch:[
+      {t:'mc', q:'¿Cómo se llama el conjunto de todos los huesos del cuerpo?', opts:['Músculo','Esqueleto','Articulación'], a:1, hint:'Todos los huesos juntos forman el esqueleto.'},
+      {t:'classify', q:'¿Es un hueso, una articulación o un músculo?', bins:['Hueso','Articulación','Músculo'],
+        items:[['Cráneo',0],['Codo',1],['Bíceps',2],['Fémur',0],['Rodilla',1],['Gemelos',2],['Costillas',0],['Tobillo',1],['Pectoral',2],['Hombro',1],['Tibia',0],['Abdominales',2]],
+        hint:'Articulaciones: hombro, codo, muñeca, rodilla y tobillo. Músculos: bíceps, pectoral, abdominales, glúteo y gemelos.'},
+      {t:'classify', q:'¿Es una característica de los huesos o de las articulaciones?', bins:['Huesos','Articulaciones'],
+        items:[['No se pueden doblar',0],['Forman el esqueleto',0],['Nos permiten doblar algunas partes del cuerpo',1],['Son duros y rígidos',0],['Son las uniones de los huesos',1]],
+        hint:'Los huesos son duros y forman el esqueleto. Las articulaciones unen los huesos y nos dejan doblarnos.'},
+      {t:'pick', q:'Toca los DOS huesos de las piernas.', opts:['Fémur','Cráneo','Tibia','Costillas','Codo'], a:[0,2], hint:'El codo es una articulación. El cráneo y las costillas no están en las piernas.'},
+      {t:'pick', q:'Toca las articulaciones de los brazos.', opts:['Hombro','Rodilla','Codo','Tobillo','Muñeca'], a:[0,2,4], hint:'La rodilla y el tobillo están en las piernas.'},
+      {t:'pick', q:'Toca los objetos que son elásticos como los músculos.', opts:['🎈 Globo','🔩 Tornillo','➰ Goma elástica','🪨 Piedra','🌀 Muelle'], a:[0,2,4], hint:'Elástico quiere decir que se estira y se encoge sin romperse.'},
+      {t:'pick', q:'Toca los músculos del tronco.', opts:['Pectoral','Gemelos','Abdominales','Bíceps'], a:[0,2], hint:'Los gemelos están en las piernas y el bíceps en el brazo.'},
+      {t:'mc', q:'Para movernos, los músculos…', opts:['tiran de los huesos','se rompen','se vuelven duros'], a:0, hint:'Los músculos tiran de los huesos y así nos movemos.'},
+      {t:'tf', q:'Los músculos son duros y rígidos.', a:false, hint:'Los músculos son blandos y elásticos. Los huesos sí son duros y rígidos.'},
+      {t:'tf', q:'Hacer ejercicio físico nos ayuda a tener huesos y músculos sanos.', a:true, hint:'El ejercicio cuida los huesos y los músculos.'}
+    ]
+  },
+  {
+    id:'respiramos', title:'¿Cómo respiramos?', short:'El camino del aire', pages:'Págs. 16-17',
+    color:'--lung', icon:'lungs', node:[128,168],
+    learn:[
+      {h:'El oxígeno', p:'Cuando respiramos obtenemos el <mark>oxígeno</mark> que necesitamos para vivir. El oxígeno es un <mark>gas que está en el aire</mark>.'},
+      {h:'El camino del aire', p:'Así viaja el aire por nuestro cuerpo:',
+        extra:'<ol class="steps"><li>Tomamos aire por la <mark>nariz</mark> o por la <mark>boca</mark>.</li><li>El aire pasa por un tubo llamado <mark>tráquea</mark>.</li><li>El aire llega a los <mark>pulmones</mark>. Allí el cuerpo toma el oxígeno.</li><li>El aire que queda vuelve a la boca y a la nariz y sale al exterior.</li></ol>'},
+      {h:'Inspiración y espiración', p:'En la <mark>inspiración</mark> el aire entra y se llenan los pulmones. En la <mark>espiración</mark> el aire sale del cuerpo.'},
+      {h:'Respirar para calmarnos', p:'Respirar profundamente nos ayuda a <mark>calmarnos</mark>. Toma aire por la nariz, mantenlo unos segundos y expúlsalo poco a poco por la boca.'}
+    ],
+    ch:[
+      {t:'mc', q:'Cuando respiramos obtenemos un gas que necesitamos para vivir. ¿Cuál es?', opts:['💨 El oxígeno','🔥 El humo','☁️ El vapor'], a:0, hint:'Es un gas que está en el aire y empieza por O.'},
+      {t:'order', q:'Ordena el recorrido del aire en el cuerpo.', items:['Tomamos aire por la nariz o por la boca','El aire pasa por la tráquea','El aire llega a los pulmones','El aire que queda sale por la boca y la nariz'], hint:'Empieza por donde entra el aire y termina por donde sale.'},
+      {t:'fill', q:'Completa el recorrido del aire.', parts:['Entra por la ',0,' → pasa por la ',1,' → llega a los ',2,'.'], answers:['nariz','tráquea','pulmones'], bank:['esófago','estómago'], hint:'El esófago y el estómago son de la digestión, no de la respiración.'},
+      {t:'mc', q:'¿En qué parte del cuerpo se toma el oxígeno que necesitamos?', opts:['En el estómago','En los pulmones','En la tráquea'], a:1, hint:'La tráquea solo es el tubo. El oxígeno se toma en los pulmones.'},
+      {t:'classify', q:'¿Es inspiración o espiración?', bins:['Inspiración','Espiración'],
+        items:[['El aire entra en el cuerpo',0],['El aire sale del cuerpo',1],['Se llenan los pulmones',0],['Expulsamos el aire por la boca',1]],
+        hint:'Inspiración: el aire entra. Espiración: el aire sale.'},
+      {t:'classify', q:'¿Cómo es tu respiración cuando…?', bins:['Tranquila','Acelerada'],
+        items:[['📖 lees un cuento',0],['🏃 corres',1],['✏️ dibujas',0],['💃 bailas',1],['😴 duermes',0],['🪁 corres con la cometa',1]],
+        hint:'Cuando nos movemos mucho, respiramos más rápido.'},
+      {t:'order', q:'Ordena el ejercicio para calmarte.', items:['Toma aire por la nariz hasta llenar los pulmones','Mantén el aire dentro unos segundos','Expulsa poco a poco el aire por la boca'], hint:'Primero inspiración, después mantener y al final espiración.'},
+      {t:'mc', q:'Te pones nervioso o nerviosa. ¿Qué te puede ayudar a calmarte?', opts:['Respirar profundamente varias veces','Gritar muy fuerte','Aguantar sin respirar mucho rato'], a:0, hint:'Respirar despacio y profundo nos ayuda a calmarnos.'}
+    ]
+  },
+  {
+    id:'alimentamos', title:'¿Cómo nos alimentamos?', short:'La digestión', pages:'Págs. 18-19',
+    color:'--food', icon:'apple', node:[168,226],
+    learn:[
+      {h:'La digestión', p:'La alimentación forma parte de la función de nutrición. En el interior del cuerpo la <mark>digestión</mark> transforma los alimentos en unas sustancias más sencillas que llamamos <mark>nutrientes</mark>.'},
+      {h:'Los nutrientes', p:'Los nutrientes nos dan dos cosas muy importantes:',
+        extra:'<div class="flow"><span class="box fill">Los alimentos</span><span class="arrow">están formados por ↓</span><span class="box">Nutrientes</span><span class="arrow">que nos proporcionan ↓</span><div class="split"><div class="flow"><span class="box">Materia</span><span class="arrow">que nos ayuda a crecer</span></div><div class="flow"><span class="box">Energía</span><span class="arrow">para realizar nuestras actividades</span></div></div></div>'},
+      {h:'El camino de los alimentos', p:'Este es el camino que siguen los alimentos:',
+        extra:'<ol class="steps"><li>Tomamos la comida por la <mark>boca</mark> y la masticamos con los <mark>dientes</mark>.</li><li>La comida triturada pasa por un tubo llamado <mark>esófago</mark>.</li><li>En el <mark>estómago</mark> los alimentos se deshacen en sustancias más pequeñas.</li><li>Los nutrientes llegan al cuerpo a través de los <mark>intestinos</mark>.</li><li>Los restos que no se aprovechan se expulsan por el <mark>ano</mark>.</li></ol>'}
+    ],
+    ch:[
+      {t:'mc', q:'¿Qué es la digestión?', opts:['El paso de los alimentos desde la boca hasta el estómago','El proceso de transformación de los alimentos dentro de nuestro cuerpo'], a:1, hint:'La digestión transforma los alimentos en nutrientes.'},
+      {t:'mc', q:'Los alimentos están formados por…', opts:['nutrientes','huesos','aire'], a:0, hint:'La digestión saca de los alimentos los nutrientes.'},
+      {t:'classify', q:'Los nutrientes nos dan materia y energía. ¿Para qué sirve cada una?', bins:['Materia','Energía'],
+        items:[['📏 Crecer',0],['🥋 Hacer kárate',1],['🏃 Correr y jugar',1],['🧒 Hacernos más altos',0]],
+        hint:'La materia nos ayuda a crecer. La energía sirve para realizar nuestras actividades.'},
+      {t:'pick', q:'Toca las partes del cuerpo que intervienen en la digestión.', opts:['Estómago','Tibia','Codo','Dientes','Intestinos','Boca','Ano','Glúteo'], a:[0,3,4,5,6], hint:'La tibia es un hueso, el codo una articulación y el glúteo un músculo.'},
+      {t:'order', q:'Ordena el camino de los alimentos.', items:['La comida entra por la boca','Los dientes trituran los alimentos','La comida pasa por el esófago','Los alimentos se deshacen en el estómago','Las sustancias que necesitamos pasan a nuestro cuerpo','Los restos de los alimentos se expulsan'], hint:'Empieza en la boca y termina cuando se expulsan los restos.'},
+      {t:'mc', q:'Cuando la comida está bien triturada, pasa por un tubo llamado…', opts:['tráquea','esófago','intestino'], a:1, hint:'Por la tráquea va el aire. Por el esófago va la comida.'},
+      {t:'match', q:'Une cada parte con lo que hace.', pairs:[['Dientes','Trituran la comida'],['Esófago','Tubo por el que baja la comida'],['Estómago','Deshace los alimentos'],['Intestinos','Pasan los nutrientes al cuerpo'],['Ano','Expulsa los restos']], hint:'Repasa el camino de los alimentos en la lección.'},
+      {t:'tf', q:'Los nutrientes llegan al cuerpo a través de los intestinos.', a:true, hint:'Sí: los intestinos hacen que los nutrientes pasen al cuerpo.'}
+    ]
+  }
+];
+const BOSS = {
+  id:'reto', boss:true, title:'El Gran Reto', short:'Repaso de todo el viaje', pages:'Págs. 12-19',
+  color:'--gold', icon:'trophy', node:[150,442],
+  extra:[
+    {t:'classify', q:'¿Por dónde pasa: el aire o la comida?', bins:['Aire','Comida'],
+      items:[['Tráquea',0],['Esófago',1],['Pulmones',0],['Estómago',1],['Intestinos',1],['Nariz',0]],
+      hint:'El aire va por la tráquea hasta los pulmones. La comida va por el esófago hasta el estómago.'}
+  ]
+};
+const ALL = [...WORLDS, BOSS];
+
+const BADGES = [
+  {id:'funciones', name:'Ojo de lince', desc:'Completa la misión de las funciones vitales.', icon:'eye'},
+  {id:'movemos', name:'Esqueleto de acero', desc:'Completa la misión de huesos y músculos.', icon:'bone'},
+  {id:'respiramos', name:'Pulmones de campeón', desc:'Completa la misión de la respiración.', icon:'lungs'},
+  {id:'alimentamos', name:'Superdigestión', desc:'Completa la misión de la alimentación.', icon:'apple'},
+  {id:'reto', name:'Gran explorador', desc:'Supera el Gran Reto final.', icon:'trophy'},
+  {id:'perfecto', name:'Sin fallos', desc:'Termina una misión sin equivocarte ni una vez.', icon:'check'},
+  {id:'racha', name:'Racha de fuego', desc:'Acierta 5 retos seguidos a la primera.', icon:'flame'},
+  {id:'calma', name:'Calma total', desc:'Haz el ejercicio completo en la Zona de calma.', icon:'wind'},
+  {id:'tres', name:'Constelación', desc:'Consigue 3 estrellas en las cuatro misiones.', icon:'star'}
+];
+const LEVELS = [[0,'Explorador novato'],[80,'Aprendiz del cuerpo'],[180,'Explorador'],[300,'Investigador'],[450,'Científico'],[650,'Doctor del cuerpo']];
+const AVATARS = ['🦊','🐼','🐸','🦁','🐙','🦉','🐢','🐝'];
+const PRAISE = ['¡Genial!','¡Muy bien!','¡Fantástico!','¡Correcto!','¡Lo has clavado!','¡Bravo!'];
+const RETRY = ['Casi…','¡Ups! Prueba otra vez','Piénsalo un poco más','¡Tú puedes!'];
+
+/* ---------- Estado y guardado ---------- */
+const KEY = 'exploradores-cuerpo-v1';
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rand = a => a[Math.floor(Math.random()*a.length)];
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function load(){ try{ const v = JSON.parse(localStorage.getItem(KEY)); if(v && v.profiles) return v; }catch(e){} return {profiles:{}, current:null, free:false, sound:true}; }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+let S = load();
+const P = () => S.profiles[S.current];
+const stars = (p, id) => (p.worlds[id] && p.worlds[id].stars) || 0;
+const totalStars = p => ALL.reduce((n,w)=>n+stars(p,w.id),0);
+function levelOf(xp){ let i=0; LEVELS.forEach((l,k)=>{ if(xp>=l[0]) i=k; }); return {n:i+1, name:LEVELS[i][1], from:LEVELS[i][0], to:LEVELS[i+1]?LEVELS[i+1][0]:null}; }
+function unlocked(idx){
+  if(S.free) return true;
+  if(idx===WORLDS.length) return WORLDS.every(w=>stars(P(),w.id)>0);
+  return idx===0 || stars(P(), WORLDS[idx-1].id)>0;
+}
+
+/* ---------- Sonido, voz y efectos ---------- */
+let AC = null;
+function sfx(kind){
+  if(!S.sound) return;
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    const seq = {ok:[523,659,784], bad:[247,196], tick:[880], win:[523,659,784,1047], level:[392,523,659,784,1047]}[kind];
+    seq.forEach((f,i)=>{
+      const o=AC.createOscillator(), g=AC.createGain(), t=AC.currentTime+i*0.09;
+      o.type = kind==='bad' ? 'triangle' : 'sine'; o.frequency.value=f;
+      g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.16,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.22);
+      o.connect(g).connect(AC.destination); o.start(t); o.stop(t+0.25);
+    });
+  }catch(e){}
+}
+function speak(text){
+  try{
+    const s = window.speechSynthesis; if(!s) return;
+    s.cancel();
+    const u = new SpeechSynthesisUtterance(text.replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}️]/gu,' ').replace(/→/g,', ').replace(/_+|…/g,', '));
+    u.lang='es-ES'; u.rate=0.9;
+    const v = s.getVoices().find(v=>v.lang && v.lang.toLowerCase().startsWith('es')); if(v) u.voice=v;
+    s.speak(u);
+  }catch(e){}
+}
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast.t); toast.t=setTimeout(()=>t.hidden=true, 2600); }
+function confetti(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c=$('#confetti'), x=c.getContext('2d'); c.width=innerWidth; c.height=innerHeight;
+  const cs=getComputedStyle(document.documentElement);
+  const cols=['--leaf','--sense','--lung','--food','--gold','--bone'].map(v=>cs.getPropertyValue(v).trim());
+  const ps=Array.from({length:150},()=>({x:Math.random()*c.width, y:-20-Math.random()*c.height*.6, vx:(Math.random()-.5)*3, vy:2+Math.random()*3, r:Math.random()*6.3, s:6+Math.random()*7, c:rand(cols)}));
+  let f=0;
+  (function tick(){
+    x.clearRect(0,0,c.width,c.height);
+    ps.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.r+=.12; x.save(); x.translate(p.x,p.y); x.rotate(p.r); x.fillStyle=p.c; x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); x.restore(); });
+    if(++f<220) requestAnimationFrame(tick); else x.clearRect(0,0,c.width,c.height);
+  })();
+}
+function floatXP(n, el){
+  const r = (el||$('#stage')).getBoundingClientRect();
+  const d=document.createElement('div'); d.className='float-xp'; d.textContent='+'+n+' XP';
+  d.style.left=(r.left+r.width/2-40)+'px'; d.style.top=(r.top+10)+'px';
+  document.body.appendChild(d); setTimeout(()=>d.remove(),1200);
+}
+
+/* ---------- Insignias ---------- */
+let pendingBadges = null;
+function grant(id){
+  const p=P(); if(!p || p.badges.includes(id)) return;
+  p.badges.push(id); save();
+  const b=BADGES.find(b=>b.id===id);
+  if(pendingBadges) pendingBadges.push(b); else { toast('Nueva insignia: '+b.name); sfx('level'); }
+}
+function checkBadges(){
+  const p=P();
+  ALL.forEach(w=>{ if(stars(p,w.id)>0) grant(w.id); });
+  if(WORLDS.every(w=>stars(p,w.id)===3)) grant('tres');
+}
+
+/* ---------- Navegación ---------- */
+function show(id){
+  document.querySelectorAll('.view').forEach(v=>v.hidden = v.id!==id);
+  try{ window.speechSynthesis && speechSynthesis.cancel(); }catch(e){}
+  window.scrollTo(0,0);
+}
+
+/* ---------- Bienvenida ---------- */
+let chosenAvatar = AVATARS[0];
+function renderWelcome(){
+  $('#preview-list').innerHTML = ALL.map((w,i)=>`<li style="--c:var(${w.color})"><span class="dot">${ico(w.icon)}</span><span><b>${w.boss?'Final':'Misión '+(i+1)}:</b> ${esc(w.title)}</span></li>`).join('');
+  const list = Object.entries(S.profiles);
+  $('#existing-profiles').hidden = !list.length;
+  $('#new-title').textContent = list.length ? 'O crea un explorador nuevo' : 'Crea tu explorador';
+  $('#profiles').innerHTML = list.map(([id,p])=>`<button class="profile-btn" type="button" data-id="${id}"><span class="av">${p.avatar}</span>${esc(p.name)}</button>`).join('');
+  $('#profiles').querySelectorAll('button').forEach(b=>b.onclick=()=>{ S.current=b.dataset.id; save(); goMap(); });
+  $('#avatars').innerHTML = AVATARS.map(a=>`<button type="button" class="avatar-opt" aria-pressed="${a===chosenAvatar}" aria-label="Avatar ${a}">${a}</button>`).join('');
+  $('#avatars').querySelectorAll('button').forEach((b,i)=>b.onclick=()=>{ chosenAvatar=AVATARS[i]; renderWelcome(); });
+  show('view-welcome');
+}
+$('#new-profile').addEventListener('submit', e=>{
+  e.preventDefault();
+  const name = $('#pname').value.trim();
+  if(!name){ $('#pname').focus(); toast('Escribe tu nombre para empezar'); return; }
+  const id = 'p'+Date.now();
+  S.profiles[id] = {name, avatar:chosenAvatar, xp:0, worlds:{}, badges:[], created:Date.now()};
+  S.current = id; save(); $('#pname').value='';
+  goMap();
+  setTimeout(()=>speak('¡Hola, '+name+'! Toca la misión 1 para empezar el viaje por el cuerpo humano.'), 300);
+});
+$('#teacher-link').onclick = renderTeacher;
+
+/* ---------- Mapa ---------- */
+function goMap(){ if(!P()) return renderWelcome(); renderMap(); show('view-map'); }
+function renderMap(){
+  const p=P(), lv=levelOf(p.xp);
+  const pct = lv.to ? Math.round((p.xp-lv.from)/(lv.to-lv.from)*100) : 100;
+  $('#hud').innerHTML = `
+    <button class="who" type="button" id="switch-profile" aria-label="Cambiar de explorador">
+      <span class="av">${p.avatar}</span><span><b>${esc(p.name)}</b><small>Nivel ${lv.n} · ${lv.name}</small></span>
+    </button>
+    <div class="xp">
+      <div class="xp-top"><span>${p.xp} XP</span><span>${lv.to ? 'Siguiente nivel: '+lv.to+' XP' : 'Nivel máximo'}</span></div>
+      <div class="bar" role="progressbar" aria-label="Experiencia" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct}%"></span></div>
+    </div>
+    <span class="stat gold" title="Estrellas">${ico('star','on')}<span>${totalStars(p)}/15</span></span>
+    <span class="stat gold" title="Insignias">${ico('medal')}<span>${p.badges.length}</span></span>
+    <div class="hud-tools">
+      <button class="iconbtn" type="button" id="toggle-sound" aria-label="${S.sound?'Quitar sonido':'Activar sonido'}">${ico(S.sound?'sound':'mute')}</button>
+      <button class="iconbtn" type="button" id="hud-teacher" aria-label="Panel del docente">${ico('teacher')}</button>
+    </div>`;
+  $('#switch-profile').onclick = renderWelcome;
+  $('#toggle-sound').onclick = ()=>{ S.sound=!S.sound; save(); renderMap(); };
+  $('#hud-teacher').onclick = renderTeacher;
+
+  const nodes = ALL.map((w,i)=>{
+    const st = stars(p,w.id), open = unlocked(i), cls = st>0 ? 'done' : open ? 'open' : 'locked';
+    const [x,y] = w.node;
+    const starRow = st>0 ? [0,1,2].map(k=>`<path class="nstars" style="opacity:${k<st?1:.25}" transform="translate(${x-23+k*16},${y+25}) scale(.55)" d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z"/>`).join('') : '';
+    return `<g class="node ${cls}" style="--c:var(${w.color})" data-i="${i}" tabindex="0" role="button" aria-label="${w.boss?'Gran Reto':'Misión '+(i+1)}: ${esc(w.title)}${open?'':' (bloqueada)'}">
+      <circle class="ring" cx="${x}" cy="${y}" r="22"/>
+      <circle class="base" cx="${x}" cy="${y}" r="22"/>
+      <svg class="ico" x="${x-12}" y="${y-12}" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${ICONS[open?w.icon:'lock']}</svg>
+      ${starRow}
+    </g>`;
+  }).join('');
+  $('#map').innerHTML = `<svg class="bodymap" viewBox="0 0 300 480" role="group" aria-label="Mapa del cuerpo humano con las misiones">
+    <g class="body">
+      <path class="limb" d="M110 132 L64 262"/><path class="limb" d="M190 132 L236 262"/>
+      <path class="limb" d="M128 262 L120 410"/><path class="limb" d="M172 262 L180 410"/>
+      <rect x="137" y="96" width="26" height="24"/>
+      <rect x="96" y="110" width="108" height="166" rx="46"/>
+      <circle cx="150" cy="60" r="44"/>
+    </g>
+    <g aria-hidden="true">
+      <ellipse class="o-lung" cx="128" cy="166" rx="17" ry="30"/><ellipse class="o-lung" cx="172" cy="166" rx="17" ry="30"/>
+      <path class="o-food" d="M158 204c18-8 32 2 30 20-2 20-24 26-38 20-8-4-6-14 2-14 10 2 20-2 20-10 0-6-8-8-14-6z"/>
+    </g>
+    <path class="trail" d="M150 60 Q210 110 221 205 Q170 150 128 168 Q128 210 168 226 Q170 340 150 442"/>
+    <rect x="112" y="430" width="76" height="26" rx="8" fill="var(--body)"/>
+    ${nodes}
+  </svg>`;
+  $('#map').querySelectorAll('.node').forEach(n=>{
+    const go = ()=>{ const i=+n.dataset.i; if(unlocked(i)) openWorld(ALL[i]); else lockedMsg(i); };
+    n.onclick = go; n.onkeydown = e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } };
+  });
+
+  $('#missions').innerHTML = ALL.map((w,i)=>{
+    const st=stars(p,w.id), open=unlocked(i);
+    return `<button class="mission ${st>0?'is-done':''}" type="button" style="--c:var(${w.color})" data-i="${i}" ${open?'':'aria-disabled="true"'}>
+      <span class="badge-ico">${ico(open?w.icon:'lock')}</span>
+      <span style="min-width:0"><span class="meta">${w.boss?'Final':'Misión '+(i+1)} · ${w.pages}</span><h3>${esc(w.title)}</h3><span class="meta" style="font-weight:400">${esc(w.short)}</span></span>
+      <span class="stars" aria-label="${st} de 3 estrellas">${[0,1,2].map(k=>ico('star', k<st?'on':'off')).join('')}</span>
+    </button>`;
+  }).join('');
+  $('#missions').querySelectorAll('.mission').forEach(b=>b.onclick=()=>{ const i=+b.dataset.i; if(unlocked(i)) openWorld(ALL[i]); else lockedMsg(i); });
+  $('#badge-count').textContent = `${p.badges.length} de ${BADGES.length} conseguidas`;
+}
+function lockedMsg(i){
+  const msg = i===WORLDS.length ? 'Completa las cuatro misiones para desbloquear el Gran Reto.' : `Termina primero la misión ${i} para desbloquear esta.`;
+  toast(msg); speak(msg);
+}
+$('#go-calm').onclick = renderCalm;
+$('#go-badges').onclick = renderBadges;
+
+/* ---------- Aprende ---------- */
+function openWorld(w){
+  const v=$('#view-learn'); v.style.setProperty('--c', `var(${w.color})`);
+  if(w.boss){
+    v.innerHTML = `<div class="topbar"><button class="iconbtn" id="lback" type="button" aria-label="Volver al mapa">${ico('back')}</button><h1>${esc(w.title)}</h1></div>
+      <div class="learn-grid">
+        <article class="lcard"><h3>Las reglas</h3><p>Vas a encontrar <mark>10 retos</mark> mezclados de todas las misiones. Empiezas con <mark>3 corazones</mark>: pierdes uno cada vez que fallas un reto. Si te quedas sin corazones, puedes volver a intentarlo.</p>
+        <div class="hearts">${ico('heart','full')}${ico('heart','full')}${ico('heart','full')}</div></article>
+        <article class="lcard"><h3>Antes de empezar</h3><p>Repasa: funciones vitales, huesos, articulaciones y músculos, el camino del aire y el camino de los alimentos.</p></article>
+      </div>
+      <div class="learn-actions"><button class="btn" id="lstart" type="button">Empezar el Gran Reto</button></div>`;
+  } else {
+    v.innerHTML = `<div class="topbar"><button class="iconbtn" id="lback" type="button" aria-label="Volver al mapa">${ico('back')}</button>
+        <h1>${esc(w.title)}</h1><span class="eyebrow">Libro · ${w.pages}</span></div>
+      <p class="tip" style="margin-bottom:14px">Lee las tarjetas (o pulsa el altavoz para escucharlas). Después, ¡a por los retos!</p>
+      <div class="learn-grid">${w.learn.map((c,k)=>`<article class="lcard"><div class="lcard-h"><h3>${esc(c.h)}</h3><button class="iconbtn" type="button" data-k="${k}" aria-label="Escuchar: ${esc(c.h)}">${ico('sound')}</button></div><p>${c.p}</p>${c.extra||''}</article>`).join('')}</div>
+      <div class="learn-actions"><button class="btn" id="lstart" type="button">¡Empezar los retos! (${w.ch.length})</button>
+      ${w.id==='respiramos'?'<button class="btn ghost" id="lcalm" type="button">'+ico('wind')+' Probar la Zona de calma</button>':''}</div>`;
+    v.querySelectorAll('.lcard .iconbtn').forEach(b=>b.onclick=()=>{ const el=b.closest('.lcard').cloneNode(true); el.querySelectorAll('button').forEach(x=>x.remove()); speak(el.innerText); });
+    const lc=v.querySelector('#lcalm'); if(lc) lc.onclick=renderCalm;
+  }
+  v.querySelector('#lback').onclick = goMap;
+  v.querySelector('#lstart').onclick = ()=>startPlay(w);
+  show('view-learn');
+}
+
+/* ---------- Motor de retos ---------- */
+let M = null;
+function buildBoss(){
+  const quick = c => ['mc','tf','pick','fill'].includes(c.t);
+  const list = [];
+  WORLDS.forEach(w=>list.push(...shuffle(w.ch.filter(quick)).slice(0,2)));
+  list.push(rand(WORLDS.flatMap(w=>w.ch.filter(c=>c.t==='order'))));
+  list.push(...BOSS.extra);
+  return shuffle(list);
+}
+function startPlay(w){
+  M = {w, list: w.boss ? buildBoss() : w.ch.slice(), i:0, xp:0, firstOk:0, combo:0, bestCombo:0, mistakes:0, hearts: w.boss?3:null, over:false};
+  pendingBadges = [];
+  $('#view-play').style.setProperty('--c', `var(${w.color})`);
+  show('view-play'); nextCh();
+}
+function drawSide(){
+  $('#play-side').innerHTML = M.hearts!==null
+    ? `<div class="hearts" aria-label="${M.hearts} corazones">${[0,1,2].map(k=>ico('heart', k<M.hearts?'full':'empty')).join('')}</div>`
+    : (M.combo>=2 ? `<span class="combo">${ico('flame')} x${M.combo}</span>` : '');
+}
+function nextCh(){
+  if(M.i>=M.list.length) return finish(true);
+  const ch = M.list[M.i];
+  M.cur = {mist:0, done:false};
+  $('#pbar').style.width = (M.i/M.list.length*100)+'%';
+  $('#pcount').textContent = `Reto ${M.i+1} de ${M.list.length}`;
+  $('#qtext').textContent = ch.t==='tf' ? '¿Verdadero o falso? '+ch.q : ch.q;
+  $('#feedback').hidden = true; $('#fb-next').hidden = true;
+  drawSide();
+  const box=$('#stage'); box.innerHTML='';
+  RENDER[ch.t](ch, box);
+}
+function feedback(kind, title, msg, next){
+  const f=$('#feedback'); f.className='feedback '+(kind==='ok'?'good':'wrong'); f.hidden=false;
+  $('#fb-title').textContent=title; $('#fb-msg').textContent=msg||'';
+  $('#fb-next').hidden=!next;
+  if(next) $('#fb-next').focus({preventScroll:true});
+}
+function right(){
+  if(M.cur.done || M.over) return; M.cur.done=true;
+  let gain = 4;
+  if(M.cur.mist===0){ M.firstOk++; M.combo++; M.bestCombo=Math.max(M.bestCombo,M.combo); gain = 10 + (M.combo>=3?2:0); }
+  else M.combo=0;
+  M.xp += gain; sfx('ok'); floatXP(gain);
+  feedback('ok', rand(PRAISE), `+${gain} XP${M.combo>=3?' · ¡racha de '+M.combo+'!':''}`, true);
+  $('#pbar').style.width = ((M.i+1)/M.list.length*100)+'%';
+  if(M.combo>=5) grant('racha');
+  drawSide();
+}
+function wrong(msg){
+  if(M.cur.done || M.over) return;
+  M.cur.mist++; M.mistakes++; M.combo=0; sfx('bad');
+  if(M.hearts!==null && M.cur.mist===1){
+    M.hearts--; drawSide();
+    if(M.hearts<=0){
+      M.over=true; $('#stage').querySelectorAll('button').forEach(b=>b.disabled=true);
+      feedback('bad','Te has quedado sin corazones','¡No pasa nada! Repasa y vuelve a intentarlo.', false);
+      setTimeout(()=>finish(false), 1800); return;
+    }
+  }
+  drawSide();
+  feedback('bad', rand(RETRY), msg || M.list[M.i].hint || 'Repasa la lección y vuelve a intentarlo.', false);
+}
+$('#fb-next').onclick = ()=>{ M.i++; nextCh(); };
+$('#quit').onclick = ()=>{ pendingBadges=null; goMap(); };
+$('#read-q').onclick = ()=>{
+  const ch=M.list[M.i]; let t=$('#qtext').textContent;
+  if(ch.t==='mc' || ch.t==='pick') t += '. Opciones: ' + ch.opts.join('. ');
+  speak(t);
+};
+
+const RENDER = {
+  mc(ch, box){
+    const isTF = ch.t==='tf';
+    const opts = isTF ? ['✔️ Verdadero','✖️ Falso'] : ch.opts;
+    const ans = isTF ? (ch.a?0:1) : ch.a;
+    const order = isTF ? [0,1] : shuffle(opts.map((_,i)=>i));
+    box.innerHTML = `<div class="opts ${opts.some(o=>o.length>34)?'long':''}">${order.map(i=>`<button class="opt" type="button" data-i="${i}">${esc(opts[i])}</button>`).join('')}</div>`;
+    box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      if(+b.dataset.i===ans){ b.classList.add('ok'); box.querySelectorAll('.opt').forEach(x=>x.disabled=true); right(); }
+      else { b.classList.add('bad'); b.disabled=true; wrong(); }
+    });
+  },
+  tf(ch, box){ RENDER.mc(ch, box); },
+  pick(ch, box){
+    const sel = new Set();
+    box.innerHTML = `<div class="sort-wrap"><p class="tip">Puedes tocar varias. Después pulsa <b>Comprobar</b>.</p>
+      <div class="chips">${shuffle(ch.opts.map((_,i)=>i)).map(i=>`<button class="chip" type="button" aria-pressed="false" data-i="${i}">${esc(ch.opts[i])}</button>`).join('')}</div>
+      <div><button class="btn" type="button" id="check">Comprobar</button></div></div>`;
+    box.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+      const i=+b.dataset.i; b.classList.remove('bad');
+      sel.has(i) ? sel.delete(i) : sel.add(i); b.setAttribute('aria-pressed', sel.has(i));
+    });
+    box.querySelector('#check').onclick=()=>{
+      if(!sel.size){ toast('Toca al menos una opción'); return; }
+      const wrongSel=[...sel].filter(i=>!ch.a.includes(i)), missing=ch.a.filter(i=>!sel.has(i));
+      if(!wrongSel.length && !missing.length){
+        box.querySelectorAll('.chip').forEach(b=>{ if(sel.has(+b.dataset.i)) b.classList.add('ok'); b.disabled=true; });
+        box.querySelector('#check').hidden=true; right();
+      } else {
+        wrongSel.forEach(i=>box.querySelector(`.chip[data-i="${i}"]`).classList.add('bad'));
+        const n=missing.length;
+        wrong(!wrongSel.length ? `Vas bien, pero te ${n===1?'falta una':'faltan '+n}.` : (ch.hint||null));
+      }
+    };
+  },
+  order(ch, box){
+    const n=ch.items.length; let placed=Array(n).fill(null); const locked=Array(n).fill(false);
+    let pool=shuffle(ch.items.map((_,i)=>i)); if(pool.every((v,i)=>v===i)) pool.reverse();
+    let busy=false;
+    function draw(badIdx=[]){
+      box.innerHTML = `<div class="sort-wrap"><p class="tip">Toca las tarjetas en orden. Si te equivocas al colocar una, tócala para quitarla.</p>
+        <ol class="slots">${placed.map((v,k)=>`<li><button class="slot ${v!==null?'filled':''} ${locked[k]?'ok':''} ${badIdx.includes(k)?'bad':''}" type="button" data-k="${k}" ${v===null||locked[k]?'disabled':''}><span class="num">${k+1}</span><span>${v===null?'…':esc(ch.items[v])}</span></button></li>`).join('')}</ol>
+        <div class="pool">${pool.filter(i=>!placed.includes(i)).map(i=>`<button class="card-opt" type="button" data-i="${i}">${esc(ch.items[i])}</button>`).join('')}</div></div>`;
+      box.querySelectorAll('.card-opt').forEach(b=>b.onclick=()=>{
+        if(busy) return;
+        const k=placed.indexOf(null); placed[k]=+b.dataset.i; sfx('tick');
+        if(!placed.includes(null)) check(); else draw();
+      });
+      box.querySelectorAll('.slot').forEach(b=>b.onclick=()=>{ if(busy) return; placed[+b.dataset.k]=null; draw(); });
+    }
+    function check(){
+      const bad=[]; placed.forEach((v,k)=>{ if(v===k) locked[k]=true; else bad.push(k); });
+      if(!bad.length){ draw(); box.querySelectorAll('button').forEach(b=>b.disabled=true); right(); return; }
+      draw(bad); busy=true;
+      wrong(`Hay ${bad.length} tarjeta${bad.length>1?'s':''} fuera de su sitio. Las verdes ya están bien.`);
+      setTimeout(()=>{ busy=false; if(M.over) return; placed=placed.map((v,k)=>locked[k]?v:null); draw(); }, 1300);
+    }
+    draw();
+  },
+  classify(ch, box){
+    const items=shuffle(ch.items); let k=0; const got=ch.bins.map(()=>[]);
+    function draw(){
+      const it=items[k];
+      box.innerHTML = `<div class="sort-wrap">
+        <div class="sort-item" aria-live="polite">${it?esc(it[0]):'¡Todo clasificado!'}</div>
+        <p class="tip" style="text-align:center">${it?`Tarjeta ${k+1} de ${items.length}: ¿dónde va?`:''}</p>
+        <div class="bins b${ch.bins.length}">${ch.bins.map((b,i)=>`<button class="bin" type="button" data-b="${i}" ${it?'':'disabled'}><span class="bin-name">${esc(b)}</span><span class="bin-list">${got[i].map(esc).join('<br>')}</span></button>`).join('')}</div></div>`;
+      box.querySelectorAll('.bin').forEach(b=>b.onclick=()=>{
+        if(+b.dataset.b===it[1]){
+          got[it[1]].push(it[0]); k++;
+          if(k===items.length){ draw(); right(); } else { sfx('tick'); draw(); }
+        } else {
+          b.classList.remove('bad'); void b.offsetWidth; b.classList.add('bad');
+          const s=box.querySelector('.sort-item'); s.classList.remove('bad'); void s.offsetWidth; s.classList.add('bad');
+          wrong();
+        }
+      });
+    }
+    draw();
+  },
+  match(ch, box){
+    const n=ch.pairs.length; let selL=null, done=0;
+    box.innerHTML = `<div class="sort-wrap"><p class="tip">Toca una tarjeta de la izquierda y después su pareja de la derecha.</p>
+      <div class="match"><div class="col">${shuffle(ch.pairs.map((_,i)=>i)).map(i=>`<button class="m l" type="button" data-i="${i}">${esc(ch.pairs[i][0])}</button>`).join('')}</div>
+      <div class="col">${shuffle(ch.pairs.map((_,i)=>i)).map(i=>`<button class="m r" type="button" data-i="${i}">${esc(ch.pairs[i][1])}</button>`).join('')}</div></div></div>`;
+    box.querySelectorAll('.m.l').forEach(b=>b.onclick=()=>{
+      box.querySelectorAll('.m.l').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); selL=+b.dataset.i;
+    });
+    box.querySelectorAll('.m.r').forEach(b=>b.onclick=()=>{
+      if(selL===null){ toast('Primero toca una tarjeta de la izquierda'); return; }
+      const l=box.querySelector(`.m.l[data-i="${selL}"]`);
+      if(+b.dataset.i===selL){
+        [l,b].forEach(x=>{ x.classList.remove('sel'); x.classList.add('ok'); x.disabled=true; });
+        selL=null; done++;
+        if(done===n) right(); else sfx('tick');
+      } else {
+        b.classList.add('bad'); setTimeout(()=>b.classList.remove('bad'), 500); wrong();
+      }
+    });
+  },
+  fill(ch, box){
+    let k=0; const bank=shuffle([...ch.answers, ...ch.bank]); const used=new Set();
+    function draw(){
+      const sent = ch.parts.map(p=> typeof p==='number'
+        ? `<span class="blank ${p<k?'filled':''} ${p===k?'active':''}">${p<k?esc(ch.answers[p]):'____'}</span>` : esc(p)).join('');
+      box.innerHTML = `<div class="sort-wrap"><p class="sentence">${sent}</p><p class="tip">Toca la palabra que va en el hueco marcado.</p>
+        <div class="chips">${bank.map((w,j)=>`<button class="chip" type="button" data-j="${j}" ${used.has(j)||k>=ch.answers.length?'disabled':''}>${esc(w)}</button>`).join('')}</div></div>`;
+      box.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+        const j=+b.dataset.j;
+        if(bank[j]===ch.answers[k]){
+          used.add(j); k++;
+          if(k===ch.answers.length){ draw(); right(); } else { sfx('tick'); draw(); }
+        } else { b.classList.remove('bad'); void b.offsetWidth; b.classList.add('bad'); wrong(); }
+      });
+    }
+    draw();
+  }
+};
+
+/* ---------- Resultado ---------- */
+function finish(success){
+  const p=P(), w=M.w, n=M.list.length, ratio=M.firstOk/n;
+  const st = success ? (ratio>=.85?3 : ratio>=.6?2 : 1) : 0;
+  const before = levelOf(p.xp);
+  p.xp += M.xp;
+  const rec = p.worlds[w.id] || {stars:0, plays:0, best:0};
+  rec.plays++; rec.stars=Math.max(rec.stars, st); rec.best=Math.max(rec.best||0, Math.round(ratio*100));
+  p.worlds[w.id]=rec;
+  if(success && M.mistakes===0) grant('perfecto');
+  checkBadges(); save();
+  const after = levelOf(p.xp), news = pendingBadges || []; pendingBadges = null;
+  const v=$('#view-result'); v.style.setProperty('--c', `var(${w.color})`);
+  const titles = ['¡Casi lo consigues!','¡Misión cumplida!','¡Muy buen trabajo!','¡Perfecto, eres un crack!'];
+  v.innerHTML = `<div class="result">
+    <span class="eyebrow">${esc(w.title)}</span>
+    <h1>${titles[st]}</h1>
+    <div class="big-stars" aria-label="${st} de 3 estrellas">${[0,1,2].map(k=>ico('star', k<st?'on':'off')).join('')}</div>
+    <div class="res-stats">
+      <div><b>${M.firstOk}/${n}</b><small>a la primera</small></div>
+      <div><b>+${M.xp}</b><small>puntos XP</small></div>
+      <div><b>${M.bestCombo}</b><small>mejor racha</small></div>
+    </div>
+    ${!success ? '<p>Has sumado los puntos que conseguiste. Repasa las lecciones y vuelve a intentarlo: ¡seguro que lo logras!</p>' : st<3 ? '<p>Repite la misión para conseguir las 3 estrellas.</p>' : ''}
+    ${after.n>before.n ? `<div class="levelup">¡Subes al nivel ${after.n}: ${after.name}!</div>` : ''}
+    ${news.length ? `<div class="new-badges"><span class="eyebrow">Nuevas insignias</span>${news.map(b=>`<div class="new-badge"><span class="medal">${ico(b.icon)}</span><span><b>${esc(b.name)}</b><br><small>${esc(b.desc)}</small></span></div>`).join('')}</div>` : ''}
+    <div class="row" style="justify-content:center">
+      <button class="btn" type="button" id="r-map">Volver al mapa</button>
+      <button class="btn ghost" type="button" id="r-again">Repetir misión</button>
+    </div></div>`;
+  v.querySelector('#r-map').onclick=goMap;
+  v.querySelector('#r-again').onclick=()=>startPlay(w);
+  show('view-result');
+  if(st>=2){ confetti(); sfx('win'); }
+  if(after.n>before.n) setTimeout(()=>sfx('level'), 500);
+  speak(titles[st]);
+}
+
+/* ---------- Zona de calma ---------- */
+let calmTimer = null;
+function renderCalm(){
+  clearTimeout(calmTimer);
+  const v=$('#view-calm'); v.style.setProperty('--c','var(--lung)');
+  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="cback" type="button" aria-label="Volver al mapa">${ico('back')}</button><h1 style="color:var(--lung)">Zona de calma</h1></div>
+    <div class="calm">
+      <p style="font-size:1.1rem">Respirar profundamente nos ayuda a calmarnos. Sigue el círculo: cuando crece, toma aire; cuando se hace pequeño, suéltalo despacio.</p>
+      <div class="breath-stage"><div class="breath-ring"></div><div class="breath" id="breath"></div><div class="breath-label" id="blabel">¿Preparado?</div></div>
+      <div class="phase-steps"><span data-p="0">1 · Inspiración</span><span data-p="1">2 · Mantén</span><span data-p="2">3 · Espiración</span></div>
+      <p class="tip" id="bcount">Haremos 3 respiraciones.</p>
+      <button class="btn" type="button" id="bstart">Empezar</button>
+      <div id="feel" hidden style="display:grid;gap:12px"></div>
+    </div>`;
+  v.querySelector('#cback').onclick=()=>{ clearTimeout(calmTimer); goMap(); };
+  v.querySelector('#bstart').onclick=runBreath;
+  show('view-calm');
+}
+function runBreath(){
+  const b=$('#breath'), label=$('#blabel'), btn=$('#bstart'); btn.hidden=true;
+  const phases=[['Toma aire por la nariz',4000,1.9],['Mantén el aire',3000,1.9],['Suelta el aire por la boca',5000,1]];
+  const names=['Inspira','Mantén','Espira'];
+  let cycle=0, ph=0;
+  function step(){
+    if(cycle>=3) return done();
+    const [say,ms,scale]=phases[ph];
+    b.style.transitionDuration=ms+'ms'; b.style.transform=`scale(${scale})`;
+    label.textContent=names[ph];
+    document.querySelectorAll('.phase-steps span').forEach(s=>s.classList.toggle('on', +s.dataset.p===ph));
+    $('#bcount').textContent=`Respiración ${cycle+1} de 3`;
+    if(cycle===0) speak(say); else speak(names[ph]);
+    calmTimer=setTimeout(()=>{ ph++; if(ph===3){ ph=0; cycle++; } step(); }, ms);
+  }
+  function done(){
+    label.textContent='¡Muy bien!';
+    document.querySelectorAll('.phase-steps span').forEach(s=>s.classList.remove('on'));
+    $('#bcount').textContent='Has terminado el ejercicio.';
+    const f=$('#feel'); f.hidden=false;
+    f.innerHTML=`<b style="font-family:var(--f-display);font-size:1.3rem">¿Cómo te sientes ahora?</b>
+      <div class="feel">${[['😟','Todavía nervioso'],['😐','Igual'],['🙂','Más tranquilo'],['😄','¡Muy tranquilo!']].map(([e,l])=>`<button type="button" aria-label="${l}" title="${l}">${e}</button>`).join('')}</div>`;
+    f.querySelectorAll('button').forEach((x,i)=>x.onclick=()=>{
+      const p=P(); let msg = i<2 ? 'Puedes repetir el ejercicio varias veces hasta sentirte mejor.' : '¡Genial! Recuerda este ejercicio cuando estés nervioso.';
+      if(p && !p.calmDone){ p.calmDone=true; p.xp+=15; msg+=' +15 XP'; save(); }
+      if(p) grant('calma');
+      toast(msg); speak(msg);
+      f.innerHTML=`<p>${esc(msg)}</p><div class="row" style="justify-content:center"><button class="btn" type="button" id="bagain">Repetir</button><button class="btn ghost" type="button" id="bmap">Volver al mapa</button></div>`;
+      f.querySelector('#bagain').onclick=renderCalm; f.querySelector('#bmap').onclick=goMap;
+    });
+    sfx('win');
+  }
+  step();
+}
+
+/* ---------- Insignias ---------- */
+function renderBadges(){
+  const p=P(), v=$('#view-badges');
+  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="bback" type="button" aria-label="Volver al mapa">${ico('back')}</button><h1>Mis insignias</h1><span class="eyebrow">${p.badges.length} de ${BADGES.length}</span></div>
+    <div class="badge-grid">${BADGES.map(b=>{ const has=p.badges.includes(b.id);
+      return `<div class="bcard ${has?'':'locked'}"><span class="medal">${ico(has?b.icon:'lock')}</span><span><b>${esc(b.name)}</b><small>${esc(b.desc)}</small></span></div>`; }).join('')}</div>`;
+  v.querySelector('#bback').onclick=goMap;
+  show('view-badges');
+}
+
+/* ---------- Panel docente ---------- */
+let armedDelete = null;
+function renderTeacher(){
+  const v=$('#view-teacher'), list=Object.entries(S.profiles);
+  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="tback" type="button" aria-label="Volver">${ico('back')}</button><h1>Panel del docente</h1></div>
+    <p class="note" style="margin-bottom:14px">Progreso del alumnado que ha jugado en este dispositivo. Los datos se guardan solo en este navegador.</p>
+    ${list.length ? `<div class="table-wrap"><table>
+      <thead><tr><th>Alumno/a</th><th>Nivel</th><th>XP</th>${ALL.map((w,i)=>`<th title="${esc(w.title)}">${w.boss?'Reto':'M'+(i+1)}</th>`).join('')}<th>Insignias</th><th></th></tr></thead>
+      <tbody>${list.map(([id,p])=>`<tr><td>${p.avatar} ${esc(p.name)}</td><td class="num-c">${levelOf(p.xp).n}</td><td class="num-c">${p.xp}</td>
+        ${ALL.map(w=>{ const r=p.worlds[w.id]; return `<td class="num-c">${r?('★'.repeat(r.stars)||'—')+` <small style="color:var(--muted)">(${r.plays}×, ${r.best||0}%)</small>`:'—'}</td>`; }).join('')}
+        <td class="num-c">${p.badges.length}/${BADGES.length}</td>
+        <td><button class="btn ghost small" type="button" data-del="${id}">${armedDelete===id?'¿Seguro? Borrar':'Borrar'}</button></td></tr>`).join('')}</tbody>
+    </table></div>` : '<p class="note">Todavía no hay alumnado registrado en este dispositivo.</p>'}
+    <div class="teacher-tools">
+      <label class="switch"><input type="checkbox" id="free-mode" ${S.free?'checked':''}> Modo libre: todas las misiones desbloqueadas</label>
+      <p class="note">Entre paréntesis: veces jugada y mejor porcentaje de aciertos a la primera. Las estrellas se dan así: 3 estrellas con un 85 % de aciertos a la primera, 2 con un 60 % y 1 al terminar.</p>
+      <p class="note">Contenidos: Unidad 1, «El cuerpo humano» (págs. 12-19): funciones vitales y sentidos; huesos, articulaciones y músculos; respiración; alimentación y digestión.</p>
+    </div>`;
+  v.querySelector('#tback').onclick = ()=> P() ? goMap() : renderWelcome();
+  v.querySelector('#free-mode').onchange = e=>{ S.free=e.target.checked; save(); toast(S.free?'Modo libre activado':'Modo libre desactivado'); };
+  v.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.del;
+    if(armedDelete!==id){ armedDelete=id; renderTeacher(); return; }
+    delete S.profiles[id]; if(S.current===id) S.current=null; armedDelete=null; save(); renderTeacher();
+  });
+  show('view-teacher');
+}
+
+/* ---------- Inicio ---------- */
+if(P()) goMap(); else renderWelcome();
+</script>
+</body>
+</html>
