@@ -361,6 +361,64 @@ td.num-c{font-variant-numeric:tabular-nums}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
+
+/* Personajes */
+.avatar{width:100%;height:auto;overflow:visible;display:block}
+.frame .avatar{width:52px;margin-top:4px}
+.char-preview{display:flex;gap:16px;align-items:center;padding:12px;border-radius:22px;background:radial-gradient(circle at 25% 60%,rgba(255,201,60,.35),transparent 60%),var(--night);border:3px solid var(--edge)}
+.char-preview .big{width:110px;flex:none;animation:float 2.6s ease-in-out infinite}
+.char-preview b{font-family:var(--f-game);font-weight:400;font-size:1.8rem;display:block;line-height:1;color:var(--gold)}
+.char-preview .role{font-family:var(--f-game);color:#fff;font-size:1.05rem}
+.char-preview p{color:var(--ink-soft);font-size:.95rem;margin-top:4px}
+.char .avatar{width:58px}
+.slot-btn .avatar{width:44px;flex:none}
+.fighter .avatar{width:84px;margin:0 auto}
+
+/* Mapa del curso */
+.course-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:22px 0 6px}
+.course-head h2{font-size:clamp(1.8rem,5vw,2.4rem);color:var(--gold)}
+.course-layout{display:grid;gap:20px;grid-template-columns:1fr;align-items:start}
+@media (min-width:900px){.course-layout{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}}
+.road{padding:50px 14px 22px}
+.tema-row{display:flex}
+.tema-row.shift{padding-left:48px}
+.tema{display:flex;align-items:center;gap:14px;background:none;border:0;padding:0;cursor:pointer;text-align:left;width:100%;min-width:0}
+.planet{position:relative;width:110px;height:110px;flex:none;border-radius:50%;display:grid;place-items:center;color:var(--edge);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.55),transparent 35%),var(--c);border:4px solid var(--edge);box-shadow:inset 0 -12px 0 var(--cd),0 7px 0 var(--edge);transition:transform .15s}
+.planet .icon{width:50px;height:50px;stroke-width:2.4}
+.tema:hover:not(.locked) .planet{transform:translateY(-4px) rotate(-4deg)}
+.tema.is-next .planet::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:4px dashed var(--gold);animation:spin 10s linear infinite}
+.tnum{position:absolute;left:-6px;top:-6px;width:40px;height:40px;border-radius:50%;background:var(--gold);border:3px solid var(--edge);display:grid;place-items:center;font-family:var(--f-game);font-size:1.3rem;color:var(--edge);box-shadow:inset 0 -4px 0 var(--gold-d)}
+.tpin{position:absolute;left:50%;margin-left:-24px;top:-56px;width:48px;animation:bob 1s ease-in-out infinite;filter:drop-shadow(0 4px 0 var(--edge))}
+.tema.locked{cursor:not-allowed}
+.tema.locked .planet{background:#3A4C70;color:#9FB0CF;box-shadow:inset 0 -12px 0 #2A3856,0 7px 0 var(--edge)}
+.tema.soon .planet{background:repeating-linear-gradient(45deg,#33456A 0 10px,#2C3C5E 10px 20px)}
+.tlabel{display:grid;gap:3px;min-width:0;flex:1}
+.tlabel h3{font-size:1.45rem}
+.tlabel .lvltag{font-family:var(--f-game);font-size:.9rem;color:var(--c);letter-spacing:.06em;text-transform:uppercase}
+.tema.locked .tlabel .lvltag,.tema.locked h3{color:var(--ink-dim)}
+.tlabel .meta{color:var(--ink-soft);font-size:.92rem}
+.tstatus{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:4px}
+.tstatus .counter{font-size:1rem;padding:3px 12px 3px 6px}
+.tstatus .counter .icon{width:22px;height:22px}
+.chip-s{font-family:var(--f-game);font-size:.9rem;padding:3px 12px;border-radius:999px;background:var(--panel);border:2px solid var(--edge);color:var(--ink-soft)}
+.chip-s.done{background:var(--ok);color:#fff}
+.chip-s.soon{background:var(--night);color:var(--gold)}
+.chip-s.go{background:var(--gold);color:var(--edge)}
+.conn{display:block;width:160px;height:56px;overflow:visible}
+.conn path{fill:none;stroke:var(--ink-dim);stroke-width:6;stroke-dasharray:1 13;stroke-linecap:round}
+.conn path.lit{stroke:var(--gold);stroke-dasharray:none;filter:drop-shadow(0 0 4px var(--gold))}
+.side-col{display:grid;gap:14px}
+.progress-card{padding:16px;display:grid;gap:10px}
+.progress-card h3{color:var(--gold);font-size:1.3rem}
+.ptema{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;font-weight:700}
+.ptema .dot{width:30px;height:30px;border-radius:50%;background:var(--c);border:3px solid var(--edge);display:grid;place-items:center;font-family:var(--f-game);color:var(--edge);font-size:.95rem}
+.ptema .gbar{height:14px;margin:0;border-width:2px}
+.ptema small{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.badge-group{display:grid;gap:12px;margin-bottom:22px}
+.badge-group h2{font-size:1.4rem;color:var(--gold)}
+.tema-toggles{display:grid;gap:8px;padding:14px}
+.tema-toggles .switch{justify-content:space-between;flex-wrap:wrap}
+.unlock-banner{background:var(--c);color:var(--edge);border:3px solid var(--edge);border-radius:18px;padding:12px 18px;font-family:var(--f-game);font-size:1.3rem;width:100%;box-shadow:inset 0 -5px 0 var(--cd),0 5px 0 var(--edge);animation:zoomin .5s 1s backwards}
 </style>
 </head>
 <body>
@@ -368,6 +426,7 @@ td.num-c{font-variant-numeric:tabular-nums}
 <canvas id="confetti" aria-hidden="true"></canvas>
 <main class="app">
   <section id="view-welcome" class="view"></section>
+  <section id="view-course" class="view" hidden></section>
   <section id="view-map" class="view" hidden></section>
   <section id="view-learn" class="view" hidden></section>
   <section id="view-play" class="view" hidden></section>
@@ -383,6 +442,7 @@ td.num-c{font-variant-numeric:tabular-nums}
 </div>
 <div id="toast" role="status" hidden></div>
 
+<script src="contenidos.js"></script>
 <script>
 /* ---------- Iconos ---------- */
 const ICONS = {
@@ -394,6 +454,13 @@ const ICONS = {
   star:'<path d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z"/>',
   lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
   heart:'<path d="M12 20s-7.5-4.6-9.2-9.3C1.6 7.3 3.7 4 7 4c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.3 0 5.4 3.3 4.2 6.7C19.5 15.4 12 20 12 20z"/>',
+  heartplus:'<path d="M12 20s-7.5-4.6-9.2-9.3C1.6 7.3 3.7 4 7 4c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.3 0 5.4 3.3 4.2 6.7C19.5 15.4 12 20 12 20z"/><path d="M12 9v6M9 12h6"/>',
+  person:'<circle cx="12" cy="5" r="2.6"/><path d="M12 8v7M7 10.5l5-1.5 5 1.5M9 21l3-6 3 6"/>',
+  paw:'<circle cx="7" cy="9" r="2"/><circle cx="11" cy="5.5" r="2"/><circle cx="15.5" cy="6" r="2"/><circle cx="18.5" cy="10" r="2"/><path d="M12 11c-3 0-6 4.5-6 7 0 2 2 2.5 3.5 2 1.4-.4 1.8-.8 2.5-.8s1.1.4 2.5.8c1.5.5 3.5 0 3.5-2 0-2.5-3-7-6-7z"/>',
+  leaf:'<path d="M5 19c0-9 5-14 15-15-1 10-6 15-15 15z"/><path d="M5 19 13 11"/>',
+  drop:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/>',
+  map:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
   flame:'<path d="M12 22c4 0 7-2.7 7-7 0-4-3-6.5-4-10-2 1.5-3 3.5-3 5.5C11 9 10 8 9.5 6.5 7 9 5 11.6 5 15c0 4.3 3 7 7 7z"/>',
   wind:'<path d="M3 8h10a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h7"/>',
   check:'<path d="m4 12 5 5L20 6"/>',
@@ -406,8 +473,84 @@ const ICONS = {
   teacher:'<path d="M3 5h18v11H3z"/><path d="M8 21l4-5 4 5M7 9h6M7 12h4"/>',
   chest:'<path d="M3 10h18v10H3z"/><path d="M3 10a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5"/><path d="M10 12h4v3h-4z"/>'
 };
-const ico = (n, cls='') => `<svg class="icon ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
+const ico = (n, cls='') => `<svg class="icon ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]||ICONS.star}</svg>`;
 const SHAPES = ['<path d="M12 3 22 20H2z"/>','<path d="M12 2 22 12 12 22 2 12z"/>','<circle cx="12" cy="12" r="10"/>','<rect x="3" y="3" width="18" height="18" rx="2"/>'];
+
+/* ---------- Personajes jugables ---------- */
+const AVATARS = [
+  {id:'lia',  name:'Lía',  role:'Exploradora', power:'Encuentra pistas escondidas en cada lección.', skin:'#F2C29B', outfit:'#C9A061', pants:'#7A5A3A', hair:'#6B3E26'},
+  {id:'nova', name:'Nova', role:'Astronauta',  power:'Viaja más rápido que nadie por el mapa.',      skin:'#8D5A3B', outfit:'#E8EEF7', pants:'#AEBBD0', hair:'#1E1E28'},
+  {id:'max',  name:'Max',  role:'Científico',  power:'Investiga y descubre cómo funciona todo.',     skin:'#FFD9B8', outfit:'#F4F7FB', pants:'#2E4A7A', hair:'#E8742C'},
+  {id:'bip',  name:'Bip',  role:'Robot',       power:'Memoria de acero: nunca olvida una respuesta.', robot:true, outfit:'#6F86A3', pants:'#4B5E78', skin:'#B8C7DA'},
+  {id:'rayo', name:'Rayo', role:'Superheroína',power:'Rápida como un rayo resolviendo retos.',      skin:'#C68642', outfit:'#2079C7', pants:'#16518A', hair:'#1B1B24'},
+  {id:'kai',  name:'Kai',  role:'Ninja',       power:'Silencioso y concentrado: no se le escapa nada.', skin:'#F1C27D', outfit:'#24334F', pants:'#1A2640', hair:'#24334F'},
+  {id:'ada',  name:'Ada',  role:'Doctora',     power:'Conoce el cuerpo humano como nadie.',          skin:'#FFE0C2', outfit:'#2BB5A0', pants:'#1F8C7B', hair:'#F2C94C'},
+  {id:'zuli', name:'Zuli', role:'Alienígena',  power:'Viene de otro planeta para aprender contigo.', skin:'#8BE04E', outfit:'#8A5CF6', pants:'#6440C9'}
+];
+const avatarOf = id => AVATARS.find(a=>a.id===id) || AVATARS[0];
+function avatarSVG(id){
+  const a=avatarOf(id), E='#06122A', st=`stroke="${E}" stroke-width="3" stroke-linejoin="round"`;
+  let back='', head='', hair='', face='', front='', body='';
+  const eyes = (rx=4.2, ry=5.6, y=44) => `<ellipse cx="41" cy="${y}" rx="${rx}" ry="${ry}" fill="${E}"/><ellipse cx="59" cy="${y}" rx="${rx}" ry="${ry}" fill="${E}"/><circle cx="${42.3+rx/4}" cy="${y-2}" r="${rx/2.6}" fill="#fff"/><circle cx="${60.3+rx/4}" cy="${y-2}" r="${rx/2.6}" fill="#fff"/>`;
+  const cheeks = `<ellipse cx="33" cy="52" rx="4.5" ry="3" fill="#FF8FA3" opacity=".65"/><ellipse cx="67" cy="52" rx="4.5" ry="3" fill="#FF8FA3" opacity=".65"/>`;
+  const smile = `<path d="M44 54q6 6 12 0" fill="none" stroke="${E}" stroke-width="3" stroke-linecap="round"/>`;
+  head = `<circle cx="50" cy="40" r="27" fill="${a.skin}" ${st}/>`;
+  face = eyes()+cheeks+smile;
+  switch(a.id){
+    case 'lia':
+      back = `<path d="M70 30q17 6 11 28q-4-10-13-12z" fill="${a.hair}" ${st}/>`;
+      hair = `<path d="M23 40q1-23 27-23t27 23q-12-9-27-9t-27 9z" fill="${a.hair}" ${st}/><path d="M28 27q22-32 44 0z" fill="#F2D488" ${st}/><rect x="17" y="23" width="66" height="8" rx="4" fill="#E2B85A" ${st}/><path d="M36 22q14-6 28 0" stroke="#C0563A" stroke-width="3.5" fill="none"/>`;
+      body = `<rect x="29" y="84" width="42" height="5" fill="#7A5A3A"/><rect x="34" y="70" width="10" height="8" rx="2" fill="#B08A4E" stroke="${E}" stroke-width="2"/>`;
+      break;
+    case 'nova':
+      hair = `<path d="M24 37q0-23 26-23t26 23q-6-7-12-7-4-6-14-6t-14 6q-6 0-12 7z" fill="${a.hair}" ${st}/>`;
+      body = `<rect x="39" y="72" width="22" height="13" rx="3" fill="#3FB6FF" ${st}/><circle cx="45" cy="78.5" r="2" fill="#FFC93C"/><circle cx="51" cy="78.5" r="2" fill="#FF5A6E"/><circle cx="57" cy="78.5" r="2" fill="#43D166"/>`;
+      front = `<rect x="32" y="61" width="36" height="7" rx="3.5" fill="#B9C6DA" ${st}/><circle cx="50" cy="38" r="34" fill="rgba(160,220,255,.2)" ${st}/><path d="M27 25q8-12 22-15" stroke="#fff" stroke-width="4" opacity=".75" fill="none" stroke-linecap="round"/><line x1="73" y1="13" x2="80" y2="3" stroke="${E}" stroke-width="3"/><circle cx="80" cy="3" r="4" fill="#FF5A6E" ${st}/>`;
+      break;
+    case 'max':
+      hair = `<path d="M23 38l3-14 8 4 4-12 8 8 5-11 6 10 8-6 2 12 8 2-4 10q-12-9-25-9t-25 9z" fill="${a.hair}" ${st}/><rect x="28" y="22" width="44" height="6" fill="#3B4A63"/><circle cx="40" cy="25" r="7.5" fill="#9FE3FF" ${st}/><circle cx="60" cy="25" r="7.5" fill="#9FE3FF" ${st}/><circle cx="38" cy="23" r="2" fill="#fff"/><circle cx="58" cy="23" r="2" fill="#fff"/>`;
+      body = `<path d="M43 64l7 11 7-11z" fill="#3FB6FF" stroke="${E}" stroke-width="2.5"/><path d="M50 75v23M43 64l-6 16M57 64l6 16" stroke="${E}" stroke-width="2.5" fill="none"/><rect x="58" y="82" width="8" height="7" rx="1.5" fill="#E8EEF7" stroke="${E}" stroke-width="2"/>`;
+      break;
+    case 'bip':
+      back = `<rect x="15" y="31" width="9" height="16" rx="3" fill="#8DA0B8" ${st}/><rect x="76" y="31" width="9" height="16" rx="3" fill="#8DA0B8" ${st}/><line x1="50" y1="15" x2="50" y2="4" stroke="${E}" stroke-width="3"/><circle cx="50" cy="4" r="4.5" fill="#FF5A6E" ${st}/>`;
+      head = `<rect x="21" y="14" width="58" height="50" rx="15" fill="#B8C7DA" ${st}/><path d="M28 22q8-5 18-5" stroke="#fff" stroke-width="3.5" opacity=".7" fill="none" stroke-linecap="round"/>`;
+      face = `<rect x="28" y="29" width="44" height="20" rx="10" fill="#0E2A4A" ${st}/><circle cx="41" cy="39" r="5" fill="#5CF0FF"/><circle cx="59" cy="39" r="5" fill="#5CF0FF"/><circle cx="42.5" cy="37.5" r="1.6" fill="#fff"/><circle cx="60.5" cy="37.5" r="1.6" fill="#fff"/><path d="M41 56h18" stroke="${E}" stroke-width="3" stroke-linecap="round"/><path d="M45 56v-2M50 56v-2M55 56v-2" stroke="${E}" stroke-width="2"/>`;
+      body = `<circle cx="50" cy="79" r="6.5" fill="#FFC93C" ${st}/><rect x="35" y="88" width="30" height="4" rx="2" fill="#4B5E78"/>`;
+      break;
+    case 'rayo':
+      back = `<path d="M30 66 17 110q33-9 66 0L70 66z" fill="#E8475B" ${st}/><path d="M22 42q-3 30 8 40h40q11-10 8-40z" fill="${a.hair}" ${st}/>`;
+      hair = `<path d="M23 40q0-26 27-26t27 26q-10-10-27-12-8 6-27 12z" fill="${a.hair}" ${st}/>`;
+      face = `<path d="M27 40q23-7 46 0v11q-23-5-46 0z" fill="#8A5CF6" stroke="${E}" stroke-width="2.5"/><ellipse cx="41" cy="45" rx="6" ry="5" fill="#fff"/><ellipse cx="59" cy="45" rx="6" ry="5" fill="#fff"/><circle cx="42" cy="45" r="3.2" fill="${E}"/><circle cx="60" cy="45" r="3.2" fill="${E}"/>`+cheeks+smile;
+      body = `<path d="M53 69l-9 12h6l-4 11 11-15h-6l4-8z" fill="#FFC93C" stroke="${E}" stroke-width="2"/>`;
+      break;
+    case 'kai':
+      head = `<circle cx="50" cy="40" r="27" fill="${a.outfit}" ${st}/><rect x="28" y="34" width="44" height="21" rx="10.5" fill="${a.skin}" ${st}/>`;
+      face = eyes(3.8,5,44);
+      front = `<rect x="22" y="25" width="56" height="7" rx="3.5" fill="#E8475B" ${st}/><path d="M76 28l15 3-9 7z" fill="#E8475B" ${st}/><path d="M76 30l12 10-11-1z" fill="#E8475B" ${st}/>`;
+      body = `<rect x="29" y="82" width="42" height="6" fill="#E8475B"/><path d="M38 64l12 12 12-12" stroke="#3A4C70" stroke-width="3" fill="none"/>`;
+      break;
+    case 'ada':
+      back = `<circle cx="50" cy="13" r="10" fill="${a.hair}" ${st}/>`;
+      hair = `<path d="M23 41q0-27 27-27t27 27q-6-13-27-15-21 2-27 15z" fill="${a.hair}" ${st}/><path d="M26 31q24-10 48 0" stroke="#5A6B85" stroke-width="3" fill="none"/><circle cx="50" cy="24" r="7.5" fill="#DDE6F2" ${st}/><circle cx="50" cy="24" r="3" fill="#fff"/>`;
+      body = `<path d="M38 64q-4 18 12 21 16-3 12-21" fill="none" stroke="${E}" stroke-width="2.5"/><circle cx="50" cy="86" r="3.6" fill="#C9D3E3" stroke="${E}" stroke-width="2"/><path d="M60 72h6M63 69v6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`;
+      break;
+    case 'zuli':
+      back = `<path d="M38 17q-5-9-11-13M62 17q5-9 11-13" stroke="${E}" stroke-width="3" fill="none"/><circle cx="27" cy="4" r="5" fill="#FFC93C" ${st}/><circle cx="73" cy="4" r="5" fill="#FFC93C" ${st}/>`;
+      face = eyes(6.5,8.5,42)+`<path d="M45 55q5 4 10 0" fill="none" stroke="${E}" stroke-width="3" stroke-linecap="round"/>`;
+      body = `<rect x="34" y="62" width="32" height="6" rx="3" fill="#B9A3FF" stroke="${E}" stroke-width="2.5"/><path d="m50 72 2 4 4.5.6-3.3 3 .9 4.4-4.1-2.2-4.1 2.2.9-4.4-3.3-3 4.5-.6z" fill="#FFC93C" stroke="${E}" stroke-width="1.5"/>`;
+      break;
+  }
+  const handFill = a.robot ? '#B8C7DA' : a.skin;
+  return `<svg class="avatar" viewBox="0 0 100 120" aria-hidden="true">
+    <ellipse cx="50" cy="115" rx="26" ry="4.5" fill="rgba(0,0,0,.35)"/>${back}
+    <rect x="37" y="92" width="11" height="18" rx="5" fill="${a.pants}" ${st}/><rect x="52" y="92" width="11" height="18" rx="5" fill="${a.pants}" ${st}/>
+    <ellipse cx="41.5" cy="111" rx="8" ry="4.5" fill="${E}"/><ellipse cx="58.5" cy="111" rx="8" ry="4.5" fill="${E}"/>
+    <rect x="20" y="69" width="13" height="23" rx="6.5" fill="${a.outfit}" ${st}/><rect x="67" y="69" width="13" height="23" rx="6.5" fill="${a.outfit}" ${st}/>
+    <rect x="29" y="63" width="42" height="35" rx="14" fill="${a.outfit}" ${st}/>${body}
+    <circle cx="26.5" cy="93" r="5.2" fill="${handFill}" ${st}/><circle cx="73.5" cy="93" r="5.2" fill="${handFill}" ${st}/>
+    ${head}${hair}${face}${front}
+  </svg>`;
+}
 
 /* Glo, el glóbulo rojo explorador */
 function mascotSVG(state='idle'){
@@ -443,138 +586,16 @@ function virusSVG(){
   </g></svg>`;
 }
 
-/* ---------- Contenidos (libro: Unidad 1, págs. 12-19) ---------- */
-const WORLDS = [
-  {
-    id:'funciones', title:'¿Cómo funciona nuestro cuerpo?', short:'Las funciones vitales', pages:'Págs. 12-13',
-    color:'--sense', icon:'eye', node:[150,60],
-    learn:[
-      {h:'Las tres funciones vitales', p:'Todos los seres vivos realizamos tres <mark>funciones vitales</mark>: <mark>relación</mark>, <mark>nutrición</mark> y <mark>reproducción</mark>.'},
-      {h:'Función de relación', p:'A través de los <mark>sentidos</mark> captamos lo que sucede a nuestro alrededor y reaccionamos ante ello. Tenemos cinco sentidos y cada uno tiene su órgano.',
-        extra:'<div class="senses"><b>Vista</b><span>los ojos</span><b>Olfato</b><span>la nariz</span><b>Oído</b><span>los oídos</span><b>Gusto</b><span>la lengua</span><b>Tacto</b><span>la piel</span></div>'},
-      {h:'Función de nutrición', p:'Respiramos y tomamos alimentos que nos permiten <mark>crecer</mark> y tener <mark>energía</mark> para realizar nuestras actividades diarias.'},
-      {h:'Función de reproducción', p:'Las personas adultas pueden reproducirse, es decir, <mark>tener hijos e hijas</mark>.'}
-    ],
-    ch:[
-      {t:'mc', q:'¿Cuántas funciones vitales realizamos los seres vivos?', opts:['Dos','Tres','Cinco'], a:1, hint:'Son relación, nutrición y reproducción.'},
-      {t:'match', q:'Une cada sentido con su órgano.', pairs:[['Vista','Ojos'],['Olfato','Nariz'],['Oído','Oídos'],['Gusto','Lengua'],['Tacto','Piel']], hint:'Piensa con qué parte del cuerpo ves, hueles, oyes, saboreas y tocas.'},
-      {t:'mc', q:'Iván coge una mandarina porque ve que es naranja. ¿Qué parte del cuerpo le sirve?', opts:['👁️ Los ojos','👅 La lengua'], a:0, hint:'Para ver el color usamos el sentido de la vista.'},
-      {t:'mc', q:'A Iván le parece que la mandarina es muy suave. ¿Qué parte del cuerpo le sirve?', opts:['👅 La lengua','✋ La piel'], a:1, hint:'Si algo es suave o áspero lo notamos con el tacto.'},
-      {t:'mc', q:'A Iván le resulta muy agradable el olor de la mandarina. ¿Qué parte del cuerpo le sirve?', opts:['👂 Los oídos','👃 La nariz'], a:1, hint:'Los olores los captamos con el sentido del olfato.'},
-      {t:'tf', q:'Una niña toca un cactus, se pincha y aparta la mano. Ha recibido la información por el sentido del tacto.', a:true, hint:'El tacto está en la piel. Por eso nota el pinchazo.'},
-      {t:'classify', q:'¿A qué función vital corresponde cada actividad?', bins:['Relación','Nutrición','Reproducción'],
-        items:[['🥣 Tomar el desayuno',1],['⚽ Jugar en el recreo',0],['🌬️ Respirar',1],['🎵 Escuchar música',0],['👶 Una persona adulta tiene un bebé',2],['🌸 Oler una flor',0],['🍎 Comer fruta',1]],
-        hint:'Relación: usamos los sentidos y reaccionamos. Nutrición: comemos y respiramos. Reproducción: tener hijos e hijas.'},
-      {t:'mc', q:'¿Cuál de las funciones vitales no se puede realizar en la infancia?', opts:['Relación','Nutrición','Reproducción'], a:2, hint:'Solo las personas adultas pueden tener hijos e hijas.'},
-      {t:'tf', q:'Tenemos tres sentidos: la vista, el oído y el gusto.', a:false, hint:'Tenemos cinco sentidos: vista, olfato, oído, gusto y tacto.'}
-    ]
-  },
-  {
-    id:'movemos', title:'¿Cómo nos movemos?', short:'Huesos, articulaciones y músculos', pages:'Págs. 14-15',
-    color:'--bone', icon:'bone', node:[221,205],
-    learn:[
-      {h:'Los huesos', p:'Los <mark>huesos</mark> están en el interior de nuestro cuerpo. Son <mark>duros y rígidos</mark>: no se pueden doblar. El conjunto de todos los huesos se llama <mark>esqueleto</mark>.',
-        extra:'<div class="tags"><span class="tag">cráneo</span><span class="tag">costillas</span><span class="tag">columna vertebral</span><span class="tag">fémur</span><span class="tag">tibia</span></div>'},
-      {h:'Las articulaciones', p:'Las <mark>articulaciones</mark> son las uniones de los huesos. Gracias a ellas podemos <mark>doblar</mark> algunas partes del cuerpo.',
-        extra:'<div class="tags"><span class="tag">hombro</span><span class="tag">codo</span><span class="tag">muñeca</span><span class="tag">rodilla</span><span class="tag">tobillo</span></div>'},
-      {h:'Los músculos', p:'Los <mark>músculos</mark> están bajo la piel y recubren los huesos. Son <mark>blandos y elásticos</mark>: se estiran y se encogen sin romperse. Para movernos, los músculos <mark>tiran de los huesos</mark>.',
-        extra:'<div class="tags"><span class="tag">bíceps</span><span class="tag">pectoral</span><span class="tag">abdominales</span><span class="tag">glúteo</span><span class="tag">gemelos</span></div>'},
-      {h:'Cuida tu cuerpo', p:'Es importante hacer <mark>ejercicio físico</mark> para tener unos huesos y unos músculos sanos.'}
-    ],
-    ch:[
-      {t:'mc', q:'¿Cómo se llama el conjunto de todos los huesos del cuerpo?', opts:['Músculo','Esqueleto','Articulación'], a:1, hint:'Todos los huesos juntos forman el esqueleto.'},
-      {t:'classify', q:'¿Es un hueso, una articulación o un músculo?', bins:['Hueso','Articulación','Músculo'],
-        items:[['Cráneo',0],['Codo',1],['Bíceps',2],['Fémur',0],['Rodilla',1],['Gemelos',2],['Costillas',0],['Tobillo',1],['Pectoral',2],['Hombro',1],['Tibia',0],['Abdominales',2]],
-        hint:'Articulaciones: hombro, codo, muñeca, rodilla y tobillo. Músculos: bíceps, pectoral, abdominales, glúteo y gemelos.'},
-      {t:'classify', q:'¿Es una característica de los huesos o de las articulaciones?', bins:['Huesos','Articulaciones'],
-        items:[['No se pueden doblar',0],['Forman el esqueleto',0],['Nos permiten doblar algunas partes del cuerpo',1],['Son duros y rígidos',0],['Son las uniones de los huesos',1]],
-        hint:'Los huesos son duros y forman el esqueleto. Las articulaciones unen los huesos y nos dejan doblarnos.'},
-      {t:'pick', q:'Toca los DOS huesos de las piernas.', opts:['Fémur','Cráneo','Tibia','Costillas','Codo'], a:[0,2], hint:'El codo es una articulación. El cráneo y las costillas no están en las piernas.'},
-      {t:'pick', q:'Toca las articulaciones de los brazos.', opts:['Hombro','Rodilla','Codo','Tobillo','Muñeca'], a:[0,2,4], hint:'La rodilla y el tobillo están en las piernas.'},
-      {t:'pick', q:'Toca los objetos que son elásticos como los músculos.', opts:['🎈 Globo','🔩 Tornillo','➰ Goma elástica','🪨 Piedra','🌀 Muelle'], a:[0,2,4], hint:'Elástico quiere decir que se estira y se encoge sin romperse.'},
-      {t:'pick', q:'Toca los músculos del tronco.', opts:['Pectoral','Gemelos','Abdominales','Bíceps'], a:[0,2], hint:'Los gemelos están en las piernas y el bíceps en el brazo.'},
-      {t:'mc', q:'Para movernos, los músculos…', opts:['tiran de los huesos','se rompen','se vuelven duros'], a:0, hint:'Los músculos tiran de los huesos y así nos movemos.'},
-      {t:'tf', q:'Los músculos son duros y rígidos.', a:false, hint:'Los músculos son blandos y elásticos. Los huesos sí son duros y rígidos.'},
-      {t:'tf', q:'Hacer ejercicio físico nos ayuda a tener huesos y músculos sanos.', a:true, hint:'El ejercicio cuida los huesos y los músculos.'}
-    ]
-  },
-  {
-    id:'respiramos', title:'¿Cómo respiramos?', short:'El camino del aire', pages:'Págs. 16-17',
-    color:'--lung', icon:'lungs', node:[128,168],
-    learn:[
-      {h:'El oxígeno', p:'Cuando respiramos obtenemos el <mark>oxígeno</mark> que necesitamos para vivir. El oxígeno es un <mark>gas que está en el aire</mark>.'},
-      {h:'El camino del aire', p:'Así viaja el aire por nuestro cuerpo:',
-        extra:'<ol class="steps"><li>Tomamos aire por la <mark>nariz</mark> o por la <mark>boca</mark>.</li><li>El aire pasa por un tubo llamado <mark>tráquea</mark>.</li><li>El aire llega a los <mark>pulmones</mark>. Allí el cuerpo toma el oxígeno.</li><li>El aire que queda vuelve a la boca y a la nariz y sale al exterior.</li></ol>'},
-      {h:'Inspiración y espiración', p:'En la <mark>inspiración</mark> el aire entra y se llenan los pulmones. En la <mark>espiración</mark> el aire sale del cuerpo.'},
-      {h:'Respirar para calmarnos', p:'Respirar profundamente nos ayuda a <mark>calmarnos</mark>. Toma aire por la nariz, mantenlo unos segundos y expúlsalo poco a poco por la boca.'}
-    ],
-    ch:[
-      {t:'mc', q:'Cuando respiramos obtenemos un gas que necesitamos para vivir. ¿Cuál es?', opts:['💨 El oxígeno','🔥 El humo','☁️ El vapor'], a:0, hint:'Es un gas que está en el aire y empieza por O.'},
-      {t:'order', q:'Ordena el recorrido del aire en el cuerpo.', items:['Tomamos aire por la nariz o por la boca','El aire pasa por la tráquea','El aire llega a los pulmones','El aire que queda sale por la boca y la nariz'], hint:'Empieza por donde entra el aire y termina por donde sale.'},
-      {t:'fill', q:'Completa el recorrido del aire.', parts:['Entra por la ',0,' → pasa por la ',1,' → llega a los ',2,'.'], answers:['nariz','tráquea','pulmones'], bank:['esófago','estómago'], hint:'El esófago y el estómago son de la digestión, no de la respiración.'},
-      {t:'mc', q:'¿En qué parte del cuerpo se toma el oxígeno que necesitamos?', opts:['En el estómago','En los pulmones','En la tráquea'], a:1, hint:'La tráquea solo es el tubo. El oxígeno se toma en los pulmones.'},
-      {t:'classify', q:'¿Es inspiración o espiración?', bins:['Inspiración','Espiración'],
-        items:[['El aire entra en el cuerpo',0],['El aire sale del cuerpo',1],['Se llenan los pulmones',0],['Expulsamos el aire por la boca',1]],
-        hint:'Inspiración: el aire entra. Espiración: el aire sale.'},
-      {t:'classify', q:'¿Cómo es tu respiración cuando…?', bins:['Tranquila','Acelerada'],
-        items:[['📖 lees un cuento',0],['🏃 corres',1],['✏️ dibujas',0],['💃 bailas',1],['😴 duermes',0],['🪁 corres con la cometa',1]],
-        hint:'Cuando nos movemos mucho, respiramos más rápido.'},
-      {t:'order', q:'Ordena el ejercicio para calmarte.', items:['Toma aire por la nariz hasta llenar los pulmones','Mantén el aire dentro unos segundos','Expulsa poco a poco el aire por la boca'], hint:'Primero inspiración, después mantener y al final espiración.'},
-      {t:'mc', q:'Te pones nervioso o nerviosa. ¿Qué te puede ayudar a calmarte?', opts:['Respirar profundamente varias veces','Gritar muy fuerte','Aguantar sin respirar mucho rato'], a:0, hint:'Respirar despacio y profundo nos ayuda a calmarnos.'}
-    ]
-  },
-  {
-    id:'alimentamos', title:'¿Cómo nos alimentamos?', short:'La digestión', pages:'Págs. 18-19',
-    color:'--food', icon:'apple', node:[168,226],
-    learn:[
-      {h:'La digestión', p:'La alimentación forma parte de la función de nutrición. En el interior del cuerpo la <mark>digestión</mark> transforma los alimentos en unas sustancias más sencillas que llamamos <mark>nutrientes</mark>.'},
-      {h:'Los nutrientes', p:'Los nutrientes nos dan dos cosas muy importantes:',
-        extra:'<div class="flow"><span class="box fill">Los alimentos</span><span class="arrow">están formados por ↓</span><span class="box">Nutrientes</span><span class="arrow">que nos proporcionan ↓</span><div class="split"><div class="flow"><span class="box">Materia</span><span class="arrow">que nos ayuda a crecer</span></div><div class="flow"><span class="box">Energía</span><span class="arrow">para realizar nuestras actividades</span></div></div></div>'},
-      {h:'El camino de los alimentos', p:'Este es el camino que siguen los alimentos:',
-        extra:'<ol class="steps"><li>Tomamos la comida por la <mark>boca</mark> y la masticamos con los <mark>dientes</mark>.</li><li>La comida triturada pasa por un tubo llamado <mark>esófago</mark>.</li><li>En el <mark>estómago</mark> los alimentos se deshacen en sustancias más pequeñas.</li><li>Los nutrientes llegan al cuerpo a través de los <mark>intestinos</mark>.</li><li>Los restos que no se aprovechan se expulsan por el <mark>ano</mark>.</li></ol>'}
-    ],
-    ch:[
-      {t:'mc', q:'¿Qué es la digestión?', opts:['El paso de los alimentos desde la boca hasta el estómago','El proceso de transformación de los alimentos dentro de nuestro cuerpo'], a:1, hint:'La digestión transforma los alimentos en nutrientes.'},
-      {t:'mc', q:'Los alimentos están formados por…', opts:['nutrientes','huesos','aire'], a:0, hint:'La digestión saca de los alimentos los nutrientes.'},
-      {t:'classify', q:'Los nutrientes nos dan materia y energía. ¿Para qué sirve cada una?', bins:['Materia','Energía'],
-        items:[['📏 Crecer',0],['🥋 Hacer kárate',1],['🏃 Correr y jugar',1],['🧒 Hacernos más altos',0]],
-        hint:'La materia nos ayuda a crecer. La energía sirve para realizar nuestras actividades.'},
-      {t:'pick', q:'Toca las partes del cuerpo que intervienen en la digestión.', opts:['Estómago','Tibia','Codo','Dientes','Intestinos','Boca','Ano','Glúteo'], a:[0,3,4,5,6], hint:'La tibia es un hueso, el codo una articulación y el glúteo un músculo.'},
-      {t:'order', q:'Ordena el camino de los alimentos.', items:['La comida entra por la boca','Los dientes trituran los alimentos','La comida pasa por el esófago','Los alimentos se deshacen en el estómago','Las sustancias que necesitamos pasan a nuestro cuerpo','Los restos de los alimentos se expulsan'], hint:'Empieza en la boca y termina cuando se expulsan los restos.'},
-      {t:'mc', q:'Cuando la comida está bien triturada, pasa por un tubo llamado…', opts:['tráquea','esófago','intestino'], a:1, hint:'Por la tráquea va el aire. Por el esófago va la comida.'},
-      {t:'match', q:'Une cada parte con lo que hace.', pairs:[['Dientes','Trituran la comida'],['Esófago','Tubo por el que baja la comida'],['Estómago','Deshace los alimentos'],['Intestinos','Pasan los nutrientes al cuerpo'],['Ano','Expulsa los restos']], hint:'Repasa el camino de los alimentos en la lección.'},
-      {t:'tf', q:'Los nutrientes llegan al cuerpo a través de los intestinos.', a:true, hint:'Sí: los intestinos hacen que los nutrientes pasen al cuerpo.'}
-    ]
-  }
-];
-const BOSS = {
-  id:'reto', boss:true, title:'El Gran Reto', short:'Repaso de todo el viaje', pages:'Págs. 12-19',
-  color:'--virus', icon:'trophy', node:[150,442],
-  extra:[
-    {t:'classify', q:'¿Por dónde pasa: el aire o la comida?', bins:['Aire','Comida'],
-      items:[['Tráquea',0],['Esófago',1],['Pulmones',0],['Estómago',1],['Intestinos',1],['Nariz',0]],
-      hint:'El aire va por la tráquea hasta los pulmones. La comida va por el esófago hasta el estómago.'}
-  ]
-};
-const ALL = [...WORLDS, BOSS];
-
-const BADGES = [
-  {id:'funciones', name:'Ojo de lince', desc:'Completa la misión de las funciones vitales.', icon:'eye'},
-  {id:'movemos', name:'Esqueleto de acero', desc:'Completa la misión de huesos y músculos.', icon:'bone'},
-  {id:'respiramos', name:'Pulmones de campeón', desc:'Completa la misión de la respiración.', icon:'lungs'},
-  {id:'alimentamos', name:'Superdigestión', desc:'Completa la misión de la alimentación.', icon:'apple'},
-  {id:'reto', name:'Gran explorador', desc:'Supera el Gran Reto final.', icon:'trophy'},
-  {id:'perfecto', name:'Sin fallos', desc:'Termina una misión sin equivocarte ni una vez.', icon:'check'},
-  {id:'racha', name:'Racha de fuego', desc:'Acierta 5 retos seguidos a la primera.', icon:'flame'},
-  {id:'calma', name:'Calma total', desc:'Haz el ejercicio completo en la Zona de calma.', icon:'wind'},
-  {id:'tres', name:'Constelación', desc:'Consigue 3 estrellas en las cuatro misiones.', icon:'star'}
-];
-const LEVELS = [[0,'Explorador novato'],[80,'Aprendiz del cuerpo'],[180,'Explorador'],[300,'Investigador'],[450,'Científico'],[650,'Doctor del cuerpo']];
-const AVATARS = ['🦊','🐼','🐸','🦁','🐙','🦉','🐢','🐝'];
+/* ---------- Datos generales del juego ---------- */
+const TEMAS = CURSO.temas;
+const LEVELS = [[0,'Explorador novato'],[80,'Aprendiz'],[180,'Explorador'],[300,'Investigador'],[450,'Científico'],[650,'Experto'],[900,'Sabio'],[1200,'Maestro explorador'],[1600,'Leyenda'],[2100,'Gran leyenda'],[2700,'Campeón del curso']];
 const PRAISE = ['¡Genial!','¡Muy bien!','¡Fantástico!','¡Correcto!','¡Lo has clavado!','¡Bravo!'];
 const RETRY = ['Casi…','¡Ups! Prueba otra vez','Piénsalo un poco más','¡Tú puedes!'];
-
-const AVATAR_NAMES = ['Zorro','Panda','Rana','León','Pulpo','Búho','Tortuga','Abeja'];
+const GLOBAL_BADGES = [
+  {id:'perfecto', name:'Sin fallos', desc:'Termina una misión sin equivocarte ni una vez.', icon:'check'},
+  {id:'racha', name:'Racha de fuego', desc:'Acierta 5 retos seguidos a la primera.', icon:'flame', color:'--food'},
+  {id:'calma', name:'Calma total', desc:'Haz el ejercicio completo en la Zona de calma.', icon:'wind', color:'--lung'}
+];
 
 /* ---------- Estado y guardado ---------- */
 const KEY = 'exploradores-cuerpo-v1';
@@ -582,20 +603,43 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rand = a => a[Math.floor(Math.random()*a.length)];
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
-function load(){ try{ const v = JSON.parse(localStorage.getItem(KEY)); if(v && v.profiles) return v; }catch(e){} return {profiles:{}, current:null, free:false, sound:true, music:false}; }
+function load(){ try{ const v = JSON.parse(localStorage.getItem(KEY)); if(v && v.profiles) return v; }catch(e){} return {profiles:{}, current:null, free:false, sound:true, music:false, open:{}}; }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
-let S = load();
+let S = load(); S.open = S.open || {};
+let CT = null;   // tema abierto
 const P = () => S.profiles[S.current];
-const stars = (p, id) => (p.worlds[id] && p.worlds[id].stars) || 0;
-const totalStars = p => ALL.reduce((n,w)=>n+stars(p,w.id),0);
 const cvars = w => `--c:var(${w.color});--cd:var(${w.color}-d)`;
+const stars = (p, id) => (p.worlds[id] && p.worlds[id].stars) || 0;
+const hasContent = t => !!(t.missions && t.missions.length && t.boss);
+const stagesOf = t => hasContent(t) ? [...t.missions, t.boss] : [];
+const temaStars = (p,t) => stagesOf(t).reduce((n,w)=>n+stars(p,w.id),0);
+const temaMax = t => stagesOf(t).length*3;
+const temaBeaten = (p,t) => hasContent(t) && stars(p,t.boss.id)>0;
+const courseStars = p => TEMAS.reduce((n,t)=>n+temaStars(p,t),0);
+const courseMax = () => TEMAS.reduce((n,t)=>n+temaMax(t),0);
 function levelOf(xp){ let i=0; LEVELS.forEach((l,k)=>{ if(xp>=l[0]) i=k; }); return {n:i+1, name:LEVELS[i][1], from:LEVELS[i][0], to:LEVELS[i+1]?LEVELS[i+1][0]:null}; }
-function unlocked(idx){
-  if(S.free) return true;
-  if(idx===WORLDS.length) return WORLDS.every(w=>stars(P(),w.id)>0);
-  return idx===0 || stars(P(), WORLDS[idx-1].id)>0;
+function temaOpen(i){
+  const t=TEMAS[i]; if(!hasContent(t)) return false;
+  return S.free || !!S.open[t.id] || i===0 || temaBeaten(P(), TEMAS[i-1]);
 }
-function nextIdx(){ const i = ALL.findIndex((w,k)=>unlocked(k) && stars(P(),w.id)===0); return i; }
+const nextTemaIdx = () => TEMAS.findIndex((t,i)=>temaOpen(i) && !temaBeaten(P(),t));
+function unlocked(idx){
+  const L=stagesOf(CT);
+  if(S.free) return true;
+  if(idx===L.length-1) return CT.missions.every(w=>stars(P(),w.id)>0);
+  return idx===0 || stars(P(), L[idx-1].id)>0;
+}
+const nextIdx = () => stagesOf(CT).findIndex((w,k)=>unlocked(k) && stars(P(),w.id)===0);
+function allBadges(){
+  const out=[];
+  TEMAS.filter(hasContent).forEach(t=>{
+    t.missions.forEach(m=>out.push({id:m.id, name:m.badge||m.short, desc:`Completa la misión «${m.title}».`, icon:m.icon, color:m.color, tema:t}));
+    out.push({id:t.boss.id, name:t.boss.badge||'Jefe derrotado', desc:`Derrota al ${t.boss.villain||'jefe'} del tema ${t.n}.`, icon:'trophy', color:t.boss.color, tema:t});
+    out.push({id:'tres-'+t.id, name:t.starsBadge||'Constelación', desc:`Consigue 3 estrellas en todas las misiones del tema ${t.n}.`, icon:'star', tema:t});
+  });
+  return [...out, ...GLOBAL_BADGES];
+}
+const badgeStyle = b => b.color ? `--c:var(${b.color});--cd:var(${b.color}-d)` : '--c:var(--gold);--cd:var(--gold-d)';
 
 /* ---------- Sonido 8 bits, música, voz y efectos ---------- */
 let AC = null;
@@ -688,17 +732,18 @@ function setMascot(state){ document.querySelectorAll('.app .mascot, #splash .mas
 
 /* ---------- Insignias ---------- */
 let pendingBadges = null;
-const badgeColor = b => { const w=ALL.find(w=>w.id===b.id); return w ? cvars(w) : '--c:var(--gold);--cd:var(--gold-d)'; };
 function grant(id){
   const p=P(); if(!p || p.badges.includes(id)) return;
+  const b=allBadges().find(b=>b.id===id); if(!b) return;
   p.badges.push(id); save();
-  const b=BADGES.find(b=>b.id===id);
   if(pendingBadges) pendingBadges.push(b); else { toast('¡Nueva insignia: '+b.name+'!'); sfx('level'); }
 }
 function checkBadges(){
   const p=P();
-  ALL.forEach(w=>{ if(stars(p,w.id)>0) grant(w.id); });
-  if(WORLDS.every(w=>stars(p,w.id)===3)) grant('tres');
+  TEMAS.filter(hasContent).forEach(t=>{
+    stagesOf(t).forEach(w=>{ if(stars(p,w.id)>0) grant(w.id); });
+    if(t.missions.every(w=>stars(p,w.id)===3)) grant('tres-'+t.id);
+  });
 }
 
 /* ---------- Navegación ---------- */
@@ -709,145 +754,207 @@ function show(id){
   window.scrollTo(0,0);
 }
 
-/* ---------- Pantalla de título ---------- */
+/* ---------- Pantalla de título y selección de personaje ---------- */
 let chosen = 0;
 function renderWelcome(){
   const list = Object.entries(S.profiles);
   const v=$('#view-welcome');
+  const preview = () => { const a=AVATARS[chosen]; return `<div class="big">${avatarSVG(a.id)}</div><div><b class="outline-sm">${a.name}</b><span class="role">${a.role}</span><p>${a.power}</p></div>`; };
   v.innerHTML = `<div class="title-screen">
     <div class="logo">
       <div class="mascot-wrap">${mascotSVG('idle')}</div>
-      <span class="label">Unidad 1 · El cuerpo humano</span>
+      <span class="label">${esc(CURSO.asignatura)}</span>
       <h1 class="outline">Exploradores<span>del cuerpo</span></h1>
-      <p class="tagline">¡Hola! Soy <b>Glo</b>, un glóbulo rojo explorador. Viaja conmigo por el cuerpo humano, supera las misiones y derrota al Virus Gruñón.</p>
-      <div class="world-strip">${ALL.map(w=>`<span style="${cvars(w)}" title="${esc(w.title)}">${ico(w.icon)}</span>`).join('')}</div>
+      <p class="tagline">¡Hola! Soy <b>Glo</b>, tu guía. Recorre el mapa del curso tema a tema, supera las misiones y derrota a los jefes finales.</p>
+      <div class="world-strip">${TEMAS.map(t=>`<span style="${cvars(t)}" title="Tema ${t.n}: ${esc(t.title)}">${ico(t.icon)}</span>`).join('')}</div>
     </div>
     <div class="panel start-panel">
-      ${list.length ? `<div><h2 class="outline-sm">Partidas guardadas</h2><div class="slots" style="margin-top:12px">${list.map(([id,p])=>`<button class="slot-btn" type="button" data-id="${id}"><span class="av">${p.avatar}</span><span><b>${esc(p.name)}</b><small>Nivel ${levelOf(p.xp).n} · ${totalStars(p)} estrellas</small></span></button>`).join('')}</div></div>` : ''}
+      ${list.length ? `<div><h2 class="outline-sm">Partidas guardadas</h2><div class="slots" style="margin-top:12px">${list.map(([id,p])=>`<button class="slot-btn" type="button" data-id="${id}">${avatarSVG(p.avatar)}<span><b>${esc(p.name)}</b><small>Nivel ${levelOf(p.xp).n} · ${courseStars(p)} estrellas</small></span></button>`).join('')}</div></div>` : ''}
       <form id="new-profile" style="display:grid;gap:16px" novalidate>
-        <h2 class="outline-sm">${list.length?'Nueva partida':'Elige tu personaje'}</h2>
-        <div class="chars" role="group" aria-label="Personaje">${AVATARS.map((a,i)=>`<button type="button" class="char" aria-pressed="${i===chosen}" data-i="${i}"><span>${a}</span><small>${AVATAR_NAMES[i]}</small></button>`).join('')}</div>
+        <h2 class="outline-sm">${list.length?'Nueva partida: elige personaje':'Elige tu personaje'}</h2>
+        <div class="char-preview" id="char-preview" aria-live="polite">${preview()}</div>
+        <div class="chars" role="group" aria-label="Personaje">${AVATARS.map((a,i)=>`<button type="button" class="char" aria-pressed="${i===chosen}" data-i="${i}" aria-label="${a.name}, ${a.role}">${avatarSVG(a.id)}<small>${a.name}</small></button>`).join('')}</div>
         <div class="field"><label for="pname">¿Cómo te llamas?</label><input id="pname" maxlength="18" autocomplete="off" placeholder="Escribe tu nombre"></div>
         <button class="btn" type="submit">¡Jugar! ▶</button>
       </form>
       <button class="linkish" type="button" id="teacher-link">Panel del docente</button>
     </div>
   </div>`;
-  v.querySelectorAll('.slot-btn').forEach(b=>b.onclick=()=>{ S.current=b.dataset.id; save(); sfx('coin'); goMap(); });
+  v.querySelectorAll('.slot-btn').forEach(b=>b.onclick=()=>{ S.current=b.dataset.id; save(); sfx('coin'); goCourse(); });
   v.querySelectorAll('.char').forEach(b=>b.onclick=()=>{
-    chosen=+b.dataset.i; sfx('tick');
+    chosen=+b.dataset.i; sfx('coin');
     v.querySelectorAll('.char').forEach(x=>x.setAttribute('aria-pressed', +x.dataset.i===chosen));
+    v.querySelector('#char-preview').innerHTML = preview();
   });
   v.querySelector('#new-profile').onsubmit = e=>{
     e.preventDefault();
     const name = v.querySelector('#pname').value.trim();
     if(!name){ v.querySelector('#pname').focus(); toast('Escribe tu nombre para empezar'); return; }
     const id = 'p'+Date.now();
-    S.profiles[id] = {name, avatar:AVATARS[chosen], xp:0, worlds:{}, badges:[], created:Date.now()};
+    S.profiles[id] = {name, avatar:AVATARS[chosen].id, xp:0, worlds:{}, badges:[], created:Date.now()};
     S.current = id; save(); sfx('go');
-    goMap();
-    setTimeout(()=>speak('¡Hola, '+name+'! Toca la misión 1 para empezar el viaje por el cuerpo humano.'), 300);
+    goCourse();
+    setTimeout(()=>speak('¡Hola, '+name+'! Este es el mapa del curso. Toca el tema 1 para empezar.'), 300);
   };
   v.querySelector('#teacher-link').onclick = renderTeacher;
   show('view-welcome');
 }
 
-/* ---------- Mapa ---------- */
-function goMap(){ if(!P()) return renderWelcome(); renderMap(); show('view-map'); }
-function renderMap(){
-  const p=P(), lv=levelOf(p.xp), nx=nextIdx();
+/* ---------- Barra superior (HUD) ---------- */
+function hudHTML(){
+  const p=P(), lv=levelOf(p.xp);
   const pct = lv.to ? Math.round((p.xp-lv.from)/(lv.to-lv.from)*100) : 100;
-  const v=$('#view-map');
-  const segD = ['M150 60 Q210 110 221 205','M221 205 Q170 150 128 168','M128 168 Q128 210 168 226','M168 226 Q170 340 150 442'];
-  const trails = segD.map((d,i)=>`<path class="trail ${stars(p,ALL[i].id)>0?'lit':''}" d="${d}"/>`).join('');
-  const nodes = ALL.map((w,i)=>{
-    const st=stars(p,w.id), open=unlocked(i), [x,y]=w.node, r=w.boss?30:26;
-    const face = open ? `var(${w.color})` : '#4A5D80', dark = open ? `var(${w.color}-d)` : '#2C3A57';
-    const starRow = st>0 ? [0,1,2].map(k=>`<path transform="translate(${x-25+k*17},${y+r+4}) scale(.62)" d="${ICONS.star.match(/d="([^"]+)"/)[1]}" fill="${k<st?'var(--gold)':'var(--panel)'}" stroke="var(--edge)" stroke-width="2.5"/>`).join('') : '';
-    return `<g class="node ${open?'':'locked'}" data-i="${i}" tabindex="0" role="button" aria-label="${w.boss?'Gran Reto':'Misión '+(i+1)}: ${esc(w.title)}${open?'':' (bloqueada)'}">
-      ${i===nx?`<circle class="ring" cx="${x}" cy="${y}" r="${r}"/>`:''}
-      <ellipse cx="${x}" cy="${y+6}" rx="${r}" ry="${r}" fill="var(--edge)"/>
-      <g class="n-top">
-        <circle cx="${x}" cy="${y+3}" r="${r}" fill="${dark}"/>
-        <circle class="n-face" cx="${x}" cy="${y-1}" r="${r-3}" fill="${face}" stroke="var(--edge)" stroke-width="4"/>
-        <ellipse cx="${x-8}" cy="${y-12}" rx="8" ry="4" fill="#fff" opacity=".4" transform="rotate(-30 ${x-8} ${y-12})"/>
-        ${open ? (w.boss ? `<svg x="${x-14}" y="${y-15}" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--edge)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${ICONS.trophy}</svg>` : `<text x="${x}" y="${y+8}" text-anchor="middle">${i+1}</text>`)
-          : `<svg x="${x-12}" y="${y-13}" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9D6EE" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${ICONS.lock}</svg>`}
-      </g>${starRow}</g>`;
-  }).join('');
-  const pinAt = ALL[nx>=0?nx:ALL.length-1].node;
-  const pin = `<g class="pin" transform="translate(${pinAt[0]+30},${pinAt[1]-46})"><g class="bob"><path d="M0 34 L-9 20 H9z" fill="#fff" stroke="var(--edge)" stroke-width="3"/><circle r="21" cy="4" fill="#fff" stroke="var(--edge)" stroke-width="4"/><text y="13" text-anchor="middle" font-size="24">${p.avatar}</text></g></g>`;
+  return `<header class="hud panel">
+    <button class="who" type="button" data-act="switch" aria-label="Cambiar de partida">
+      <span class="frame">${avatarSVG(p.avatar)}<span class="lvl">${lv.n}</span></span><span><b>${esc(p.name)}</b><small>${lv.name}</small></span>
+    </button>
+    <div class="xp">
+      <div class="xp-top"><span>${p.xp} XP</span><span>${lv.to ? 'Nivel '+(lv.n+1)+' a los '+lv.to : '¡Nivel máximo!'}</span></div>
+      <div class="gbar" role="progressbar" aria-label="Experiencia" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${Math.max(4,pct)}%"></span></div>
+    </div>
+    <span class="counter star" title="Estrellas del curso">${ico('star')}${courseStars(p)}/${courseMax()}</span>
+    <span class="counter medals" title="Insignias">${ico('medal')}${p.badges.length}</span>
+    <div class="hud-tools">
+      <button class="iconbtn ${S.music?'on':''}" type="button" data-act="music" aria-label="${S.music?'Parar música':'Poner música'}" aria-pressed="${!!S.music}">${ico('music')}</button>
+      <button class="iconbtn" type="button" data-act="sound" aria-label="${S.sound?'Quitar efectos de sonido':'Activar efectos de sonido'}">${ico(S.sound?'sound':'mute')}</button>
+      <button class="iconbtn" type="button" data-act="teacher" aria-label="Panel del docente">${ico('teacher')}</button>
+    </div>
+  </header>`;
+}
+function bindHud(v, rerender){
+  v.querySelector('[data-act="switch"]').onclick = renderWelcome;
+  v.querySelector('[data-act="sound"]').onclick = ()=>{ S.sound=!S.sound; save(); rerender(); sfx('tick'); };
+  v.querySelector('[data-act="music"]').onclick = ()=>{ setMusic(!S.music); rerender(); };
+  v.querySelector('[data-act="teacher"]').onclick = renderTeacher;
+}
 
-  v.innerHTML = `
-    <header class="hud panel">
-      <button class="who" type="button" id="switch-profile" aria-label="Cambiar de partida">
-        <span class="frame">${p.avatar}<span class="lvl">${lv.n}</span></span><span><b>${esc(p.name)}</b><small>${lv.name}</small></span>
-      </button>
-      <div class="xp">
-        <div class="xp-top"><span>${p.xp} XP</span><span>${lv.to ? 'Nivel '+(lv.n+1)+' a los '+lv.to : '¡Nivel máximo!'}</span></div>
-        <div class="gbar" role="progressbar" aria-label="Experiencia" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${Math.max(4,pct)}%"></span></div>
+/* ---------- Mapa del curso ---------- */
+function goCourse(){ if(!P()) return renderWelcome(); CT=null; renderCourse(); show('view-course'); }
+function renderCourse(){
+  const p=P(), nt=nextTemaIdx(), v=$('#view-course');
+  const rows = TEMAS.map((t,i)=>{
+    const open=temaOpen(i), soon=!hasContent(t), beaten=temaBeaten(p,t), shift=i%2===1;
+    let status;
+    if(soon) status = '<span class="chip-s soon">Próximamente</span>';
+    else if(!open) status = `<span class="chip-s">${ico('lock')} Vence al jefe del tema ${t.n-1}</span>`;
+    else status = `<span class="counter star">${ico('star')}${temaStars(p,t)}/${temaMax(t)}</span>${beaten?'<span class="chip-s done">¡Superado!</span>':'<span class="chip-s go">¡Jugar!</span>'}`;
+    const conn = i<TEMAS.length-1 ? `<svg class="conn" viewBox="0 0 160 56" aria-hidden="true"><path class="${beaten?'lit':''}" d="${shift?'M103 0 C103 34 55 22 55 56':'M55 0 C55 34 103 22 103 56'}"/></svg>` : '';
+    return `<div class="tema-row ${shift?'shift':''}"><button class="tema ${open?'':'locked'} ${soon?'soon':''} ${i===nt?'is-next':''}" type="button" style="${cvars(t)}" data-i="${i}" ${open?'':'aria-disabled="true"'}>
+        <span class="planet">${ico(open?t.icon:'lock')}<span class="tnum">${t.n}</span>${i===nt?`<span class="tpin">${avatarSVG(p.avatar)}</span>`:''}</span>
+        <span class="tlabel"><span class="lvltag">Tema ${t.n}</span><h3 class="outline-sm">${esc(t.title)}</h3><span class="meta">${esc(t.short)}</span><span class="tstatus">${status}</span></span>
+      </button></div>${conn}`;
+  }).join('');
+  const progress = TEMAS.filter(hasContent).map(t=>{ const pc=Math.round(temaStars(p,t)/temaMax(t)*100);
+    return `<div class="ptema" style="${cvars(t)}"><span class="dot">${t.n}</span><div class="gbar"><span style="width:${Math.max(3,pc)}%"></span></div><small>${temaStars(p,t)}/${temaMax(t)}</small></div>`; }).join('');
+  v.innerHTML = `${hudHTML()}
+    <div class="course-head"><h2 class="outline">Mapa del curso</h2><span class="label">${esc(CURSO.asignatura)} · ${TEMAS.length} temas</span></div>
+    <div class="course-layout">
+      <div class="road panel">${rows}</div>
+      <div class="side-col">
+        <div class="progress-card panel"><h3 class="outline-sm">Tu progreso</h3>${progress}<p class="tip">Vence al jefe final de un tema para desbloquear el siguiente.</p></div>
+        <button class="extra" data-act="calm" type="button" style="--c:var(--lung);--cd:var(--lung-d)"><span class="coin">${ico('wind')}</span><span><b>Zona de calma</b><small>Respira conmigo para relajarte</small></span></button>
+        <button class="extra" data-act="badges" type="button" style="--c:var(--gold);--cd:var(--gold-d)"><span class="coin">${ico('medal')}</span><span><b>Mis insignias</b><small>${p.badges.length} de ${allBadges().length} conseguidas</small></span></button>
       </div>
-      <span class="counter star" title="Estrellas">${ico('star')}${totalStars(p)}/15</span>
-      <span class="counter medals" title="Insignias">${ico('medal')}${p.badges.length}</span>
-      <div class="hud-tools">
-        <button class="iconbtn ${S.music?'on':''}" type="button" id="toggle-music" aria-label="${S.music?'Parar música':'Poner música'}" aria-pressed="${!!S.music}">${ico('music')}</button>
-        <button class="iconbtn" type="button" id="toggle-sound" aria-label="${S.sound?'Quitar efectos de sonido':'Activar efectos de sonido'}">${ico(S.sound?'sound':'mute')}</button>
-        <button class="iconbtn" type="button" id="hud-teacher" aria-label="Panel del docente">${ico('teacher')}</button>
-      </div>
-    </header>
+    </div>`;
+  bindHud(v, renderCourse);
+  v.querySelector('[data-act="calm"]').onclick = renderCalm;
+  v.querySelector('[data-act="badges"]').onclick = renderBadges;
+  v.querySelectorAll('.tema').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i, t=TEMAS[i];
+    if(temaOpen(i)){ sfx('coin'); S.lastTema=t.id; save(); CT=t; goMap(); return; }
+    const msg = !hasContent(t) ? `El tema ${t.n} llegará más adelante en el curso.` : `Vence al jefe final del tema ${t.n-1} para desbloquear este tema.`;
+    sfx('bad'); toast(msg); speak(msg);
+  });
+}
+
+/* ---------- Mapa de un tema ---------- */
+function goMap(){ if(!P()) return renderWelcome(); if(!CT) return goCourse(); renderMap(); show('view-map'); }
+function nodeSVG(w, i, x, y, open, st, isNext, label){
+  const r=w.boss?30:26;
+  const face = open ? `var(${w.color})` : '#4A5D80', dark = open ? `var(${w.color}-d)` : '#2C3A57';
+  const starPath = ICONS.star.match(/d="([^"]+)"/)[1];
+  const starRow = st>0 ? [0,1,2].map(k=>`<path transform="translate(${x-25+k*17},${y+r+4}) scale(.62)" d="${starPath}" fill="${k<st?'var(--gold)':'var(--panel)'}" stroke="var(--edge)" stroke-width="2.5"/>`).join('') : '';
+  return `<g class="node ${open?'':'locked'}" data-i="${i}" tabindex="0" role="button" aria-label="${label}${open?'':' (bloqueada)'}">
+    ${isNext?`<circle class="ring" cx="${x}" cy="${y}" r="${r}"/>`:''}
+    <ellipse cx="${x}" cy="${y+6}" rx="${r}" ry="${r}" fill="var(--edge)"/>
+    <g class="n-top">
+      <circle cx="${x}" cy="${y+3}" r="${r}" fill="${dark}"/>
+      <circle class="n-face" cx="${x}" cy="${y-1}" r="${r-3}" fill="${face}" stroke="var(--edge)" stroke-width="4"/>
+      <ellipse cx="${x-8}" cy="${y-12}" rx="8" ry="4" fill="#fff" opacity=".4" transform="rotate(-30 ${x-8} ${y-12})"/>
+      ${open ? (w.boss ? `<svg x="${x-14}" y="${y-15}" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--edge)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${ICONS.trophy}</svg>` : `<text x="${x}" y="${y+8}" text-anchor="middle">${i+1}</text>`)
+        : `<svg x="${x-12}" y="${y-13}" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9D6EE" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${ICONS.lock}</svg>`}
+    </g>${starRow}</g>`;
+}
+function pinSVG(x, y, avatar){
+  return `<g class="pin" transform="translate(${x+26},${y-74})"><g class="bob"><svg x="-24" y="0" width="48" height="58" viewBox="0 0 100 120">${avatarSVG(avatar).replace(/^<svg[^>]*>|<\/svg>$/g,'')}</svg></g></g>`;
+}
+function renderMap(){
+  const p=P(), nx=nextIdx(), L=stagesOf(CT), v=$('#view-map');
+  const label = (w,i) => w.boss ? 'Jefe final' : 'Misión '+(i+1);
+  let svg;
+  if(CT.map==='body'){
+    const pts = L.map(w=>w.node);
+    const segD = ['M150 60 Q210 110 221 205','M221 205 Q170 150 128 168','M128 168 Q128 210 168 226','M168 226 Q170 340 150 442'];
+    const trails = segD.map((d,i)=>`<path class="trail ${L[i]&&stars(p,L[i].id)>0?'lit':''}" d="${d}"/>`).join('');
+    const pin = pts[nx>=0?nx:pts.length-1];
+    svg = `<svg class="bodymap" viewBox="0 0 300 490" role="group" aria-label="Mapa del cuerpo humano con las misiones">
+      <g class="bm-out"><path class="limb" d="M110 132 L64 262"/><path class="limb" d="M190 132 L236 262"/><path class="limb" d="M128 262 L120 410"/><path class="limb" d="M172 262 L180 410"/><rect x="137" y="96" width="26" height="24"/><rect x="96" y="110" width="108" height="166" rx="46"/><circle cx="150" cy="60" r="44"/></g>
+      <g class="bm-in"><path class="limb" d="M110 132 L64 262"/><path class="limb" d="M190 132 L236 262"/><path class="limb" d="M128 262 L120 410"/><path class="limb" d="M172 262 L180 410"/><rect x="140" y="96" width="20" height="24"/><rect x="99" y="113" width="102" height="160" rx="43"/><circle cx="150" cy="60" r="41"/></g>
+      <g aria-hidden="true" opacity=".85">
+        <ellipse cx="128" cy="166" rx="17" ry="30" fill="#FF6B8B" opacity=".55"/><ellipse cx="172" cy="166" rx="17" ry="30" fill="#FF6B8B" opacity=".55"/>
+        <path d="M158 204c18-8 32 2 30 20-2 20-24 26-38 20-8-4-6-14 2-14 10 2 20-2 20-10 0-6-8-8-14-6z" fill="#FF9F43" opacity=".6"/>
+        <path d="M132 248q-10 8 0 14t16 0 16 0 8 12-10 10" fill="none" stroke="#FFB27A" stroke-width="5" stroke-linecap="round" opacity=".45"/>
+        <path d="M124 300 L121 380M176 300 L179 380" stroke="#FFD27A" stroke-width="6" stroke-linecap="round" opacity=".35"/>
+      </g>
+      ${trails}
+      <rect x="104" y="430" width="92" height="30" rx="10" fill="var(--panel)" stroke="var(--edge)" stroke-width="3"/>
+      ${L.map((w,i)=>nodeSVG(w,i,w.node[0],w.node[1],unlocked(i),stars(p,w.id),i===nx,label(w,i))).join('')}
+      ${pinSVG(pin[0],pin[1],p.avatar)}
+    </svg>`;
+  } else {
+    const pts = L.map((_,i)=>[i%2?205:95, 90+i*105]);
+    const H = 60+L.length*105;
+    const trails = pts.slice(1).map((q,i)=>{ const a=pts[i]; return `<path class="trail ${stars(p,L[i].id)>0?'lit':''}" d="M${a[0]} ${a[1]} C${a[0]} ${a[1]+60} ${q[0]} ${q[1]-60} ${q[0]} ${q[1]}"/>`; }).join('');
+    const pin = pts[nx>=0?nx:pts.length-1];
+    svg = `<svg class="bodymap" viewBox="0 0 300 ${H}" role="group" aria-label="Mapa de las misiones del tema">${trails}
+      ${L.map((w,i)=>nodeSVG(w,i,pts[i][0],pts[i][1],unlocked(i),stars(p,w.id),i===nx,label(w,i))).join('')}${pinSVG(pin[0],pin[1],p.avatar)}</svg>`;
+  }
+  v.setAttribute('style', cvars(CT));
+  v.innerHTML = `${hudHTML()}
+    <div class="topbar" style="margin:20px 0 0"><button class="iconbtn" data-act="course" type="button" aria-label="Volver al mapa del curso">${ico('map')}</button><h1 class="outline">Tema ${CT.n}: ${esc(CT.title)}</h1><span class="counter star">${ico('star')}${temaStars(p,CT)}/${temaMax(CT)}</span></div>
     <div class="map-layout">
-      <div class="map-wrap panel">
-        <h2 class="outline-sm">Mapa del viaje</h2>
-        <svg class="bodymap" viewBox="0 0 300 490" role="group" aria-label="Mapa del cuerpo humano con las misiones">
-          <g class="bm-out"><path class="limb" d="M110 132 L64 262"/><path class="limb" d="M190 132 L236 262"/><path class="limb" d="M128 262 L120 410"/><path class="limb" d="M172 262 L180 410"/><rect x="137" y="96" width="26" height="24"/><rect x="96" y="110" width="108" height="166" rx="46"/><circle cx="150" cy="60" r="44"/></g>
-          <g class="bm-in"><path class="limb" d="M110 132 L64 262"/><path class="limb" d="M190 132 L236 262"/><path class="limb" d="M128 262 L120 410"/><path class="limb" d="M172 262 L180 410"/><rect x="140" y="96" width="20" height="24"/><rect x="99" y="113" width="102" height="160" rx="43"/><circle cx="150" cy="60" r="41"/></g>
-          <g aria-hidden="true" opacity=".85">
-            <ellipse cx="128" cy="166" rx="17" ry="30" fill="#FF6B8B" opacity=".55"/><ellipse cx="172" cy="166" rx="17" ry="30" fill="#FF6B8B" opacity=".55"/>
-            <path d="M158 204c18-8 32 2 30 20-2 20-24 26-38 20-8-4-6-14 2-14 10 2 20-2 20-10 0-6-8-8-14-6z" fill="#FF9F43" opacity=".6"/>
-            <path d="M132 248q-10 8 0 14t16 0 16 0 8 12-10 10" fill="none" stroke="#FFB27A" stroke-width="5" stroke-linecap="round" opacity=".45"/>
-            <path d="M124 300 L121 380M176 300 L179 380" stroke="#FFD27A" stroke-width="6" stroke-linecap="round" opacity=".35"/>
-          </g>
-          ${trails}
-          <rect x="104" y="430" width="92" height="30" rx="10" fill="var(--panel)" stroke="var(--edge)" stroke-width="3"/>
-          ${nodes}${pin}
-        </svg>
-      </div>
-      <div class="missions">${ALL.map((w,i)=>{
+      <div class="map-wrap panel"><h2 class="outline-sm">Mapa del tema</h2>${svg}</div>
+      <div class="missions">${L.map((w,i)=>{
         const st=stars(p,w.id), open=unlocked(i);
         return `<button class="mission ${open?'':'is-locked'} ${i===nx?'is-next':''}" type="button" style="${cvars(w)}" data-i="${i}" ${open?'':'aria-disabled="true"'}>
           <span class="coin">${ico(open?w.icon:'lock')}</span>
-          <span style="min-width:0"><span class="lvltag">${w.boss?'Jefe final':'Misión '+(i+1)} · ${w.pages.replace('-','\u2011')}</span><h3>${esc(w.title)}</h3><span class="meta">${esc(w.short)}</span></span>
+          <span style="min-width:0"><span class="lvltag">${label(w,i)}${w.pages?' · '+w.pages.replace('-','‑'):''}</span><h3>${esc(w.title)}</h3><span class="meta">${esc(w.short)}</span></span>
           <span class="side"><span class="stars" aria-label="${st} de 3 estrellas">${[0,1,2].map(k=>ico('star', k<st?'on':'')).join('')}</span><span class="play-tag">${open?(st?'Repetir':'¡Jugar!'):'Bloqueada'}</span></span>
-        </button>`; }).join('')}</div>
-    </div>
-    <div class="map-extras">
-      <button class="extra" id="go-calm" type="button" style="--c:var(--lung);--cd:var(--lung-d)"><span class="coin">${ico('wind')}</span><span><b>Zona de calma</b><small>Respira conmigo para relajarte</small></span></button>
-      <button class="extra" id="go-badges" type="button" style="--c:var(--gold);--cd:var(--gold-d)"><span class="coin">${ico('medal')}</span><span><b>Mis insignias</b><small>${p.badges.length} de ${BADGES.length} conseguidas</small></span></button>
+        </button>`; }).join('')}
+        <button class="btn dark" data-act="course2" type="button">${ico('map')} Mapa del curso</button>
+      </div>
     </div>`;
-  v.querySelector('#switch-profile').onclick = renderWelcome;
-  v.querySelector('#toggle-sound').onclick = ()=>{ S.sound=!S.sound; save(); renderMap(); sfx('tick'); };
-  v.querySelector('#toggle-music').onclick = ()=>{ setMusic(!S.music); renderMap(); };
-  v.querySelector('#hud-teacher').onclick = renderTeacher;
-  v.querySelector('#go-calm').onclick = renderCalm;
-  v.querySelector('#go-badges').onclick = renderBadges;
-  const go = i => { if(unlocked(i)){ sfx('coin'); openWorld(ALL[i]); } else lockedMsg(i); };
+  bindHud(v, renderMap);
+  v.querySelector('[data-act="course"]').onclick = goCourse;
+  v.querySelector('[data-act="course2"]').onclick = goCourse;
+  const go = i => { if(unlocked(i)){ sfx('coin'); openWorld(L[i]); } else lockedMsg(i); };
   v.querySelectorAll('.node').forEach(n=>{ n.onclick=()=>go(+n.dataset.i); n.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(+n.dataset.i); } }; });
   v.querySelectorAll('.mission').forEach(b=>b.onclick=()=>go(+b.dataset.i));
 }
 function lockedMsg(i){
-  const msg = i===WORLDS.length ? 'Completa las cuatro misiones para enfrentarte al Virus Gruñón.' : `Termina primero la misión ${i} para desbloquear esta.`;
+  const msg = i===CT.missions.length ? `Completa todas las misiones para enfrentarte al ${CT.boss.villain||'jefe final'}.` : `Termina primero la misión ${i} para desbloquear esta.`;
   sfx('bad'); toast(msg); speak(msg);
 }
 
 /* ---------- Lección ---------- */
 function openWorld(w){
   const v=$('#view-learn'); v.setAttribute('style', cvars(w));
-  const head = `<div class="topbar"><button class="iconbtn" id="lback" type="button" aria-label="Volver al mapa">${ico('back')}</button><h1 class="outline">${esc(w.title)}</h1><span class="label">Libro · ${w.pages}</span></div>`;
+  const head = `<div class="topbar"><button class="iconbtn" id="lback" type="button" aria-label="Volver al mapa del tema">${ico('back')}</button><h1 class="outline">${esc(w.title)}</h1><span class="label">Tema ${CT.n}${w.pages?' · Libro '+w.pages:''}</span></div>`;
   if(w.boss){
     v.innerHTML = `${head}
-      <div class="arena panel"><div class="fighter">${mascotSVG('idle')}</div><div class="vs"><h2 class="outline" style="font-size:2.4rem;color:var(--gold)">VS</h2></div><div class="fighter">${virusSVG()}</div></div>
-      <div class="guide"><div>${mascotSVG('idle')}</div><div class="bubble">¡El Virus Gruñón quiere enfermar el cuerpo! Cada respuesta correcta le quita vida. Tenemos 3 corazones: si fallamos un reto, perdemos uno.</div></div>
-      <div class="learn-actions"><button class="btn gold" id="lstart" type="button">¡A por el virus! ▶</button></div>`;
+      <div class="arena panel"><div class="fighter">${avatarSVG(P().avatar)}</div><div class="vs"><h2 class="outline" style="font-size:2.4rem;color:var(--gold)">VS</h2></div><div class="fighter">${virusSVG()}</div></div>
+      <div class="guide"><div>${mascotSVG('idle')}</div><div class="bubble">¡El ${esc(w.villain||'jefe final')} nos corta el paso! Cada respuesta correcta le quita vida. Tienes 3 corazones: si fallas un reto, pierdes uno.</div></div>
+      <div class="learn-actions"><button class="btn gold" id="lstart" type="button">¡A la batalla! ▶</button></div>`;
   } else {
     v.innerHTML = `${head}
       <div class="guide"><div>${mascotSVG('idle')}</div><div class="bubble">Lee las tarjetas o pulsa el altavoz para escucharlas. ¡Después vienen ${w.ch.length} retos!</div></div>
@@ -864,16 +971,17 @@ function openWorld(w){
 
 /* ---------- Motor de retos ---------- */
 let M = null;
-function buildBoss(){
+function buildBoss(t){
   const quick = c => ['mc','tf','pick','fill'].includes(c.t);
   const list = [];
-  WORLDS.forEach(w=>list.push(...shuffle(w.ch.filter(quick)).slice(0,2)));
-  list.push(rand(WORLDS.flatMap(w=>w.ch.filter(c=>c.t==='order'))));
-  list.push(...BOSS.extra);
-  return shuffle(list);
+  t.missions.forEach(w=>list.push(...shuffle(w.ch.filter(quick)).slice(0, t.missions.length>4?1:2)));
+  const orders = t.missions.flatMap(w=>w.ch.filter(c=>c.t==='order'));
+  if(orders.length) list.push(rand(orders));
+  list.push(...(t.boss.extra||[]));
+  return shuffle(list).slice(0,12);
 }
 function startPlay(w){
-  M = {w, list: w.boss ? buildBoss() : w.ch.slice(), i:0, xp:0, firstOk:0, combo:0, bestCombo:0, mistakes:0, hearts: w.boss?3:null, over:false, res:[]};
+  M = {w, list: w.boss ? buildBoss(CT) : w.ch.slice(), i:0, xp:0, firstOk:0, combo:0, bestCombo:0, mistakes:0, hearts: w.boss?3:null, over:false, res:[]};
   pendingBadges = [];
   const v=$('#view-play'); v.setAttribute('style', cvars(w));
   v.innerHTML = `
@@ -882,7 +990,7 @@ function startPlay(w){
       <div><div class="segs" id="segs" aria-hidden="true"></div><div class="play-count" id="pcount"></div></div>
       <div id="play-side"></div>
     </div>
-    ${w.boss ? `<div class="arena panel"><div class="fighter">${mascotSVG('idle')}</div><div class="vs"><span class="boss-name outline-sm">Virus Gruñón</span><div class="hp"><span id="hp" style="width:100%"></span></div></div><div class="fighter">${virusSVG()}</div></div>` : ''}
+    ${w.boss ? `<div class="arena panel"><div class="fighter">${avatarSVG(P().avatar)}</div><div class="vs"><span class="boss-name outline-sm">${esc(w.villain||'Jefe final')}</span><div class="hp"><span id="hp" style="width:100%"></span></div></div><div class="fighter">${virusSVG()}</div></div>` : ''}
     <div class="qbox"><div>${mascotSVG('idle')}</div><div class="bubble"><h2 id="qtext"></h2><button class="iconbtn" id="read-q" type="button" aria-label="Leer en voz alta">${ico('sound')}</button></div></div>
     <div class="stage panel" id="stage"></div>`;
   v.querySelector('#quit').onclick = ()=>{ pendingBadges=null; goMap(); };
@@ -896,7 +1004,7 @@ function startPlay(w){
 }
 function splash(w, done){
   const s=$('#splash'); s.setAttribute('style', cvars(w));
-  s.innerHTML = `<div class="splash-in"><div class="mascot-wrap">${w.boss?virusSVG():mascotSVG('happy')}</div><span class="label">${w.boss?'Jefe final':'Misión '+(WORLDS.indexOf(w)+1)}</span><h1 class="outline">${esc(w.title)}</h1><div class="splash-go outline" id="sgo">¡Preparados!</div></div>`;
+  s.innerHTML = `<div class="splash-in"><div class="mascot-wrap">${w.boss?virusSVG():avatarSVG(P().avatar)}</div><span class="label">Tema ${CT.n} · ${w.boss?'Jefe final':'Misión '+(CT.missions.indexOf(w)+1)}</span><h1 class="outline">${esc(w.title)}</h1><div class="splash-go outline" id="sgo">¡Preparados!</div></div>`;
   s.hidden=false; sfx('tick');
   let finished=false;
   const end = ()=>{ if(finished) return; finished=true; clearTimeout(t1); clearTimeout(t2); s.hidden=true; s.innerHTML=''; done(); };
@@ -939,7 +1047,7 @@ function right(){
   if(M.combo>=3) setTimeout(()=>{ popText('¡COMBO x'+M.combo+'!'); sfx('coin'); }, 150);
   if(M.w.boss){
     const vr=$('#virus'); vr.classList.remove('hit'); void vr.getBoundingClientRect(); vr.classList.add('hit'); sfx('hit');
-    if(!M.combo || M.combo<3) popText(rand(['¡ZAS!','¡POW!','¡TOMA!']), 'var(--virus)');
+    if(M.combo<3) popText(rand(['¡ZAS!','¡POW!','¡TOMA!']), 'var(--virus)');
   }
   feedback('ok', rand(PRAISE).toUpperCase(), `+${gain} XP${M.combo>=3?' · ¡racha de '+M.combo+'!':''}`, true);
   if(M.combo>=5) grant('racha');
@@ -968,7 +1076,7 @@ const RENDER = {
     const opts = isTF ? ['Verdadero','Falso'] : ch.opts;
     const ans = isTF ? (ch.a?0:1) : ch.a;
     const order = isTF ? [0,1] : shuffle(opts.map((_,i)=>i));
-    const look = k => isTF ? (k===0?{c:'c3',s:'<path d="m4 12 5 5L20 6" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'}:{c:'c0',s:'<path d="M5 5l14 14M19 5 5 19" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>'}) : {c:'c'+k, s:SHAPES[k]};
+    const look = k => isTF ? (k===0?{c:'c3',s:'<path d="m4 12 5 5L20 6" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'}:{c:'c0',s:'<path d="M5 5l14 14M19 5 5 19" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>'}) : {c:'c'+(k%4), s:SHAPES[k%4]};
     box.innerHTML = `<div class="opts ${opts.some(o=>o.length>34)?'long':''}">${order.map((i,k)=>{ const l=look(k); return `<button class="opt ${l.c}" type="button" data-i="${i}"><svg class="shape" viewBox="0 0 24 24" aria-hidden="true">${l.s}</svg><span>${esc(opts[i])}</span></button>`; }).join('')}</div>`;
     box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
       if(+b.dataset.i===ans){ b.classList.add('win'); box.querySelectorAll('.opt').forEach(x=>{ x.disabled=true; if(x!==b) x.classList.add('gone'); }); right(); }
@@ -1087,6 +1195,8 @@ function finish(success){
   const p=P(), w=M.w, n=M.list.length, ratio=M.firstOk/n;
   const st = success ? (ratio>=.85?3 : ratio>=.6?2 : 1) : 0;
   const before = levelOf(p.xp);
+  const tIdx = TEMAS.indexOf(CT), nextT = TEMAS[tIdx+1];
+  const wasBeaten = temaBeaten(p, CT), nextWasOpen = nextT ? temaOpen(tIdx+1) : true;
   p.xp += M.xp;
   const rec = p.worlds[w.id] || {stars:0, plays:0, best:0};
   rec.plays++; rec.stars=Math.max(rec.stars, st); rec.best=Math.max(rec.best||0, Math.round(ratio*100));
@@ -1094,11 +1204,16 @@ function finish(success){
   if(success && M.mistakes===0) grant('perfecto');
   checkBadges(); save();
   const after = levelOf(p.xp), news = pendingBadges || []; pendingBadges = null;
+  let unlockMsg = '';
+  if(w.boss && success && !wasBeaten && nextT){
+    unlockMsg = hasContent(nextT) && !nextWasOpen ? `¡Nuevo tema desbloqueado! Tema ${nextT.n}: ${nextT.title}` : !hasContent(nextT) ? `¡Tema ${CT.n} superado! El tema ${nextT.n} llegará pronto.` : '';
+  }
   $('#feedback').hidden = true;
   const go = () => {
     const v=$('#view-result'); v.setAttribute('style', cvars(w));
-    const banner = !success ? '¡Casi lo consigues!' : w.boss ? '¡Virus derrotado!' : '¡Misión superada!';
-    const say = !success ? 'Has sumado los puntos que conseguiste. Repasa y vuelve a intentarlo: ¡seguro que lo logras!' : st<3 ? '¡Muy bien! Repite la misión para conseguir las 3 estrellas.' : '¡Perfecto! ¡Eres un auténtico explorador del cuerpo!';
+    const banner = !success ? '¡Casi lo consigues!' : w.boss ? '¡Jefe derrotado!' : '¡Misión superada!';
+    const say = !success ? 'Has sumado los puntos que conseguiste. Repasa y vuelve a intentarlo: ¡seguro que lo logras!' : st<3 ? '¡Muy bien! Repite la misión para conseguir las 3 estrellas.' : '¡Perfecto! ¡Eres un auténtico explorador!';
+    const ut = nextT ? cvars(nextT) : '';
     v.innerHTML = `<div class="result">
       <div class="ribbon ${success?'':'fail'}">${banner}</div>
       <div class="star-stage"><div class="big-stars" id="bigstars" aria-label="${st} de 3 estrellas">${[0,1,2].map(()=>ico('star')).join('')}</div></div>
@@ -1108,13 +1223,16 @@ function finish(success){
         <div class="panel"><b class="outline-sm" id="xpcount">+0</b><small>puntos XP</small></div>
         <div class="panel"><b class="outline-sm">${M.bestCombo}</b><small>mejor racha</small></div>
       </div>
+      ${unlockMsg ? `<div class="unlock-banner" style="${ut}">${esc(unlockMsg)}</div>` : ''}
       ${after.n>before.n ? `<div class="levelup outline-sm">¡SUBES AL NIVEL ${after.n}! · ${after.name}</div>` : ''}
-      ${news.length ? `<div class="chest panel"><h3 class="outline-sm">${ico('chest')} ¡Cofre de insignias!</h3>${news.map((b,k)=>`<div class="new-badge" style="animation-delay:${1+k*.3}s"><span class="medal" style="${badgeColor(b)}">${ico(b.icon)}</span><span><b style="font-family:var(--f-game);font-weight:400;font-size:1.2rem">${esc(b.name)}</b><br><small style="color:var(--ink-soft)">${esc(b.desc)}</small></span></div>`).join('')}</div>` : ''}
+      ${news.length ? `<div class="chest panel"><h3 class="outline-sm">${ico('chest')} ¡Cofre de insignias!</h3>${news.map((b,k)=>`<div class="new-badge" style="animation-delay:${1+k*.3}s"><span class="medal" style="${badgeStyle(b)}">${ico(b.icon)}</span><span><b style="font-family:var(--f-game);font-weight:400;font-size:1.2rem">${esc(b.name)}</b><br><small style="color:var(--ink-soft)">${esc(b.desc)}</small></span></div>`).join('')}</div>` : ''}
       <div class="row" style="justify-content:center">
-        <button class="btn gold" type="button" id="r-map">Volver al mapa ▶</button>
+        ${w.boss && success ? `<button class="btn gold" type="button" id="r-course">${ico('map')} Mapa del curso</button><button class="btn dark" type="button" id="r-map">Mapa del tema</button>`
+          : `<button class="btn gold" type="button" id="r-map">Volver al mapa ▶</button>`}
         <button class="btn dark" type="button" id="r-again">Repetir</button>
       </div></div>`;
     v.querySelector('#r-map').onclick=goMap;
+    const rc=v.querySelector('#r-course'); if(rc) rc.onclick=goCourse;
     v.querySelector('#r-again').onclick=()=>startPlay(w);
     show('view-result');
     const icons=v.querySelectorAll('#bigstars .icon');
@@ -1123,8 +1241,8 @@ function finish(success){
     (function count(t){ const f=Math.min(1,(t-t0)/900); xc.textContent='+'+Math.round(total*f); if(f<1) requestAnimationFrame(count); })(t0);
     if(st>=2) setTimeout(confetti, 350+st*380);
     setTimeout(()=>sfx(success?'win':'bad'), 250);
-    if(after.n>before.n) setTimeout(()=>sfx('level'), 1500);
-    speak(banner);
+    if(after.n>before.n || unlockMsg) setTimeout(()=>sfx('level'), 1500);
+    speak(banner + (unlockMsg ? '. '+unlockMsg : ''));
   };
   if(w.boss && success){ $('#virus').classList.add('dead'); sfx('hit'); popText('¡K.O.!', 'var(--virus)'); setTimeout(go, 1100); }
   else go();
@@ -1135,7 +1253,7 @@ let calmTimer = null;
 function renderCalm(){
   clearTimeout(calmTimer);
   const v=$('#view-calm'); v.setAttribute('style','--c:var(--lung);--cd:var(--lung-d)');
-  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="cback" type="button" aria-label="Volver al mapa">${ico('back')}</button><h1 class="outline">Zona de calma</h1></div>
+  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="cback" type="button" aria-label="Volver">${ico('back')}</button><h1 class="outline">Zona de calma</h1></div>
     <div class="calm">
       <div class="guide" style="text-align:left;margin:0"><div>${mascotSVG('idle')}</div><div class="bubble">Respirar profundamente nos ayuda a calmarnos. Cuando el círculo crece, toma aire. Cuando se hace pequeño, suéltalo despacio.</div></div>
       <div class="breath-stage"><div class="breath-ring"></div><div class="breath" id="breath"></div><div class="breath-label outline-sm" id="blabel">¿Preparado?</div></div>
@@ -1144,11 +1262,12 @@ function renderCalm(){
       <button class="btn" type="button" id="bstart">Empezar ▶</button>
       <div id="feel" hidden style="display:grid;gap:12px"></div>
     </div>`;
-  v.querySelector('#cback').onclick=()=>{ clearTimeout(calmTimer); goMap(); };
-  v.querySelector('#bstart').onclick=runBreath;
+  const back = ()=>{ clearTimeout(calmTimer); CT ? goMap() : goCourse(); };
+  v.querySelector('#cback').onclick=back;
+  v.querySelector('#bstart').onclick=()=>runBreath(back);
   show('view-calm');
 }
-function runBreath(){
+function runBreath(back){
   const b=$('#breath'), label=$('#blabel'), btn=$('#bstart'); btn.hidden=true;
   const phases=[['Toma aire por la nariz',4000,1.9],['Mantén el aire',3000,1.9],['Suelta el aire por la boca',5000,1]];
   const names=['Inspira','Mantén','Espira'];
@@ -1176,7 +1295,7 @@ function runBreath(){
       if(p) grant('calma');
       speak(msg);
       f.innerHTML=`<p style="font-weight:700">${esc(msg)}</p><div class="row" style="justify-content:center"><button class="btn" type="button" id="bagain">Repetir</button><button class="btn dark" type="button" id="bmap">Volver al mapa</button></div>`;
-      f.querySelector('#bagain').onclick=renderCalm; f.querySelector('#bmap').onclick=goMap;
+      f.querySelector('#bagain').onclick=renderCalm; f.querySelector('#bmap').onclick=back;
     });
     sfx('win');
   }
@@ -1185,34 +1304,41 @@ function runBreath(){
 
 /* ---------- Insignias ---------- */
 function renderBadges(){
-  const p=P(), v=$('#view-badges');
-  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="bback" type="button" aria-label="Volver al mapa">${ico('back')}</button><h1 class="outline">Mis insignias</h1><span class="counter medals">${ico('medal')}${p.badges.length}/${BADGES.length}</span></div>
-    <div class="badge-grid">${BADGES.map(b=>{ const has=p.badges.includes(b.id);
-      return `<div class="bcard panel ${has?'':'locked'}"><span class="medal" style="${badgeColor(b)}">${ico(has?b.icon:'lock')}</span><span><b>${esc(b.name)}</b><small>${esc(b.desc)}</small></span></div>`; }).join('')}</div>`;
-  v.querySelector('#bback').onclick=goMap;
+  const p=P(), v=$('#view-badges'), all=allBadges();
+  const card = b => { const has=p.badges.includes(b.id);
+    return `<div class="bcard panel ${has?'':'locked'}"><span class="medal" style="${badgeStyle(b)}">${ico(has?b.icon:'lock')}</span><span><b>${esc(b.name)}</b><small>${esc(b.desc)}</small></span></div>`; };
+  const groups = TEMAS.filter(hasContent).map(t=>`<div class="badge-group"><h2 class="outline-sm">Tema ${t.n}: ${esc(t.title)}</h2><div class="badge-grid">${all.filter(b=>b.tema===t).map(card).join('')}</div></div>`).join('');
+  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="bback" type="button" aria-label="Volver">${ico('back')}</button><h1 class="outline">Mis insignias</h1><span class="counter medals">${ico('medal')}${p.badges.length}/${all.length}</span></div>
+    ${groups}<div class="badge-group"><h2 class="outline-sm">Insignias especiales</h2><div class="badge-grid">${GLOBAL_BADGES.map(card).join('')}</div></div>`;
+  v.querySelector('#bback').onclick=()=> CT ? goMap() : goCourse();
   show('view-badges');
 }
 
 /* ---------- Panel docente ---------- */
 let armedDelete = null;
 function renderTeacher(){
-  const v=$('#view-teacher'), list=Object.entries(S.profiles);
+  const v=$('#view-teacher'), list=Object.entries(S.profiles), withC=TEMAS.filter(hasContent);
   v.innerHTML = `<div class="topbar"><button class="iconbtn" id="tback" type="button" aria-label="Volver">${ico('back')}</button><h1 class="outline">Panel del docente</h1></div>
     <p class="note" style="margin-bottom:14px">Progreso del alumnado que ha jugado en este dispositivo. Los datos se guardan solo en este navegador.</p>
     ${list.length ? `<div class="table-wrap panel"><table>
-      <thead><tr><th>Alumno/a</th><th>Nivel</th><th>XP</th>${ALL.map((w,i)=>`<th title="${esc(w.title)}">${w.boss?'Reto':'M'+(i+1)}</th>`).join('')}<th>Insignias</th><th></th></tr></thead>
-      <tbody>${list.map(([id,p])=>`<tr><td>${p.avatar} ${esc(p.name)}</td><td class="num-c">${levelOf(p.xp).n}</td><td class="num-c">${p.xp}</td>
-        ${ALL.map(w=>{ const r=p.worlds[w.id]; return `<td class="num-c">${r?('★'.repeat(r.stars)||'—')+` <small style="color:var(--ink-soft)">(${r.plays}×, ${r.best||0}%)</small>`:'—'}</td>`; }).join('')}
-        <td class="num-c">${p.badges.length}/${BADGES.length}</td>
+      <thead><tr><th>Alumno/a</th><th>Nivel</th><th>XP</th>${withC.map(t=>`<th title="${esc(t.title)}">Tema ${t.n}</th>`).join('')}<th>Insignias</th><th></th></tr></thead>
+      <tbody>${list.map(([id,p])=>`<tr><td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:32px;display:inline-block">${avatarSVG(p.avatar)}</span>${esc(p.name)}</span></td><td class="num-c">${levelOf(p.xp).n}</td><td class="num-c">${p.xp}</td>
+        ${withC.map(t=>{ const det=stagesOf(t).map((w,k)=>{ const r=p.worlds[w.id]; return `${w.boss?'Jefe':'M'+(k+1)}: ${r?r.stars+'★ ('+r.plays+'×, '+(r.best||0)+'%)':'—'}`; }).join(' · ');
+          return `<td class="num-c" title="${esc(det)}">★ ${temaStars(p,t)}/${temaMax(t)}${temaBeaten(p,t)?' ✓':''}</td>`; }).join('')}
+        <td class="num-c">${p.badges.length}/${allBadges().length}</td>
         <td><button class="btn dark small" type="button" data-del="${id}">${armedDelete===id?'¿Seguro? Borrar':'Borrar'}</button></td></tr>`).join('')}</tbody>
-    </table></div>` : '<p class="note">Todavía no hay alumnado registrado en este dispositivo.</p>'}
+    </table></div><p class="note" style="margin-top:8px">Pasa el ratón sobre las estrellas de un tema para ver el detalle por misión (estrellas, veces jugada y mejor % de aciertos a la primera). ✓ = jefe final vencido.</p>` : '<p class="note">Todavía no hay alumnado registrado en este dispositivo.</p>'}
     <div class="teacher-tools">
-      <label class="switch"><input type="checkbox" id="free-mode" ${S.free?'checked':''}> Modo libre: todas las misiones desbloqueadas</label>
-      <p class="note">Entre paréntesis: veces jugada y mejor porcentaje de aciertos a la primera. Estrellas: 3 con un 85 % de aciertos a la primera, 2 con un 60 % y 1 al terminar.</p>
-      <p class="note">Contenidos: Unidad 1, «El cuerpo humano» (págs. 12-19): funciones vitales y sentidos; huesos, articulaciones y músculos; respiración; alimentación y digestión.</p>
+      <h2 class="outline-sm" style="color:var(--gold)">Temas del curso</h2>
+      <div class="tema-toggles panel">${TEMAS.map((t,i)=>`<label class="switch"><span>Tema ${t.n}: ${esc(t.title)} <small style="color:var(--ink-soft);font-weight:400">${hasContent(t)?`(${t.missions.length} misiones + jefe)`:'(sin contenidos todavía)'}</small></span>
+          <span style="display:inline-flex;gap:8px;align-items:center">${i===0?'<small style="color:var(--ink-soft)">Siempre abierto</small>':`<input type="checkbox" data-open="${t.id}" ${S.open[t.id]?'checked':''} ${hasContent(t)?'':'disabled'}> Abrir ya`}</span></label>`).join('')}</div>
+      <p class="note">Normalmente cada tema se abre cuando el alumno vence al jefe del tema anterior. Marca «Abrir ya» para abrir un tema a toda la clase aunque no hayan terminado el anterior.</p>
+      <label class="switch"><input type="checkbox" id="free-mode" ${S.free?'checked':''}> Modo libre: todos los temas y misiones desbloqueados</label>
+      <p class="note">Estrellas: 3 con un 85 % de aciertos a la primera, 2 con un 60 % y 1 al terminar. Los contenidos se editan en el archivo <b>contenidos.js</b>.</p>
     </div>`;
-  v.querySelector('#tback').onclick = ()=> P() ? goMap() : renderWelcome();
+  v.querySelector('#tback').onclick = ()=> P() ? (CT ? goMap() : goCourse()) : renderWelcome();
   v.querySelector('#free-mode').onchange = e=>{ S.free=e.target.checked; save(); toast(S.free?'Modo libre activado':'Modo libre desactivado'); };
+  v.querySelectorAll('[data-open]').forEach(c=>c.onchange=()=>{ S.open[c.dataset.open]=c.checked; save(); toast(c.checked?'Tema abierto para la clase':'Tema cerrado'); });
   v.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
     const id=b.dataset.del;
     if(armedDelete!==id){ armedDelete=id; renderTeacher(); return; }
@@ -1223,7 +1349,7 @@ function renderTeacher(){
 
 /* ---------- Inicio ---------- */
 if(S.music){ const resume=()=>{ setMusic(true); removeEventListener('pointerdown', resume); }; addEventListener('pointerdown', resume); }
-if(P()) goMap(); else renderWelcome();
+if(P()) goCourse(); else renderWelcome();
 </script>
 </body>
 </html>
