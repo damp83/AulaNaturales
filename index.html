@@ -616,8 +616,26 @@ function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.fl
 /* Baraja garantizando que el orden no coincide con el del libro */
 function mix(a, bad, keepBookOrder){ if(a.length<2) return a.slice(); let r, n=0; do { r=shuffle(a); n++; } while(n<50 && ((!keepBookOrder && r.every((v,i)=>v===a[i])) || (bad && bad(r)))); return r; }
 const lastPos = {};
-function load(){ try{ const v = JSON.parse(localStorage.getItem(KEY)); if(v && v.profiles) return v; }catch(e){} return {profiles:{}, current:null, free:false, sound:true, music:false, open:{}}; }
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+/* Versión Google Classroom: si el juego se abre desde Apps Script, el progreso se guarda en la
+   hoja de cálculo del docente (ver carpeta google-classroom). Si no, se guarda en este navegador. */
+const CLOUD = !!(window.google && google.script && google.script.run);
+const LKEY = CLOUD ? 'exploradores-classroom-v1' : KEY;
+let ME = null, CLASS = null, pushTimer = null, pushing = false, pushAgain = false;
+function load(){ try{ const v = JSON.parse(localStorage.getItem(LKEY)); if(v && v.profiles) return v; }catch(e){} return {profiles:{}, current:null, free:false, sound:true, music:false, open:{}}; }
+function save(){ try{ localStorage.setItem(LKEY, JSON.stringify(S)); }catch(e){} if(CLOUD && P()) schedulePush(); }
+function summaryOf(p){ return {name:p.name, avatar:p.avatar, level:levelOf(p.xp).n, xp:p.xp, stars:courseStars(p), badges:p.badges.length,
+  temas: TEMAS.filter(hasContent).map(t=>temaStars(p,t)+'/'+temaMax(t)+(temaBeaten(p,t)?' ✓':'')) }; }
+function schedulePush(){ clearTimeout(pushTimer); pushTimer = setTimeout(pushNow, 700); }
+function pushNow(){
+  clearTimeout(pushTimer); const p=P(); if(!CLOUD || !p) return;
+  if(pushing){ pushAgain = true; return; }
+  pushing = true;
+  google.script.run
+    .withSuccessHandler(()=>{ pushing=false; if(pushAgain){ pushAgain=false; pushNow(); } })
+    .withFailureHandler(()=>{ pushing=false; toast('No se ha podido guardar. Comprueba la conexión a internet.'); setTimeout(schedulePush, 5000); })
+    .saveProgress(JSON.stringify(p), summaryOf(p));
+}
+function cloudSettings(){ if(CLOUD && ME && ME.teacher) google.script.run.withFailureHandler(()=>toast('No se ha podido guardar el ajuste.')).setSettings({free:!!S.free, open:S.open||{}}); }
 let S = load(); S.open = S.open || {};
 let CT = null;   // tema abierto
 const P = () => S.profiles[S.current];
@@ -796,7 +814,9 @@ function show(id){
 /* ---------- Pantalla de título y selección de personaje ---------- */
 let chosen = 0;
 function renderWelcome(){
-  const list = Object.entries(S.profiles);
+  const list = CLOUD ? [] : Object.entries(S.profiles);
+  const editing = CLOUD && P();
+  if(editing){ const k=AVATARS.findIndex(a=>a.id===P().avatar); if(k>=0 && renderWelcome.first!==false) chosen=k; renderWelcome.first=false; }
   const v=$('#view-welcome');
   const preview = () => { const a=AVATARS[chosen]; return `<div class="big">${avatarSVG(a.id)}</div><div><b class="outline-sm">${a.name}</b><span class="role">${a.role}</span><p>${a.power}</p></div>`; };
   v.innerHTML = `<div class="title-screen">
@@ -810,13 +830,14 @@ function renderWelcome(){
     <div class="panel start-panel">
       ${list.length ? `<div><h2 class="outline-sm">Partidas guardadas</h2><div class="slots" style="margin-top:12px">${list.map(([id,p])=>`<button class="slot-btn" type="button" data-id="${id}">${avatarSVG(p.avatar)}<span><b>${esc(p.name)}</b><small>Nivel ${levelOf(p.xp).n} · ${courseStars(p)} estrellas</small></span></button>`).join('')}</div></div>` : ''}
       <form id="new-profile" style="display:grid;gap:16px" novalidate>
-        <h2 class="outline-sm">${list.length?'Nueva partida: elige personaje':'Elige tu personaje'}</h2>
+        ${CLOUD && ME ? `<p class="tip">Has entrado con la cuenta <b>${esc(ME.email)}</b>. Tu progreso se guarda en tu cuenta.</p>` : ''}
+        <h2 class="outline-sm">${editing?'Cambia tu personaje':list.length?'Nueva partida: elige personaje':'Elige tu personaje'}</h2>
         <div class="char-preview" id="char-preview" aria-live="polite">${preview()}</div>
         <div class="chars" role="group" aria-label="Personaje">${AVATARS.map((a,i)=>`<button type="button" class="char" aria-pressed="${i===chosen}" data-i="${i}" aria-label="${a.name}, ${a.role}">${avatarSVG(a.id)}<small>${a.name}</small></button>`).join('')}</div>
-        <div class="field"><label for="pname">¿Cómo te llamas?</label><input id="pname" maxlength="18" autocomplete="off" placeholder="Escribe tu nombre"></div>
-        <button class="btn" type="submit">¡Jugar! ▶</button>
+        <div class="field"><label for="pname">¿Cómo te llamas?</label><input id="pname" maxlength="18" autocomplete="off" placeholder="Escribe tu nombre" value="${editing?esc(P().name):''}"></div>
+        <button class="btn" type="submit">${editing?'Guardar y volver ▶':'¡Jugar! ▶'}</button>
       </form>
-      <button class="linkish" type="button" id="teacher-link">Panel del docente</button>
+      ${!CLOUD || (ME && ME.teacher) ? '<button class="linkish" type="button" id="teacher-link">Panel del docente</button>' : ''}
     </div>
   </div>`;
   v.querySelectorAll('.slot-btn').forEach(b=>b.onclick=()=>{ S.current=b.dataset.id; save(); sfx('coin'); goCourse(); });
@@ -829,13 +850,14 @@ function renderWelcome(){
     e.preventDefault();
     const name = v.querySelector('#pname').value.trim();
     if(!name){ v.querySelector('#pname').focus(); toast('Escribe tu nombre para empezar'); return; }
-    const id = 'p'+Date.now();
+    if(editing){ P().name=name; P().avatar=AVATARS[chosen].id; save(); sfx('coin'); goCourse(); return; }
+    const id = CLOUD ? 'me' : 'p'+Date.now();
     S.profiles[id] = {name, avatar:AVATARS[chosen].id, xp:0, worlds:{}, badges:[], created:Date.now()};
     S.current = id; save(); sfx('go');
     goCourse();
     setTimeout(()=>speak('¡Hola, '+name+'! Este es el mapa del curso. Toca el tema 1 para empezar.'), 300);
   };
-  v.querySelector('#teacher-link').onclick = renderTeacher;
+  const tl=v.querySelector('#teacher-link'); if(tl) tl.onclick = renderTeacher;
   show('view-welcome');
 }
 
@@ -856,7 +878,7 @@ function hudHTML(){
     <div class="hud-tools">
       <button class="iconbtn ${S.music?'on':''}" type="button" data-act="music" aria-label="${S.music?'Parar música':'Poner música'}" aria-pressed="${!!S.music}">${ico('music')}</button>
       <button class="iconbtn" type="button" data-act="sound" aria-label="${S.sound?'Quitar efectos de sonido':'Activar efectos de sonido'}">${ico(S.sound?'sound':'mute')}</button>
-      <button class="iconbtn" type="button" data-act="teacher" aria-label="Panel del docente">${ico('teacher')}</button>
+      ${!CLOUD || (ME && ME.teacher) ? `<button class="iconbtn" type="button" data-act="teacher" aria-label="Panel del docente">${ico('teacher')}</button>` : ''}
     </div>
   </header>`;
 }
@@ -864,7 +886,7 @@ function bindHud(v, rerender){
   v.querySelector('[data-act="switch"]').onclick = renderWelcome;
   v.querySelector('[data-act="sound"]').onclick = ()=>{ S.sound=!S.sound; save(); rerender(); sfx('tick'); };
   v.querySelector('[data-act="music"]').onclick = ()=>{ setMusic(!S.music); rerender(); };
-  v.querySelector('[data-act="teacher"]').onclick = renderTeacher;
+  const tb=v.querySelector('[data-act="teacher"]'); if(tb) tb.onclick = renderTeacher;
 }
 
 /* ---------- Mapa del curso ---------- */
@@ -1360,17 +1382,27 @@ function renderBadges(){
 /* ---------- Panel docente ---------- */
 let armedDelete = null;
 function renderTeacher(){
-  const v=$('#view-teacher'), list=Object.entries(S.profiles), withC=TEMAS.filter(hasContent);
+  const v=$('#view-teacher'), withC=TEMAS.filter(hasContent);
+  if(CLOUD && CLASS===null){
+    v.innerHTML = `<div class="topbar"><h1 class="outline">Panel del docente</h1></div><p class="note">Cargando el progreso de la clase…</p>`;
+    show('view-teacher');
+    google.script.run.withSuccessHandler(rows=>{ CLASS=rows||[]; renderTeacher(); })
+      .withFailureHandler(e=>{ CLASS=[]; toast('No se ha podido leer la clase: '+(e&&e.message||e)); renderTeacher(); }).getClass();
+    return;
+  }
+  const list = CLOUD ? CLASS.map(r=>[r.email, r.profile]) : Object.entries(S.profiles);
   v.innerHTML = `<div class="topbar"><button class="iconbtn" id="tback" type="button" aria-label="Volver">${ico('back')}</button><h1 class="outline">Panel del docente</h1></div>
-    <p class="note" style="margin-bottom:14px">Progreso del alumnado que ha jugado en este dispositivo. Los datos se guardan solo en este navegador.</p>
+    ${CLOUD ? `<p class="note" style="margin-bottom:14px">Progreso de todo el alumnado que ha entrado con su cuenta del centro. Se guarda en la hoja de cálculo de tu Drive${ME&&ME.sheetUrl?` (<a href="${esc(ME.sheetUrl)}" target="_blank" rel="noopener" style="color:var(--gold)">abrir la hoja</a>)`:''}.</p>
+      <div style="margin-bottom:14px"><button class="btn dark small" type="button" id="t-refresh">Actualizar</button></div>`
+    : '<p class="note" style="margin-bottom:14px">Progreso del alumnado que ha jugado en este dispositivo. Los datos se guardan solo en este navegador.</p>'}
     ${list.length ? `<div class="table-wrap panel"><table>
       <thead><tr><th>Alumno/a</th><th>Nivel</th><th>XP</th>${withC.map(t=>`<th title="${esc(t.title)}">Tema ${t.n}</th>`).join('')}<th>Insignias</th><th></th></tr></thead>
-      <tbody>${list.map(([id,p])=>`<tr><td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:32px;display:inline-block">${avatarSVG(p.avatar)}</span>${esc(p.name)}</span></td><td class="num-c">${levelOf(p.xp).n}</td><td class="num-c">${p.xp}</td>
+      <tbody>${list.map(([id,p])=>`<tr><td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:32px;display:inline-block">${avatarSVG(p.avatar)}</span><span>${esc(p.name)}${CLOUD?`<br><small style="color:var(--ink-soft)">${esc(id)}</small>`:''}</span></span></td><td class="num-c">${levelOf(p.xp).n}</td><td class="num-c">${p.xp}</td>
         ${withC.map(t=>{ const det=stagesOf(t).map((w,k)=>{ const r=p.worlds[w.id]; return `${w.boss?'Jefe':'M'+(k+1)}: ${r?r.stars+'★ ('+r.plays+'×, '+(r.best||0)+'%)':'—'}`; }).join(' · ');
           return `<td class="num-c" title="${esc(det)}">★ ${temaStars(p,t)}/${temaMax(t)}${temaBeaten(p,t)?' ✓':''}</td>`; }).join('')}
         <td class="num-c">${p.badges.length}/${allBadges().length}</td>
         <td><button class="btn dark small" type="button" data-del="${id}">${armedDelete===id?'¿Seguro? Borrar':'Borrar'}</button></td></tr>`).join('')}</tbody>
-    </table></div><p class="note" style="margin-top:8px">Pasa el ratón sobre las estrellas de un tema para ver el detalle por misión (estrellas, veces jugada y mejor % de aciertos a la primera). ✓ = jefe final vencido.</p>` : '<p class="note">Todavía no hay alumnado registrado en este dispositivo.</p>'}
+    </table></div><p class="note" style="margin-top:8px">Pasa el ratón sobre las estrellas de un tema para ver el detalle por misión (estrellas, veces jugada y mejor % de aciertos a la primera). ✓ = jefe final vencido.</p>` : `<p class="note">Todavía no hay alumnado registrado${CLOUD?'':' en este dispositivo'}.</p>`}
     <div class="teacher-tools">
       <h2 class="outline-sm" style="color:var(--gold)">Temas del curso</h2>
       <div class="tema-toggles panel">${TEMAS.map((t,i)=>`<label class="switch"><span>Tema ${t.n}: ${esc(t.title)} <small style="color:var(--ink-soft);font-weight:400">${hasContent(t)?`(${t.missions.length} misiones + jefe)`:'(sin contenidos todavía)'}</small></span>
@@ -1397,19 +1429,45 @@ function renderTeacher(){
   v.querySelector('#voice-sel').onchange = e=>{ S.voice=e.target.value||null; save(); speak('¡Hola! Así sonará mi voz.'); };
   v.querySelector('#voice-rate').onchange = e=>{ S.voiceRate=+e.target.value; save(); speak('¡Hola! Así sonará mi voz.'); };
   v.querySelector('#voice-test').onclick = ()=>{ speak('¡Hola! Soy Glo. ¿Preparados para explorar la naturaleza?'); };
-  v.querySelector('#free-mode').onchange = e=>{ S.free=e.target.checked; save(); toast(S.free?'Modo libre activado':'Modo libre desactivado'); };
-  v.querySelectorAll('[data-open]').forEach(c=>c.onchange=()=>{ S.open[c.dataset.open]=c.checked; save(); toast(c.checked?'Tema abierto para la clase':'Tema cerrado'); });
+  v.querySelector('#free-mode').onchange = e=>{ S.free=e.target.checked; save(); cloudSettings(); toast(S.free?'Modo libre activado':'Modo libre desactivado'); };
+  v.querySelectorAll('[data-open]').forEach(c=>c.onchange=()=>{ S.open[c.dataset.open]=c.checked; save(); cloudSettings(); toast(c.checked?'Tema abierto para la clase':'Tema cerrado'); });
+  const rf=v.querySelector('#t-refresh'); if(rf) rf.onclick=()=>{ CLASS=null; renderTeacher(); };
   v.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
     const id=b.dataset.del;
     if(armedDelete!==id){ armedDelete=id; renderTeacher(); return; }
-    delete S.profiles[id]; if(S.current===id) S.current=null; armedDelete=null; save(); renderTeacher();
+    armedDelete=null;
+    if(CLOUD){
+      google.script.run.withSuccessHandler(()=>{ CLASS=CLASS.filter(r=>r.email!==id); if(ME && id===ME.email){ delete S.profiles.me; S.current=null; save(); } toast('Alumno borrado'); renderTeacher(); })
+        .withFailureHandler(e=>toast('No se ha podido borrar: '+(e&&e.message||e))).deleteStudent(id);
+      return;
+    }
+    delete S.profiles[id]; if(S.current===id) S.current=null; save(); renderTeacher();
   });
   show('view-teacher');
 }
 
 /* ---------- Inicio ---------- */
 if(S.music){ const resume=()=>{ setMusic(true); removeEventListener('pointerdown', resume); }; addEventListener('pointerdown', resume); }
-if(P()) goCourse(); else renderWelcome();
+function start(){ if(P()) goCourse(); else renderWelcome(); }
+if(CLOUD){
+  $('#view-welcome').innerHTML = `<div class="logo" style="padding-top:60px"><div class="mascot-wrap">${mascotSVG('idle')}</div><h1 class="outline">Cargando tu partida…</h1></div>`;
+  google.script.run
+    .withSuccessHandler(st=>{
+      ME = st; const set = st.settings || {};
+      S.free = !!set.free; S.open = set.open || {};
+      S.profiles = {}; S.current = null;
+      if(st.profile){ S.profiles.me = st.profile; S.current = 'me'; }
+      try{ localStorage.setItem(LKEY, JSON.stringify(S)); }catch(e){}
+      start();
+    })
+    .withFailureHandler(e=>{
+      const msg = String(e && e.message || e);
+      $('#view-welcome').innerHTML = `<div class="logo" style="padding-top:60px"><div class="mascot-wrap">${mascotSVG('oops')}</div><h1 class="outline">No se ha podido entrar</h1>
+        <p class="tagline">${msg.includes('NO_EMAIL') ? 'Entra con tu cuenta de Google del colegio y vuelve a abrir el enlace desde Classroom.' : 'Comprueba la conexión a internet y vuelve a abrir el enlace. ('+esc(msg)+')'}</p></div>`;
+    })
+    .getState();
+  addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden' && pushTimer) pushNow(); });
+} else start();
 </script>
 </body>
 </html>
