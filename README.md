@@ -34,3 +34,9 @@ Los contenidos están en `contenidos.js`. Cada tema tiene misiones (tarjetas de 
 ## Uso
 Son dos archivos: `index.html` (el juego) y `contenidos.js` (los temas). Ábrelo en el navegador o publícalo con GitHub Pages
 (Settings → Pages → Deploy from branch). El progreso se guarda en el navegador del dispositivo (localStorage).
+
+## Versión para Google Classroom
+En la carpeta `google-classroom` está la versión que guarda el progreso en la nube. El alumno entra con su cuenta de Google del centro y continúa su partida en cualquier dispositivo. El progreso de la clase se guarda en una hoja de cálculo del Drive del docente. La guía de instalación está en [`google-classroom/INSTRUCCIONES.md`](google-classroom/INSTRUCCIONES.md).
+
+Si se cambia `index.html` o `contenidos.js`, hay que regenerar esa versión con `python3 tools/build_classroom.py`.
+
