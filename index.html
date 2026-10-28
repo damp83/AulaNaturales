@@ -362,6 +362,9 @@ td.num-c{font-variant-numeric:tabular-nums}
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
 
+.region{display:grid;gap:2px;text-align:center;font-family:var(--f-game);font-size:1.25rem;color:var(--gold);padding:10px 14px;margin:6px 0 34px;border:3px dashed var(--panel-2);border-radius:18px;background:var(--night)}
+.region .label{font-size:.75rem;text-shadow:none}
+.region~.region{margin-top:10px}
 /* Personajes */
 .avatar{width:100%;height:auto;overflow:visible;display:block}
 .frame .avatar{width:52px;margin-top:4px}
@@ -460,6 +463,13 @@ const ICONS = {
   leaf:'<path d="M5 19c0-9 5-14 15-15-1 10-6 15-15 15z"/><path d="M5 19 13 11"/>',
   drop:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>',
   gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/>',
+  shield:'<path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/>',
+  fish:'<path d="M3 12c3-5 9-6 13-2l5-3v10l-5-3c-4 4-10 3-13-2z"/><circle cx="8" cy="11" r="1"/>',
+  feather:'<path d="M20 4C11 4 6 9 6 18l-2 2"/><path d="M20 4c0 9-5 14-14 14"/><path d="M10 14h5M13 10h4"/>',
+  bug:'<ellipse cx="12" cy="14" rx="5" ry="6"/><circle cx="12" cy="6.5" r="2.5"/><path d="M10 4.5 8 2M14 4.5 16 2M7 11H3M7 15H3M7 19l-3 1M17 11h4M17 15h4M17 19l3 1M12 8v12"/>',
+  tree:'<path d="M12 22v-6"/><path d="M12 2 5 12h4l-3 4h12l-3-4h4z"/>',
+  flask:'<path d="M9 3h6M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7 15h10"/>',
+  wifi:'<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/>',
   map:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
   flame:'<path d="M12 22c4 0 7-2.7 7-7 0-4-3-6.5-4-10-2 1.5-3 3.5-3 5.5C11 9 10 8 9.5 6.5 7 9 5 11.6 5 15c0 4.3 3 7 7 7z"/>',
   wind:'<path d="M3 8h10a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h7"/>',
@@ -839,9 +849,10 @@ function renderCourse(){
     else if(!open) status = `<span class="chip-s">${ico('lock')} Vence al jefe del tema ${t.n-1}</span>`;
     else status = `<span class="counter star">${ico('star')}${temaStars(p,t)}/${temaMax(t)}</span>${beaten?'<span class="chip-s done">¡Superado!</span>':'<span class="chip-s go">¡Jugar!</span>'}`;
     const conn = i<TEMAS.length-1 ? `<svg class="conn" viewBox="0 0 160 56" aria-hidden="true"><path class="${beaten?'lit':''}" d="${shift?'M103 0 C103 34 55 22 55 56':'M55 0 C55 34 103 22 103 56'}"/></svg>` : '';
-    return `<div class="tema-row ${shift?'shift':''}"><button class="tema ${open?'':'locked'} ${soon?'soon':''} ${i===nt?'is-next':''}" type="button" style="${cvars(t)}" data-i="${i}" ${open?'':'aria-disabled="true"'}>
+    const sit=(CURSO.situaciones||[]).find(g=>g.temas[0]===t.id);
+    return `${sit?`<div class="region outline-sm"><span class="label">Situación de aprendizaje</span>${esc(sit.title)}</div>`:''}<div class="tema-row ${shift?'shift':''}"><button class="tema ${open?'':'locked'} ${soon?'soon':''} ${i===nt?'is-next':''}" type="button" style="${cvars(t)}" data-i="${i}" ${open?'':'aria-disabled="true"'}>
         <span class="planet">${ico(open?t.icon:'lock')}<span class="tnum">${t.n}</span>${i===nt?`<span class="tpin">${avatarSVG(p.avatar)}</span>`:''}</span>
-        <span class="tlabel"><span class="lvltag">Tema ${t.n}</span><h3 class="outline-sm">${esc(t.title)}</h3><span class="meta">${esc(t.short)}</span><span class="tstatus">${status}</span></span>
+        <span class="tlabel"><span class="lvltag">Tema ${t.n}${t.pages?' · '+t.pages.replace('-','\u2011'):''}</span><h3 class="outline-sm">${esc(t.title)}</h3><span class="meta">${esc(t.short)}</span><span class="tstatus">${status}</span></span>
       </button></div>${conn}`;
   }).join('');
   const progress = TEMAS.filter(hasContent).map(t=>{ const pc=Math.round(temaStars(p,t)/temaMax(t)*100);

@@ -2,16 +2,16 @@
 
 Videojuego educativo de Ciencias de la Naturaleza organizado por temas. Cada tema es un mundo del **mapa del curso** y se desbloquea al vencer al jefe final del tema anterior (o cuando el docente lo abre).
 
-Ahora mismo tiene contenidos el **Tema 1 «El cuerpo humano»** (págs. 12-19 del libro). Los temas 2 a 6 aparecen como «Próximamente».
+Temas del libro (Ciencias de la Naturaleza 2), agrupados por situación de aprendizaje:
 
-## Misiones del Tema 1
-| Misión | Lección | Retos |
+| Situación | Tema | Estado |
 |---|---|---|
-| 1 | ¿Cómo funciona nuestro cuerpo? (funciones vitales y sentidos) | 9 |
-| 2 | ¿Cómo nos movemos? (huesos, articulaciones y músculos) | 10 |
-| 3 | ¿Cómo respiramos? (el camino del aire) | 8 |
-| 4 | ¿Cómo nos alimentamos? (la digestión) | 8 |
-| Final | El Gran Reto (10 retos mezclados, 3 corazones) | 10 |
+| ¿Nos vamos de excursión? | 1. Así funciona nuestro cuerpo | 4 misiones + jefe |
+| | 2. Cuidamos nuestra salud | 4 misiones + jefe |
+| ¿El agua se acaba? | 3. Animales muy diferentes | 5 misiones + jefe |
+| | 4. La vida de las plantas | Próximamente |
+| ¿Te gusta tu barrio? | 5. Nos gusta la ciencia | Próximamente |
+| | 6. Estamos conectados | Próximamente |
 
 Cada misión empieza con tarjetas de repaso (con lectura en voz alta) y sigue con retos de varios tipos:
 elegir respuesta, verdadero/falso, seleccionar varias, ordenar secuencias, clasificar, unir parejas y completar huecos.
