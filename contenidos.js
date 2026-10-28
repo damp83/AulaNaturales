@@ -1,5 +1,5 @@
 /* =====================================================================
-   CONTENIDOS DEL CURSO · Exploradores del Cuerpo
+   CONTENIDOS DEL CURSO · Exploradores de la Naturaleza
    ---------------------------------------------------------------------
    Cada tema tiene misiones (con tarjetas "learn" y retos "ch") y un jefe
    final. Un tema sin misiones aparece en el mapa como "Próximamente".
@@ -359,6 +359,321 @@ const TEMA3_JEFE = {
   ]
 };
 
+/* ---------- TEMA 4 · La vida de las plantas (libro, págs. 66-73) ---------- */
+const TEMA4_MISIONES = [
+  {
+    id:'plantas1', badge:'Raíz de campeón', title:'¿Cómo son las plantas?', short:'Partes de la planta y fotosíntesis', pages:'Págs. 66-67',
+    color:'--ok', icon:'leaf',
+    learn:[
+      {h:'Seres vivos', p:'Las plantas son <mark>seres vivos</mark>: nacen, crecen, se reproducen y mueren. Tienen partes muy diferentes y cada una cumple una función.'},
+      {h:'Las partes de la planta', p:'Cada parte tiene su trabajo:',
+        extra:'<div class="senses"><b>Raíces</b><span>sujetan la planta al suelo y absorben el agua y los nutrientes de la tierra.</span><b>Tallo</b><span>sostiene la planta y transporta el agua y los nutrientes.</span><b>Hojas</b><span>captan la luz del sol y el aire.</span><b>Flores</b><span>en la mayoría se transforman en frutos.</span><b>Frutos</b><span>contienen las semillas.</span></div>'},
+      {h:'La fotosíntesis', p:'Para vivir, las plantas necesitan <mark>luz del sol, aire, agua y nutrientes</mark>. Usan la luz del sol para convertir el agua y una parte del aire en su alimento. Este proceso se llama <mark>fotosíntesis</mark> y ocurre en las hojas y otras partes verdes.'}
+    ],
+    ch:[
+      {t:'match', q:'Une cada parte de la planta con lo que hace.', pairs:[['Raíces','Sujetan la planta y absorben agua'],['Tallo','Sostiene la planta y transporta el agua'],['Hojas','Captan la luz del sol y el aire'],['Frutos','Contienen las semillas']], hint:'Repasa la tarjeta de las partes de la planta.'},
+      {t:'tf', q:'Las plantas son seres vivos: nacen, crecen, se reproducen y mueren.', a:true, hint:'Por eso son seres vivos.'},
+      {t:'pick', q:'¿Qué tienen en común todas las plantas? Toca las correctas.', opts:['Tienen partes verdes','Tienen raíces','Pueden desplazarse por sí mismas','Nacen, crecen, se reproducen y mueren'], a:[0,1,3], hint:'Las plantas no pueden desplazarse.'},
+      {t:'pick', q:'Toca lo que necesitan las plantas para vivir.', opts:['☀️ Luz del sol','💨 Aire','💧 Agua','Nutrientes de la tierra','🍬 Caramelos','📺 Televisión'], a:[0,1,2,3], hint:'Luz, aire, agua y nutrientes.'},
+      {t:'fill', q:'Completa.', parts:['Las hojas captan la ',0,' del sol y el ',1,' que necesitan para fabricar su alimento. Este proceso se llama ',2,'.'], answers:['luz','aire','fotosíntesis'], bank:['digestión','arena'], hint:'Es el proceso con el que las plantas fabrican su alimento.'},
+      {t:'mc', q:'¿Dónde ocurre la fotosíntesis?', opts:['En las hojas y otras partes verdes','En las raíces','Dentro de las semillas'], a:0, hint:'Ocurre donde la planta capta la luz.'},
+      {t:'mc', q:'Una planta lleva tiempo en un vaso con agua y sin tierra. ¿Podrá seguir creciendo?', opts:['Le costará: necesita los nutrientes de la tierra','Sí, no necesita nada más','Sí, porque tiene hojas'], a:0, hint:'Las raíces absorben los nutrientes de la tierra.'},
+      {t:'mc', q:'En la mayoría de las plantas, las flores se transforman en…', opts:['frutos','raíces','tallos'], a:0, hint:'Los frutos contienen las semillas.'}
+    ]
+  },
+  {
+    id:'plantas2', badge:'Guardabosques', title:'¿Cómo clasificamos las plantas?', short:'Árboles, arbustos y hierbas', pages:'Págs. 68-69',
+    color:'--bone', icon:'tree',
+    learn:[
+      {h:'Según su tallo', p:'Según la altura y el grosor de su tallo hay tres tipos de plantas:',
+        extra:'<div class="senses"><b>Árboles</b><span>tallo grueso, duro y alto llamado tronco. De él salen las ramas. Ej.: pino.</span><b>Arbustos</b><span>tallo fino y no muy alto. Las ramas crecen cerca del suelo. Ej.: retama.</span><b>Hierbas</b><span>tallo fino, flexible y verde. Poca altura. Ej.: menta.</span></div>'},
+      {h:'Según sus hojas', p:'Los árboles y arbustos pueden ser:',
+        extra:'<div class="senses"><b>Hoja perenne</b><span>tienen hojas durante todo el año. Ej.: pino.</span><b>Hoja caduca</b><span>en otoño sus hojas cambian de color y se caen. Ej.: olmo.</span></div>'},
+      {h:'Con flor o sin flor', p:'Las <mark>plantas con flor</mark> producen flores, como el castaño o la lavanda. Las <mark>plantas sin flor</mark> no las producen, como el musgo o el helecho.'}
+    ],
+    ch:[
+      {t:'classify', q:'¿Qué tipo de planta es según su tallo?', bins:['Árbol','Arbusto','Hierba'],
+        items:[['🌳 Olivo',0],['Castaño',0],['🌲 Pino',0],['Rosal',1],['Romero',1],['Retama',1],['🌼 Margarita',2],['Amapola',2],['🌿 Menta',2]],
+        hint:'Árbol: tronco alto y grueso. Arbusto: ramas cerca del suelo. Hierba: tallo fino, flexible y verde.'},
+      {t:'mc', q:'¿Cómo se llama el tallo grueso, duro y alto de los árboles?', opts:['Tronco','Rama','Raíz'], a:0, hint:'De él salen las ramas.'},
+      {t:'match', q:'Une cada tipo de hoja con su descripción.', pairs:[['Hoja perenne','Tiene hojas durante todo el año'],['Hoja caduca','En otoño sus hojas se caen']], hint:'Caduca viene de «caer».'},
+      {t:'classify', q:'¿Es de hoja perenne o de hoja caduca?', bins:['Hoja perenne','Hoja caduca'],
+        items:[['Pino',0],['Olmo',1],['Abeto',0],['Roble',1]],
+        hint:'El roble y el olmo pierden las hojas en otoño. El pino y el abeto, no.'},
+      {t:'classify', q:'¿Es una planta con flor o sin flor?', bins:['Con flor','Sin flor'],
+        items:[['Castaño',0],['Lavanda',0],['Musgo',1],['Helecho',1],['🌹 Rosal',0]],
+        hint:'El musgo y el helecho no producen flores.'},
+      {t:'mc', q:'¿Qué tienen en común un árbol y un arbusto?', opts:['Los dos tienen tallo leñoso y ramas','Los dos tienen tallo verde y flexible','Los dos miden lo mismo'], a:0, hint:'Se diferencian en la altura y el grosor del tallo.'},
+      {t:'tf', q:'Las hierbas tienen un tallo fino y flexible, de color verde.', a:true, hint:'Por ejemplo, la menta.'},
+      {t:'tf', q:'Los arbustos tienen un tronco muy alto y grueso.', a:false, hint:'Su tallo es fino y no muy alto.'}
+    ]
+  },
+  {
+    id:'plantas3', badge:'Semilla mágica', title:'¿Cómo se reproducen las plantas?', short:'Semillas y esporas', pages:'Págs. 70-71',
+    color:'--lung', icon:'apple',
+    learn:[
+      {h:'Plantas con flor', p:'La mayoría de las plantas con flor se reproducen mediante <mark>semillas</mark>:',
+        extra:'<ol class="steps"><li>Una semilla cae al suelo.</li><li>Si hay humedad, de la semilla brota una nueva planta.</li><li>La planta crece y, en la estación adecuada, le salen las flores.</li><li>Los insectos y el viento hacen posible la reproducción.</li><li>Las flores se convierten en frutos, que contienen las semillas.</li></ol>'},
+      {h:'Plantas sin flor', p:'Las plantas sin flor, como los <mark>helechos</mark> y los <mark>musgos</mark>, no tienen frutos ni semillas. Se reproducen mediante <mark>esporas</mark>, que cumplen la misma función que las semillas pero son mucho más pequeñas.'}
+    ],
+    ch:[
+      {t:'order', q:'Ordena cómo se reproduce una planta con flor.', items:['Una semilla cae al suelo','Si hay humedad, brota una nueva planta','La planta crece y le salen las flores','Los insectos y el viento hacen posible la reproducción','Las flores se convierten en frutos con semillas'], hint:'Empieza con la semilla y termina con los frutos.'},
+      {t:'pick', q:'Toca las plantas sin flor.', opts:['Helecho','Violeta','Musgo','Orquídea'], a:[0,2], hint:'La violeta y la orquídea tienen flores.'},
+      {t:'mc', q:'¿Cómo se reproducen los helechos y los musgos?', opts:['Mediante esporas','Mediante semillas','Mediante frutos'], a:0, hint:'Las esporas son mucho más pequeñas que las semillas.'},
+      {t:'classify', q:'¿Es de las plantas con flor o de las plantas sin flor?', bins:['Con flor','Sin flor'],
+        items:[['El viento es importante para su reproducción',0],['Tienen esporas',1],['Los frutos contienen las semillas',0],['Son, por ejemplo, los helechos y los musgos',1]],
+        hint:'Las plantas sin flor no tienen frutos ni semillas.'},
+      {t:'mc', q:'¿Qué necesita una semilla para que brote una nueva planta?', opts:['💧 Humedad','Oscuridad total','Mucho frío'], a:0, hint:'Si hay humedad, brota.'},
+      {t:'mc', q:'¿Quién ayuda a las plantas con flor a reproducirse?', opts:['🐝 Los insectos y el viento','Las piedras','Los peces'], a:0, hint:'Llevan el polen de unas flores a otras.'},
+      {t:'tf', q:'Los frutos contienen las semillas de la planta.', a:true, hint:'Piensa en una manzana.'}
+    ]
+  },
+  {
+    id:'plantas4', badge:'Agricultor experto', title:'¿Por qué son importantes las plantas?', short:'Silvestres y cultivadas', pages:'Págs. 72-73',
+    color:'--food', icon:'drop',
+    learn:[
+      {h:'Plantas silvestres', p:'Muchas plantas crecen en el lugar donde encuentran lo que necesitan, formando bosques, praderas o selvas. Son las <mark>plantas silvestres</mark>. Sirven de <mark>alimento y refugio</mark> a muchos animales salvajes.'},
+      {h:'El aire', p:'Todas las plantas ayudan a <mark>mejorar la calidad del aire</mark>. Durante la fotosíntesis producen <mark>oxígeno</mark>, que es esencial para la mayoría de los seres vivos.'},
+      {h:'Plantas cultivadas', p:'Las plantas que sembramos y cuidamos para obtener <mark>materiales y alimentos</mark> son <mark>plantas cultivadas</mark>. Los agricultores preparan la tierra, siembran, riegan y recogen la cosecha.'}
+    ],
+    ch:[
+      {t:'mc', q:'¿Cómo se llaman las plantas que nacen y crecen sin ayuda de las personas?', opts:['Silvestres','Cultivadas','Artificiales'], a:0, hint:'Forman bosques, praderas y selvas.'},
+      {t:'classify', q:'¿Es verdadero o falso?', bins:['Verdadero','Falso'],
+        items:[['Las plantas silvestres nacen y crecen sin ayuda de las personas',0],['Durante la fotosíntesis las plantas producen oxígeno',0],['Los animales carnívoros salvajes se alimentan de plantas silvestres',1],['Las plantas pueden servir de refugio a algunos animales',0]],
+        hint:'Los carnívoros comen otros animales, no plantas.'},
+      {t:'classify', q:'¿Dónde hay plantas silvestres y dónde plantas cultivadas?', bins:['Silvestres','Cultivadas'],
+        items:[['Olivar',1],['Pradera',0],['Huerto',1],['🌳 Bosque',0]],
+        hint:'El olivar y el huerto los siembran y cuidan las personas.'},
+      {t:'classify', q:'Clasifica estos productos de las plantas.', bins:['Alimentos','Materiales'],
+        items:[['Paja',1],['Corcho',1],['Madera',1],['Algodón',1],['🌾 Cereales',0],['🍎 Frutas y verduras',0]],
+        hint:'Los alimentos se comen. Los materiales sirven para fabricar cosas.'},
+      {t:'order', q:'Ordena el trabajo de los agricultores.', items:['Preparan la tierra y siembran las semillas','Riegan y cuidan las plantas para que crezcan sanas','Recogen la cosecha cuando llega el momento'], hint:'Primero se siembra y al final se recoge.'},
+      {t:'mc', q:'¿Qué gas producen las plantas que necesitamos para vivir?', opts:['Oxígeno','Humo','Vapor'], a:0, hint:'Lo producen durante la fotosíntesis.'},
+      {t:'tf', q:'Las plantas ayudan a mejorar la calidad del aire.', a:true, hint:'Por eso son importantes en las ciudades.'}
+    ]
+  }
+];
+const TEMA4_JEFE = {
+  id:'reto-plantas', boss:true, villain:'Oruga Tragona', badge:'Pulgar verde', title:'El Gran Reto de las plantas', short:'Repaso de todo el tema', pages:'Págs. 66-73',
+  color:'--virus', icon:'trophy',
+  extra:[
+    {t:'match', q:'Une cada palabra con su significado.', pairs:[['Fotosíntesis','Las plantas fabrican su alimento'],['Esporas','Reproducen helechos y musgos'],['Hoja caduca','Pierde las hojas en otoño']], hint:'Repasa las palabras clave del tema.'}
+  ]
+};
+
+/* ---------- TEMA 5 · Nos gusta la ciencia (libro, págs. 86-95) ---------- */
+const TEMA5_MISIONES = [
+  {
+    id:'ciencia1', badge:'Pequeño científico', title:'¿Qué es el método científico?', short:'Observar, preguntar, experimentar y concluir', pages:'Págs. 86-87',
+    color:'--sense', icon:'flask',
+    learn:[
+      {h:'Hacerse preguntas', p:'Las personas siempre se han hecho preguntas para comprender el mundo. Para responderlas, los profesionales de la ciencia usan el <mark>método científico</mark>.'},
+      {h:'Pasos del método científico', p:'Así investiga un científico:',
+        extra:'<ol class="steps"><li><mark>Observamos</mark> nuestro entorno. «¡Cómo calienta el sol!»</li><li>Nos hacemos una <mark>pregunta</mark>. «¿El sol puede quemar?»</li><li>Realizamos <mark>experimentos</mark>. «¡El papel está ardiendo!»</li><li>Obtenemos <mark>conclusiones</mark>. «Sí, el sol quema.»</li></ol>'}
+    ],
+    ch:[
+      {t:'order', q:'Ordena los pasos del método científico.', items:['Observamos algo','Nos hacemos preguntas','Realizamos un experimento','Obtenemos una conclusión'], hint:'Primero observamos y al final sacamos una conclusión.'},
+      {t:'match', q:'Une cada paso con lo que dice el niño.', pairs:[['Observar','¡Guau! ¡Cómo calienta el sol!'],['Preguntar','¿El sol puede quemar?'],['Experimentar','¡Uy, el papel está ardiendo!'],['Concluir','Sí, el sol quema.']], hint:'Repasa el ejemplo de la lupa y el papel.'},
+      {t:'mc', q:'Ves una planta con las hojas secas. ¿Cuál sería una buena pregunta?', opts:['¿La planta necesita agua para vivir?','¿De qué color es la maceta?','¿Cuánto cuesta la planta?'], a:0, hint:'La pregunta debe ayudar a explicar lo que observas.'},
+      {t:'mc', q:'Pones un cubito de hielo al sol. ¿Qué ocurre después de una hora?', opts:['Se derrite y se convierte en agua','Se hace más grande','No le pasa nada'], a:0, hint:'El calor del sol derrite el hielo.'},
+      {t:'mc', q:'¿Qué conclusión sacas del experimento del cubito?', opts:['El calor derrite el hielo','El hielo no se derrite nunca','El sol enfría las cosas'], a:0, hint:'Piensa en lo que has observado.'},
+      {t:'mc', q:'Para saber cómo el agua líquida se transforma en vapor, ¿qué experimento harías?', opts:['Calentar agua en una cazuela y observar','Meter agua en el congelador','Mezclar agua con arena'], a:0, hint:'El vapor aparece cuando el agua se calienta mucho.'},
+      {t:'tf', q:'Los científicos hacen experimentos para responder a sus preguntas.', a:true, hint:'Es el tercer paso del método científico.'}
+    ]
+  },
+  {
+    id:'ciencia2', badge:'Maestro del hielo', title:'¿Cuáles son los estados de la materia?', short:'Sólido, líquido y gaseoso', pages:'Págs. 88-89',
+    color:'--opt1', icon:'drop',
+    learn:[
+      {h:'La materia', p:'La mayoría de las cosas que nos rodean están formadas por <mark>materia</mark>: las montañas, las nubes, el agua, el aire, nuestro cuerpo… La materia puede estar en tres <mark>estados</mark>:',
+        extra:'<div class="senses"><b>Sólido</b><span>la tierra.</span><b>Líquido</b><span>el agua en su estado natural.</span><b>Gaseoso</b><span>el aire.</span></div>'},
+      {h:'Cambios de estado', p:'La materia puede <mark>cambiar de estado</mark> cuando se <mark>calienta</mark> o se <mark>enfría</mark>.',
+        extra:'<div class="senses"><b>Metal</b><span>si lo calentamos mucho, se derrite y se convierte en líquido.</span><b>Lava</b><span>es líquida, pero al enfriarse se convierte en roca sólida.</span><b>Agua del mar</b><span>al calentarse se transforma en vapor y queda la sal.</span></div>'}
+    ],
+    ch:[
+      {t:'classify', q:'¿En qué estado está?', bins:['Sólido','Líquido','Gaseoso'],
+        items:[['Humo',2],['🌧️ Lluvia',1],['❄️ Nieve',0],['🍫 Chocolate',0],['Aceite',1],['💨 Aire',2],['Tierra',0],['💧 Agua',1]],
+        hint:'Los gases no se pueden coger con la mano. Los líquidos se derraman.'},
+      {t:'mc', q:'La materia puede encontrarse en…', opts:['tres estados','dos estados','cinco estados'], a:0, hint:'Sólido, líquido y gaseoso.'},
+      {t:'match', q:'Une cada cambio con su ejemplo.', pairs:[['De líquido a sólido','Agua en el congelador'],['De sólido a líquido','Mantequilla en la sartén'],['De líquido a gaseoso','Agua hirviendo en una cazuela']], hint:'Piensa si el objeto se calienta o se enfría.'},
+      {t:'classify', q:'¿Hace falta calor o frío?', bins:['Calor','Frío'],
+        items:[['Que la mantequilla se haga líquida',0],['Que el agua se haga sólida',1],['Que el agua se evapore',0],['Que la lava se convierta en roca',1]],
+        hint:'Calentar derrite y evapora. Enfriar solidifica.'},
+      {t:'mc', q:'La lava de los volcanes es líquida. Al enfriarse…', opts:['se convierte en roca sólida','se convierte en aire','sigue siendo líquida'], a:0, hint:'El frío la solidifica.'},
+      {t:'mc', q:'Cuando el agua del mar se calienta y se evapora, ¿qué queda en la tierra?', opts:['La sal','La arena','Los peces'], a:0, hint:'Así se obtiene la sal en las salinas.'},
+      {t:'tf', q:'El aire es materia en estado gaseoso.', a:true, hint:'Así lo explica la lección.'}
+    ]
+  },
+  {
+    id:'ciencia3', badge:'Mezclador loco', title:'¿Qué son las mezclas?', short:'Sustancias, mezclas y disoluciones', pages:'Págs. 90-91',
+    color:'--food', icon:'flask',
+    learn:[
+      {h:'Sustancias y mezclas', p:'El aire, el agua o la madera son <mark>sustancias</mark>. Una ensalada o un café con leche son <mark>mezclas</mark> de sustancias.'},
+      {h:'Tipos de mezclas', p:'En algunas mezclas no se distinguen las sustancias: son las <mark>disoluciones</mark>. Si mezclamos sal con agua, la sal se disuelve y no la vemos. En otras mezclas las sustancias se distinguen a simple vista: el aceite flota sobre el agua.'},
+      {h:'Separar mezclas', p:'Las mezclas se pueden separar de diferentes formas:',
+        extra:'<div class="senses"><b>Colador</b><span>separa la arena del agua.</span><b>Evaporar</b><span>para separar la sal del agua, dejamos que el agua se evapore.</span><b>Embudo especial</b><span>separa el agua y el aceite.</span></div>'}
+    ],
+    ch:[
+      {t:'classify', q:'¿Es una sustancia o una mezcla?', bins:['Sustancia','Mezcla'],
+        items:[['Oro',0],['💧 Agua',0],['Sal',0],['🥗 Ensalada',1],['☕ Café con leche',1],['🥣 Leche con cereales',1]],
+        hint:'Una mezcla tiene varias sustancias juntas.'},
+      {t:'classify', q:'¿Es una disolución?', bins:['Es disolución','No es disolución'],
+        items:[['Agua con azúcar',0],['Agua con sal',0],['Leche con cereales',1],['Agua con aceite',1]],
+        hint:'En una disolución no se ve una de las sustancias.'},
+      {t:'match', q:'¿Cómo separarías cada mezcla?', pairs:[['Arena y agua','Con un colador'],['Sal y agua','Dejando que el agua se evapore'],['Agua y aceite','Con un embudo especial'],['Pasta y agua','Con un escurridor']], hint:'Repasa la tarjeta de separar mezclas.'},
+      {t:'mc', q:'Si mezclamos aceite y agua, el aceite…', opts:['se queda flotando sobre el agua','desaparece','se vuelve sólido'], a:0, hint:'Se distinguen a simple vista.'},
+      {t:'mc', q:'Para separar el azúcar del agua…', opts:['dejamos que el agua se evapore','usamos un colador','lo agitamos mucho'], a:0, hint:'El azúcar disuelto no queda en el colador.'},
+      {t:'classify', q:'¿Qué sustancias se mezclan en una ensalada?', bins:['Sólidas','Líquidas'],
+        items:[['🥬 Lechuga',0],['🍅 Tomate',0],['Aceite',1],['Vinagre',1],['🧅 Cebolla',0]],
+        hint:'Los líquidos se derraman.'},
+      {t:'tf', q:'En una disolución no se distinguen las sustancias que la forman.', a:true, hint:'Como la sal en el agua.'}
+    ]
+  },
+  {
+    id:'ciencia4', badge:'Constructor', title:'¿Cómo son los materiales?', short:'Origen y propiedades', pages:'Págs. 92-93',
+    color:'--bone', icon:'gear',
+    learn:[
+      {h:'Naturales y artificiales', p:'Los <mark>materiales</mark> son las sustancias que usamos para fabricar objetos.',
+        extra:'<div class="senses"><b>Naturales</b><span>se usan tal y como están en la naturaleza: seda (de los gusanos de seda), madera (de los árboles).</span><b>Artificiales</b><span>se elaboran a partir de sustancias naturales que las personas transforman: plástico.</span></div>'},
+      {h:'Propiedades', p:'Cada material tiene unas <mark>propiedades</mark> que lo hacen adecuado para un uso:',
+        extra:'<div class="senses"><b>Resistentes</b><span>soportan grandes pesos sin romperse.</span><b>Frágiles</b><span>se rompen al golpearse.</span><b>Rígidos</b><span>no se doblan ni se tuercen.</span><b>Flexibles</b><span>se pueden doblar sin romperse.</span><b>Duros</b><span>son difíciles de rayar o cortar.</span><b>Blandos</b><span>se rayan o deforman con facilidad.</span></div>'}
+    ],
+    ch:[
+      {t:'classify', q:'¿Es un material natural o artificial?', bins:['Natural','Artificial'],
+        items:[['Cuero',0],['Paja',0],['Algodón',0],['Madera',0],['Seda',0],['Vidrio',1],['Plastilina',1],['Plástico',1]],
+        hint:'Los artificiales los fabrican las personas transformando sustancias naturales.'},
+      {t:'match', q:'Une cada propiedad con su significado.', pairs:[['Resistente','Soporta grandes pesos sin romperse'],['Frágil','Se rompe al golpearse'],['Flexible','Se puede doblar sin romperse'],['Blando','Se raya o deforma con facilidad']], hint:'Repasa la tarjeta de las propiedades.'},
+      {t:'mc', q:'¿De dónde procede la seda?', opts:['De los capullos de los gusanos de seda','Del tronco de los árboles','Del petróleo'], a:0, hint:'Es un material natural de origen animal.'},
+      {t:'mc', q:'¿De dónde procede la madera?', opts:['Del tronco y las ramas de los árboles','De las ovejas','De las piedras'], a:0, hint:'Es un material natural de origen vegetal.'},
+      {t:'mc', q:'Un jarrón de porcelana se rompe al caer. Es un material…', opts:['frágil','flexible','resistente'], a:0, hint:'Los materiales frágiles se rompen al golpearse.'},
+      {t:'mc', q:'¿Qué material es mejor para hacer un barco: la madera o el cartón?', opts:['La madera, porque es resistente y flota sin estropearse','El cartón, porque se moja enseguida'], a:0, hint:'El cartón se estropea con el agua.'},
+      {t:'tf', q:'La lana es un material natural.', a:true, hint:'Procede de las ovejas.'}
+    ]
+  },
+  {
+    id:'ciencia5', badge:'Ojo y oído', title:'La luz y el sonido', short:'Cómo vemos y cómo oímos', pages:'Págs. 94-95',
+    color:'--gold', icon:'eye',
+    learn:[
+      {h:'La luz', p:'La <mark>luz</mark> nos permite ver las cosas. Sin luz, hay oscuridad. La <mark>luz natural</mark> procede del Sol, las estrellas o los relámpagos. Las personas fabricamos objetos que emiten <mark>luz artificial</mark>, como las bombillas.'},
+      {h:'Materiales y luz', p:'La luz atraviesa algunos materiales, pero no todos:',
+        extra:'<div class="senses"><b>Transparentes</b><span>la luz los atraviesa con facilidad y vemos lo que hay detrás (cristal).</span><b>Translúcidos</b><span>dejan pasar poca luz y no vemos con claridad (botella de color).</span><b>Opacos</b><span>la luz no los atraviesa y no vemos lo que hay detrás (cartón).</span></div>'},
+      {h:'El sonido', p:'Al hablar producimos unas ondas invisibles que viajan por el aire: es el <mark>sonido</mark>. Hay sonidos <mark>naturales</mark> (el canto de los pájaros) y <mark>artificiales</mark> (una guitarra). Pueden ser <mark>fuertes</mark> o <mark>débiles</mark>, <mark>graves</mark> como el mugido de una vaca o <mark>agudos</mark> como un silbido.'}
+    ],
+    ch:[
+      {t:'classify', q:'¿Es luz natural o luz artificial?', bins:['Natural','Artificial'],
+        items:[['☀️ Sol',0],['⭐ Estrellas',0],['⚡ Relámpago',0],['💡 Bombilla',1],['🕯️ Vela',1],['🔦 Linterna',1],['Luciérnaga',0]],
+        hint:'La luz artificial la producen objetos fabricados por las personas.'},
+      {t:'match', q:'¿Cómo son estos materiales?', pairs:[['Transparente','Tarro de cristal'],['Translúcido','Cubitos de colores'],['Opaco','Caja de cartón']], hint:'¿Puedes ver lo que hay detrás?'},
+      {t:'mc', q:'Los materiales que no dejan pasar la luz se llaman…', opts:['opacos','transparentes','translúcidos'], a:0, hint:'No podemos ver lo que hay detrás de ellos.'},
+      {t:'classify', q:'¿Es un sonido grave o agudo?', bins:['Grave','Agudo'],
+        items:[['🥁 Tambor',0],['Silbato',1],['🦁 Rugido de león',0],['🔔 Campanilla',1],['🐄 Mugido de vaca',0]],
+        hint:'Los graves suenan «gordos» y los agudos, «finos».'},
+      {t:'classify', q:'¿Es un sonido natural o artificial?', bins:['Natural','Artificial'],
+        items:[['🐦 Canto de un pájaro',0],['🚗 Claxon de un coche',1],['🐕 Ladrido de un perro',0],['🎸 Guitarra',1],['🗣️ Voz de una persona',0],['🚑 Sirena de ambulancia',1]],
+        hint:'Los artificiales los producen máquinas o instrumentos.'},
+      {t:'mc', q:'El sonido viaja en forma de…', opts:['ondas invisibles por el aire','rayos de luz','gotas de agua'], a:0, hint:'Como las ondas al tirar una piedra al agua.'},
+      {t:'tf', q:'Sin luz no podemos ver nada.', a:true, hint:'Hay oscuridad.'}
+    ]
+  }
+];
+const TEMA5_JEFE = {
+  id:'reto-ciencia', boss:true, villain:'Doctor Burbujas', badge:'Genio de la ciencia', title:'El Gran Reto de la ciencia', short:'Repaso de todo el tema', pages:'Págs. 86-95',
+  color:'--virus', icon:'trophy',
+  extra:[
+    {t:'match', q:'Une cada palabra con su ejemplo.', pairs:[['Disolución','Agua con sal'],['Material artificial','Plástico'],['Material opaco','Cartón'],['Sonido agudo','Silbato']], hint:'Repasa todo el tema.'}
+  ]
+};
+
+/* ---------- TEMA 6 · Estamos conectados (libro, págs. 104-111) ---------- */
+const TEMA6_MISIONES = [
+  {
+    id:'digital1', badge:'Tecnoexperto', title:'¿Qué son los dispositivos digitales?', short:'Móvil, tableta y portátil', pages:'Págs. 104-105',
+    color:'--sense', icon:'wifi',
+    learn:[
+      {h:'Para qué sirven', p:'Los <mark>dispositivos digitales</mark> son máquinas que nos permiten realizar muchas tareas:',
+        extra:'<div class="senses"><b>Aprender</b><span>escribir textos, buscar información o vídeos para las tareas de clase.</span><b>Divertirnos</b><span>leer, escuchar música, ver vídeos, hacer fotos, jugar…</span><b>Comunicarnos</b><span>enviar o recibir textos, imágenes o vídeos y hacer videollamadas.</span></div>'},
+      {h:'Algunos dispositivos', p:'Estos son algunos dispositivos:',
+        extra:'<div class="senses"><b>Teléfono móvil</b><span>pequeño, de pantalla táctil. Sirve para llamadas, videollamadas y conectarse a internet.</span><b>Tableta</b><span>más grande que el móvil y más pequeña que el portátil. También es táctil.</span><b>Portátil</b><span>más grande. Con él hacemos tareas más complejas en menos tiempo.</span></div>'}
+    ],
+    ch:[
+      {t:'pick', q:'¿Qué podemos hacer con un teléfono móvil? Toca todas las correctas.', opts:['Jugar','Hacer fotos','Escuchar música','Conectarse a internet','Cocinar la comida'], a:[0,1,2,3], hint:'El móvil no cocina.'},
+      {t:'mc', q:'Una pantalla táctil es una pantalla que…', opts:['responde a los toques de nuestros dedos','no se puede tocar','solo funciona con teclado'], a:0, hint:'Como la del móvil o la tableta.'},
+      {t:'match', q:'Une cada dispositivo con su descripción.', pairs:[['Teléfono móvil','Pequeño, con pantalla táctil'],['Tableta','Táctil y más grande que el móvil'],['Portátil','Para tareas más complejas'],['Cámara digital','Sirve para hacer fotos']], hint:'Repasa la tarjeta de los dispositivos.'},
+      {t:'classify', q:'¿Para qué usamos el dispositivo?', bins:['Aprender','Divertirnos','Comunicarnos'],
+        items:[['Buscar información para clase',0],['Escribir un texto',0],['Jugar',1],['Escuchar música',1],['Hacer una videollamada',2],['Enviar un mensaje',2]],
+        hint:'Repasa la primera tarjeta de la lección.'},
+      {t:'mc', q:'¿En qué se parecen un portátil y una tableta?', opts:['Los dos sirven para conectarse a internet','Los dos son del mismo tamaño','Los dos son teléfonos'], a:0, hint:'Se diferencian en el tamaño y en el teclado.'},
+      {t:'mc', q:'¿Qué dispositivo es más grande?', opts:['El portátil','El teléfono móvil','La tableta'], a:0, hint:'El móvil es el más pequeño.'},
+      {t:'tf', q:'Los dispositivos digitales también nos sirven para aprender.', a:true, hint:'Por ejemplo, para hacer las tareas de clase.'}
+    ]
+  },
+  {
+    id:'digital2', badge:'Detective web', title:'¿Dónde buscamos información?', short:'Internet y navegadores', pages:'Págs. 106-107',
+    color:'--ok', icon:'eye',
+    learn:[
+      {h:'Internet y navegadores', p:'En <mark>internet</mark> tenemos acceso a muchas informaciones. Para encontrarlas usamos unos programas llamados <mark>navegadores</mark>, como Google Chrome o Microsoft Edge.'},
+      {h:'¿Cómo buscar información?', p:'Sigue estos pasos:',
+        extra:'<ol class="steps"><li>Abre un navegador.</li><li>Escribe lo que quieres saber en la barra donde pone «Buscar».</li><li>Mira la lista de resultados: son las <mark>páginas web</mark>.</li><li>Haz clic en una de ellas y lee hasta encontrar la información.</li></ol>'},
+      {h:'¡Cuidado!', p:'Cualquier persona puede publicar una noticia falsa. No hay que creer todo lo que leemos en internet: debemos <mark>consultar páginas diferentes</mark> y contar con la <mark>supervisión de una persona adulta</mark>.'}
+    ],
+    ch:[
+      {t:'order', q:'Ordena los pasos para buscar información.', items:['Abre un navegador','Escribe lo que quieres saber en «Buscar»','Mira la lista de páginas web','Haz clic en una y lee la información'], hint:'Primero se abre el navegador.'},
+      {t:'pick', q:'¿Para qué utilizarías internet? Toca las correctas.', opts:['Para buscar información','Para hacer videollamadas','Para escuchar música','Para leer un libro','Para jugar online','Para escribir un texto'], a:[0,1,2,3,4,5], hint:'¡Internet sirve para todo eso!'},
+      {t:'mc', q:'¿Cómo se llaman los programas que usamos para navegar por internet?', opts:['Navegadores','Procesadores','Calculadoras'], a:0, hint:'Por ejemplo, Google Chrome o Microsoft Edge.'},
+      {t:'pick', q:'¿Cómo puedes saber si una información de internet es cierta?', opts:['Mirar en qué página la has leído','Preguntar a una persona adulta','Consultar lo mismo en otras páginas web','Creer todo lo que leo'], a:[0,1,2], hint:'No hay que creerse todo.'},
+      {t:'tf', q:'Todo lo que leemos en internet es verdad.', a:false, hint:'Cualquier persona puede publicar información falsa.'},
+      {t:'mc', q:'Para buscar información sobre animales, ¿qué página elegirías?', opts:['Una página sobre la naturaleza y los animales','Una página de recetas para niños','Una página de películas'], a:0, hint:'Elige la página del tema que buscas.'}
+    ]
+  },
+  {
+    id:'digital3', badge:'Presentador estrella', title:'¿Cómo presentamos la información?', short:'Programas y almacenamiento', pages:'Págs. 108-109',
+    color:'--food', icon:'teacher',
+    learn:[
+      {h:'Programas informáticos', p:'Para organizar la información y presentar un trabajo usamos <mark>programas informáticos</mark>:',
+        extra:'<div class="senses"><b>Procesador de textos</b><span>para escribir y corregir textos. Podemos cambiar el tamaño, el color y el tipo de letra.</span><b>Creador de presentaciones</b><span>para trabajos y exposiciones. Permite añadir texto, dibujos, fotos y tablas.</span></div>'},
+      {h:'Guardar la información', p:'Usamos <mark>dispositivos de almacenamiento</mark>:',
+        extra:'<div class="senses"><b>Disco duro</b><span>guarda miles y miles de documentos, imágenes o vídeos.</span><b>Memoria portátil</b><span>fácil de transportar, con menos capacidad que un disco duro.</span><b>Tarjeta de memoria</b><span>muy pequeña. Se usa en cámaras digitales y móviles.</span></div>'}
+    ],
+    ch:[
+      {t:'classify', q:'¿Qué programa te resultaría más útil?', bins:['Procesador de textos','Creador de presentaciones'],
+        items:[['Para presentar un trabajo',1],['Para escribir una receta',0],['Para preparar diapositivas',1],['Para redactar una noticia',0],['Para escribir un libro',0],['Para realizar un esquema con fotos',1]],
+        hint:'El creador de presentaciones sirve para exponer. El procesador, para escribir.'},
+      {t:'match', q:'Une cada dispositivo de almacenamiento con su descripción.', pairs:[['Disco duro','Guarda miles y miles de documentos'],['Memoria portátil','Fácil de transportar'],['Tarjeta de memoria','Muy pequeña, para cámaras y móviles']], hint:'Repasa la tarjeta de guardar la información.'},
+      {t:'mc', q:'¿Qué dispositivo es pequeño y fácil de transportar?', opts:['La memoria portátil','El disco duro'], a:0, hint:'Se lleva en el bolsillo.'},
+      {t:'mc', q:'¿Dónde puedes guardar una mayor cantidad de archivos?', opts:['En el disco duro','En la tarjeta de memoria'], a:0, hint:'Guarda miles y miles de documentos.'},
+      {t:'pick', q:'¿En qué aparatos se usan las tarjetas de memoria?', opts:['📷 Cámaras digitales','📱 Teléfonos móviles','🧊 Neveras','🚲 Bicicletas'], a:[0,1], hint:'Aparatos que guardan fotos.'},
+      {t:'tf', q:'Es importante guardar la información después de hacer un trabajo.', a:true, hint:'Así no la perdemos.'}
+    ]
+  },
+  {
+    id:'digital4', badge:'Ciberguardián', title:'¿Utilizamos bien los dispositivos digitales?', short:'Peligros y buen uso', pages:'Págs. 110-111',
+    color:'--lung', icon:'shield',
+    learn:[
+      {h:'Peligros', p:'Internet y los aparatos digitales no siempre son seguros:',
+        extra:'<ol class="steps"><li>No hagas clic en anuncios ni en páginas desconocidas: así evitas <mark>virus informáticos</mark>.</li><li>Muchos contenidos son inadecuados para los niños y niñas: navega siempre con la <mark>supervisión</mark> de una persona adulta.</li></ol>'},
+      {h:'Buen uso', p:'Es importante controlar el <mark>tiempo</mark> que pasamos con estos dispositivos, acordando <mark>normas</mark> con los adultos. Mantén una <mark>buena postura</mark>: espalda recta y pantalla a una distancia adecuada para no forzar la vista.'}
+    ],
+    ch:[
+      {t:'pick', q:'Toca lo que debes hacer para usar bien internet.', opts:['Navegar con una persona adulta','No hacer clic en anuncios desconocidos','Acordar un tiempo de uso','Sentarte con la espalda recta','Hablar con desconocidos','Estar horas sin descansar'], a:[0,1,2,3], hint:'Nunca hables con desconocidos.'},
+      {t:'match', q:'Une cada problema con su solución.', pairs:[['Virus','No hacer clic en páginas desconocidas'],['Uso excesivo','Acordar normas de tiempo'],['Mala postura','Espalda recta y pantalla a buena distancia']], hint:'Repasa la tarjeta del buen uso.'},
+      {t:'mc', q:'Hugo está usando la tableta de su madre sin permiso. ¿Qué le dirías?', opts:['Que pida permiso antes de usarla','Que siga, no pasa nada','Que la esconda'], a:0, hint:'Hay que pedir permiso a los adultos.'},
+      {t:'mc', q:'A la madre de Lidia le ha llegado un mensaje de un desconocido al móvil. ¿Qué consejo le darías?', opts:['Que no lo abra ni lo conteste','Que conteste enseguida','Que haga clic en el enlace'], a:0, hint:'Los mensajes de desconocidos pueden ser peligrosos.'},
+      {t:'mc', q:'Isa ha visto algo en internet que la ha asustado. ¿Qué debería hacer?', opts:['Contárselo a una persona adulta','No decir nada','Seguir mirando'], a:0, hint:'Los adultos nos ayudan.'},
+      {t:'tf', q:'Los virus informáticos pueden estropear el ordenador.', a:true, hint:'Son programas dañinos.'},
+      {t:'tf', q:'Es bueno colocar la pantalla muy cerca de los ojos.', a:false, hint:'Hay que ponerla a una distancia adecuada para no forzar la vista.'}
+    ]
+  }
+];
+const TEMA6_JEFE = {
+  id:'reto-digital', boss:true, villain:'Virus Pixelado', badge:'Héroe digital', title:'El Gran Reto digital', short:'Repaso de todo el tema', pages:'Págs. 104-111',
+  color:'--virus', icon:'trophy',
+  extra:[
+    {t:'classify', q:'¿Es un buen uso o un mal uso?', bins:['Buen uso','Mal uso'],
+      items:[['Navegar con un adulto',0],['Hacer clic en anuncios desconocidos',1],['Comprobar la información en varias páginas',0],['Usar la tableta toda la noche',1],['Guardar el trabajo al terminar',0]],
+      hint:'Repasa los peligros y el buen uso.'}
+  ]
+};
+
 const CURSO = {
   asignatura: 'Ciencias de la Naturaleza 2',
   /* Situaciones de aprendizaje del libro: agrupan los temas en el mapa */
@@ -377,9 +692,14 @@ const CURSO = {
     { id:'animales', n:3, title:'Animales muy diferentes', short:'Clasificación de los animales y dónde viven', pages:'Págs. 46-63',
       color:'--food', icon:'paw', starsBadge:'Arca de estrellas',
       missions: TEMA3_MISIONES, boss: TEMA3_JEFE },
-    /* Temas pendientes: añade misiones y jefe cuando lleguéis a ellos */
-    { id:'plantas', n:4, title:'La vida de las plantas', short:'Próximamente', pages:'Págs. 64-79', color:'--virus', icon:'leaf', missions:[] },
-    { id:'ciencia', n:5, title:'Nos gusta la ciencia', short:'Próximamente', pages:'Págs. 84-101', color:'--sense', icon:'flask', missions:[] },
-    { id:'conectados', n:6, title:'Estamos conectados', short:'Próximamente', pages:'Págs. 102-117', color:'--bone', icon:'wifi', missions:[] }
+    { id:'plantas', n:4, title:'La vida de las plantas', short:'Partes, tipos, reproducción e importancia de las plantas', pages:'Págs. 64-79',
+      color:'--virus', icon:'leaf', starsBadge:'Jardín de estrellas',
+      missions: TEMA4_MISIONES, boss: TEMA4_JEFE },
+    { id:'ciencia', n:5, title:'Nos gusta la ciencia', short:'Método científico, materia, mezclas, materiales, luz y sonido', pages:'Págs. 84-101',
+      color:'--sense', icon:'flask', starsBadge:'Laboratorio estelar',
+      missions: TEMA5_MISIONES, boss: TEMA5_JEFE },
+    { id:'conectados', n:6, title:'Estamos conectados', short:'Dispositivos, internet, presentaciones y buen uso', pages:'Págs. 102-117',
+      color:'--bone', icon:'wifi', starsBadge:'Conexión total',
+      missions: TEMA6_MISIONES, boss: TEMA6_JEFE }
   ]
 };
