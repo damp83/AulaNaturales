@@ -16,6 +16,22 @@
    Los "id" de misiones y jefes deben ser únicos en todo el curso.
    ===================================================================== */
 
+/* ---------- CURRÍCULO: criterios de evaluación y saberes básicos ----------
+   Se rellenan aquí y se asocian:
+     · a cada tema:   criterios:['1.1','2.3'], saberes:['A.1']      (en CURSO, más abajo)
+     · a cada misión: cr:['1.1']   → todos sus retos cuentan para ese criterio
+     · a un reto:     cr:['2.3']   → sustituye al de la misión solo para ese reto
+   Un criterio del tema sin ningún reto asociado aparece como «no evaluable en el juego».
+   Mientras no haya criterios, el panel del docente evalúa por misión. */
+const CURRICULO = {
+  criterios: [
+    /* { id:'1.1', texto:'…' }, */
+  ],
+  saberes: [
+    /* { id:'A.1', bloque:'…', texto:'…' }, */
+  ]
+};
+
 /* ---------- TEMA 1 · Así funciona nuestro cuerpo (libro, págs. 12-19) ---------- */
 const TEMA1_MISIONES = [
   {

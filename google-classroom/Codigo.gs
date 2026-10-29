@@ -90,6 +90,22 @@ function setSettings(ajustes) {
   return true;
 }
 
+/** Escribe la tabla de evaluación de un tema en la pestaña «Evaluación» (la sustituye entera). */
+function saveEvaluation(tema, cabecera, filas) {
+  soloDocente_();
+  if (!Array.isArray(cabecera) || !Array.isArray(filas) || filas.length > 500 || cabecera.length > 40) throw new Error('Datos no válidos');
+  const libro = libro_();
+  const h = libro.getSheetByName('Evaluación') || libro.insertSheet('Evaluación');
+  h.clear();
+  const ancho = cabecera.length;
+  const limpiar = fila => { const f = fila.slice(0, ancho).map(v => texto_(v, 200)); while (f.length < ancho) f.push(''); return f; };
+  h.getRange(1, 1).setValue(texto_(tema, 200) + ' · actualizado el ' + Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'dd/MM/yyyy HH:mm')).setFontWeight('bold');
+  h.getRange(2, 1, 1, ancho).setValues([limpiar(cabecera)]).setFontWeight('bold');
+  if (filas.length) h.getRange(3, 1, filas.length, ancho).setValues(filas.map(limpiar));
+  h.setFrozenRows(2);
+  return true;
+}
+
 function deleteStudent(email) {
   soloDocente_();
   const lock = LockService.getScriptLock();

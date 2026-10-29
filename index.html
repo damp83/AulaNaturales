@@ -365,6 +365,10 @@ td.num-c{font-variant-numeric:tabular-nums}
 .region{display:grid;gap:2px;text-align:center;font-family:var(--f-game);font-size:1.25rem;color:var(--gold);padding:10px 14px;margin:6px 0 34px;border:3px dashed var(--panel-2);border-radius:18px;background:var(--night)}
 .region .label{font-size:.75rem;text-shadow:none}
 .region~.region{margin-top:10px}
+.ev-cell{font:inherit;font-weight:700;cursor:pointer;border:2px solid var(--edge);border-radius:10px;padding:3px 10px;background:var(--c);color:var(--edge)}
+.ev-cell small{font-weight:400}
+.ev-detail,.ev-sab{padding:14px;margin-top:10px}
+.ev-detail ul,.ev-sab ul{margin:8px 0 0;padding-left:1.2em;display:grid;gap:4px;font-size:.95rem}
 /* Personajes */
 .avatar{width:100%;height:auto;overflow:visible;display:block}
 .frame .avatar{width:52px;margin-top:4px}
@@ -661,6 +665,38 @@ function unlocked(idx){
   return idx===0 || stars(P(), L[idx-1].id)>0;
 }
 const nextIdx = () => stagesOf(CT).findIndex((w,k)=>unlocked(k) && stars(P(),w.id)===0);
+/* ---------- Evaluación por criterios ----------
+   Cada reto tiene una clave fija (misión#posición). Se guarda el mejor resultado de cada alumno:
+   1 = acierto a la primera, 0,5 = acierto tras fallar, 0 = no resuelto (sin corazones en el jefe).
+   Los criterios se asocian en contenidos.js: CURRICULO, y en cada tema/misión/reto con «cr». */
+const CUR = (typeof CURRICULO !== 'undefined' && CURRICULO) || {criterios:[], saberes:[]};
+const LOGRO = [[90,'Sobresaliente','SB','--ok'],[70,'Notable','NT','--sense'],[50,'Suficiente','SU','--gold'],[0,'Insuficiente','IN','--bad']];
+TEMAS.forEach(t=>{ stagesOf(t).forEach(w=>{
+  (w.ch||[]).forEach((c,i)=>{ c._k = w.id+'#'+i; c._w = w; c._t = t; });
+  (w.extra||[]).forEach((c,i)=>{ c._k = w.id+'#x'+i; c._w = w; c._t = t; });
+}); });
+const crOf = c => c.cr || c._w.cr || [];
+function retosDe(t){ return stagesOf(t).flatMap(w=>[...(w.ch||[]), ...(w.extra||[])]); }
+function crTema(t){ return (t.criterios || []).map(id=>CUR.criterios.find(c=>c.id===id) || {id, texto:''}); }
+function columnasEval(t){
+  // Con criterios definidos: una columna por criterio del tema. Si no, una por misión.
+  if(crTema(t).length) return crTema(t).map(c=>({id:c.id, label:c.id, title:c.texto, retos: retosDe(t).filter(r=>crOf(r).includes(c.id))}));
+  return t.missions.map((m,k)=>({id:m.id, label:'M'+(k+1), title:m.title, retos: m.ch}));
+}
+function logro(p, retos){
+  const ev = p.ev || {}; const hechos = retos.filter(r=>ev[r._k]);
+  if(!retos.length) return {na:true};
+  if(!hechos.length) return {none:true, total:retos.length};
+  const pct = Math.round(hechos.reduce((n,r)=>n+ev[r._k][0],0)/hechos.length*100);
+  const L = LOGRO.find(l=>pct>=l[0]);
+  return {pct, name:L[1], short:L[2], color:L[3], done:hechos.length, total:retos.length};
+}
+function recordResult(score){
+  const p=P(), c=M.list[M.i]; if(!p || !c || !c._k) return;
+  p.ev = p.ev || {}; const prev = p.ev[c._k];
+  p.ev[c._k] = [Math.max(prev?prev[0]:0, score), (prev?prev[1]:0)+1];
+  save();
+}
 function allBadges(){
   const out=[];
   TEMAS.filter(hasContent).forEach(t=>{
@@ -1105,6 +1141,7 @@ function right(){
   let gain = 4;
   if(M.cur.mist===0){ M.firstOk++; M.combo++; M.bestCombo=Math.max(M.bestCombo,M.combo); gain = 10 + (M.combo>=3?2:0); M.res[M.i]='ok'; }
   else { M.combo=0; M.res[M.i]='meh'; }
+  recordResult(M.cur.mist===0 ? 1 : 0.5);
   M.xp += gain; sfx('ok'); floatXP(gain); setMascot('happy');
   if(M.combo>=3) setTimeout(()=>{ popText('¡COMBO x'+M.combo+'!'); sfx('coin'); }, 150);
   if(M.w.boss){
@@ -1122,7 +1159,7 @@ function wrong(msg){
   if(M.hearts!==null && M.cur.mist===1){
     M.hearts--; M.justLost=true;
     if(M.hearts<=0){
-      M.over=true; drawHead(); st.querySelectorAll('button').forEach(b=>b.disabled=true);
+      M.over=true; recordResult(0); drawHead(); st.querySelectorAll('button').forEach(b=>b.disabled=true);
       feedback('bad','¡SIN CORAZONES!','¡No pasa nada! Repasa y vuelve a intentarlo.', false);
       setTimeout(()=>finish(false), 1800); return;
     }
@@ -1380,6 +1417,59 @@ function renderBadges(){
 }
 
 /* ---------- Panel docente ---------- */
+let evalTema = 0, evalSel = null;
+function evalHTML(list){
+  const temas = TEMAS.filter(hasContent), t = temas[Math.min(evalTema, temas.length-1)], cols = columnasEval(t);
+  const sab = (t.saberes||[]).map(id=>CUR.saberes.find(x=>x.id===id) || {id, texto:''});
+  const sinJuego = crTema(t).filter(c=>!retosDe(t).some(r=>crOf(r).includes(c.id)));
+  const cell = (p, col, id) => { const L = logro(p, col.retos);
+    if(L.na) return `<td class="num-c" style="color:var(--ink-dim)">—</td>`;
+    if(L.none) return `<td class="num-c" style="color:var(--ink-dim)" title="Todavía no ha jugado estos retos">Sin datos</td>`;
+    return `<td class="num-c"><button type="button" class="ev-cell" data-st="${esc(id)}" data-col="${esc(col.id)}" title="${L.name}: ${L.pct} % (${L.done} de ${L.total} retos jugados)" style="--c:var(${L.color})">${L.short} <small>${L.pct}%</small></button></td>`; };
+  let detail = '';
+  if(evalSel){ const row = list.find(r=>r[0]===evalSel.st), col = cols.find(c=>c.id===evalSel.col);
+    if(row && col){ const ev = row[1].ev || {};
+      detail = `<div class="panel ev-detail"><b>${esc(row[1].name)} · ${esc(col.label)}</b> <small style="color:var(--ink-soft)">${esc(col.title)}</small>
+        <ul>${col.retos.map(r=>{ const e=ev[r._k]; const m=!e?['·','No jugado','var(--ink-dim)']:e[0]===1?['✔','A la primera','var(--ok)']:e[0]>0?['~','Con algún fallo','var(--gold)']:['✖','No resuelto','var(--bad)'];
+          return `<li><span style="color:${m[2]};font-weight:700">${m[0]} ${m[1]}</span>${e?` <small>(${e[1]} ${e[1]===1?'intento':'intentos'})</small>`:''} · ${esc(r.q)}</li>`; }).join('')}</ul></div>`; } }
+  return `<h2 class="outline-sm" style="color:var(--gold)">Evaluación</h2>
+    <div class="chips" role="group" aria-label="Tema">${temas.map((x,i)=>`<button type="button" class="tile chip ev-tema" aria-pressed="${x===t}" data-i="${i}">Tema ${x.n}</button>`).join('')}</div>
+    <p class="note"><b>Tema ${t.n}: ${esc(t.title)}.</b> ${crTema(t).length ? 'Nivel de logro por criterio de evaluación' : 'Nivel de logro por misión (cuando se añadan los criterios de evaluación, aparecerán aquí)'}, calculado con el mejor resultado de cada reto: acierto a la primera = 100 %, con algún fallo = 50 %. Pulsa una casilla para ver el detalle.</p>
+    ${sab.length ? `<div class="panel ev-sab"><b>Saberes básicos</b><ul>${sab.map(x=>`<li><b>${esc(x.id)}</b> ${esc(x.texto)}</li>`).join('')}</ul></div>` : ''}
+    <div class="table-wrap panel"><table>
+      <thead><tr><th>Alumno/a</th>${cols.map(c=>`<th title="${esc(c.title)}">${esc(c.label)}</th>`).join('')}</tr></thead>
+      <tbody>${list.map(([id,p])=>`<tr><td>${esc(p.name)}</td>${cols.map(c=>cell(p,c,id)).join('')}</tr>`).join('')}</tbody>
+    </table></div>
+    ${detail}
+    ${sinJuego.length ? `<p class="note">No evaluables en el juego (evalúalos por otras vías): ${sinJuego.map(c=>`<b>${esc(c.id)}</b> ${esc(c.texto)}`).join(' · ')}</p>` : ''}
+    <div class="row"><button class="btn dark small" type="button" id="ev-copy">Copiar tabla</button>${CLOUD ? '<button class="btn dark small" type="button" id="ev-sheet">Guardar en la hoja</button>' : ''}
+      <span class="note">Niveles: SB ≥ 90 % · NT ≥ 70 % · SU ≥ 50 % · IN &lt; 50 %</span></div>`;
+}
+function evalTable(list){
+  const t = TEMAS.filter(hasContent)[evalTema], cols = columnasEval(t);
+  const head = ['Alumno/a'].concat(CLOUD?['Cuenta']:[]).concat(cols.map(c=>c.label+(c.title?' · '+c.title:'')));
+  const rows = list.map(([id,p])=>[p.name].concat(CLOUD?[id]:[]).concat(cols.map(c=>{ const L=logro(p,c.retos); return L.na?'':L.none?'Sin datos':`${L.name} (${L.pct} %)`; })));
+  return {tema:`Tema ${t.n}: ${t.title}`, head, rows};
+}
+function bindEval(v, list){
+  v.querySelectorAll('.ev-tema').forEach(b=>b.onclick=()=>{ evalTema=+b.dataset.i; evalSel=null; renderTeacher(); });
+  v.querySelectorAll('.ev-cell').forEach(b=>b.onclick=()=>{ evalSel={st:b.dataset.st, col:b.dataset.col}; renderTeacher(); });
+  const cp=v.querySelector('#ev-copy'); if(cp) cp.onclick=()=>{
+    const T=evalTable(list), tsv=[T.head].concat(T.rows).map(r=>r.join('\t')).join('\n');
+    const done=()=>toast('Tabla copiada: pégala en tu cuaderno u hoja de cálculo');
+    try{ navigator.clipboard.writeText(tsv).then(done, ()=>fallbackCopy(tsv, done)); }catch(e){ fallbackCopy(tsv, done); }
+  };
+  const sh=v.querySelector('#ev-sheet'); if(sh) sh.onclick=()=>{
+    const T=evalTable(list);
+    google.script.run.withSuccessHandler(()=>toast('Evaluación guardada en la hoja de cálculo'))
+      .withFailureHandler(e=>toast('No se ha podido guardar: '+(e&&e.message||e))).saveEvaluation(T.tema, T.head, T.rows);
+  };
+}
+function fallbackCopy(text, done){
+  const ta=document.createElement('textarea'); ta.value=text; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select(); let ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
+  ta.remove(); ok ? done() : toast('No se ha podido copiar automáticamente');
+}
 let armedDelete = null;
 function renderTeacher(){
   const v=$('#view-teacher'), withC=TEMAS.filter(hasContent);
@@ -1404,6 +1494,7 @@ function renderTeacher(){
         <td><button class="btn dark small" type="button" data-del="${id}">${armedDelete===id?'¿Seguro? Borrar':'Borrar'}</button></td></tr>`).join('')}</tbody>
     </table></div><p class="note" style="margin-top:8px">Pasa el ratón sobre las estrellas de un tema para ver el detalle por misión (estrellas, veces jugada y mejor % de aciertos a la primera). ✓ = jefe final vencido.</p>` : `<p class="note">Todavía no hay alumnado registrado${CLOUD?'':' en este dispositivo'}.</p>`}
     <div class="teacher-tools">
+      ${list.length ? evalHTML(list) : ''}
       <h2 class="outline-sm" style="color:var(--gold)">Temas del curso</h2>
       <div class="tema-toggles panel">${TEMAS.map((t,i)=>`<label class="switch"><span>Tema ${t.n}: ${esc(t.title)} <small style="color:var(--ink-soft);font-weight:400">${hasContent(t)?`(${t.missions.length} misiones + jefe)`:'(sin contenidos todavía)'}</small></span>
           <span style="display:inline-flex;gap:8px;align-items:center">${i===0?'<small style="color:var(--ink-soft)">Siempre abierto</small>':`<input type="checkbox" data-open="${t.id}" ${S.open[t.id]?'checked':''} ${hasContent(t)?'':'disabled'}> Abrir ya`}</span></label>`).join('')}</div>
@@ -1431,6 +1522,7 @@ function renderTeacher(){
   v.querySelector('#voice-test').onclick = ()=>{ speak('¡Hola! Soy Glo. ¿Preparados para explorar la naturaleza?'); };
   v.querySelector('#free-mode').onchange = e=>{ S.free=e.target.checked; save(); cloudSettings(); toast(S.free?'Modo libre activado':'Modo libre desactivado'); };
   v.querySelectorAll('[data-open]').forEach(c=>c.onchange=()=>{ S.open[c.dataset.open]=c.checked; save(); cloudSettings(); toast(c.checked?'Tema abierto para la clase':'Tema cerrado'); });
+  bindEval(v, list);
   const rf=v.querySelector('#t-refresh'); if(rf) rf.onclick=()=>{ CLASS=null; renderTeacher(); };
   v.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
     const id=b.dataset.del;
