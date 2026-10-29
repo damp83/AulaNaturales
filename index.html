@@ -1495,6 +1495,7 @@ function renderEsquemas(){
     const t=x=>esqPartes(x).map(q=>q.startsWith('[[')?a[i++]:q).join(''); const parts=[t(ch.titulo||'')]; (function rec(ns){ ns.forEach(n=>{ parts.push(t(n.txt)); rec(n.hijos||[]); }); })(ch.nodos); speak(parts.join('. ')); });
   show('view-esquemas');
 }
+const FICHAS_URL = 'https://damp83.github.io/AulaNaturales/fichas/';
 let evalTema = 0, evalSel = null;
 function evalHTML(list){
   const temas = TEMAS.filter(hasContent), t = temas[Math.min(evalTema, temas.length-1)], cols = columnasEval(t);
@@ -1574,6 +1575,10 @@ function renderTeacher(){
     </table></div><p class="note" style="margin-top:8px">Pasa el ratón sobre las estrellas de un tema para ver el detalle por misión (estrellas, veces jugada y mejor % de aciertos a la primera). ✓ = jefe final vencido.</p>` : `<p class="note">Todavía no hay alumnado registrado${CLOUD?'':' en este dispositivo'}.</p>`}
     <div class="teacher-tools">
       ${list.length ? evalHTML(list) : ''}
+      <h2 class="outline-sm" style="color:var(--gold)">Fichas para imprimir</h2>
+      <div class="tema-toggles panel"><p class="note" style="margin:0">Esquemas en papel para completar a mano (A4, una ficha por página), con recuadro de palabras, espacio para dibujar y autoevaluación.</p>
+        <div class="row">${TEMAS.filter(hasContent).map(t=>`<a class="btn dark small" href="${FICHAS_URL}tema-${t.n}-esquemas.pdf" target="_blank" rel="noopener">Tema ${t.n}</a>`).join('')}
+        <a class="btn gold small" href="${FICHAS_URL}solucionario-esquemas.pdf" target="_blank" rel="noopener">Solucionario</a></div></div>
       <h2 class="outline-sm" style="color:var(--gold)">Temas del curso</h2>
       <div class="tema-toggles panel">${TEMAS.map((t,i)=>`<label class="switch"><span>Tema ${t.n}: ${esc(t.title)} <small style="color:var(--ink-soft);font-weight:400">${hasContent(t)?`(${t.missions.length} misiones + jefe)`:'(sin contenidos todavía)'}</small></span>
           <span style="display:inline-flex;gap:8px;align-items:center">${i===0?'<small style="color:var(--ink-soft)">Siempre abierto</small>':`<input type="checkbox" data-open="${t.id}" ${S.open[t.id]?'checked':''} ${hasContent(t)?'':'disabled'}> Abrir ya`}</span></label>`).join('')}</div>

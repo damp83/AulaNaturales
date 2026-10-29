@@ -27,6 +27,7 @@ elegir respuesta, verdadero/falso, seleccionar varias, ordenar secuencias, clasi
 - 8 personajes jugables dibujados (exploradora, astronauta, científico, robot, superheroína, ninja, doctora y alienígena).
 - **Zona de calma**: ejercicio guiado de respiración (inspiración, mantener, espiración) de la pág. 17.
 - **Esquemas**: cada misión termina con un esquema para completar (mapa conceptual o secuencia de pasos con huecos). En el mapa de cada tema, «Esquemas del tema» permite repasar los esquemas completados.
+- **Fichas en papel**: en `fichas/` están los esquemas en PDF para imprimir y completar a mano (uno por tema y un solucionario), pensados para 2.º de Primaria. Se regeneran con `node tools/fichas/generar_fichas.js`.
 - **Evaluación**: nivel de logro (SB, NT, SU, IN) de cada alumno por criterio de evaluación y tema, calculado con el mejor resultado de cada reto. Los criterios y saberes básicos se definen en `contenidos.js` (`CURRICULO`).
 - **Panel del docente**: progreso de cada alumno/a por tema, opción de abrir un tema a toda la clase y *modo libre* para desbloquear todo.
 
