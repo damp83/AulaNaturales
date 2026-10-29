@@ -6,6 +6,8 @@
  *   tema-1-esquemas.pdf … tema-6-esquemas.pdf   (una ficha por página, para el alumnado)
  *   solucionario-esquemas.pdf                   (todas las fichas resueltas, para el docente)
  *
+ * © 2026 Diego Alberto Moya, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · Licencia CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
+ *
  * Necesita Node y Playwright con Chromium. Las tipografías (Andika y Lilita One, licencia OFL)
  * están en esta misma carpeta y se incrustan en el PDF.
  */
@@ -95,6 +97,7 @@ function ficha(tema, mision, k, e, resuelta) {
       <div class="auto"><b>¿Cómo lo he hecho?</b><p>Colorea una cara.</p>
         <div class="caras"><span>${CARA(0)}¡Muy bien!</span><span>${CARA(1)}Bien</span><span>${CARA(2)}Tengo que repasar</span></div></div>
     </div>`}
+    <footer class="licencia"><span>Exploradores de la Naturaleza · Licencia CC BY-NC-SA 4.0</span><span>© 2026 Diego Alberto Moya, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia</span></footer>
   </section>`;
 }
 
@@ -150,7 +153,9 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
 .hueco{display:inline-block;max-width:100%;height:1.6em;vertical-align:-0.45em;border-bottom:2px solid #222;margin:0 1.5mm;position:relative}
 .sol{position:absolute;left:0;right:0;bottom:1px;text-align:center;color:#C62828;font-weight:700;line-height:1.2}
 .flujo .hueco{max-width:5.2cm}
-.pie{flex:1;display:grid;grid-template-columns:1fr 66mm;gap:5mm;min-height:34mm}
+.licencia{font-size:7.5pt;color:#777;text-align:center;margin-top:auto;padding-top:1mm;display:flex;flex-direction:column;line-height:1.3}
+.licencia span{white-space:nowrap}
+.pie{flex:1 0 auto;display:grid;grid-template-columns:1fr 66mm;gap:5mm;min-height:30mm}
 .dibujo{border:2.5px dashed #999;border-radius:5mm;padding:2mm 4mm;font-size:12pt;color:#555}
 .auto{border:2.5px solid #999;border-radius:5mm;padding:2mm 4mm;font-size:12pt;display:flex;flex-direction:column}
 .auto p{margin:0 0 2mm;color:#555}
@@ -162,13 +167,23 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
 (async () => {
   fs.mkdirSync(SALIDA, { recursive: true });
   const browser = await chromium.launch();
-  const pagina = await browser.newPage();
+  // Mismo ancho que el área imprimible de un A4 (210 mm − 24 mm de márgenes), para medir como en el papel
+  const pagina = await browser.newPage({ viewport: { width: Math.round(186 / 25.4 * 96), height: 1100 } });
   const doc = cuerpo => `<!doctype html><html lang="es"><head><meta charset="utf-8"><style>${CSS}</style></head><body>${cuerpo}</body></html>`;
   const pdf = async (html, nombre) => {
     await pagina.setContent(html, { waitUntil: 'load' });
     await pagina.evaluate(() => document.fonts.ready);
-    // Avisa si algún esquema no cabe en su página
-    const desbordes = await pagina.evaluate(() => [...document.querySelectorAll('.pagina')].filter(p => p.scrollHeight > p.clientHeight + 2 || [...p.querySelectorAll('.auto')].some(a => a.getBoundingClientRect().bottom < [...a.querySelectorAll('.cara')].pop().getBoundingClientRect().bottom || a.getBoundingClientRect().bottom > p.getBoundingClientRect().bottom + 1)).map(p => p.querySelector('h1').textContent));
+    await pagina.emulateMedia({ media: 'print' });
+    // Si una ficha no cabe en su página, reduce un poco el esquema (sin bajar del 72 %) hasta que quepa
+    const ajustes = await pagina.evaluate(() => [...document.querySelectorAll('.pagina')].map(p => {
+      const esq = p.querySelector('.esquema'), banco = p.querySelector('.banco');
+      const cabe = () => p.scrollHeight <= p.clientHeight + 1;
+      let z = 1;
+      while (!cabe() && z > 0.73) { z -= 0.03; esq.style.zoom = z; if (z < 0.9) banco.style.zoom = Math.max(z, 0.85); }
+      return { titulo: p.querySelector('h1').textContent, zoom: Math.round(z * 100), cabe: cabe() };
+    }));
+    ajustes.filter(a => a.zoom < 100).forEach(a => console.log(`    «${a.titulo}» reducido al ${a.zoom} %`));
+    const desbordes = ajustes.filter(a => !a.cabe).map(a => a.titulo);
     if (desbordes.length) console.warn('  Atención: no cabe en una página →', desbordes.join(', '));
     await pagina.pdf({ path: path.join(SALIDA, nombre), format: 'A4', printBackground: true, preferCSSPageSize: true });
     console.log('  ' + nombre);

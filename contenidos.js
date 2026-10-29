@@ -1,5 +1,6 @@
 /* =====================================================================
    CONTENIDOS DEL CURSO · Exploradores de la Naturaleza
+   © 2026 Diego Alberto Moya, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · Licencia CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
    ---------------------------------------------------------------------
    Cada tema tiene misiones (con tarjetas "learn" y retos "ch") y un jefe
    final. Un tema sin misiones aparece en el mapa como "Próximamente".

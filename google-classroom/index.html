@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Exploradores de la Naturaleza</title>
+<meta name="author" content="Diego Alberto Moya, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia">
+<meta name="license" content="CC BY-NC-SA 4.0 · https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Lilita+One&display=swap">
@@ -388,6 +390,9 @@ td.num-c{font-variant-numeric:tabular-nums}
 .esq-bank{justify-content:center}
 .esq-list{display:grid;gap:16px}
 .esq-card{padding:16px;display:grid;gap:12px}
+.creditos{margin-top:28px;text-align:center;font-size:.85rem;color:var(--ink-dim);max-width:70ch;margin-inline:auto}
+.creditos b{color:var(--ink-soft)}
+.creditos a{color:var(--gold)}
 /* Personajes */
 .avatar{width:100%;height:auto;overflow:visible;display:block}
 .frame .avatar{width:52px;margin-top:4px}
@@ -895,7 +900,8 @@ function renderWelcome(){
       </form>
       ${!CLOUD || (ME && ME.teacher) ? '<button class="linkish" type="button" id="teacher-link">Panel del docente</button>' : ''}
     </div>
-  </div>`;
+  </div>
+  ${CREDITOS}`;
   v.querySelectorAll('.slot-btn').forEach(b=>b.onclick=()=>{ S.current=b.dataset.id; save(); sfx('coin'); goCourse(); });
   v.querySelectorAll('.char').forEach(b=>b.onclick=()=>{
     chosen=+b.dataset.i; sfx('coin');
@@ -1495,6 +1501,7 @@ function renderEsquemas(){
     const t=x=>esqPartes(x).map(q=>q.startsWith('[[')?a[i++]:q).join(''); const parts=[t(ch.titulo||'')]; (function rec(ns){ ns.forEach(n=>{ parts.push(t(n.txt)); rec(n.hijos||[]); }); })(ch.nodos); speak(parts.join('. ')); });
   show('view-esquemas');
 }
+const CREDITOS = `<footer class="creditos">© 2026 <b>Diego Alberto Moya</b>, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">Licencia CC BY-NC-SA 4.0</a> · Recurso educativo abierto: puedes compartirlo y adaptarlo citando la autoría, sin fines comerciales y con la misma licencia.</footer>`;
 const FICHAS_URL = 'https://damp83.github.io/AulaNaturales/fichas/';
 let evalTema = 0, evalSel = null;
 function evalHTML(list){
@@ -1599,6 +1606,8 @@ function renderTeacher(){
       <p class="note">${VOICES.length ? 'Las voces dependen del dispositivo y del navegador. Las más naturales suelen llamarse «Natural», «Online», «Mejorada» o «Google».' : 'Este navegador todavía no ha cargado sus voces. Pulsa «Probar voz» y vuelve a abrir este panel.'}</p>
       <label class="switch"><input type="checkbox" id="free-mode" ${S.free?'checked':''}> Modo libre: todos los temas y misiones desbloqueados</label>
       <p class="note">Estrellas: 3 con un 85 % de aciertos a la primera, 2 con un 60 % y 1 al terminar. Los contenidos se editan en el archivo <b>contenidos.js</b>.</p>
+      <h2 class="outline-sm" style="color:var(--gold)">Autoría y licencia</h2>
+      <p class="note">Programa y contenidos: <b>Diego Alberto Moya</b>, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia. Licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener" style="color:var(--gold)">Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 (CC BY-NC-SA 4.0)</a>. Tipografías Andika y Lilita One con licencia SIL Open Font License. Las referencias al libro de texto pertenecen a sus titulares.</p>
     </div>`;
   v.querySelector('#tback').onclick = ()=> P() ? (CT ? goMap() : goCourse()) : renderWelcome();
   v.querySelector('#voice-sel').onchange = e=>{ S.voice=e.target.value||null; save(); speak('¡Hola! Así sonará mi voz.'); };

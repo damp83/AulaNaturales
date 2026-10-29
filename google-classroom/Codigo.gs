@@ -1,5 +1,6 @@
 /**
  * Exploradores de la Naturaleza · versión Google Classroom
+ * © 2026 Diego Alberto Moya, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · Licencia CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
  * ---------------------------------------------------------
  * Guarda el progreso de cada alumno en una hoja de cálculo del Drive del docente.
  * El alumno entra con su cuenta de Google del centro: no hay que crear usuarios.

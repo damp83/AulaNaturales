@@ -43,3 +43,12 @@ En la carpeta `google-classroom` está la versión que guarda el progreso en la 
 
 Si se cambia `index.html` o `contenidos.js`, hay que regenerar esa versión con `python3 tools/build_classroom.py`.
 
+## Autoría y licencia
+© 2026 **Diego Alberto Moya**, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia.
+
+[![Licencia CC BY-NC-SA 4.0](https://img.shields.io/badge/licencia-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
+
+*Exploradores de la Naturaleza* (el juego, sus contenidos, los esquemas y las fichas) se distribuye con una licencia [Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es). Puedes **compartirlo y adaptarlo** siempre que **cites la autoría**, lo uses **sin fines comerciales** y publiques tus versiones con **la misma licencia**. Más detalles en [`LICENSE`](LICENSE).
+
+Las tipografías Andika y Lilita One se distribuyen con la SIL Open Font License 1.1. Las referencias al libro de texto pertenecen a sus titulares.
+
