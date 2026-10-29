@@ -66,9 +66,19 @@ Al abrirlo, el alumno elige su personaje y escribe su nombre la primera vez. Las
 - **Abrir ya** y **Modo libre** se aplican a **toda la clase**, en todos los dispositivos.
 - **Borrar** elimina por completo el progreso de ese alumno de la hoja.
 
+## Evaluación
+
+En el panel del docente, el apartado **Evaluación** muestra, tema a tema, el **nivel de logro** de cada alumno (SB, NT, SU o IN) por criterio de evaluación. Mientras no se hayan añadido los criterios, lo muestra por misión. Se calcula con el **mejor resultado** de cada reto.
+
+- Pulsa una casilla para ver en qué retos ha acertado y en cuáles ha fallado.
+- **Copiar tabla** la copia para pegarla en tu cuaderno o en una hoja de cálculo.
+- **Guardar en la hoja** escribe la tabla del tema elegido en la pestaña **«Evaluación»** de tu hoja de progreso.
+
+Los alumnos no ven la evaluación; solo sus estrellas e insignias.
+
 ## Actualizar el juego (temas nuevos o cambios)
 
-1. Sustituye el contenido de los archivos que hayan cambiado (normalmente `contenidos`).
+1. Sustituye el contenido de los archivos que hayan cambiado (normalmente `contenidos`; si la actualización añade funciones nuevas, también `Codigo.gs` e `index`).
 2. **Implementar** → **Gestionar implementaciones** → lápiz (**Editar**) → **Versión: Nueva versión** → **Implementar**.
 
 La URL no cambia, así que el enlace de Classroom sigue sirviendo.
