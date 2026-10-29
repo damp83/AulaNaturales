@@ -6,7 +6,7 @@
  *   tema-1-esquemas.pdf … tema-6-esquemas.pdf   (una ficha por página, para el alumnado)
  *   solucionario-esquemas.pdf                   (todas las fichas resueltas, para el docente)
  *
- * © 2026 Diego Alberto Moya · Licencia CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
+ * © 2026 Diego Alberto Moya, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · Licencia CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
  *
  * Necesita Node y Playwright con Chromium. Las tipografías (Andika y Lilita One, licencia OFL)
  * están en esta misma carpeta y se incrustan en el PDF.
@@ -97,7 +97,7 @@ function ficha(tema, mision, k, e, resuelta) {
       <div class="auto"><b>¿Cómo lo he hecho?</b><p>Colorea una cara.</p>
         <div class="caras"><span>${CARA(0)}¡Muy bien!</span><span>${CARA(1)}Bien</span><span>${CARA(2)}Tengo que repasar</span></div></div>
     </div>`}
-    <footer class="licencia">Exploradores de la Naturaleza · © 2026 Diego Alberto Moya · Licencia CC BY-NC-SA 4.0</footer>
+    <footer class="licencia"><span>Exploradores de la Naturaleza · Licencia CC BY-NC-SA 4.0</span><span>© 2026 Diego Alberto Moya, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia</span></footer>
   </section>`;
 }
 
@@ -153,7 +153,8 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
 .hueco{display:inline-block;max-width:100%;height:1.6em;vertical-align:-0.45em;border-bottom:2px solid #222;margin:0 1.5mm;position:relative}
 .sol{position:absolute;left:0;right:0;bottom:1px;text-align:center;color:#C62828;font-weight:700;line-height:1.2}
 .flujo .hueco{max-width:5.2cm}
-.licencia{font-size:8pt;color:#777;text-align:center;margin-top:auto;padding-top:1mm}
+.licencia{font-size:7.5pt;color:#777;text-align:center;margin-top:auto;padding-top:1mm;display:flex;flex-direction:column;line-height:1.3}
+.licencia span{white-space:nowrap}
 .pie{flex:1 0 auto;display:grid;grid-template-columns:1fr 66mm;gap:5mm;min-height:30mm}
 .dibujo{border:2.5px dashed #999;border-radius:5mm;padding:2mm 4mm;font-size:12pt;color:#555}
 .auto{border:2.5px solid #999;border-radius:5mm;padding:2mm 4mm;font-size:12pt;display:flex;flex-direction:column}

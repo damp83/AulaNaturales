@@ -44,7 +44,7 @@ En la carpeta `google-classroom` está la versión que guarda el progreso en la 
 Si se cambia `index.html` o `contenidos.js`, hay que regenerar esa versión con `python3 tools/build_classroom.py`.
 
 ## Autoría y licencia
-© 2026 **Diego Alberto Moya**.
+© 2026 **Diego Alberto Moya**, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia.
 
 [![Licencia CC BY-NC-SA 4.0](https://img.shields.io/badge/licencia-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
 
