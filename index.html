@@ -369,6 +369,25 @@ td.num-c{font-variant-numeric:tabular-nums}
 .ev-cell small{font-weight:400}
 .ev-detail,.ev-sab{padding:14px;margin-top:10px}
 .ev-detail ul,.ev-sab ul{margin:8px 0 0;padding-left:1.2em;display:grid;gap:4px;font-size:.95rem}
+.esq{display:grid;gap:14px;justify-items:center}
+.esq-root{background:var(--c);color:var(--edge);border:3px solid var(--edge);border-radius:16px;padding:10px 18px;font-family:var(--f-game);font-size:1.3rem;text-align:center;box-shadow:0 4px 0 var(--edge)}
+.esq-cols{display:grid;gap:14px;width:100%;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));position:relative;padding-top:14px;border-top:3px dashed var(--panel-2)}
+.esq-col{display:grid;gap:8px;align-content:start;min-width:0}
+.esq-box{display:block;background:var(--night);border:3px solid var(--c);border-radius:14px;padding:8px 12px;font-weight:700;text-align:center;line-height:1.9}
+.esq-col ul{list-style:none;margin:0;padding:0 0 0 14px;display:grid;gap:6px;border-left:3px solid var(--panel-2)}
+.esq-leaf{background:var(--panel);border-radius:12px;padding:6px 10px;line-height:1.9;font-size:1rem}
+.esq-flujo ol{list-style:none;margin:0;padding:0;display:grid;gap:4px;justify-items:center;counter-reset:paso;width:100%}
+.esq-flujo li{display:grid;justify-items:center;gap:4px;width:min(100%,460px);counter-increment:paso}
+.esq-flujo li .esq-box{width:100%}
+.esq-flujo li .esq-box::before{content:counter(paso) ". ";color:var(--c);font-family:var(--f-game)}
+.esq-flujo li+li::before{content:"↓";color:var(--ink-dim);font-size:1.3rem;line-height:1}
+.gap{display:inline-block;min-width:3.6em;margin:0 2px;padding:0 8px;border:2px dashed var(--ink-dim);border-radius:10px;background:var(--edge);color:var(--ink-dim);font:inherit;font-weight:700;cursor:pointer;line-height:1.6}
+.gap.active{border:3px solid var(--gold);color:var(--gold);animation:blink 1.2s infinite}
+.gap.filled{border:2px solid var(--ok);background:var(--ok);color:#fff;cursor:default}
+.gap.bad{animation:shake .4s}
+.esq-bank{justify-content:center}
+.esq-list{display:grid;gap:16px}
+.esq-card{padding:16px;display:grid;gap:12px}
 /* Personajes */
 .avatar{width:100%;height:auto;overflow:visible;display:block}
 .frame .avatar{width:52px;margin-top:4px}
@@ -441,6 +460,7 @@ td.num-c{font-variant-numeric:tabular-nums}
   <section id="view-calm" class="view" hidden></section>
   <section id="view-badges" class="view" hidden></section>
   <section id="view-teacher" class="view" hidden></section>
+  <section id="view-esquemas" class="view" hidden></section>
 </main>
 <div id="splash" hidden></div>
 <div id="feedback" class="feedback" role="status" hidden>
@@ -1029,12 +1049,14 @@ function renderMap(){
           <span style="min-width:0"><span class="lvltag">${label(w,i)}${w.pages?' · '+w.pages.replace('-','‑'):''}</span><h3>${esc(w.title)}</h3><span class="meta">${esc(w.short)}</span></span>
           <span class="side"><span class="stars" aria-label="${st} de 3 estrellas">${[0,1,2].map(k=>ico('star', k<st?'on':'')).join('')}</span><span class="play-tag">${open?(st?'Repetir':'¡Jugar!'):'Bloqueada'}</span></span>
         </button>`; }).join('')}
+        ${CT.missions.some(m=>(m.ch||[]).some(c=>c.t==='esquema')) ? `<button class="extra" data-act="esquemas" type="button" style="--c:var(--gold);--cd:var(--gold-d)"><span class="coin">${ico('map')}</span><span><b>Esquemas del tema</b><small>Repasa los esquemas que has completado</small></span></button>` : ''}
         <button class="btn dark" data-act="course2" type="button">${ico('map')} Mapa del curso</button>
       </div>
     </div>`;
   bindHud(v, renderMap);
   v.querySelector('[data-act="course"]').onclick = goCourse;
   v.querySelector('[data-act="course2"]').onclick = goCourse;
+  const eb=v.querySelector('[data-act="esquemas"]'); if(eb) eb.onclick = renderEsquemas;
   const go = i => { if(unlocked(i)){ sfx('coin'); openWorld(L[i]); } else lockedMsg(i); };
   v.querySelectorAll('.node').forEach(n=>{ n.onclick=()=>go(+n.dataset.i); n.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(+n.dataset.i); } }; });
   v.querySelectorAll('.mission').forEach(b=>b.onclick=()=>go(+b.dataset.i));
@@ -1079,7 +1101,7 @@ function buildBoss(t){
   return shuffle(list).slice(0,12);
 }
 function startPlay(w){
-  M = {w, list: w.boss ? buildBoss(CT) : mix(w.ch), i:0, xp:0, firstOk:0, combo:0, bestCombo:0, mistakes:0, hearts: w.boss?3:null, over:false, res:[]};
+  M = {w, list: w.boss ? buildBoss(CT) : [...mix(w.ch.filter(c=>c.t!=='esquema')), ...w.ch.filter(c=>c.t==='esquema')], i:0, xp:0, firstOk:0, combo:0, bestCombo:0, mistakes:0, hearts: w.boss?3:null, over:false, res:[]};
   pendingBadges = [];
   const v=$('#view-play'); v.setAttribute('style', cvars(w));
   v.innerHTML = `
@@ -1095,6 +1117,7 @@ function startPlay(w){
   v.querySelector('#read-q').onclick = ()=>{
     const ch=M.list[M.i]; let t=$('#qtext').textContent;
     if(ch.t==='mc' || ch.t==='pick') t += '. Opciones: ' + ch.opts.join('. ');
+    if(ch.t==='esquema') t += '. ' + esqTexto(ch);
     speak(t);
   };
   show('view-play');
@@ -1185,6 +1208,30 @@ const RENDER = {
     });
   },
   tf(ch, box){ RENDER.mc(ch, box); },
+  esquema(ch, box){
+    const ans = esqRespuestas(ch), filled = ans.map(()=>false);
+    const bank = mix([...ans, ...(ch.extra||[])].map((w,j)=>({w,j})));
+    const used = new Set(); let active = 0;
+    const nextFree = () => filled.findIndex(f=>!f);
+    function draw(badGap){
+      box.innerHTML = `<div class="sort-wrap"><p class="tip">Toca un hueco y después la palabra que va en él.</p>
+        ${esqHTML(ch, i => `<button type="button" class="gap ${filled[i]?'filled':''} ${i===active&&!filled[i]?'active':''} ${i===badGap?'bad':''}" data-g="${i}" ${filled[i]?'disabled':''}>${filled[i]?esc(ans[i]):'?'}</button>`)}
+        <div class="chips esq-bank">${bank.map(b=>`<button class="tile chip" type="button" data-b="${b.j}" ${used.has(b.j)||nextFree()<0?'disabled':''}>${esc(b.w)}</button>`).join('')}</div></div>`;
+      box.querySelectorAll('.gap').forEach(g=>g.onclick=()=>{ active=+g.dataset.g; sfx('tick'); draw(); });
+      box.querySelectorAll('.esq-bank .chip').forEach(c=>c.onclick=()=>{
+        const j=+c.dataset.b, w=bank.find(b=>b.j===j).w;
+        if(norm(w)===norm(ans[active])){
+          filled[active]=true; used.add(j);
+          const n=nextFree(); if(n<0){ draw(); right(); return; }
+          active=n; sfx('coin'); draw();
+        } else {
+          const otro = ans.some((a,i)=>!filled[i] && i!==active && norm(a)===norm(w));
+          draw(active); wrong(otro ? 'Esa palabra va en otro hueco. Toca primero el hueco correcto.' : null);
+        }
+      });
+    }
+    draw();
+  },
   pick(ch, box){
     const sel = new Set();
     box.innerHTML = `<div class="sort-wrap"><p class="tip">Puedes tocar varias. Después pulsa <b>Comprobar</b>.</p>
@@ -1417,6 +1464,38 @@ function renderBadges(){
 }
 
 /* ---------- Panel docente ---------- */
+/* ---------- Esquemas ----------
+   Formato en contenidos.js: { t:'esquema', q, titulo, tipo:'arbol'|'flujo', nodos:[{txt, hijos:[...]}], extra:[distractores] }
+   En los textos, [[palabra]] es un hueco. */
+const norm = w => String(w).trim().toLowerCase();
+function esqPartes(txt){ return String(txt).split(/(\[\[[^\]]+\]\])/).filter(Boolean); }
+function esqRespuestas(ch){ const out=[]; const walk=t=>esqPartes(t).forEach(p=>{ const m=p.match(/^\[\[(.+)\]\]$/); if(m) out.push(m[1]); });
+  walk(ch.titulo||''); (function rec(ns){ ns.forEach(n=>{ walk(n.txt); rec(n.hijos||[]); }); })(ch.nodos||[]); return out; }
+function esqTexto(ch){ const parts=[]; const t=x=>esqPartes(x).map(p=>p.startsWith('[[')?'…':p).join(''); parts.push(t(ch.titulo||''));
+  (function rec(ns){ ns.forEach(n=>{ parts.push(t(n.txt)); rec(n.hijos||[]); }); })(ch.nodos||[]); return parts.join('. '); }
+function esqHTML(ch, gap){
+  let g = 0;
+  const txt = x => esqPartes(x).map(p=>{ const m=p.match(/^\[\[(.+)\]\]$/); return m ? gap(g++) : esc(p); }).join('');
+  const title = `<div class="esq-root">${txt(ch.titulo||'')}</div>`;
+  if(ch.tipo==='flujo') return `<div class="esq esq-flujo">${title}<ol>${ch.nodos.map(n=>`<li><span class="esq-box">${txt(n.txt)}</span></li>`).join('')}</ol></div>`;
+  const rama = n => `<div class="esq-col"><div class="esq-box">${txt(n.txt)}</div>${(n.hijos||[]).length?`<ul>${n.hijos.map(h=>`<li class="esq-leaf">${txt(h.txt)}</li>`).join('')}</ul>`:''}</div>`;
+  return `<div class="esq esq-arbol">${title}<div class="esq-cols">${ch.nodos.map(rama).join('')}</div></div>`;
+}
+function renderEsquemas(){
+  const p=P(), v=$('#view-esquemas'); v.setAttribute('style', cvars(CT));
+  const items = CT.missions.map((m,k)=>({m,k,ch:(m.ch||[]).find(c=>c.t==='esquema')})).filter(x=>x.ch);
+  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="eback" type="button" aria-label="Volver al mapa del tema">${ico('back')}</button><h1 class="outline">Esquemas del tema ${CT.n}</h1></div>
+    <div class="guide"><div>${mascotSVG('idle')}</div><div class="bubble">Aquí tienes los esquemas que has completado para repasar. Los demás se rellenan al terminar cada misión.</div></div>
+    <div class="esq-list">${items.map(({m,k,ch})=>{ const ok = p.ev && p.ev[ch._k]; const ans = esqRespuestas(ch);
+      return `<article class="panel esq-card" style="${cvars(m)}"><div class="lcard-h"><h3 class="outline-sm" style="color:var(--c)">Misión ${k+1}: ${esc(m.title)}</h3>${ok?`<button class="iconbtn" type="button" data-say="${esc(ch._k)}" aria-label="Escuchar el esquema">${ico('sound')}</button>`:''}</div>
+        ${esqHTML(ch, i => `<span class="gap ${ok?'filled':''}">${ok?esc(ans[i]):'?'}</span>`)}
+        ${ok ? '' : `<p class="tip">Completa la misión para ver este esquema completo.</p>`}</article>`; }).join('')}</div>`;
+  v.querySelector('#eback').onclick = goMap;
+  v.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>{ const ch=items.find(x=>x.ch._k===b.dataset.say).ch; const a=esqRespuestas(ch); let i=0;
+    const t=x=>esqPartes(x).map(q=>q.startsWith('[[')?a[i++]:q).join(''); const parts=[t(ch.titulo||'')]; (function rec(ns){ ns.forEach(n=>{ parts.push(t(n.txt)); rec(n.hijos||[]); }); })(ch.nodos); speak(parts.join('. ')); });
+  show('view-esquemas');
+}
+const FICHAS_URL = 'https://damp83.github.io/AulaNaturales/fichas/';
 let evalTema = 0, evalSel = null;
 function evalHTML(list){
   const temas = TEMAS.filter(hasContent), t = temas[Math.min(evalTema, temas.length-1)], cols = columnasEval(t);
@@ -1496,6 +1575,10 @@ function renderTeacher(){
     </table></div><p class="note" style="margin-top:8px">Pasa el ratón sobre las estrellas de un tema para ver el detalle por misión (estrellas, veces jugada y mejor % de aciertos a la primera). ✓ = jefe final vencido.</p>` : `<p class="note">Todavía no hay alumnado registrado${CLOUD?'':' en este dispositivo'}.</p>`}
     <div class="teacher-tools">
       ${list.length ? evalHTML(list) : ''}
+      <h2 class="outline-sm" style="color:var(--gold)">Fichas para imprimir</h2>
+      <div class="tema-toggles panel"><p class="note" style="margin:0">Esquemas en papel para completar a mano (A4, una ficha por página), con recuadro de palabras, espacio para dibujar y autoevaluación.</p>
+        <div class="row">${TEMAS.filter(hasContent).map(t=>`<a class="btn dark small" href="${FICHAS_URL}tema-${t.n}-esquemas.pdf" target="_blank" rel="noopener">Tema ${t.n}</a>`).join('')}
+        <a class="btn gold small" href="${FICHAS_URL}solucionario-esquemas.pdf" target="_blank" rel="noopener">Solucionario</a></div></div>
       <h2 class="outline-sm" style="color:var(--gold)">Temas del curso</h2>
       <div class="tema-toggles panel">${TEMAS.map((t,i)=>`<label class="switch"><span>Tema ${t.n}: ${esc(t.title)} <small style="color:var(--ink-soft);font-weight:400">${hasContent(t)?`(${t.missions.length} misiones + jefe)`:'(sin contenidos todavía)'}</small></span>
           <span style="display:inline-flex;gap:8px;align-items:center">${i===0?'<small style="color:var(--ink-soft)">Siempre abierto</small>':`<input type="checkbox" data-open="${t.id}" ${S.open[t.id]?'checked':''} ${hasContent(t)?'':'disabled'}> Abrir ya`}</span></label>`).join('')}</div>

@@ -754,6 +754,115 @@ const CURSO = {
   ]
 };
 
+/* ---------- ESQUEMAS: uno por misión, como último reto ----------
+   tipo 'arbol': título arriba y ramas con sus detalles. tipo 'flujo': pasos en orden.
+   [[palabra]] es un hueco que el alumno completa. «extra» son palabras para despistar. */
+const ESQUEMAS = {
+  /* Tema 1 */
+  funciones: { titulo:'Las [[funciones vitales]]', nodos:[
+    {txt:'Función de [[relación]]', hijos:[{txt:'Usamos los cinco [[sentidos]]'}]},
+    {txt:'Función de [[nutrición]]', hijos:[{txt:'[[Respiramos]] y comemos para crecer'}]},
+    {txt:'Función de [[reproducción]]', hijos:[{txt:'Las personas adultas pueden tener [[hijos]]'}]} ], extra:['huesos','digestión'] },
+  movemos: { titulo:'¿Cómo nos movemos?', nodos:[
+    {txt:'Los [[huesos]]', hijos:[{txt:'Son duros y [[rígidos]]'},{txt:'Todos juntos forman el [[esqueleto]]'}]},
+    {txt:'Las [[articulaciones]]', hijos:[{txt:'Son las uniones de los huesos'},{txt:'Ej.: el codo y la [[rodilla]]'}]},
+    {txt:'Los [[músculos]]', hijos:[{txt:'Son blandos y [[elásticos]]'},{txt:'[[Tiran]] de los huesos'}]} ], extra:['cráneo','duros'] },
+  respiramos: { tipo:'flujo', titulo:'El camino del [[aire]]', nodos:[
+    {txt:'Entra por la [[nariz]] o por la boca'}, {txt:'Pasa por la [[tráquea]]'}, {txt:'Llega a los [[pulmones]]'},
+    {txt:'El cuerpo toma el [[oxígeno]]'}, {txt:'El aire que queda [[sale]] al exterior'} ], extra:['esófago','estómago'] },
+  alimentamos: { tipo:'flujo', titulo:'El camino de los [[alimentos]]', nodos:[
+    {txt:'Boca: los [[dientes]] trituran la comida'}, {txt:'[[Esófago]]: tubo por el que baja la comida'},
+    {txt:'[[Estómago]]: los alimentos se deshacen'}, {txt:'[[Intestinos]]: los nutrientes pasan al cuerpo'},
+    {txt:'[[Ano]]: se expulsan los restos'} ], extra:['tráquea','pulmones'] },
+  /* Tema 2 */
+  salud1: { titulo:'Cuidamos la [[salud]]', nodos:[
+    {txt:'Si enfermamos: [[centro de salud]]', hijos:[{txt:'Los [[pediatras]] nos revisan'},{txt:'Los [[medicamentos]] nos curan'}]},
+    {txt:'Para prevenir: las [[vacunas]]'},
+    {txt:'Profesionales', hijos:[{txt:'[[Médico]]: decide cómo curarnos'},{txt:'[[Enfermera]]: cura heridas'},{txt:'[[Psicóloga]]: ayuda si estamos tristes'}]} ], extra:['caramelos','juguetes'] },
+  salud2: { titulo:'Hábitos [[saludables]]', nodos:[
+    {txt:'[[Higiene]]', hijos:[{txt:'Lavarse las manos y los [[dientes]]'}]},
+    {txt:'[[Ejercicio]]', hijos:[{txt:'Fortalece músculos y huesos'}]},
+    {txt:'[[Descanso]]', hijos:[{txt:'Dormir unas [[diez]] horas'}]},
+    {txt:'Buena [[postura]]', hijos:[{txt:'Espalda recta al sentarse'}]} ], extra:['seis','televisión'] },
+  salud3: { titulo:'Los grupos de [[alimentos]]', nodos:[
+    {txt:'Nos dan [[energía]]', hijos:[{txt:'Pan, pasta y [[patatas]]'}]},
+    {txt:'Nos ayudan a [[crecer]]', hijos:[{txt:'Leche, huevos y [[pescado]]'}]},
+    {txt:'[[Vitaminas]] y fibra', hijos:[{txt:'[[Frutas]] y verduras'}]},
+    {txt:'Y beber mucha [[agua]]'} ], extra:['refrescos','bollería'] },
+  salud4: { titulo:'Prevenimos [[accidentes]]', nodos:[
+    {txt:'En [[casa]]', hijos:[{txt:'Recoger los juguetes del suelo'},{txt:'No tocar los [[enchufes]]'}]},
+    {txt:'Fuera de casa', hijos:[{txt:'Cruzar por el paso de [[peatones]]'},{txt:'Usar [[cinturón]] en el coche'},{txt:'Usar [[casco]] en la bici'}]} ], extra:['tijeras','escaleras'] },
+  /* Tema 3 */
+  animales1: { titulo:'Clasificamos los animales', nodos:[
+    {txt:'[[Vertebrados]]: tienen [[huesos]]', hijos:[{txt:'Cinco grupos: mamíferos, aves, reptiles, [[anfibios]] y peces'}]},
+    {txt:'[[Invertebrados]]: no tienen huesos', hijos:[{txt:'Insectos, caracoles, medusas...'}]} ], extra:['plumas','escamas'] },
+  animales2: { titulo:'Mamíferos y aves', nodos:[
+    {txt:'[[Mamíferos]]', hijos:[{txt:'Son [[vivíparos]]'},{txt:'Tienen [[pelo]] y dientes'},{txt:'Las crías [[maman]]'}]},
+    {txt:'[[Aves]]', hijos:[{txt:'Son [[ovíparos]]'},{txt:'Tienen [[plumas]] y pico'}]} ], extra:['escamas','aletas'] },
+  animales3: { titulo:'Peces, reptiles y anfibios', nodos:[
+    {txt:'[[Peces]]', hijos:[{txt:'Tienen [[aletas]] y escamas'},{txt:'Respiran por [[branquias]]'}]},
+    {txt:'[[Reptiles]]', hijos:[{txt:'Escamas y cola larga'},{txt:'Algunos tienen [[caparazón]]'}]},
+    {txt:'[[Anfibios]]', hijos:[{txt:'Tienen la piel [[desnuda]]'},{txt:'Sus crías son [[renacuajos]]'}]} ], extra:['plumas','pelo'] },
+  animales4: { titulo:'Los animales [[invertebrados]]', nodos:[
+    {txt:'[[Insectos]]', hijos:[{txt:'Seis [[patas]] y dos [[antenas]]'},{txt:'Huevo, [[oruga]], capullo, mariposa'}]},
+    {txt:'Otros invertebrados', hijos:[{txt:'Caracol: tiene [[concha]]'},{txt:'Cangrejo: dos [[pinzas]]'},{txt:'Calamar: ocho [[brazos]]'}]} ], extra:['huesos','plumas'] },
+  animales5: { titulo:'¿Dónde viven los animales?', nodos:[
+    {txt:'Medios [[terrestres]]', hijos:[{txt:'[[Bosque]]: ardillas y pájaros'},{txt:'Desierto: escorpiones y [[camellos]]'},{txt:'[[Polos]]: osos polares'}]},
+    {txt:'Medios [[acuáticos]]', hijos:[{txt:'Ríos y lagos: agua [[dulce]]'},{txt:'Mares y océanos: agua [[salada]]'}]} ], extra:['cebras','caliente'] },
+  /* Tema 4 */
+  plantas1: { titulo:'Las partes de la [[planta]]', nodos:[
+    {txt:'[[Raíces]]', hijos:[{txt:'Sujetan la planta y absorben el agua'}]},
+    {txt:'[[Tallo]]', hijos:[{txt:'Sostiene la planta'}]},
+    {txt:'[[Hojas]]', hijos:[{txt:'Captan la luz y hacen la [[fotosíntesis]]'}]},
+    {txt:'Flores y [[frutos]]', hijos:[{txt:'Los frutos contienen las [[semillas]]'}]} ], extra:['branquias','huesos'] },
+  plantas2: { titulo:'Clasificamos las plantas', nodos:[
+    {txt:'Según su [[tallo]]', hijos:[{txt:'[[Árbol]]: tronco grueso y alto'},{txt:'[[Arbusto]]: ramas cerca del suelo'},{txt:'[[Hierba]]: tallo verde y flexible'}]},
+    {txt:'Según sus [[hojas]]', hijos:[{txt:'Hoja [[perenne]]: todo el año'},{txt:'Hoja [[caduca]]: se caen en otoño'}]} ], extra:['musgo','raíz'] },
+  plantas3: { tipo:'flujo', titulo:'Así se reproducen las plantas con [[flor]]', nodos:[
+    {txt:'Una [[semilla]] cae al suelo'}, {txt:'Con humedad, [[brota]] una nueva planta'}, {txt:'La planta crece y salen las [[flores]]'},
+    {txt:'Los insectos y el [[viento]] ayudan'}, {txt:'Las flores se convierten en [[frutos]]'} ], extra:['esporas','raíces'] },
+  plantas4: { titulo:'Las plantas son importantes', nodos:[
+    {txt:'Plantas [[silvestres]]', hijos:[{txt:'Crecen sin ayuda de las personas'},{txt:'Dan alimento y [[refugio]] a los animales'}]},
+    {txt:'Plantas [[cultivadas]]', hijos:[{txt:'Las cuidan los [[agricultores]]'},{txt:'Nos dan [[alimentos]] y materiales'}]},
+    {txt:'Todas producen [[oxígeno]]'} ], extra:['humo','plástico'] },
+  /* Tema 5 */
+  ciencia1: { tipo:'flujo', titulo:'El método [[científico]]', nodos:[
+    {txt:'[[Observamos]] nuestro entorno'}, {txt:'Nos hacemos una [[pregunta]]'}, {txt:'Realizamos [[experimentos]]'}, {txt:'Obtenemos [[conclusiones]]'} ], extra:['adivinamos','olvidamos'] },
+  ciencia2: { titulo:'Los estados de la [[materia]]', nodos:[
+    {txt:'[[Sólido]]', hijos:[{txt:'La tierra, el hielo'}]},
+    {txt:'[[Líquido]]', hijos:[{txt:'El agua, el aceite'}]},
+    {txt:'[[Gaseoso]]', hijos:[{txt:'El aire, el humo'}]},
+    {txt:'Al [[calentarse]] o enfriarse, cambian de estado'} ], extra:['blando','metálico'] },
+  ciencia3: { titulo:'Las [[mezclas]]', nodos:[
+    {txt:'[[Disoluciones]]: no se distinguen', hijos:[{txt:'Agua con [[sal]]'}]},
+    {txt:'Se distinguen a simple vista', hijos:[{txt:'Agua con [[aceite]]'}]},
+    {txt:'Cómo separarlas', hijos:[{txt:'[[Colador]]: arena y agua'},{txt:'Dejar que se [[evapore]]: sal y agua'}]} ], extra:['imán','tijeras'] },
+  ciencia4: { titulo:'Los [[materiales]]', nodos:[
+    {txt:'[[Naturales]]', hijos:[{txt:'Madera, lana, [[seda]]'}]},
+    {txt:'[[Artificiales]]', hijos:[{txt:'El [[plástico]]'}]},
+    {txt:'Propiedades', hijos:[{txt:'[[Frágil]]: se rompe al golpearse'},{txt:'[[Flexible]]: se dobla sin romperse'},{txt:'[[Resistente]]: soporta grandes pesos'}]} ], extra:['transparente','líquido'] },
+  ciencia5: { titulo:'La luz y el sonido', nodos:[
+    {txt:'La [[luz]]', hijos:[{txt:'Natural: el [[Sol]]'},{txt:'Artificial: la [[bombilla]]'},{txt:'[[Opacos]]: no dejan pasar la luz'}]},
+    {txt:'El [[sonido]]', hijos:[{txt:'Viaja en [[ondas]] por el aire'},{txt:'Puede ser grave o [[agudo]]'}]} ], extra:['transparentes','agua'] },
+  /* Tema 6 */
+  digital1: { titulo:'Los dispositivos [[digitales]]', nodos:[
+    {txt:'Sirven para', hijos:[{txt:'[[Aprender]]'},{txt:'Divertirnos'},{txt:'[[Comunicarnos]]'}]},
+    {txt:'Algunos dispositivos', hijos:[{txt:'Teléfono [[móvil]]: pequeño y táctil'},{txt:'[[Tableta]]: más grande y táctil'},{txt:'[[Portátil]]: para tareas complejas'}]} ], extra:['nevera','lavadora'] },
+  digital2: { tipo:'flujo', titulo:'Cómo buscar [[información]]', nodos:[
+    {txt:'Abre un [[navegador]]'}, {txt:'Escribe lo que quieres saber en «[[Buscar]]»'}, {txt:'Mira la lista de [[páginas web]]'},
+    {txt:'Lee y compara en varias páginas'}, {txt:'Pregunta a una persona [[adulta]]'} ], extra:['desconocido','anuncio'] },
+  digital3: { titulo:'Presentamos y guardamos la información', nodos:[
+    {txt:'Programas', hijos:[{txt:'Procesador de [[textos]]: escribir'},{txt:'Creador de [[presentaciones]]: exponer'}]},
+    {txt:'Dispositivos de [[almacenamiento]]', hijos:[{txt:'Disco [[duro]]: guarda muchísimo'},{txt:'Memoria [[portátil]]: fácil de llevar'},{txt:'[[Tarjeta]] de memoria: cámaras y móviles'}]} ], extra:['bombilla','enchufe'] },
+  digital4: { titulo:'Usamos bien los dispositivos', nodos:[
+    {txt:'[[Peligros]]', hijos:[{txt:'[[Virus]] informáticos'},{txt:'Contenidos inadecuados: navegar con un [[adulto]]'}]},
+    {txt:'Buen [[uso]]', hijos:[{txt:'Controlar el [[tiempo]] de pantalla'},{txt:'Buena [[postura]] y pantalla lejos'}]} ], extra:['velocidad','música'] }
+};
+CURSO.temas.forEach(t => (t.missions || []).forEach(m => {
+  const e = ESQUEMAS[m.id]; if (!e) return;
+  m.ch.push(Object.assign({ t:'esquema', tipo:'arbol', q:'Completa el esquema de la misión.', hint:'Repasa las tarjetas de la lección: el esquema las resume.' }, e));
+}));
+
 /* ---------- ASOCIACIÓN DE CADA TEMA CON EL CURRÍCULO ----------
    criterios: los del tema (los que no tengan retos aparecen como «no evaluables en el juego»).
    misiones:  criterio que evalúan todos los retos de esa misión (también el jefe final).
