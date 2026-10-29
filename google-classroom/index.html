@@ -1437,10 +1437,11 @@ function evalHTML(list){
     <p class="note"><b>Tema ${t.n}: ${esc(t.title)}.</b> ${crTema(t).length ? 'Nivel de logro por criterio de evaluación' : 'Nivel de logro por misión (cuando se añadan los criterios de evaluación, aparecerán aquí)'}, calculado con el mejor resultado de cada reto: acierto a la primera = 100 %, con algún fallo = 50 %. Pulsa una casilla para ver el detalle.</p>
     ${sab.length ? `<div class="panel ev-sab"><b>Saberes básicos</b><ul>${sab.map(x=>`<li><b>${esc(x.id)}</b> ${esc(x.texto)}</li>`).join('')}</ul></div>` : ''}
     <div class="table-wrap panel"><table>
-      <thead><tr><th>Alumno/a</th>${cols.map(c=>`<th title="${esc(c.title)}">${esc(c.label)}</th>`).join('')}</tr></thead>
+      <thead><tr><th>Alumno/a</th>${cols.map(c=>`<th title="${esc(c.title)} (${c.retos.length} ${c.retos.length===1?'reto':'retos'})">${esc(c.label)}${c.retos.length && c.retos.length<3?'*':''}</th>`).join('')}</tr></thead>
       <tbody>${list.map(([id,p])=>`<tr><td>${esc(p.name)}</td>${cols.map(c=>cell(p,c,id)).join('')}</tr>`).join('')}</tbody>
     </table></div>
     ${detail}
+    ${cols.some(c=>c.retos.length && c.retos.length<3) ? '<p class="note">* Criterio con menos de 3 retos en este tema: tómalo como orientativo y compleméntalo con otras evidencias.</p>' : ''}
     ${sinJuego.length ? `<p class="note">No evaluables en el juego (evalúalos por otras vías): ${sinJuego.map(c=>`<b>${esc(c.id)}</b> ${esc(c.texto)}`).join(' · ')}</p>` : ''}
     <div class="row"><button class="btn dark small" type="button" id="ev-copy">Copiar tabla</button>${CLOUD ? '<button class="btn dark small" type="button" id="ev-sheet">Guardar en la hoja</button>' : ''}
       <span class="note">Niveles: SB ≥ 90 % · NT ≥ 70 % · SU ≥ 50 % · IN &lt; 50 %</span></div>`;

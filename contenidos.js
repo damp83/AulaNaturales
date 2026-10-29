@@ -24,11 +24,45 @@
    Un criterio del tema sin ningún reto asociado aparece como «no evaluable en el juego».
    Mientras no haya criterios, el panel del docente evalúa por misión. */
 const CURRICULO = {
+  /* Ciencias de la Naturaleza · Primer ciclo. Numeración: competencia específica.criterio */
   criterios: [
-    /* { id:'1.1', texto:'…' }, */
+    { id:'1.1', texto:'Utilizar dispositivos y recursos digitales de forma segura y de acuerdo con las necesidades del contexto educativo.' },
+    { id:'2.1', texto:'Mostrar curiosidad por objetos, hechos y fenómenos cercanos, formulando preguntas y realizando predicciones.' },
+    { id:'2.2', texto:'Buscar información sencilla de diferentes fuentes seguras y fiables de forma guiada, utilizándola en investigaciones relacionadas con el medio natural.' },
+    { id:'2.3', texto:'Participar en experimentos pautados o guiados, cuando la investigación lo requiera, utilizando diferentes técnicas sencillas de indagación, empleando de forma segura los instrumentos y registrando las observaciones de forma clara.' },
+    { id:'2.4', texto:'Proponer respuestas a las preguntas planteadas, comparando la información y los resultados obtenidos con las predicciones realizadas.' },
+    { id:'2.5', texto:'Comunicar de forma oral o gráfica el resultado de las investigaciones explicando los pasos seguidos con ayuda de un guion.' },
+    { id:'3.1', texto:'Realizar, de forma guiada, un producto final sencillo que dé solución a un problema de diseño, probando en equipo diferentes prototipos y utilizando de forma segura los materiales adecuados.' },
+    { id:'3.2', texto:'Presentar de forma oral o gráfica el producto final de los proyectos de diseño, explicando los pasos seguidos con ayuda de un guion.' },
+    { id:'3.3', texto:'Mostrar interés por el pensamiento computacional, participando en la resolución guiada de problemas sencillos de programación.' },
+    { id:'4.1', texto:'Reconocer estilos de vida saludables valorando la importancia de una alimentación variada, equilibrada y sostenible, la higiene, el ejercicio físico, el contacto con la naturaleza, el descanso y el uso adecuado de las tecnologías.' },
+    { id:'5.1', texto:'Reconocer las características, la organización y las propiedades de los elementos del medio natural a través de la indagación, utilizando las herramientas y procesos adecuados de forma pautada.' },
+    { id:'5.2', texto:'Reconocer conexiones sencillas y directas entre diferentes elementos del medio natural por medio de la observación, la manipulación y la experimentación.' },
+    { id:'5.3', texto:'Mostrar actitudes de respeto ante el patrimonio natural, reconociéndolo como un bien común.' }
   ],
+  /* Numeración: bloque (A Cultura científica, B Tecnología y digitalización).apartado.saber */
   saberes: [
-    /* { id:'A.1', bloque:'…', texto:'…' }, */
+    { id:'A.1.1', bloque:'Iniciación en la actividad científica', texto:'Procedimientos de indagación adecuados a las necesidades de la investigación (observación en el tiempo, identificación y clasificación, búsqueda de patrones...).' },
+    { id:'A.1.2', bloque:'Iniciación en la actividad científica', texto:'Instrumentos y dispositivos apropiados para realizar observaciones y mediciones de acuerdo con las necesidades de las diferentes investigaciones.' },
+    { id:'A.1.3', bloque:'Iniciación en la actividad científica', texto:'Vocabulario científico básico relacionado con las diferentes investigaciones.' },
+    { id:'A.1.4', bloque:'Iniciación en la actividad científica', texto:'La curiosidad y la iniciativa en la realización de las diferentes investigaciones.' },
+    { id:'A.1.5', bloque:'Iniciación en la actividad científica', texto:'Las profesiones relacionadas con la ciencia y la tecnología desde una perspectiva de género.' },
+    { id:'A.1.6', bloque:'Iniciación en la actividad científica', texto:'Estilos de vida sostenible e importancia del cuidado del planeta a través del conocimiento científico presente en la vida cotidiana.' },
+    { id:'A.1.7', bloque:'Iniciación en la actividad científica', texto:'Técnicas de estudio y trabajo. Desarrollo de hábitos de trabajo. Esfuerzo y responsabilidad.' },
+    { id:'A.2.1', bloque:'La vida en nuestro planeta', texto:'Necesidades básicas de los seres vivos, incluido el ser humano, y la diferencia con la materia inerte.' },
+    { id:'A.2.2', bloque:'La vida en nuestro planeta', texto:'Las adaptaciones de los seres vivos, incluido el ser humano, a su hábitat, concebido como el lugar en el que cubren sus necesidades.' },
+    { id:'A.2.3', bloque:'La vida en nuestro planeta', texto:'Clasificación e identificación de los seres vivos, incluido el ser humano, de acuerdo con sus características observables: vertebrados e invertebrados y estructura de las plantas.' },
+    { id:'A.2.4', bloque:'La vida en nuestro planeta', texto:'Las relaciones entre los seres humanos, los animales y las plantas. Cuidado y respeto a los seres vivos y al entorno en el que viven, evitando la degradación del suelo, el aire o el agua.' },
+    { id:'A.2.5', bloque:'La vida en nuestro planeta', texto:'Hábitos saludables relacionados con el bienestar físico del ser humano: higiene, alimentación variada, equilibrada y sostenible, ejercicio físico, contacto con la naturaleza, descanso y cuidado del cuerpo como medio para prevenir posibles enfermedades.' },
+    { id:'A.3.1', bloque:'Materia, fuerzas y energía', texto:'La luz y el sonido como formas de energía. Fuentes y uso en la vida cotidiana.' },
+    { id:'A.3.2', bloque:'Materia, fuerzas y energía', texto:'Propiedades observables de los materiales, su procedencia y su uso en objetos de la vida cotidiana de acuerdo a las necesidades de diseño para los que fueron fabricados.' },
+    { id:'A.3.3', bloque:'Materia, fuerzas y energía', texto:'Las sustancias puras y las mezclas. Identificación de mezclas homogéneas y heterogéneas. Separación de mezclas heterogéneas mediante distintos métodos.' },
+    { id:'A.3.4', bloque:'Materia, fuerzas y energía', texto:'Estructuras resistentes, estables y útiles.' },
+    { id:'B.1.1', bloque:'Digitalización del entorno personal de aprendizaje', texto:'Dispositivos y recursos del entorno digital de aprendizaje de acuerdo con las necesidades del contexto educativo.' },
+    { id:'B.2.1', bloque:'Proyectos de diseño y pensamiento computacional', texto:'Fases de los proyectos de diseño: prototipado, prueba y comunicación.' },
+    { id:'B.2.2', bloque:'Proyectos de diseño y pensamiento computacional', texto:'Materiales adecuados a la consecución del proyecto de diseño.' },
+    { id:'B.2.3', bloque:'Proyectos de diseño y pensamiento computacional', texto:'Iniciación en la programación a través de recursos analógicos o digitales adaptados al nivel lector del alumnado (actividades desenchufadas, plataformas digitales de iniciación a la programación, robótica educativa...).' },
+    { id:'B.2.4', bloque:'Proyectos de diseño y pensamiento computacional', texto:'Estrategias básicas de trabajo en equipo.' }
   ]
 };
 
@@ -719,3 +753,37 @@ const CURSO = {
       missions: TEMA6_MISIONES, boss: TEMA6_JEFE }
   ]
 };
+
+/* ---------- ASOCIACIÓN DE CADA TEMA CON EL CURRÍCULO ----------
+   criterios: los del tema (los que no tengan retos aparecen como «no evaluables en el juego»).
+   misiones:  criterio que evalúan todos los retos de esa misión (también el jefe final).
+   retos:     excepciones para un reto concreto, con la clave «misión#número» (el número empieza en 0;
+              en los jefes, los retos propios del jefe son «jefe#x0», «jefe#x1»...). */
+const EVALUACION = {
+  cuerpo: { criterios:['4.1','5.1','5.2'], saberes:['A.2.1','A.2.5','A.1.3'],
+    misiones:{ funciones:['5.1'], movemos:['5.1'], respiramos:['5.1'], alimentamos:['5.1'], reto:['5.1'] },
+    retos:{ 'funciones#5':['5.2'], 'movemos#9':['4.1'], 'respiramos#5':['5.2'], 'respiramos#6':['4.1'], 'respiramos#7':['4.1'], 'alimentamos#2':['5.2'] } },
+  salud: { criterios:['4.1'], saberes:['A.2.5','A.1.5'],
+    misiones:{ salud1:['4.1'], salud2:['4.1'], salud3:['4.1'], salud4:['4.1'], 'reto-salud':['4.1'] } },
+  animales: { criterios:['5.1','5.2','5.3'], saberes:['A.2.3','A.2.2','A.2.4','A.1.1'],
+    misiones:{ animales1:['5.1'], animales2:['5.1'], animales3:['5.1'], animales4:['5.1'], animales5:['5.2'], 'reto-animales':['5.1'] },
+    retos:{ 'animales5#7':['5.3'] } },
+  plantas: { criterios:['5.1','5.2','5.3'], saberes:['A.2.1','A.2.3','A.2.4','A.1.6'],
+    misiones:{ plantas1:['5.1'], plantas2:['5.1'], plantas3:['5.1'], plantas4:['5.2'], 'reto-plantas':['5.1'] },
+    retos:{ 'plantas1#3':['5.2'], 'plantas1#6':['5.2'], 'plantas3#4':['5.2'], 'plantas3#5':['5.2'], 'plantas4#6':['5.3'] } },
+  ciencia: { criterios:['2.1','2.3','2.4','2.5','3.1','5.1','5.2'], saberes:['A.1.1','A.1.3','A.1.4','A.3.1','A.3.2','A.3.3'],
+    misiones:{ ciencia1:['2.3'], ciencia2:['5.1'], ciencia3:['5.1'], ciencia4:['5.1'], ciencia5:['5.1'], 'reto-ciencia':['5.1'] },
+    retos:{ 'ciencia1#2':['2.1'], 'ciencia1#3':['2.1'], 'ciencia1#4':['2.4'], 'ciencia2#3':['5.2'], 'ciencia4#5':['3.1'] } },
+  conectados: { criterios:['1.1','2.2','4.1','3.3'], saberes:['B.1.1','A.1.2'],
+    misiones:{ digital1:['1.1'], digital2:['2.2'], digital3:['1.1'], digital4:['1.1'], 'reto-digital':['1.1'] },
+    retos:{ 'digital2#1':['1.1'], 'digital4#1':['1.1','4.1'], 'digital4#6':['4.1'] } }
+};
+CURSO.temas.forEach(t => {
+  const e = EVALUACION[t.id]; if (!e) return;
+  t.criterios = e.criterios; t.saberes = e.saberes;
+  [...(t.missions || []), ...(t.boss ? [t.boss] : [])].forEach(m => {
+    if (e.misiones && e.misiones[m.id]) m.cr = e.misiones[m.id];
+    (m.ch || []).forEach((r, i) => { const k = m.id + '#' + i; if (e.retos && e.retos[k]) r.cr = e.retos[k]; });
+    (m.extra || []).forEach((r, i) => { const k = m.id + '#x' + i; if (e.retos && e.retos[k]) r.cr = e.retos[k]; });
+  });
+});
