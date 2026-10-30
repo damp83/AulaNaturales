@@ -6,7 +6,7 @@
  *   tema-1-esquemas.pdf … tema-6-esquemas.pdf   (una ficha por página, para el alumnado)
  *   solucionario-esquemas.pdf                   (todas las fichas resueltas, para el docente)
  *
- * © 2026 Diego Alberto Moya, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · Licencia CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
+ * © 2026 Diego Alberto Moya Puerta, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · Licencia CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
  *
  * Necesita Node y Playwright con Chromium. Las tipografías (Andika y Lilita One, licencia OFL)
  * están en esta misma carpeta y se incrustan en el PDF.
@@ -97,7 +97,7 @@ function ficha(tema, mision, k, e, resuelta) {
       <div class="auto"><b>¿Cómo lo he hecho?</b><p>Colorea una cara.</p>
         <div class="caras"><span>${CARA(0)}¡Muy bien!</span><span>${CARA(1)}Bien</span><span>${CARA(2)}Tengo que repasar</span></div></div>
     </div>`}
-    <footer class="licencia"><span>Exploradores de la Naturaleza · Licencia CC BY-NC-SA 4.0</span><span>© 2026 Diego Alberto Moya, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia</span></footer>
+    <footer class="licencia"><span>Exploradores de la Naturaleza · Licencia CC BY-NC-SA 4.0</span><span>© 2026 Diego Alberto Moya Puerta, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia</span></footer>
   </section>`;
 }
 
