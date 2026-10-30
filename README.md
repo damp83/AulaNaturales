@@ -43,6 +43,9 @@ En la carpeta `google-classroom` está la versión que guarda el progreso en la 
 
 Si se cambia `index.html` o `contenidos.js`, hay que regenerar esa versión con `python3 tools/build_classroom.py`.
 
+## Crear un juego como este para otra área
+En [`PLANTILLA-NUEVO-JUEGO.md`](PLANTILLA-NUEVO-JUEGO.md) hay una plantilla de instrucciones para pedirle a Claude un videojuego igual para otra área o curso, cambiando solo la temática y los contenidos.
+
 ## Autoría y licencia
 © 2026 **Diego Alberto Moya Puerta**, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia.
 
