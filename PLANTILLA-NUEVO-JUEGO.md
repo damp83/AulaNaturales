@@ -63,6 +63,8 @@ temática visual y los contenidos.
 - Mapa del curso agrupado por situaciones de aprendizaje.
 - Opciones y retos en orden aleatorio.
 - Lectura en voz alta con la voz más natural del dispositivo.
+- Versión bilingüe castellano / inglés (si se quiere), con contenidos-en.js validado
+  con tools/validar_ingles.js.
 - Zona de calma, o adaptar la actividad de bienestar a la temática.
 - Panel del docente con:
   - progreso del alumnado;
@@ -101,6 +103,8 @@ temática visual y los contenidos.
 | Archivo | Qué contiene |
 |---|---|
 | `contenidos.js` | Temas, misiones, retos, esquemas, currículo y su asociación con la evaluación |
+| `contenidos-en.js` | Los mismos contenidos en inglés (solo textos) |
+| `tools/validar_ingles.js` | Comprueba que la versión inglesa encaja con la castellana |
 | `index.html` | El juego: diseño, personajes, mecánicas y panel del docente |
 | `google-classroom/` | Versión que guarda el progreso en la nube, con su guía de instalación |
 | `tools/build_classroom.py` | Genera la versión de Google Classroom a partir de los dos archivos anteriores |

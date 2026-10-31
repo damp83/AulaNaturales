@@ -393,6 +393,9 @@ td.num-c{font-variant-numeric:tabular-nums}
 .creditos{margin-top:28px;text-align:center;font-size:.85rem;color:var(--ink-dim);max-width:70ch;margin-inline:auto}
 .creditos b{color:var(--ink-soft)}
 .creditos a{color:var(--gold)}
+.lang-switch{display:flex;gap:8px;justify-content:flex-end}
+.lang-switch .chip{min-height:40px;padding:6px 14px;font-size:1rem}
+.lang-btn{font-family:var(--f-game);font-size:1rem}
 /* Personajes */
 .avatar{width:100%;height:auto;overflow:visible;display:block}
 .frame .avatar{width:52px;margin-top:4px}
@@ -475,6 +478,7 @@ td.num-c{font-variant-numeric:tabular-nums}
 <div id="toast" role="status" hidden></div>
 
 <script src="contenidos.js"></script>
+<script src="contenidos-en.js"></script>
 <script>
 /* ---------- Iconos ---------- */
 const ICONS = {
@@ -661,11 +665,181 @@ function pushNow(){
   pushing = true;
   google.script.run
     .withSuccessHandler(()=>{ pushing=false; if(pushAgain){ pushAgain=false; pushNow(); } })
-    .withFailureHandler(()=>{ pushing=false; toast('No se ha podido guardar. Comprueba la conexión a internet.'); setTimeout(schedulePush, 5000); })
+    .withFailureHandler(()=>{ pushing=false; toast(tr('No se ha podido guardar. Comprueba la conexión a internet.')); setTimeout(schedulePush, 5000); })
     .saveProgress(JSON.stringify(p), summaryOf(p));
 }
-function cloudSettings(){ if(CLOUD && ME && ME.teacher) google.script.run.withFailureHandler(()=>toast('No se ha podido guardar el ajuste.')).setSettings({free:!!S.free, open:S.open||{}}); }
+function cloudSettings(){ if(CLOUD && ME && ME.teacher) google.script.run.withFailureHandler(()=>toast(tr('No se ha podido guardar el ajuste.'))).setSettings({free:!!S.free, open:S.open||{}, lang:S.classLang||null}); }
 let S = load(); S.open = S.open || {};
+if(S.voice && !S.voice_es){ S.voice_es = S.voice; delete S.voice; }
+/* ---------- Idiomas (castellano / inglés) ----------
+   tr('texto en castellano', {variables}) devuelve el texto en el idioma del juego.
+   Los textos de la interfaz en inglés están en UI_EN; los contenidos, en contenidos-en.js. */
+const UI_EN = {
+  // Generales y navegación
+  'Tema':'Topic', 'Misión':'Mission', 'Jefe final':'Final boss', 'jefe final':'final boss', 'jefe':'boss', 'Jefe':'Boss', 'Libro':'Book',
+  'Volver':'Back', 'Volver al mapa':'Back to the map', 'Volver al mapa ▶':'Back to the map ▶', 'Volver al mapa del tema':'Back to the topic map',
+  'Volver al mapa del curso':'Back to the course map', 'Mapa del curso':'Course map', 'Mapa del tema':'Topic map', 'Repetir':'Play again',
+  'Continuar ▶':'Continue ▶', 'Empezar ▶':'Start ▶', 'Cambiar idioma':'Change language', 'Próximamente':'Coming soon',
+  // Bienvenida
+  'Exploradores<span>de la Naturaleza</span>':'Nature<span>Explorers</span>',
+  '¡Hola! Soy <b>Glo</b>, tu guía. Recorre el mapa del curso tema a tema, supera las misiones y derrota a los jefes finales.':'Hi! I am <b>Glo</b>, your guide. Travel the course map topic by topic, complete the missions and beat the final bosses.',
+  'Partidas guardadas':'Saved games', 'Nivel {n} · {s} estrellas':'Level {n} · {s} stars',
+  'Has entrado con la cuenta <b>{e}</b>. Tu progreso se guarda en tu cuenta.':'You are signed in as <b>{e}</b>. Your progress is saved in your account.',
+  'Cambia tu personaje':'Change your character', 'Nueva partida: elige personaje':'New game: choose a character', 'Elige tu personaje':'Choose your character',
+  'Personaje':'Character', '¿Cómo te llamas?':'What is your name?', 'Escribe tu nombre':'Write your name', 'Guardar y volver ▶':'Save and go back ▶',
+  '¡Jugar! ▶':'Play! ▶', '¡Jugar!':'Play!', 'Panel del docente':'Teacher panel', 'Escribe tu nombre para empezar':'Write your name to start',
+  '¡Hola, {n}! Este es el mapa del curso. Toca el tema 1 para empezar.':'Hello, {n}! This is the course map. Tap topic 1 to start.',
+  // Personajes
+  'Exploradora':'Explorer', 'Astronauta':'Astronaut', 'Científico':'Scientist', 'Robot':'Robot', 'Superheroína':'Superhero', 'Ninja':'Ninja', 'Doctora':'Doctor', 'Alienígena':'Alien',
+  'Encuentra pistas escondidas en cada lección.':'Finds hidden clues in every lesson.',
+  'Viaja más rápido que nadie por el mapa.':'Travels the map faster than anyone.',
+  'Investiga y descubre cómo funciona todo.':'Investigates how everything works.',
+  'Memoria de acero: nunca olvida una respuesta.':'Super memory: never forgets an answer.',
+  'Rápida como un rayo resolviendo retos.':'As fast as lightning at solving challenges.',
+  'Silencioso y concentrado: no se le escapa nada.':'Quiet and focused: misses nothing.',
+  'Conoce el cuerpo humano como nadie.':'Knows the human body better than anyone.',
+  'Viene de otro planeta para aprender contigo.':'Comes from another planet to learn with you.',
+  // Niveles
+  'Explorador novato':'Beginner explorer', 'Aprendiz':'Apprentice', 'Explorador':'Explorer', 'Investigador':'Investigator', 'Experto':'Expert', 'Sabio':'Wise one',
+  'Maestro explorador':'Master explorer', 'Leyenda':'Legend', 'Gran leyenda':'Great legend', 'Campeón del curso':'Course champion',
+  // Barra superior
+  'Cambiar de partida':'Change game', 'Nivel {n} a los {x}':'Level {n} at {x}', '¡Nivel máximo!':'Top level!', 'Experiencia':'Experience',
+  'Estrellas del curso':'Course stars', 'Insignias':'Badges', 'Parar música':'Stop music', 'Poner música':'Play music',
+  'Quitar efectos de sonido':'Turn off sound effects', 'Activar efectos de sonido':'Turn on sound effects',
+  // Mapa del curso
+  'Vence al jefe del tema {n}':'Beat the boss of topic {n}', '¡Superado!':'Done!', 'Situación de aprendizaje':'Learning situation', '{n} temas':'{n} topics',
+  'Tu progreso':'Your progress', 'Vence al jefe final de un tema para desbloquear el siguiente.':'Beat the final boss of a topic to unlock the next one.',
+  'Zona de calma':'Calm zone', 'Respira conmigo para relajarte':'Breathe with me to relax', 'Mis insignias':'My badges', '{a} de {b} conseguidas':'{a} of {b} won',
+  'El tema {n} llegará más adelante en el curso.':'Topic {n} will come later in the course.',
+  'Vence al jefe final del tema {n} para desbloquear este tema.':'Beat the final boss of topic {n} to unlock this topic.',
+  // Mapa del tema
+  'bloqueada':'locked', 'Bloqueada':'Locked', 'Mapa del cuerpo humano con las misiones':'Map of the human body with the missions',
+  'Mapa de las misiones del tema':'Map of the topic missions', '{n} de 3 estrellas':'{n} of 3 stars',
+  'Esquemas del tema':'Topic concept maps', 'Repasa los esquemas que has completado':'Review the concept maps you have completed',
+  'Completa todas las misiones para enfrentarte al {v}.':'Complete all the missions to face the {v}.',
+  'Termina primero la misión {n} para desbloquear esta.':'Finish mission {n} first to unlock this one.',
+  // Lección
+  '¡El {v} nos corta el paso! Cada respuesta correcta le quita vida. Tienes 3 corazones: si fallas un reto, pierdes uno.':'The {v} is in our way! Every correct answer takes away some of its energy. You have 3 hearts: if you get a challenge wrong, you lose one.',
+  '¡A la batalla! ▶':'Into battle! ▶', 'Lee las tarjetas o pulsa el altavoz para escucharlas. ¡Después vienen {n} retos!':'Read the cards or tap the speaker to listen. Then there are {n} challenges!',
+  'Escuchar':'Listen', '¡Empezar los retos! ▶':'Start the challenges! ▶',
+  // Juego
+  'Salir de la misión':'Leave the mission', 'Leer en voz alta':'Read aloud', 'Opciones':'Options', '¡Preparados!':'Ready…', '¡YA!':'GO!',
+  'Reto {a} de {b}':'Challenge {a} of {b}', '{n} corazones':'{n} hearts', '¿Verdadero o falso?':'True or false?', '¡COMBO x{n}!':'COMBO x{n}!',
+  '¡ZAS!':'ZAP!', '¡POW!':'POW!', '¡TOMA!':'BOOM!', '¡racha de {n}!':'{n} in a row!', '¡SIN CORAZONES!':'NO HEARTS LEFT!',
+  '¡No pasa nada! Repasa y vuelve a intentarlo.':'Don’t worry! Review and try again.', 'Repasa la lección y vuelve a intentarlo.':'Review the lesson and try again.',
+  '¡Genial!':'Great!', '¡Muy bien!':'Very good!', '¡Fantástico!':'Fantastic!', '¡Correcto!':'Correct!', '¡Lo has clavado!':'You nailed it!', '¡Bravo!':'Well done!',
+  'Casi…':'Almost…', '¡Ups! Prueba otra vez':'Oops! Try again', 'Piénsalo un poco más':'Think a bit more', '¡Tú puedes!':'You can do it!',
+  'Verdadero':'True', 'Falso':'False',
+  'Toca un hueco y después la palabra que va en él.':'Tap a gap and then the word that goes in it.',
+  'Esa palabra va en otro hueco. Toca primero el hueco correcto.':'That word goes in another gap. Tap the right gap first.',
+  'Puedes tocar varias. Después pulsa <b>Comprobar</b>.':'You can tap more than one. Then tap <b>Check</b>.', 'Comprobar ✔':'Check ✔',
+  'Toca al menos una opción':'Tap at least one option', 'Vas bien, pero te falta una.':'Good, but one is missing.', 'Vas bien, pero te faltan {n}.':'Good, but {n} are missing.',
+  'Toca las tarjetas en orden. Si te equivocas al colocar una, tócala para quitarla.':'Tap the cards in order. If you put one in the wrong place, tap it to take it out.',
+  'Hay {n} tarjetas fuera de su sitio. Las verdes ya están bien.':'{n} cards are in the wrong place. The green ones are right.',
+  'Hay 1 tarjeta fuera de su sitio. Las verdes ya están bien.':'1 card is in the wrong place. The green ones are right.',
+  '¡Todo clasificado!':'All sorted!', 'Tarjeta {a} de {b}: ¿dónde va?':'Card {a} of {b}: where does it go?',
+  'Toca una tarjeta de la izquierda y después su pareja de la derecha.':'Tap a card on the left and then its partner on the right.',
+  'Primero toca una tarjeta de la izquierda':'First tap a card on the left', 'Toca la palabra que va en el hueco que parpadea.':'Tap the word that goes in the flashing gap.',
+  // Resultado
+  '¡Nuevo tema desbloqueado! Tema {n}: {t}':'New topic unlocked! Topic {n}: {t}', '¡Tema {a} superado! El tema {b} llegará pronto.':'Topic {a} complete! Topic {b} is coming soon.',
+  '¡Casi lo consigues!':'So close!', '¡Jefe derrotado!':'Boss defeated!', '¡Misión superada!':'Mission complete!',
+  'Has sumado los puntos que conseguiste. Repasa y vuelve a intentarlo: ¡seguro que lo logras!':'You keep the points you won. Review and try again: you can do it!',
+  '¡Muy bien! Repite la misión para conseguir las 3 estrellas.':'Very good! Play the mission again to get 3 stars.',
+  '¡Perfecto! ¡Eres un auténtico explorador!':'Perfect! You are a real explorer!',
+  'a la primera':'first try', 'puntos XP':'XP points', 'mejor racha':'best streak', '¡SUBES AL NIVEL {n}!':'LEVEL UP: {n}!', '¡Cofre de insignias!':'Badge chest!',
+  // Insignias
+  'Completa la misión «{m}».':'Complete the mission “{m}”.', 'Jefe derrotado':'Boss defeated', 'Derrota al {v} del tema {n}.':'Defeat the {v} in topic {n}.',
+  'Constelación':'Constellation', 'Consigue 3 estrellas en todas las misiones del tema {n}.':'Get 3 stars in all the missions of topic {n}.',
+  '¡Nueva insignia: {n}!':'New badge: {n}!', 'Insignias especiales':'Special badges',
+  'Sin fallos':'No mistakes', 'Termina una misión sin equivocarte ni una vez.':'Finish a mission without a single mistake.',
+  'Racha de fuego':'Fire streak', 'Acierta 5 retos seguidos a la primera.':'Get 5 challenges in a row right first time.',
+  'Calma total':'Total calm', 'Haz el ejercicio completo en la Zona de calma.':'Do the whole exercise in the Calm zone.',
+  // Zona de calma
+  'Respirar profundamente nos ayuda a calmarnos. Cuando el círculo crece, toma aire. Cuando se hace pequeño, suéltalo despacio.':'Breathing deeply helps us calm down. When the circle grows, breathe in. When it gets small, breathe out slowly.',
+  '¿Preparado?':'Ready?', 'Inspiración':'Breathe in', 'Mantén':'Hold', 'Espiración':'Breathe out', 'Haremos 3 respiraciones.':'We will take 3 breaths.',
+  'Toma aire por la nariz':'Breathe in through your nose', 'Mantén el aire':'Hold your breath', 'Suelta el aire por la boca':'Breathe out through your mouth',
+  'Inspira':'In', 'Espira':'Out', 'Respiración {n} de 3':'Breath {n} of 3', 'Has terminado el ejercicio.':'You have finished the exercise.',
+  '¿Cómo te sientes ahora?':'How do you feel now?', 'Todavía nervioso':'Still nervous', 'Igual':'The same', 'Más tranquilo':'Calmer', '¡Muy tranquilo!':'Very calm!',
+  'Puedes repetir el ejercicio varias veces hasta sentirte mejor.':'You can repeat the exercise until you feel better.',
+  '¡Genial! Recuerda este ejercicio cuando estés nervioso.':'Great! Remember this exercise when you feel nervous.',
+  // Esquemas
+  'Esquemas del tema {n}':'Topic {n} concept maps',
+  'Aquí tienes los esquemas que has completado para repasar. Los demás se rellenan al terminar cada misión.':'Here are the concept maps you have completed, to review. The others fill in when you finish each mission.',
+  'Escuchar el esquema':'Listen to the concept map', 'Completa la misión para ver este esquema completo.':'Complete the mission to see this concept map.',
+  // Evaluación (docente)
+  'Sobresaliente':'Outstanding', 'Notable':'Very good', 'Suficiente':'Pass', 'Insuficiente':'Not yet achieved',
+  'Todavía no ha jugado estos retos':'Has not played these challenges yet', 'Sin datos':'No data', '{a} de {b} retos jugados':'{a} of {b} challenges played',
+  'No jugado':'Not played', 'A la primera':'First try', 'Con algún fallo':'With some mistakes', 'No resuelto':'Not solved', 'intento':'attempt', 'intentos':'attempts',
+  'Evaluación':'Assessment', 'Nivel de logro por criterio de evaluación':'Achievement level by assessment criterion',
+  'Nivel de logro por misión (cuando se añadan los criterios de evaluación, aparecerán aquí)':'Achievement level by mission (assessment criteria will appear here once added)',
+  ', calculado con el mejor resultado de cada reto: acierto a la primera = 100 %, con algún fallo = 50 %. Pulsa una casilla para ver el detalle.':', based on the best result in each challenge: right first time = 100 %, with some mistakes = 50 %. Tap a cell to see the details.',
+  'Los criterios y saberes se muestran en castellano, como en el currículo oficial.':'Criteria and basic knowledge are shown in Spanish, as in the official curriculum.',
+  'Saberes básicos':'Basic knowledge (saberes básicos)', 'Alumno/a':'Student', 'reto':'challenge', 'retos':'challenges',
+  '* Criterio con menos de 3 retos en este tema: tómalo como orientativo y compleméntalo con otras evidencias.':'* Criterion with fewer than 3 challenges in this topic: use it as a guide and add other evidence.',
+  'No evaluables en el juego (evalúalos por otras vías):':'Not assessable in the game (assess them in other ways):',
+  'Copiar tabla':'Copy table', 'Guardar en la hoja':'Save to the spreadsheet', 'Niveles':'Levels', 'Cuenta':'Account',
+  'Tabla copiada: pégala en tu cuaderno u hoja de cálculo':'Table copied: paste it into your gradebook or spreadsheet',
+  'Evaluación guardada en la hoja de cálculo':'Assessment saved to the spreadsheet', 'No se ha podido guardar: ':'Could not save: ',
+  'No se ha podido copiar automáticamente':'Could not copy automatically',
+  // Panel docente
+  'Cargando el progreso de la clase…':'Loading the class progress…', 'No se ha podido leer la clase: ':'Could not load the class: ',
+  'Progreso de todo el alumnado que ha entrado con su cuenta del centro. Se guarda en la hoja de cálculo de tu Drive':'Progress of all students who have signed in with their school account. It is saved in the spreadsheet in your Drive',
+  'abrir la hoja':'open the spreadsheet', 'Actualizar':'Refresh',
+  'Progreso del alumnado que ha jugado en este dispositivo. Los datos se guardan solo en este navegador.':'Progress of the students who have played on this device. The data is saved only in this browser.',
+  'Nivel':'Level', '¿Seguro? Borrar':'Sure? Delete', 'Borrar':'Delete',
+  'Pasa el ratón sobre las estrellas de un tema para ver el detalle por misión (estrellas, veces jugada y mejor % de aciertos a la primera). ✓ = jefe final vencido.':'Hover over a topic’s stars to see each mission (stars, times played and best % right first time). ✓ = final boss beaten.',
+  'Todavía no hay alumnado registrado.':'No students yet.', 'Todavía no hay alumnado registrado en este dispositivo.':'No students on this device yet.',
+  'Fichas para imprimir':'Printable worksheets',
+  'Esquemas en papel para completar a mano (A4, una ficha por página), con recuadro de palabras, espacio para dibujar y autoevaluación.':'Paper concept maps to complete by hand (A4, one worksheet per page), with a word box, space to draw and self-assessment.',
+  'Solucionario':'Answer key', 'Temas del curso':'Course topics', '({n} misiones + jefe)':'({n} missions + boss)', '(sin contenidos todavía)':'(no content yet)',
+  'Siempre abierto':'Always open', 'Abrir ya':'Open now',
+  'Normalmente cada tema se abre cuando el alumno vence al jefe del tema anterior. Marca «Abrir ya» para abrir un tema a toda la clase aunque no hayan terminado el anterior.':'Normally each topic opens when the student beats the boss of the previous topic. Tick “Open now” to open a topic for the whole class even if they have not finished the previous one.',
+  'Idioma':'Language', 'Idioma de la clase':'Class language', 'Idioma del juego':'Game language',
+  'Se aplica a todo el alumnado. Cada alumno puede cambiarlo en su dispositivo con el botón ES/EN.':'It applies to all students. Each student can change it on their device with the ES/EN button.',
+  'El alumnado también puede cambiarlo con el botón ES/EN. El progreso y la evaluación son los mismos en los dos idiomas.':'Students can also change it with the ES/EN button. Progress and assessment are the same in both languages.',
+  'Voz de lectura':'Reading voice', 'Voz':'Voice', 'Automática (la más natural)':'Automatic (the most natural)', 'Velocidad':'Speed',
+  'Despacio':'Slow', 'Normal':'Normal', 'Rápida':'Fast', 'Probar voz':'Test voice',
+  'Las voces dependen del dispositivo y del navegador. Las más naturales suelen llamarse «Natural», «Online», «Mejorada» o «Google».':'Voices depend on the device and the browser. The most natural ones are usually called “Natural”, “Online”, “Enhanced” or “Google”.',
+  'Este navegador todavía no ha cargado sus voces. Pulsa «Probar voz» y vuelve a abrir este panel.':'This browser has not loaded its voices yet. Tap “Test voice” and open this panel again.',
+  'Modo libre: todos los temas y misiones desbloqueados':'Free mode: all topics and missions unlocked',
+  'Estrellas: 3 con un 85 % de aciertos a la primera, 2 con un 60 % y 1 al terminar. Los contenidos se editan en el archivo <b>contenidos.js</b>.':'Stars: 3 with 85 % right first time, 2 with 60 % and 1 for finishing. The English content is in the file <b>contenidos-en.js</b>.',
+  'Autoría y licencia':'Author and licence', '¡Hola! Así sonará mi voz.':'Hello! This is how my voice will sound.',
+  '¡Hola! Soy Glo. ¿Preparados para explorar la naturaleza?':'Hello! I am Glo. Are you ready to explore nature?',
+  'Modo libre activado':'Free mode on', 'Modo libre desactivado':'Free mode off', 'Tema abierto para la clase':'Topic opened for the class', 'Tema cerrado':'Topic closed',
+  'Alumno borrado':'Student deleted', 'No se ha podido borrar: ':'Could not delete: ',
+  'No se ha podido guardar. Comprueba la conexión a internet.':'Could not save. Check your internet connection.', 'No se ha podido guardar el ajuste.':'Could not save the setting.',
+  // Inicio en Google Classroom
+  'Cargando tu partida…':'Loading your game…', 'No se ha podido entrar':'Could not sign in',
+  'Entra con tu cuenta de Google del colegio y vuelve a abrir el enlace desde Classroom.':'Sign in with your school Google account and open the link from Classroom again.',
+  'Comprueba la conexión a internet y vuelve a abrir el enlace.':'Check your internet connection and open the link again.'
+};
+let LANG = (S.lang === 'en') ? 'en' : 'es';
+function tr(s, v){
+  let r = (LANG === 'en' && UI_EN[s] !== undefined) ? UI_EN[s] : s;
+  if(v) r = r.replace(/\{(\w+)\}/g, (m, k) => v[k] !== undefined ? v[k] : m);
+  return r;
+}
+const pagesLabel = p => (LANG === 'en' ? String(p).replace(/Págs?\./, 'pp.') : String(p)).replace('-', '‑');
+function applyLang(){
+  document.documentElement.lang = LANG;
+  document.title = LANG === 'en' ? 'Nature Explorers' : 'Exploradores de la Naturaleza';
+  if(typeof IDIOMA_CONTENIDOS !== 'undefined') IDIOMA_CONTENIDOS.aplicar(CURSO, LANG);
+  const fb = $('#fb-next'); if(fb) fb.textContent = tr('Continuar ▶');
+  loadVoices();
+}
+function setLang(l, silencioso){
+  if(l !== 'es' && l !== 'en') return;
+  LANG = l; S.lang = l; if(!silencioso) S.langChosen = true; save(); applyLang();
+  if(silencioso) return;
+  const vista = [...document.querySelectorAll('.view')].find(v => !v.hidden);
+  if(vista && vista.id === 'view-teacher') renderTeacher();
+  else if(!P()) renderWelcome();
+  else if(CT) goMap(); else goCourse();
+}
+function langSwitchHTML(){
+  return `<div class="lang-switch" role="group" aria-label="${tr('Idioma')}">${[['es','Español'],['en','English']].map(([c,n])=>`<button type="button" class="tile chip" data-lang="${c}" aria-pressed="${LANG===c}">${n}</button>`).join('')}</div>`;
+}
+function bindLangSwitch(v){ v.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => setLang(b.dataset.lang)); }
 let CT = null;   // tema abierto
 const P = () => S.profiles[S.current];
 const cvars = w => `--c:var(${w.color});--cd:var(${w.color}-d)`;
@@ -677,7 +851,7 @@ const temaMax = t => stagesOf(t).length*3;
 const temaBeaten = (p,t) => hasContent(t) && stars(p,t.boss.id)>0;
 const courseStars = p => TEMAS.reduce((n,t)=>n+temaStars(p,t),0);
 const courseMax = () => TEMAS.reduce((n,t)=>n+temaMax(t),0);
-function levelOf(xp){ let i=0; LEVELS.forEach((l,k)=>{ if(xp>=l[0]) i=k; }); return {n:i+1, name:LEVELS[i][1], from:LEVELS[i][0], to:LEVELS[i+1]?LEVELS[i+1][0]:null}; }
+function levelOf(xp){ let i=0; LEVELS.forEach((l,k)=>{ if(xp>=l[0]) i=k; }); return {n:i+1, name:tr(LEVELS[i][1]), from:LEVELS[i][0], to:LEVELS[i+1]?LEVELS[i+1][0]:null}; }
 function temaOpen(i){
   const t=TEMAS[i]; if(!hasContent(t)) return false;
   return S.free || !!S.open[t.id] || i===0 || temaBeaten(P(), TEMAS[i-1]);
@@ -714,7 +888,7 @@ function logro(p, retos){
   if(!hechos.length) return {none:true, total:retos.length};
   const pct = Math.round(hechos.reduce((n,r)=>n+ev[r._k][0],0)/hechos.length*100);
   const L = LOGRO.find(l=>pct>=l[0]);
-  return {pct, name:L[1], short:L[2], color:L[3], done:hechos.length, total:retos.length};
+  return {pct, name:tr(L[1]), short:L[2], color:L[3], done:hechos.length, total:retos.length};
 }
 function recordResult(score){
   const p=P(), c=M.list[M.i]; if(!p || !c || !c._k) return;
@@ -725,11 +899,11 @@ function recordResult(score){
 function allBadges(){
   const out=[];
   TEMAS.filter(hasContent).forEach(t=>{
-    t.missions.forEach(m=>out.push({id:m.id, name:m.badge||m.short, desc:`Completa la misión «${m.title}».`, icon:m.icon, color:m.color, tema:t}));
-    out.push({id:t.boss.id, name:t.boss.badge||'Jefe derrotado', desc:`Derrota al ${t.boss.villain||'jefe'} del tema ${t.n}.`, icon:'trophy', color:t.boss.color, tema:t});
-    out.push({id:'tres-'+t.id, name:t.starsBadge||'Constelación', desc:`Consigue 3 estrellas en todas las misiones del tema ${t.n}.`, icon:'star', tema:t});
+    t.missions.forEach(m=>out.push({id:m.id, name:m.badge||m.short, desc:tr('Completa la misión «{m}».',{m:m.title}), icon:m.icon, color:m.color, tema:t}));
+    out.push({id:t.boss.id, name:t.boss.badge||tr('Jefe derrotado'), desc:tr('Derrota al {v} del tema {n}.',{v:t.boss.villain||tr('jefe'),n:t.n}), icon:'trophy', color:t.boss.color, tema:t});
+    out.push({id:'tres-'+t.id, name:t.starsBadge||tr('Constelación'), desc:tr('Consigue 3 estrellas en todas las misiones del tema {n}.',{n:t.n}), icon:'star', tema:t});
   });
-  return [...out, ...GLOBAL_BADGES];
+  return [...out, ...GLOBAL_BADGES.map(b=>({...b, name:tr(b.name), desc:tr(b.desc)}))];
 }
 const badgeStyle = b => b.color ? `--c:var(${b.color});--cd:var(${b.color}-d)` : '--c:var(--gold);--cd:var(--gold-d)';
 
@@ -764,24 +938,26 @@ function setMusic(on){
     st++;
   }, 170);
 }
-/* ---------- Voz: elige la voz en español más natural del dispositivo ---------- */
+/* ---------- Voz: elige la voz más natural del dispositivo para el idioma del juego ---------- */
 let VOICES = [];
-function loadVoices(){ try{ VOICES = (window.speechSynthesis ? speechSynthesis.getVoices() : []).filter(v=>v.lang && /^es/i.test(v.lang)); }catch(e){ VOICES=[]; } }
-if(window.speechSynthesis){ loadVoices(); try{ speechSynthesis.addEventListener('voiceschanged', loadVoices); }catch(e){} }
+function loadVoices(){ try{ const re = new RegExp('^'+LANG, 'i'); VOICES = (window.speechSynthesis ? speechSynthesis.getVoices() : []).filter(v=>v.lang && re.test(v.lang)); }catch(e){ VOICES=[]; } }
+if(window.speechSynthesis){ try{ speechSynthesis.addEventListener('voiceschanged', loadVoices); }catch(e){} }
 function voiceScore(v){
   const n = v.name.toLowerCase(); let sc = 0;
-  if(/natural|neural|online/.test(n)) sc += 60;          // Edge: «Microsoft Elvira Online (Natural)»
+  if(/natural|neural|online/.test(n)) sc += 60;          // Edge: «Microsoft Elvira Online (Natural)», «Microsoft Libby Online (Natural)»
   if(/premium|enhanced|mejorad|siri/.test(n)) sc += 50;  // iPad/Mac: voces mejoradas
-  if(/google/.test(n)) sc += 35;                         // Chrome: «Google español»
+  if(/google/.test(n)) sc += 35;                         // Chrome: «Google español», «Google UK English Female»
   if(/m[oó]nica|paulina|marisol|elvira|alvaro|álvaro|helena|lucia|lucía|dalia|jorge|laura/.test(n)) sc += 15;
-  if(/^es[-_]es/i.test(v.lang)) sc += 12; else if(/^es[-_](mx|us|419)/i.test(v.lang)) sc += 6;
+  if(/libby|sonia|ryan|maisie|kate|serena|daniel|jenny|aria|guy|samantha|karen|moira/.test(n)) sc += 15;
+  if(/^es[-_]es/i.test(v.lang) || /^en[-_]gb/i.test(v.lang)) sc += 12; else if(/^es[-_](mx|us|419)/i.test(v.lang) || /^en[-_](us|ie|au)/i.test(v.lang)) sc += 6;
   if(/espeak|compact|eloquence|grandma|grandpa|abuel|bad news|bells|bubbles|jester|organ|trinoids|whisper|zarvox|albert|bahh|boing|cellos|deranged|hysterical|junior|ralph|superstar|wobble/.test(n)) sc -= 80;
   if(v.localService === false) sc += 5;
   return sc;
 }
+const voiceKey = () => 'voice_'+LANG;
 function bestVoice(){
   if(!VOICES.length) loadVoices();
-  if(S.voice){ const v = VOICES.find(v=>v.name===S.voice); if(v) return v; }
+  if(S[voiceKey()]){ const v = VOICES.find(v=>v.name===S[voiceKey()]); if(v) return v; }
   return VOICES.slice().sort((a,b)=>voiceScore(b)-voiceScore(a))[0] || null;
 }
 function speak(text){
@@ -794,7 +970,7 @@ function speak(text){
     const parts = clean.match(/[^.!?¡¿;:]+[.!?;:]*|[¡¿][^!?]+[!?]/g) || [clean];
     parts.map(p=>p.trim()).filter(Boolean).forEach(p=>{
       const u = new SpeechSynthesisUtterance(p);
-      u.lang = v ? v.lang : 'es-ES'; if(v) u.voice = v;
+      u.lang = v ? v.lang : (LANG==='en' ? 'en-GB' : 'es-ES'); if(v) u.voice = v;
       u.rate = S.voiceRate || 0.95; u.pitch = 1.05;
       s.speak(u);
     });
@@ -854,7 +1030,7 @@ function grant(id){
   const p=P(); if(!p || p.badges.includes(id)) return;
   const b=allBadges().find(b=>b.id===id); if(!b) return;
   p.badges.push(id); save();
-  if(pendingBadges) pendingBadges.push(b); else { toast('¡Nueva insignia: '+b.name+'!'); sfx('level'); }
+  if(pendingBadges) pendingBadges.push(b); else { toast(tr('¡Nueva insignia: {n}!',{n:b.name})); sfx('level'); }
 }
 function checkBadges(){
   const p=P();
@@ -879,29 +1055,30 @@ function renderWelcome(){
   const editing = CLOUD && P();
   if(editing){ const k=AVATARS.findIndex(a=>a.id===P().avatar); if(k>=0 && renderWelcome.first!==false) chosen=k; renderWelcome.first=false; }
   const v=$('#view-welcome');
-  const preview = () => { const a=AVATARS[chosen]; return `<div class="big">${avatarSVG(a.id)}</div><div><b class="outline-sm">${a.name}</b><span class="role">${a.role}</span><p>${a.power}</p></div>`; };
+  const preview = () => { const a=AVATARS[chosen]; return `<div class="big">${avatarSVG(a.id)}</div><div><b class="outline-sm">${a.name}</b><span class="role">${tr(a.role)}</span><p>${tr(a.power)}</p></div>`; };
   v.innerHTML = `<div class="title-screen">
     <div class="logo">
       <div class="mascot-wrap">${mascotSVG('idle')}</div>
       <span class="label">${esc(CURSO.asignatura)}</span>
-      <h1 class="outline">Exploradores<span>de la Naturaleza</span></h1>
-      <p class="tagline">¡Hola! Soy <b>Glo</b>, tu guía. Recorre el mapa del curso tema a tema, supera las misiones y derrota a los jefes finales.</p>
-      <div class="world-strip">${TEMAS.map(t=>`<span style="${cvars(t)}" title="Tema ${t.n}: ${esc(t.title)}">${ico(t.icon)}</span>`).join('')}</div>
+      <h1 class="outline">${tr('Exploradores<span>de la Naturaleza</span>')}</h1>
+      <p class="tagline">${tr('¡Hola! Soy <b>Glo</b>, tu guía. Recorre el mapa del curso tema a tema, supera las misiones y derrota a los jefes finales.')}</p>
+      <div class="world-strip">${TEMAS.map(t=>`<span style="${cvars(t)}" title="${tr('Tema')} ${t.n}: ${esc(t.title)}">${ico(t.icon)}</span>`).join('')}</div>
     </div>
     <div class="panel start-panel">
-      ${list.length ? `<div><h2 class="outline-sm">Partidas guardadas</h2><div class="slots" style="margin-top:12px">${list.map(([id,p])=>`<button class="slot-btn" type="button" data-id="${id}">${avatarSVG(p.avatar)}<span><b>${esc(p.name)}</b><small>Nivel ${levelOf(p.xp).n} · ${courseStars(p)} estrellas</small></span></button>`).join('')}</div></div>` : ''}
+      ${langSwitchHTML()}
+      ${list.length ? `<div><h2 class="outline-sm">${tr('Partidas guardadas')}</h2><div class="slots" style="margin-top:12px">${list.map(([id,p])=>`<button class="slot-btn" type="button" data-id="${id}">${avatarSVG(p.avatar)}<span><b>${esc(p.name)}</b><small>${tr('Nivel {n} · {s} estrellas',{n:levelOf(p.xp).n,s:courseStars(p)})}</small></span></button>`).join('')}</div></div>` : ''}
       <form id="new-profile" style="display:grid;gap:16px" novalidate>
-        ${CLOUD && ME ? `<p class="tip">Has entrado con la cuenta <b>${esc(ME.email)}</b>. Tu progreso se guarda en tu cuenta.</p>` : ''}
-        <h2 class="outline-sm">${editing?'Cambia tu personaje':list.length?'Nueva partida: elige personaje':'Elige tu personaje'}</h2>
+        ${CLOUD && ME ? `<p class="tip">${tr('Has entrado con la cuenta <b>{e}</b>. Tu progreso se guarda en tu cuenta.',{e:esc(ME.email)})}</p>` : ''}
+        <h2 class="outline-sm">${tr(editing?'Cambia tu personaje':list.length?'Nueva partida: elige personaje':'Elige tu personaje')}</h2>
         <div class="char-preview" id="char-preview" aria-live="polite">${preview()}</div>
-        <div class="chars" role="group" aria-label="Personaje">${AVATARS.map((a,i)=>`<button type="button" class="char" aria-pressed="${i===chosen}" data-i="${i}" aria-label="${a.name}, ${a.role}">${avatarSVG(a.id)}<small>${a.name}</small></button>`).join('')}</div>
-        <div class="field"><label for="pname">¿Cómo te llamas?</label><input id="pname" maxlength="18" autocomplete="off" placeholder="Escribe tu nombre" value="${editing?esc(P().name):''}"></div>
-        <button class="btn" type="submit">${editing?'Guardar y volver ▶':'¡Jugar! ▶'}</button>
+        <div class="chars" role="group" aria-label="${tr('Personaje')}">${AVATARS.map((a,i)=>`<button type="button" class="char" aria-pressed="${i===chosen}" data-i="${i}" aria-label="${a.name}, ${tr(a.role)}">${avatarSVG(a.id)}<small>${a.name}</small></button>`).join('')}</div>
+        <div class="field"><label for="pname">${tr('¿Cómo te llamas?')}</label><input id="pname" maxlength="18" autocomplete="off" placeholder="${tr('Escribe tu nombre')}" value="${editing?esc(P().name):''}"></div>
+        <button class="btn" type="submit">${tr(editing?'Guardar y volver ▶':'¡Jugar! ▶')}</button>
       </form>
-      ${!CLOUD || (ME && ME.teacher) ? '<button class="linkish" type="button" id="teacher-link">Panel del docente</button>' : ''}
+      ${!CLOUD || (ME && ME.teacher) ? `<button class="linkish" type="button" id="teacher-link">${tr('Panel del docente')}</button>` : ''}
     </div>
   </div>
-  ${CREDITOS}`;
+  ${creditos()}`;
   v.querySelectorAll('.slot-btn').forEach(b=>b.onclick=()=>{ S.current=b.dataset.id; save(); sfx('coin'); goCourse(); });
   v.querySelectorAll('.char').forEach(b=>b.onclick=()=>{
     chosen=+b.dataset.i; sfx('coin');
@@ -911,15 +1088,16 @@ function renderWelcome(){
   v.querySelector('#new-profile').onsubmit = e=>{
     e.preventDefault();
     const name = v.querySelector('#pname').value.trim();
-    if(!name){ v.querySelector('#pname').focus(); toast('Escribe tu nombre para empezar'); return; }
+    if(!name){ v.querySelector('#pname').focus(); toast(tr('Escribe tu nombre para empezar')); return; }
     if(editing){ P().name=name; P().avatar=AVATARS[chosen].id; save(); sfx('coin'); goCourse(); return; }
     const id = CLOUD ? 'me' : 'p'+Date.now();
     S.profiles[id] = {name, avatar:AVATARS[chosen].id, xp:0, worlds:{}, badges:[], created:Date.now()};
     S.current = id; save(); sfx('go');
     goCourse();
-    setTimeout(()=>speak('¡Hola, '+name+'! Este es el mapa del curso. Toca el tema 1 para empezar.'), 300);
+    setTimeout(()=>speak(tr('¡Hola, {n}! Este es el mapa del curso. Toca el tema 1 para empezar.',{n:name})), 300);
   };
   const tl=v.querySelector('#teacher-link'); if(tl) tl.onclick = renderTeacher;
+  bindLangSwitch(v);
   show('view-welcome');
 }
 
@@ -928,19 +1106,20 @@ function hudHTML(){
   const p=P(), lv=levelOf(p.xp);
   const pct = lv.to ? Math.round((p.xp-lv.from)/(lv.to-lv.from)*100) : 100;
   return `<header class="hud panel">
-    <button class="who" type="button" data-act="switch" aria-label="Cambiar de partida">
+    <button class="who" type="button" data-act="switch" aria-label="${tr('Cambiar de partida')}">
       <span class="frame">${avatarSVG(p.avatar)}<span class="lvl">${lv.n}</span></span><span><b>${esc(p.name)}</b><small>${lv.name}</small></span>
     </button>
     <div class="xp">
-      <div class="xp-top"><span>${p.xp} XP</span><span>${lv.to ? 'Nivel '+(lv.n+1)+' a los '+lv.to : '¡Nivel máximo!'}</span></div>
-      <div class="gbar" role="progressbar" aria-label="Experiencia" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${Math.max(4,pct)}%"></span></div>
+      <div class="xp-top"><span>${p.xp} XP</span><span>${lv.to ? tr('Nivel {n} a los {x}',{n:lv.n+1,x:lv.to}) : tr('¡Nivel máximo!')}</span></div>
+      <div class="gbar" role="progressbar" aria-label="${tr('Experiencia')}" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${Math.max(4,pct)}%"></span></div>
     </div>
-    <span class="counter star" title="Estrellas del curso">${ico('star')}${courseStars(p)}/${courseMax()}</span>
-    <span class="counter medals" title="Insignias">${ico('medal')}${p.badges.length}</span>
+    <span class="counter star" title="${tr('Estrellas del curso')}">${ico('star')}${courseStars(p)}/${courseMax()}</span>
+    <span class="counter medals" title="${tr('Insignias')}">${ico('medal')}${p.badges.length}</span>
     <div class="hud-tools">
-      <button class="iconbtn ${S.music?'on':''}" type="button" data-act="music" aria-label="${S.music?'Parar música':'Poner música'}" aria-pressed="${!!S.music}">${ico('music')}</button>
-      <button class="iconbtn" type="button" data-act="sound" aria-label="${S.sound?'Quitar efectos de sonido':'Activar efectos de sonido'}">${ico(S.sound?'sound':'mute')}</button>
-      ${!CLOUD || (ME && ME.teacher) ? `<button class="iconbtn" type="button" data-act="teacher" aria-label="Panel del docente">${ico('teacher')}</button>` : ''}
+      <button class="iconbtn ${S.music?'on':''}" type="button" data-act="music" aria-label="${tr(S.music?'Parar música':'Poner música')}" aria-pressed="${!!S.music}">${ico('music')}</button>
+      <button class="iconbtn" type="button" data-act="sound" aria-label="${tr(S.sound?'Quitar efectos de sonido':'Activar efectos de sonido')}">${ico(S.sound?'sound':'mute')}</button>
+      <button class="iconbtn lang-btn" type="button" data-act="lang" aria-label="${tr('Cambiar idioma')}">${LANG==='es'?'EN':'ES'}</button>
+      ${!CLOUD || (ME && ME.teacher) ? `<button class="iconbtn" type="button" data-act="teacher" aria-label="${tr('Panel del docente')}">${ico('teacher')}</button>` : ''}
     </div>
   </header>`;
 }
@@ -949,6 +1128,7 @@ function bindHud(v, rerender){
   v.querySelector('[data-act="sound"]').onclick = ()=>{ S.sound=!S.sound; save(); rerender(); sfx('tick'); };
   v.querySelector('[data-act="music"]').onclick = ()=>{ setMusic(!S.music); rerender(); };
   const tb=v.querySelector('[data-act="teacher"]'); if(tb) tb.onclick = renderTeacher;
+  v.querySelector('[data-act="lang"]').onclick = ()=>setLang(LANG==='es'?'en':'es');
 }
 
 /* ---------- Mapa del curso ---------- */
@@ -958,26 +1138,26 @@ function renderCourse(){
   const rows = TEMAS.map((t,i)=>{
     const open=temaOpen(i), soon=!hasContent(t), beaten=temaBeaten(p,t), shift=i%2===1;
     let status;
-    if(soon) status = '<span class="chip-s soon">Próximamente</span>';
-    else if(!open) status = `<span class="chip-s">${ico('lock')} Vence al jefe del tema ${t.n-1}</span>`;
-    else status = `<span class="counter star">${ico('star')}${temaStars(p,t)}/${temaMax(t)}</span>${beaten?'<span class="chip-s done">¡Superado!</span>':'<span class="chip-s go">¡Jugar!</span>'}`;
+    if(soon) status = `<span class="chip-s soon">${tr('Próximamente')}</span>`;
+    else if(!open) status = `<span class="chip-s">${ico('lock')} ${tr('Vence al jefe del tema {n}',{n:t.n-1})}</span>`;
+    else status = `<span class="counter star">${ico('star')}${temaStars(p,t)}/${temaMax(t)}</span>${beaten?`<span class="chip-s done">${tr('¡Superado!')}</span>`:`<span class="chip-s go">${tr('¡Jugar!')}</span>`}`;
     const conn = i<TEMAS.length-1 ? `<svg class="conn" viewBox="0 0 160 56" aria-hidden="true"><path class="${beaten?'lit':''}" d="${shift?'M103 0 C103 34 55 22 55 56':'M55 0 C55 34 103 22 103 56'}"/></svg>` : '';
     const sit=(CURSO.situaciones||[]).find(g=>g.temas[0]===t.id);
-    return `${sit?`<div class="region outline-sm"><span class="label">Situación de aprendizaje</span>${esc(sit.title)}</div>`:''}<div class="tema-row ${shift?'shift':''}"><button class="tema ${open?'':'locked'} ${soon?'soon':''} ${i===nt?'is-next':''}" type="button" style="${cvars(t)}" data-i="${i}" ${open?'':'aria-disabled="true"'}>
+    return `${sit?`<div class="region outline-sm"><span class="label">${tr('Situación de aprendizaje')}</span>${esc(sit.title)}</div>`:''}<div class="tema-row ${shift?'shift':''}"><button class="tema ${open?'':'locked'} ${soon?'soon':''} ${i===nt?'is-next':''}" type="button" style="${cvars(t)}" data-i="${i}" ${open?'':'aria-disabled="true"'}>
         <span class="planet">${ico(open?t.icon:'lock')}<span class="tnum">${t.n}</span>${i===nt?`<span class="tpin">${avatarSVG(p.avatar)}</span>`:''}</span>
-        <span class="tlabel"><span class="lvltag">Tema ${t.n}${t.pages?' · '+t.pages.replace('-','\u2011'):''}</span><h3 class="outline-sm">${esc(t.title)}</h3><span class="meta">${esc(t.short)}</span><span class="tstatus">${status}</span></span>
+        <span class="tlabel"><span class="lvltag">${tr('Tema')} ${t.n}${t.pages?' · '+pagesLabel(t.pages):''}</span><h3 class="outline-sm">${esc(t.title)}</h3><span class="meta">${esc(t.short)}</span><span class="tstatus">${status}</span></span>
       </button></div>${conn}`;
   }).join('');
   const progress = TEMAS.filter(hasContent).map(t=>{ const pc=Math.round(temaStars(p,t)/temaMax(t)*100);
     return `<div class="ptema" style="${cvars(t)}"><span class="dot">${t.n}</span><div class="gbar"><span style="width:${Math.max(3,pc)}%"></span></div><small>${temaStars(p,t)}/${temaMax(t)}</small></div>`; }).join('');
   v.innerHTML = `${hudHTML()}
-    <div class="course-head"><h2 class="outline">Mapa del curso</h2><span class="label">${esc(CURSO.asignatura)} · ${TEMAS.length} temas</span></div>
+    <div class="course-head"><h2 class="outline">${tr('Mapa del curso')}</h2><span class="label">${esc(CURSO.asignatura)} · ${tr('{n} temas',{n:TEMAS.length})}</span></div>
     <div class="course-layout">
       <div class="road panel">${rows}</div>
       <div class="side-col">
-        <div class="progress-card panel"><h3 class="outline-sm">Tu progreso</h3>${progress}<p class="tip">Vence al jefe final de un tema para desbloquear el siguiente.</p></div>
-        <button class="extra" data-act="calm" type="button" style="--c:var(--lung);--cd:var(--lung-d)"><span class="coin">${ico('wind')}</span><span><b>Zona de calma</b><small>Respira conmigo para relajarte</small></span></button>
-        <button class="extra" data-act="badges" type="button" style="--c:var(--gold);--cd:var(--gold-d)"><span class="coin">${ico('medal')}</span><span><b>Mis insignias</b><small>${p.badges.length} de ${allBadges().length} conseguidas</small></span></button>
+        <div class="progress-card panel"><h3 class="outline-sm">${tr('Tu progreso')}</h3>${progress}<p class="tip">${tr('Vence al jefe final de un tema para desbloquear el siguiente.')}</p></div>
+        <button class="extra" data-act="calm" type="button" style="--c:var(--lung);--cd:var(--lung-d)"><span class="coin">${ico('wind')}</span><span><b>${tr('Zona de calma')}</b><small>${tr('Respira conmigo para relajarte')}</small></span></button>
+        <button class="extra" data-act="badges" type="button" style="--c:var(--gold);--cd:var(--gold-d)"><span class="coin">${ico('medal')}</span><span><b>${tr('Mis insignias')}</b><small>${tr('{a} de {b} conseguidas',{a:p.badges.length,b:allBadges().length})}</small></span></button>
       </div>
     </div>`;
   bindHud(v, renderCourse);
@@ -986,7 +1166,7 @@ function renderCourse(){
   v.querySelectorAll('.tema').forEach(b=>b.onclick=()=>{
     const i=+b.dataset.i, t=TEMAS[i];
     if(temaOpen(i)){ sfx('coin'); S.lastTema=t.id; save(); CT=t; goMap(); return; }
-    const msg = !hasContent(t) ? `El tema ${t.n} llegará más adelante en el curso.` : `Vence al jefe final del tema ${t.n-1} para desbloquear este tema.`;
+    const msg = !hasContent(t) ? tr('El tema {n} llegará más adelante en el curso.',{n:t.n}) : tr('Vence al jefe final del tema {n} para desbloquear este tema.',{n:t.n-1});
     sfx('bad'); toast(msg); speak(msg);
   });
 }
@@ -998,7 +1178,7 @@ function nodeSVG(w, i, x, y, open, st, isNext, label){
   const face = open ? `var(${w.color})` : '#4A5D80', dark = open ? `var(${w.color}-d)` : '#2C3A57';
   const starPath = ICONS.star.match(/d="([^"]+)"/)[1];
   const starRow = st>0 ? [0,1,2].map(k=>`<path transform="translate(${x-25+k*17},${y+r+4}) scale(.62)" d="${starPath}" fill="${k<st?'var(--gold)':'var(--panel)'}" stroke="var(--edge)" stroke-width="2.5"/>`).join('') : '';
-  return `<g class="node ${open?'':'locked'}" data-i="${i}" tabindex="0" role="button" aria-label="${label}${open?'':' (bloqueada)'}">
+  return `<g class="node ${open?'':'locked'}" data-i="${i}" tabindex="0" role="button" aria-label="${label}${open?'':' ('+tr('bloqueada')+')'}">
     ${isNext?`<circle class="ring" cx="${x}" cy="${y}" r="${r}"/>`:''}
     <ellipse cx="${x}" cy="${y+6}" rx="${r}" ry="${r}" fill="var(--edge)"/>
     <g class="n-top">
@@ -1014,14 +1194,14 @@ function pinSVG(x, y, avatar){
 }
 function renderMap(){
   const p=P(), nx=nextIdx(), L=stagesOf(CT), v=$('#view-map');
-  const label = (w,i) => w.boss ? 'Jefe final' : 'Misión '+(i+1);
+  const label = (w,i) => w.boss ? tr('Jefe final') : tr('Misión')+' '+(i+1);
   let svg;
   if(CT.map==='body'){
     const pts = L.map(w=>w.node);
     const segD = ['M150 60 Q210 110 221 205','M221 205 Q170 150 128 168','M128 168 Q128 210 168 226','M168 226 Q170 340 150 442'];
     const trails = segD.map((d,i)=>`<path class="trail ${L[i]&&stars(p,L[i].id)>0?'lit':''}" d="${d}"/>`).join('');
     const pin = pts[nx>=0?nx:pts.length-1];
-    svg = `<svg class="bodymap" viewBox="0 0 300 490" role="group" aria-label="Mapa del cuerpo humano con las misiones">
+    svg = `<svg class="bodymap" viewBox="0 0 300 490" role="group" aria-label="${tr('Mapa del cuerpo humano con las misiones')}">
       <g class="bm-out"><path class="limb" d="M110 132 L64 262"/><path class="limb" d="M190 132 L236 262"/><path class="limb" d="M128 262 L120 410"/><path class="limb" d="M172 262 L180 410"/><rect x="137" y="96" width="26" height="24"/><rect x="96" y="110" width="108" height="166" rx="46"/><circle cx="150" cy="60" r="44"/></g>
       <g class="bm-in"><path class="limb" d="M110 132 L64 262"/><path class="limb" d="M190 132 L236 262"/><path class="limb" d="M128 262 L120 410"/><path class="limb" d="M172 262 L180 410"/><rect x="140" y="96" width="20" height="24"/><rect x="99" y="113" width="102" height="160" rx="43"/><circle cx="150" cy="60" r="41"/></g>
       <g aria-hidden="true" opacity=".85">
@@ -1040,23 +1220,23 @@ function renderMap(){
     const H = 60+L.length*105;
     const trails = pts.slice(1).map((q,i)=>{ const a=pts[i]; return `<path class="trail ${stars(p,L[i].id)>0?'lit':''}" d="M${a[0]} ${a[1]} C${a[0]} ${a[1]+60} ${q[0]} ${q[1]-60} ${q[0]} ${q[1]}"/>`; }).join('');
     const pin = pts[nx>=0?nx:pts.length-1];
-    svg = `<svg class="bodymap" viewBox="0 0 300 ${H}" role="group" aria-label="Mapa de las misiones del tema">${trails}
+    svg = `<svg class="bodymap" viewBox="0 0 300 ${H}" role="group" aria-label="${tr('Mapa de las misiones del tema')}">${trails}
       ${L.map((w,i)=>nodeSVG(w,i,pts[i][0],pts[i][1],unlocked(i),stars(p,w.id),i===nx,label(w,i))).join('')}${pinSVG(pin[0],pin[1],p.avatar)}</svg>`;
   }
   v.setAttribute('style', cvars(CT));
   v.innerHTML = `${hudHTML()}
-    <div class="topbar" style="margin:20px 0 0"><button class="iconbtn" data-act="course" type="button" aria-label="Volver al mapa del curso">${ico('map')}</button><h1 class="outline">Tema ${CT.n}: ${esc(CT.title)}</h1><span class="counter star">${ico('star')}${temaStars(p,CT)}/${temaMax(CT)}</span></div>
+    <div class="topbar" style="margin:20px 0 0"><button class="iconbtn" data-act="course" type="button" aria-label="${tr('Volver al mapa del curso')}">${ico('map')}</button><h1 class="outline">${tr('Tema')} ${CT.n}: ${esc(CT.title)}</h1><span class="counter star">${ico('star')}${temaStars(p,CT)}/${temaMax(CT)}</span></div>
     <div class="map-layout">
-      <div class="map-wrap panel"><h2 class="outline-sm">Mapa del tema</h2>${svg}</div>
+      <div class="map-wrap panel"><h2 class="outline-sm">${tr('Mapa del tema')}</h2>${svg}</div>
       <div class="missions">${L.map((w,i)=>{
         const st=stars(p,w.id), open=unlocked(i);
         return `<button class="mission ${open?'':'is-locked'} ${i===nx?'is-next':''}" type="button" style="${cvars(w)}" data-i="${i}" ${open?'':'aria-disabled="true"'}>
           <span class="coin">${ico(open?w.icon:'lock')}</span>
-          <span style="min-width:0"><span class="lvltag">${label(w,i)}${w.pages?' · '+w.pages.replace('-','‑'):''}</span><h3>${esc(w.title)}</h3><span class="meta">${esc(w.short)}</span></span>
-          <span class="side"><span class="stars" aria-label="${st} de 3 estrellas">${[0,1,2].map(k=>ico('star', k<st?'on':'')).join('')}</span><span class="play-tag">${open?(st?'Repetir':'¡Jugar!'):'Bloqueada'}</span></span>
+          <span style="min-width:0"><span class="lvltag">${label(w,i)}${w.pages?' · '+pagesLabel(w.pages):''}</span><h3>${esc(w.title)}</h3><span class="meta">${esc(w.short)}</span></span>
+          <span class="side"><span class="stars" aria-label="${tr('{n} de 3 estrellas',{n:st})}">${[0,1,2].map(k=>ico('star', k<st?'on':'')).join('')}</span><span class="play-tag">${tr(open?(st?'Repetir':'¡Jugar!'):'Bloqueada')}</span></span>
         </button>`; }).join('')}
-        ${CT.missions.some(m=>(m.ch||[]).some(c=>c.t==='esquema')) ? `<button class="extra" data-act="esquemas" type="button" style="--c:var(--gold);--cd:var(--gold-d)"><span class="coin">${ico('map')}</span><span><b>Esquemas del tema</b><small>Repasa los esquemas que has completado</small></span></button>` : ''}
-        <button class="btn dark" data-act="course2" type="button">${ico('map')} Mapa del curso</button>
+        ${CT.missions.some(m=>(m.ch||[]).some(c=>c.t==='esquema')) ? `<button class="extra" data-act="esquemas" type="button" style="--c:var(--gold);--cd:var(--gold-d)"><span class="coin">${ico('map')}</span><span><b>${tr('Esquemas del tema')}</b><small>${tr('Repasa los esquemas que has completado')}</small></span></button>` : ''}
+        <button class="btn dark" data-act="course2" type="button">${ico('map')} ${tr('Mapa del curso')}</button>
       </div>
     </div>`;
   bindHud(v, renderMap);
@@ -1068,25 +1248,25 @@ function renderMap(){
   v.querySelectorAll('.mission').forEach(b=>b.onclick=()=>go(+b.dataset.i));
 }
 function lockedMsg(i){
-  const msg = i===CT.missions.length ? `Completa todas las misiones para enfrentarte al ${CT.boss.villain||'jefe final'}.` : `Termina primero la misión ${i} para desbloquear esta.`;
+  const msg = i===CT.missions.length ? tr('Completa todas las misiones para enfrentarte al {v}.',{v:CT.boss.villain||tr('jefe final')}) : tr('Termina primero la misión {n} para desbloquear esta.',{n:i});
   sfx('bad'); toast(msg); speak(msg);
 }
 
 /* ---------- Lección ---------- */
 function openWorld(w){
   const v=$('#view-learn'); v.setAttribute('style', cvars(w));
-  const head = `<div class="topbar"><button class="iconbtn" id="lback" type="button" aria-label="Volver al mapa del tema">${ico('back')}</button><h1 class="outline">${esc(w.title)}</h1><span class="label">Tema ${CT.n}${w.pages?' · Libro '+w.pages:''}</span></div>`;
+  const head = `<div class="topbar"><button class="iconbtn" id="lback" type="button" aria-label="${tr('Volver al mapa del tema')}">${ico('back')}</button><h1 class="outline">${esc(w.title)}</h1><span class="label">${tr('Tema')} ${CT.n}${w.pages?' · '+tr('Libro')+' '+pagesLabel(w.pages):''}</span></div>`;
   if(w.boss){
     v.innerHTML = `${head}
       <div class="arena panel"><div class="fighter">${avatarSVG(P().avatar)}</div><div class="vs"><h2 class="outline" style="font-size:2.4rem;color:var(--gold)">VS</h2></div><div class="fighter">${virusSVG()}</div></div>
-      <div class="guide"><div>${mascotSVG('idle')}</div><div class="bubble">¡El ${esc(w.villain||'jefe final')} nos corta el paso! Cada respuesta correcta le quita vida. Tienes 3 corazones: si fallas un reto, pierdes uno.</div></div>
-      <div class="learn-actions"><button class="btn gold" id="lstart" type="button">¡A la batalla! ▶</button></div>`;
+      <div class="guide"><div>${mascotSVG('idle')}</div><div class="bubble">${tr('¡El {v} nos corta el paso! Cada respuesta correcta le quita vida. Tienes 3 corazones: si fallas un reto, pierdes uno.',{v:esc(w.villain||tr('jefe final'))})}</div></div>
+      <div class="learn-actions"><button class="btn gold" id="lstart" type="button">${tr('¡A la batalla! ▶')}</button></div>`;
   } else {
     v.innerHTML = `${head}
-      <div class="guide"><div>${mascotSVG('idle')}</div><div class="bubble">Lee las tarjetas o pulsa el altavoz para escucharlas. ¡Después vienen ${w.ch.length} retos!</div></div>
-      <div class="learn-grid">${w.learn.map((c,k)=>`<article class="lcard panel"><div class="lcard-h"><h3 class="outline-sm">${esc(c.h)}</h3><button class="iconbtn" type="button" data-k="${k}" aria-label="Escuchar: ${esc(c.h)}">${ico('sound')}</button></div><p>${c.p}</p>${c.extra||''}</article>`).join('')}</div>
-      <div class="learn-actions"><button class="btn gold" id="lstart" type="button">¡Empezar los retos! ▶</button>
-      ${w.id==='respiramos'?'<button class="btn dark" id="lcalm" type="button">'+ico('wind')+' Zona de calma</button>':''}</div>`;
+      <div class="guide"><div>${mascotSVG('idle')}</div><div class="bubble">${tr('Lee las tarjetas o pulsa el altavoz para escucharlas. ¡Después vienen {n} retos!',{n:w.ch.length})}</div></div>
+      <div class="learn-grid">${w.learn.map((c,k)=>`<article class="lcard panel"><div class="lcard-h"><h3 class="outline-sm">${esc(c.h)}</h3><button class="iconbtn" type="button" data-k="${k}" aria-label="${tr('Escuchar')}: ${esc(c.h)}">${ico('sound')}</button></div><p>${c.p}</p>${c.extra||''}</article>`).join('')}</div>
+      <div class="learn-actions"><button class="btn gold" id="lstart" type="button">${tr('¡Empezar los retos! ▶')}</button>
+      ${w.id==='respiramos'?'<button class="btn dark" id="lcalm" type="button">'+ico('wind')+' '+tr('Zona de calma')+'</button>':''}</div>`;
     v.querySelectorAll('.lcard .iconbtn').forEach(b=>b.onclick=()=>{ const el=b.closest('.lcard').cloneNode(true); el.querySelectorAll('button').forEach(x=>x.remove()); speak(el.innerText); });
     const lc=v.querySelector('#lcalm'); if(lc) lc.onclick=renderCalm;
   }
@@ -1112,17 +1292,17 @@ function startPlay(w){
   const v=$('#view-play'); v.setAttribute('style', cvars(w));
   v.innerHTML = `
     <div class="play-head">
-      <button class="iconbtn" id="quit" type="button" aria-label="Salir de la misión">${ico('close')}</button>
+      <button class="iconbtn" id="quit" type="button" aria-label="${tr('Salir de la misión')}">${ico('close')}</button>
       <div><div class="segs" id="segs" aria-hidden="true"></div><div class="play-count" id="pcount"></div></div>
       <div id="play-side"></div>
     </div>
-    ${w.boss ? `<div class="arena panel"><div class="fighter">${avatarSVG(P().avatar)}</div><div class="vs"><span class="boss-name outline-sm">${esc(w.villain||'Jefe final')}</span><div class="hp"><span id="hp" style="width:100%"></span></div></div><div class="fighter">${virusSVG()}</div></div>` : ''}
-    <div class="qbox"><div>${mascotSVG('idle')}</div><div class="bubble"><h2 id="qtext"></h2><button class="iconbtn" id="read-q" type="button" aria-label="Leer en voz alta">${ico('sound')}</button></div></div>
+    ${w.boss ? `<div class="arena panel"><div class="fighter">${avatarSVG(P().avatar)}</div><div class="vs"><span class="boss-name outline-sm">${esc(w.villain||tr('Jefe final'))}</span><div class="hp"><span id="hp" style="width:100%"></span></div></div><div class="fighter">${virusSVG()}</div></div>` : ''}
+    <div class="qbox"><div>${mascotSVG('idle')}</div><div class="bubble"><h2 id="qtext"></h2><button class="iconbtn" id="read-q" type="button" aria-label="${tr('Leer en voz alta')}">${ico('sound')}</button></div></div>
     <div class="stage panel" id="stage"></div>`;
   v.querySelector('#quit').onclick = ()=>{ pendingBadges=null; goMap(); };
   v.querySelector('#read-q').onclick = ()=>{
     const ch=M.list[M.i]; let t=$('#qtext').textContent;
-    if(ch.t==='mc' || ch.t==='pick') t += '. Opciones: ' + ch.opts.join('. ');
+    if(ch.t==='mc' || ch.t==='pick') t += '. '+tr('Opciones')+': ' + ch.opts.join('. ');
     if(ch.t==='esquema') t += '. ' + esqTexto(ch);
     speak(t);
   };
@@ -1131,19 +1311,19 @@ function startPlay(w){
 }
 function splash(w, done){
   const s=$('#splash'); s.setAttribute('style', cvars(w));
-  s.innerHTML = `<div class="splash-in"><div class="mascot-wrap">${w.boss?virusSVG():avatarSVG(P().avatar)}</div><span class="label">Tema ${CT.n} · ${w.boss?'Jefe final':'Misión '+(CT.missions.indexOf(w)+1)}</span><h1 class="outline">${esc(w.title)}</h1><div class="splash-go outline" id="sgo">¡Preparados!</div></div>`;
+  s.innerHTML = `<div class="splash-in"><div class="mascot-wrap">${w.boss?virusSVG():avatarSVG(P().avatar)}</div><span class="label">${tr('Tema')} ${CT.n} · ${w.boss?tr('Jefe final'):tr('Misión')+' '+(CT.missions.indexOf(w)+1)}</span><h1 class="outline">${esc(w.title)}</h1><div class="splash-go outline" id="sgo">${tr('¡Preparados!')}</div></div>`;
   s.hidden=false; sfx('tick');
   let finished=false;
   const end = ()=>{ if(finished) return; finished=true; clearTimeout(t1); clearTimeout(t2); s.hidden=true; s.innerHTML=''; done(); };
-  const t1=setTimeout(()=>{ const g=$('#sgo'); if(g){ g.textContent='¡YA!'; g.style.animation='none'; void g.offsetWidth; g.style.animation=''; } sfx('go'); }, 1100);
+  const t1=setTimeout(()=>{ const g=$('#sgo'); if(g){ g.textContent=tr('¡YA!'); g.style.animation='none'; void g.offsetWidth; g.style.animation=''; } sfx('go'); }, 1100);
   const t2=setTimeout(end, reduced()?1300:1900);
   s.onclick = end;
 }
 function drawHead(){
   $('#segs').innerHTML = M.list.map((_,k)=>`<i class="${M.res[k]||(k===M.i?'now':'')}"></i>`).join('');
-  $('#pcount').textContent = `Reto ${Math.min(M.i+1,M.list.length)} de ${M.list.length}`;
+  $('#pcount').textContent = tr('Reto {a} de {b}',{a:Math.min(M.i+1,M.list.length),b:M.list.length});
   $('#play-side').innerHTML = M.hearts!==null
-    ? `<div class="hearts" aria-label="${M.hearts} corazones">${[0,1,2].map(k=>ico('heart', k<M.hearts?'full':'empty'+(k===M.hearts&&M.justLost?' lost':''))).join('')}</div>`
+    ? `<div class="hearts" aria-label="${tr('{n} corazones',{n:M.hearts})}">${[0,1,2].map(k=>ico('heart', k<M.hearts?'full':'empty'+(k===M.hearts&&M.justLost?' lost':''))).join('')}</div>`
     : (M.combo>=2 ? `<span class="combo-badge outline-sm">${ico('flame')}x${M.combo}</span>` : '');
   M.justLost=false;
   if(M.w.boss){ const solved=M.res.filter(Boolean).length; $('#hp').style.width = (100-solved/M.list.length*100)+'%'; }
@@ -1152,7 +1332,7 @@ function nextCh(){
   if(M.i>=M.list.length) return finish(true);
   const ch = M.list[M.i];
   M.cur = {mist:0, done:false};
-  $('#qtext').textContent = ch.t==='tf' ? '¿Verdadero o falso? '+ch.q : ch.q;
+  $('#qtext').textContent = ch.t==='tf' ? tr('¿Verdadero o falso?')+' '+ch.q : ch.q;
   $('#feedback').hidden = true; $('#fb-next').hidden = true;
   setMascot('idle'); drawHead();
   const box=$('#stage'); box.innerHTML='';
@@ -1172,12 +1352,12 @@ function right(){
   else { M.combo=0; M.res[M.i]='meh'; }
   recordResult(M.cur.mist===0 ? 1 : 0.5);
   M.xp += gain; sfx('ok'); floatXP(gain); setMascot('happy');
-  if(M.combo>=3) setTimeout(()=>{ popText('¡COMBO x'+M.combo+'!'); sfx('coin'); }, 150);
+  if(M.combo>=3) setTimeout(()=>{ popText(tr('¡COMBO x{n}!',{n:M.combo})); sfx('coin'); }, 150);
   if(M.w.boss){
     const vr=$('#virus'); vr.classList.remove('hit'); void vr.getBoundingClientRect(); vr.classList.add('hit'); sfx('hit');
-    if(M.combo<3) popText(rand(['¡ZAS!','¡POW!','¡TOMA!']), 'var(--virus)');
+    if(M.combo<3) popText(tr(rand(['¡ZAS!','¡POW!','¡TOMA!'])), 'var(--virus)');
   }
-  feedback('ok', rand(PRAISE).toUpperCase(), `+${gain} XP${M.combo>=3?' · ¡racha de '+M.combo+'!':''}`, true);
+  feedback('ok', tr(rand(PRAISE)).toUpperCase(), `+${gain} XP${M.combo>=3?' · '+tr('¡racha de {n}!',{n:M.combo}):''}`, true);
   if(M.combo>=5) grant('racha');
   drawHead();
 }
@@ -1189,19 +1369,19 @@ function wrong(msg){
     M.hearts--; M.justLost=true;
     if(M.hearts<=0){
       M.over=true; recordResult(0); drawHead(); st.querySelectorAll('button').forEach(b=>b.disabled=true);
-      feedback('bad','¡SIN CORAZONES!','¡No pasa nada! Repasa y vuelve a intentarlo.', false);
+      feedback('bad',tr('¡SIN CORAZONES!'),tr('¡No pasa nada! Repasa y vuelve a intentarlo.'), false);
       setTimeout(()=>finish(false), 1800); return;
     }
   }
   drawHead();
-  feedback('bad', rand(RETRY).toUpperCase(), msg || M.list[M.i].hint || 'Repasa la lección y vuelve a intentarlo.', false);
+  feedback('bad', tr(rand(RETRY)).toUpperCase(), msg || M.list[M.i].hint || tr('Repasa la lección y vuelve a intentarlo.'), false);
 }
 $('#fb-next').onclick = ()=>{ M.i++; nextCh(); };
 
 const RENDER = {
   mc(ch, box){
     const isTF = ch.t==='tf';
-    const opts = isTF ? ['Verdadero','Falso'] : ch.opts;
+    const opts = isTF ? [tr('Verdadero'),tr('Falso')] : ch.opts;
     const ans = isTF ? (ch.a?0:1) : ch.a;
     const key = ch.q;
     const order = isTF ? [0,1] : mix(opts.map((_,i)=>i), r => opts.length>2 && r.indexOf(ans)===lastPos[key], true);
@@ -1220,7 +1400,7 @@ const RENDER = {
     const used = new Set(); let active = 0;
     const nextFree = () => filled.findIndex(f=>!f);
     function draw(badGap){
-      box.innerHTML = `<div class="sort-wrap"><p class="tip">Toca un hueco y después la palabra que va en él.</p>
+      box.innerHTML = `<div class="sort-wrap"><p class="tip">${tr('Toca un hueco y después la palabra que va en él.')}</p>
         ${esqHTML(ch, i => `<button type="button" class="gap ${filled[i]?'filled':''} ${i===active&&!filled[i]?'active':''} ${i===badGap?'bad':''}" data-g="${i}" ${filled[i]?'disabled':''}>${filled[i]?esc(ans[i]):'?'}</button>`)}
         <div class="chips esq-bank">${bank.map(b=>`<button class="tile chip" type="button" data-b="${b.j}" ${used.has(b.j)||nextFree()<0?'disabled':''}>${esc(b.w)}</button>`).join('')}</div></div>`;
       box.querySelectorAll('.gap').forEach(g=>g.onclick=()=>{ active=+g.dataset.g; sfx('tick'); draw(); });
@@ -1232,7 +1412,7 @@ const RENDER = {
           active=n; sfx('coin'); draw();
         } else {
           const otro = ans.some((a,i)=>!filled[i] && i!==active && norm(a)===norm(w));
-          draw(active); wrong(otro ? 'Esa palabra va en otro hueco. Toca primero el hueco correcto.' : null);
+          draw(active); wrong(otro ? tr('Esa palabra va en otro hueco. Toca primero el hueco correcto.') : null);
         }
       });
     }
@@ -1240,15 +1420,15 @@ const RENDER = {
   },
   pick(ch, box){
     const sel = new Set();
-    box.innerHTML = `<div class="sort-wrap"><p class="tip">Puedes tocar varias. Después pulsa <b>Comprobar</b>.</p>
+    box.innerHTML = `<div class="sort-wrap"><p class="tip">${tr('Puedes tocar varias. Después pulsa <b>Comprobar</b>.')}</p>
       <div class="chips">${mix(ch.opts.map((_,i)=>i)).map(i=>`<button class="tile chip" type="button" aria-pressed="false" data-i="${i}">${esc(ch.opts[i])}</button>`).join('')}</div>
-      <div><button class="btn" type="button" id="check">Comprobar ✔</button></div></div>`;
+      <div><button class="btn" type="button" id="check">${tr('Comprobar ✔')}</button></div></div>`;
     box.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
       const i=+b.dataset.i; b.classList.remove('bad'); sfx('tick');
       sel.has(i) ? sel.delete(i) : sel.add(i); b.setAttribute('aria-pressed', sel.has(i));
     });
     box.querySelector('#check').onclick=()=>{
-      if(!sel.size){ toast('Toca al menos una opción'); return; }
+      if(!sel.size){ toast(tr('Toca al menos una opción')); return; }
       const wrongSel=[...sel].filter(i=>!ch.a.includes(i)), missing=ch.a.filter(i=>!sel.has(i));
       if(!wrongSel.length && !missing.length){
         box.querySelectorAll('.chip').forEach(b=>{ if(sel.has(+b.dataset.i)) b.classList.add('ok'); b.disabled=true; });
@@ -1256,7 +1436,7 @@ const RENDER = {
       } else {
         wrongSel.forEach(i=>box.querySelector(`.chip[data-i="${i}"]`).classList.add('bad'));
         const n=missing.length;
-        wrong(!wrongSel.length ? `Vas bien, pero te ${n===1?'falta una':'faltan '+n}.` : (ch.hint||null));
+        wrong(!wrongSel.length ? tr(n===1?'Vas bien, pero te falta una.':'Vas bien, pero te faltan {n}.',{n}) : (ch.hint||null));
       }
     };
   },
@@ -1265,7 +1445,7 @@ const RENDER = {
     let pool=mix(ch.items.map((_,i)=>i));
     let busy=false;
     function draw(badIdx=[]){
-      box.innerHTML = `<div class="sort-wrap"><p class="tip">Toca las tarjetas en orden. Si te equivocas al colocar una, tócala para quitarla.</p>
+      box.innerHTML = `<div class="sort-wrap"><p class="tip">${tr('Toca las tarjetas en orden. Si te equivocas al colocar una, tócala para quitarla.')}</p>
         <ol class="slots-list">${placed.map((v,k)=>`<li><button class="tile slot ${v!==null?'filled':''} ${locked[k]?'ok':''} ${badIdx.includes(k)?'bad':''}" type="button" data-k="${k}" ${v===null||locked[k]?'disabled':''}><span class="num">${k+1}</span><span>${v===null?'…':esc(ch.items[v])}</span></button></li>`).join('')}</ol>
         <div class="pool">${pool.filter(i=>!placed.includes(i)).map(i=>`<button class="tile card-opt" type="button" data-i="${i}">${esc(ch.items[i])}</button>`).join('')}</div></div>`;
       box.querySelectorAll('.card-opt').forEach(b=>b.onclick=()=>{
@@ -1279,7 +1459,7 @@ const RENDER = {
       const bad=[]; placed.forEach((v,k)=>{ if(v===k) locked[k]=true; else bad.push(k); });
       if(!bad.length){ draw(); box.querySelectorAll('button').forEach(b=>b.disabled=true); right(); return; }
       draw(bad); busy=true;
-      wrong(`Hay ${bad.length} tarjeta${bad.length>1?'s':''} fuera de su sitio. Las verdes ya están bien.`);
+      wrong(tr(bad.length>1?'Hay {n} tarjetas fuera de su sitio. Las verdes ya están bien.':'Hay 1 tarjeta fuera de su sitio. Las verdes ya están bien.',{n:bad.length}));
       setTimeout(()=>{ busy=false; if(M.over) return; placed=placed.map((v,k)=>locked[k]?v:null); draw(); }, 1300);
     }
     draw();
@@ -1289,8 +1469,8 @@ const RENDER = {
     function draw(){
       const it=items[k];
       box.innerHTML = `<div class="sort-wrap">
-        <div class="sort-item" aria-live="polite">${it?esc(it[0]):'¡Todo clasificado!'}</div>
-        <p class="tip" style="text-align:center">${it?`Tarjeta ${k+1} de ${items.length}: ¿dónde va?`:''}</p>
+        <div class="sort-item" aria-live="polite">${it?esc(it[0]):tr('¡Todo clasificado!')}</div>
+        <p class="tip" style="text-align:center">${it?tr('Tarjeta {a} de {b}: ¿dónde va?',{a:k+1,b:items.length}):''}</p>
         <div class="bins b${ch.bins.length}">${ch.bins.map((b,i)=>`<button class="tile bin" type="button" data-b="${i}" ${it?'':'disabled'}><span class="bin-name outline-sm">${esc(b)}</span><span class="bin-list">${got[i].map(esc).join('<br>')}</span></button>`).join('')}</div></div>`;
       box.querySelectorAll('.bin').forEach(b=>b.onclick=()=>{
         if(+b.dataset.b===it[1]){
@@ -1308,14 +1488,14 @@ const RENDER = {
   match(ch, box){
     const n=ch.pairs.length; let selL=null, done=0;
     const L=mix(ch.pairs.map((_,i)=>i)), R=mix(ch.pairs.map((_,i)=>i), r=>r.some((v,k)=>v===L[k]));
-    box.innerHTML = `<div class="sort-wrap"><p class="tip">Toca una tarjeta de la izquierda y después su pareja de la derecha.</p>
+    box.innerHTML = `<div class="sort-wrap"><p class="tip">${tr('Toca una tarjeta de la izquierda y después su pareja de la derecha.')}</p>
       <div class="match"><div class="col">${L.map(i=>`<button class="tile m l" type="button" data-i="${i}">${esc(ch.pairs[i][0])}</button>`).join('')}</div>
       <div class="col">${R.map(i=>`<button class="tile m r" type="button" data-i="${i}">${esc(ch.pairs[i][1])}</button>`).join('')}</div></div></div>`;
     box.querySelectorAll('.m.l').forEach(b=>b.onclick=()=>{
       box.querySelectorAll('.m.l').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); selL=+b.dataset.i; sfx('tick');
     });
     box.querySelectorAll('.m.r').forEach(b=>b.onclick=()=>{
-      if(selL===null){ toast('Primero toca una tarjeta de la izquierda'); return; }
+      if(selL===null){ toast(tr('Primero toca una tarjeta de la izquierda')); return; }
       const l=box.querySelector(`.m.l[data-i="${selL}"]`);
       if(+b.dataset.i===selL){
         [l,b].forEach(x=>{ x.classList.remove('sel'); x.classList.add('ok'); x.disabled=true; });
@@ -1331,7 +1511,7 @@ const RENDER = {
     function draw(){
       const sent = ch.parts.map(p=> typeof p==='number'
         ? `<span class="blank ${p<k?'filled':''} ${p===k?'active':''}">${p<k?esc(ch.answers[p]):'____'}</span>` : esc(p)).join('');
-      box.innerHTML = `<div class="sort-wrap"><p class="sentence">${sent}</p><p class="tip">Toca la palabra que va en el hueco que parpadea.</p>
+      box.innerHTML = `<div class="sort-wrap"><p class="sentence">${sent}</p><p class="tip">${tr('Toca la palabra que va en el hueco que parpadea.')}</p>
         <div class="chips">${bank.map((w,j)=>`<button class="tile chip" type="button" data-j="${j}" ${used.has(j)||k>=ch.answers.length?'disabled':''}>${esc(w)}</button>`).join('')}</div></div>`;
       box.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
         const j=+b.dataset.j;
@@ -1361,30 +1541,30 @@ function finish(success){
   const after = levelOf(p.xp), news = pendingBadges || []; pendingBadges = null;
   let unlockMsg = '';
   if(w.boss && success && !wasBeaten && nextT){
-    unlockMsg = hasContent(nextT) && !nextWasOpen ? `¡Nuevo tema desbloqueado! Tema ${nextT.n}: ${nextT.title}` : !hasContent(nextT) ? `¡Tema ${CT.n} superado! El tema ${nextT.n} llegará pronto.` : '';
+    unlockMsg = hasContent(nextT) && !nextWasOpen ? tr('¡Nuevo tema desbloqueado! Tema {n}: {t}',{n:nextT.n,t:nextT.title}) : !hasContent(nextT) ? tr('¡Tema {a} superado! El tema {b} llegará pronto.',{a:CT.n,b:nextT.n}) : '';
   }
   $('#feedback').hidden = true;
   const go = () => {
     const v=$('#view-result'); v.setAttribute('style', cvars(w));
-    const banner = !success ? '¡Casi lo consigues!' : w.boss ? '¡Jefe derrotado!' : '¡Misión superada!';
-    const say = !success ? 'Has sumado los puntos que conseguiste. Repasa y vuelve a intentarlo: ¡seguro que lo logras!' : st<3 ? '¡Muy bien! Repite la misión para conseguir las 3 estrellas.' : '¡Perfecto! ¡Eres un auténtico explorador!';
+    const banner = tr(!success ? '¡Casi lo consigues!' : w.boss ? '¡Jefe derrotado!' : '¡Misión superada!');
+    const say = tr(!success ? 'Has sumado los puntos que conseguiste. Repasa y vuelve a intentarlo: ¡seguro que lo logras!' : st<3 ? '¡Muy bien! Repite la misión para conseguir las 3 estrellas.' : '¡Perfecto! ¡Eres un auténtico explorador!');
     const ut = nextT ? cvars(nextT) : '';
     v.innerHTML = `<div class="result">
       <div class="ribbon ${success?'':'fail'}">${banner}</div>
-      <div class="star-stage"><div class="big-stars" id="bigstars" aria-label="${st} de 3 estrellas">${[0,1,2].map(()=>ico('star')).join('')}</div></div>
+      <div class="star-stage"><div class="big-stars" id="bigstars" aria-label="${tr('{n} de 3 estrellas',{n:st})}">${[0,1,2].map(()=>ico('star')).join('')}</div></div>
       <div class="guide" style="text-align:left;margin:0;width:100%"><div>${mascotSVG(success?'happy':'oops')}</div><div class="bubble">${say}</div></div>
       <div class="res-stats">
-        <div class="panel"><b class="outline-sm">${M.firstOk}/${n}</b><small>a la primera</small></div>
-        <div class="panel"><b class="outline-sm" id="xpcount">+0</b><small>puntos XP</small></div>
-        <div class="panel"><b class="outline-sm">${M.bestCombo}</b><small>mejor racha</small></div>
+        <div class="panel"><b class="outline-sm">${M.firstOk}/${n}</b><small>${tr('a la primera')}</small></div>
+        <div class="panel"><b class="outline-sm" id="xpcount">+0</b><small>${tr('puntos XP')}</small></div>
+        <div class="panel"><b class="outline-sm">${M.bestCombo}</b><small>${tr('mejor racha')}</small></div>
       </div>
       ${unlockMsg ? `<div class="unlock-banner" style="${ut}">${esc(unlockMsg)}</div>` : ''}
-      ${after.n>before.n ? `<div class="levelup outline-sm">¡SUBES AL NIVEL ${after.n}! · ${after.name}</div>` : ''}
-      ${news.length ? `<div class="chest panel"><h3 class="outline-sm">${ico('chest')} ¡Cofre de insignias!</h3>${news.map((b,k)=>`<div class="new-badge" style="animation-delay:${1+k*.3}s"><span class="medal" style="${badgeStyle(b)}">${ico(b.icon)}</span><span><b style="font-family:var(--f-game);font-weight:400;font-size:1.2rem">${esc(b.name)}</b><br><small style="color:var(--ink-soft)">${esc(b.desc)}</small></span></div>`).join('')}</div>` : ''}
+      ${after.n>before.n ? `<div class="levelup outline-sm">${tr('¡SUBES AL NIVEL {n}!',{n:after.n})} · ${after.name}</div>` : ''}
+      ${news.length ? `<div class="chest panel"><h3 class="outline-sm">${ico('chest')} ${tr('¡Cofre de insignias!')}</h3>${news.map((b,k)=>`<div class="new-badge" style="animation-delay:${1+k*.3}s"><span class="medal" style="${badgeStyle(b)}">${ico(b.icon)}</span><span><b style="font-family:var(--f-game);font-weight:400;font-size:1.2rem">${esc(b.name)}</b><br><small style="color:var(--ink-soft)">${esc(b.desc)}</small></span></div>`).join('')}</div>` : ''}
       <div class="row" style="justify-content:center">
-        ${w.boss && success ? `<button class="btn gold" type="button" id="r-course">${ico('map')} Mapa del curso</button><button class="btn dark" type="button" id="r-map">Mapa del tema</button>`
-          : `<button class="btn gold" type="button" id="r-map">Volver al mapa ▶</button>`}
-        <button class="btn dark" type="button" id="r-again">Repetir</button>
+        ${w.boss && success ? `<button class="btn gold" type="button" id="r-course">${ico('map')} ${tr('Mapa del curso')}</button><button class="btn dark" type="button" id="r-map">${tr('Mapa del tema')}</button>`
+          : `<button class="btn gold" type="button" id="r-map">${tr('Volver al mapa ▶')}</button>`}
+        <button class="btn dark" type="button" id="r-again">${tr('Repetir')}</button>
       </div></div>`;
     v.querySelector('#r-map').onclick=goMap;
     const rc=v.querySelector('#r-course'); if(rc) rc.onclick=goCourse;
@@ -1408,13 +1588,13 @@ let calmTimer = null;
 function renderCalm(){
   clearTimeout(calmTimer);
   const v=$('#view-calm'); v.setAttribute('style','--c:var(--lung);--cd:var(--lung-d)');
-  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="cback" type="button" aria-label="Volver">${ico('back')}</button><h1 class="outline">Zona de calma</h1></div>
+  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="cback" type="button" aria-label="${tr('Volver')}">${ico('back')}</button><h1 class="outline">${tr('Zona de calma')}</h1></div>
     <div class="calm">
-      <div class="guide" style="text-align:left;margin:0"><div>${mascotSVG('idle')}</div><div class="bubble">Respirar profundamente nos ayuda a calmarnos. Cuando el círculo crece, toma aire. Cuando se hace pequeño, suéltalo despacio.</div></div>
-      <div class="breath-stage"><div class="breath-ring"></div><div class="breath" id="breath"></div><div class="breath-label outline-sm" id="blabel">¿Preparado?</div></div>
-      <div class="phase-steps"><span data-p="0">1 · Inspiración</span><span data-p="1">2 · Mantén</span><span data-p="2">3 · Espiración</span></div>
-      <p class="tip" id="bcount">Haremos 3 respiraciones.</p>
-      <button class="btn" type="button" id="bstart">Empezar ▶</button>
+      <div class="guide" style="text-align:left;margin:0"><div>${mascotSVG('idle')}</div><div class="bubble">${tr('Respirar profundamente nos ayuda a calmarnos. Cuando el círculo crece, toma aire. Cuando se hace pequeño, suéltalo despacio.')}</div></div>
+      <div class="breath-stage"><div class="breath-ring"></div><div class="breath" id="breath"></div><div class="breath-label outline-sm" id="blabel">${tr('¿Preparado?')}</div></div>
+      <div class="phase-steps"><span data-p="0">1 · ${tr('Inspiración')}</span><span data-p="1">2 · ${tr('Mantén')}</span><span data-p="2">3 · ${tr('Espiración')}</span></div>
+      <p class="tip" id="bcount">${tr('Haremos 3 respiraciones.')}</p>
+      <button class="btn" type="button" id="bstart">${tr('Empezar ▶')}</button>
       <div id="feel" hidden style="display:grid;gap:12px"></div>
     </div>`;
   const back = ()=>{ clearTimeout(calmTimer); CT ? goMap() : goCourse(); };
@@ -1431,25 +1611,25 @@ function runBreath(back){
     if(cycle>=3) return done();
     const [say,ms,scale]=phases[ph];
     b.style.transitionDuration=ms+'ms'; b.style.transform=`scale(${scale})`;
-    label.textContent=names[ph];
+    label.textContent=tr(names[ph]);
     document.querySelectorAll('.phase-steps span').forEach(s=>s.classList.toggle('on', +s.dataset.p===ph));
-    $('#bcount').textContent=`Respiración ${cycle+1} de 3`;
-    speak(cycle===0 ? say : names[ph]);
+    $('#bcount').textContent=tr('Respiración {n} de 3',{n:cycle+1});
+    speak(tr(cycle===0 ? say : names[ph]));
     calmTimer=setTimeout(()=>{ ph++; if(ph===3){ ph=0; cycle++; } step(); }, ms);
   }
   function done(){
-    label.textContent='¡Muy bien!'; setMascot('happy');
+    label.textContent=tr('¡Muy bien!'); setMascot('happy');
     document.querySelectorAll('.phase-steps span').forEach(s=>s.classList.remove('on'));
-    $('#bcount').textContent='Has terminado el ejercicio.';
+    $('#bcount').textContent=tr('Has terminado el ejercicio.');
     const f=$('#feel'); f.hidden=false;
-    f.innerHTML=`<b style="font-family:var(--f-game);font-size:1.5rem;font-weight:400">¿Cómo te sientes ahora?</b>
-      <div class="feel">${[['😟','Todavía nervioso'],['😐','Igual'],['🙂','Más tranquilo'],['😄','¡Muy tranquilo!']].map(([e,l])=>`<button class="tile" type="button" aria-label="${l}" title="${l}">${e}</button>`).join('')}</div>`;
+    f.innerHTML=`<b style="font-family:var(--f-game);font-size:1.5rem;font-weight:400">${tr('¿Cómo te sientes ahora?')}</b>
+      <div class="feel">${[['😟','Todavía nervioso'],['😐','Igual'],['🙂','Más tranquilo'],['😄','¡Muy tranquilo!']].map(([e,l])=>`<button class="tile" type="button" aria-label="${tr(l)}" title="${tr(l)}">${e}</button>`).join('')}</div>`;
     f.querySelectorAll('button').forEach((x,i)=>x.onclick=()=>{
-      const p=P(); let msg = i<2 ? 'Puedes repetir el ejercicio varias veces hasta sentirte mejor.' : '¡Genial! Recuerda este ejercicio cuando estés nervioso.';
+      const p=P(); let msg = tr(i<2 ? 'Puedes repetir el ejercicio varias veces hasta sentirte mejor.' : '¡Genial! Recuerda este ejercicio cuando estés nervioso.');
       if(p && !p.calmDone){ p.calmDone=true; p.xp+=15; msg+=' +15 XP'; save(); }
       if(p) grant('calma');
       speak(msg);
-      f.innerHTML=`<p style="font-weight:700">${esc(msg)}</p><div class="row" style="justify-content:center"><button class="btn" type="button" id="bagain">Repetir</button><button class="btn dark" type="button" id="bmap">Volver al mapa</button></div>`;
+      f.innerHTML=`<p style="font-weight:700">${esc(msg)}</p><div class="row" style="justify-content:center"><button class="btn" type="button" id="bagain">${tr('Repetir')}</button><button class="btn dark" type="button" id="bmap">${tr('Volver al mapa')}</button></div>`;
       f.querySelector('#bagain').onclick=renderCalm; f.querySelector('#bmap').onclick=back;
     });
     sfx('win');
@@ -1462,9 +1642,9 @@ function renderBadges(){
   const p=P(), v=$('#view-badges'), all=allBadges();
   const card = b => { const has=p.badges.includes(b.id);
     return `<div class="bcard panel ${has?'':'locked'}"><span class="medal" style="${badgeStyle(b)}">${ico(has?b.icon:'lock')}</span><span><b>${esc(b.name)}</b><small>${esc(b.desc)}</small></span></div>`; };
-  const groups = TEMAS.filter(hasContent).map(t=>`<div class="badge-group"><h2 class="outline-sm">Tema ${t.n}: ${esc(t.title)}</h2><div class="badge-grid">${all.filter(b=>b.tema===t).map(card).join('')}</div></div>`).join('');
-  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="bback" type="button" aria-label="Volver">${ico('back')}</button><h1 class="outline">Mis insignias</h1><span class="counter medals">${ico('medal')}${p.badges.length}/${all.length}</span></div>
-    ${groups}<div class="badge-group"><h2 class="outline-sm">Insignias especiales</h2><div class="badge-grid">${GLOBAL_BADGES.map(card).join('')}</div></div>`;
+  const groups = TEMAS.filter(hasContent).map(t=>`<div class="badge-group"><h2 class="outline-sm">${tr('Tema')} ${t.n}: ${esc(t.title)}</h2><div class="badge-grid">${all.filter(b=>b.tema===t).map(card).join('')}</div></div>`).join('');
+  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="bback" type="button" aria-label="${tr('Volver')}">${ico('back')}</button><h1 class="outline">${tr('Mis insignias')}</h1><span class="counter medals">${ico('medal')}${p.badges.length}/${all.length}</span></div>
+    ${groups}<div class="badge-group"><h2 class="outline-sm">${tr('Insignias especiales')}</h2><div class="badge-grid">${all.filter(b=>!b.tema).map(card).join('')}</div></div>`;
   v.querySelector('#bback').onclick=()=> CT ? goMap() : goCourse();
   show('view-badges');
 }
@@ -1490,19 +1670,30 @@ function esqHTML(ch, gap){
 function renderEsquemas(){
   const p=P(), v=$('#view-esquemas'); v.setAttribute('style', cvars(CT));
   const items = CT.missions.map((m,k)=>({m,k,ch:(m.ch||[]).find(c=>c.t==='esquema')})).filter(x=>x.ch);
-  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="eback" type="button" aria-label="Volver al mapa del tema">${ico('back')}</button><h1 class="outline">Esquemas del tema ${CT.n}</h1></div>
-    <div class="guide"><div>${mascotSVG('idle')}</div><div class="bubble">Aquí tienes los esquemas que has completado para repasar. Los demás se rellenan al terminar cada misión.</div></div>
+  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="eback" type="button" aria-label="${tr('Volver al mapa del tema')}">${ico('back')}</button><h1 class="outline">${tr('Esquemas del tema {n}',{n:CT.n})}</h1></div>
+    <div class="guide"><div>${mascotSVG('idle')}</div><div class="bubble">${tr('Aquí tienes los esquemas que has completado para repasar. Los demás se rellenan al terminar cada misión.')}</div></div>
     <div class="esq-list">${items.map(({m,k,ch})=>{ const ok = p.ev && p.ev[ch._k]; const ans = esqRespuestas(ch);
-      return `<article class="panel esq-card" style="${cvars(m)}"><div class="lcard-h"><h3 class="outline-sm" style="color:var(--c)">Misión ${k+1}: ${esc(m.title)}</h3>${ok?`<button class="iconbtn" type="button" data-say="${esc(ch._k)}" aria-label="Escuchar el esquema">${ico('sound')}</button>`:''}</div>
+      return `<article class="panel esq-card" style="${cvars(m)}"><div class="lcard-h"><h3 class="outline-sm" style="color:var(--c)">${tr('Misión')} ${k+1}: ${esc(m.title)}</h3>${ok?`<button class="iconbtn" type="button" data-say="${esc(ch._k)}" aria-label="${tr('Escuchar el esquema')}">${ico('sound')}</button>`:''}</div>
         ${esqHTML(ch, i => `<span class="gap ${ok?'filled':''}">${ok?esc(ans[i]):'?'}</span>`)}
-        ${ok ? '' : `<p class="tip">Completa la misión para ver este esquema completo.</p>`}</article>`; }).join('')}</div>`;
+        ${ok ? '' : `<p class="tip">${tr('Completa la misión para ver este esquema completo.')}</p>`}</article>`; }).join('')}</div>`;
   v.querySelector('#eback').onclick = goMap;
   v.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>{ const ch=items.find(x=>x.ch._k===b.dataset.say).ch; const a=esqRespuestas(ch); let i=0;
     const t=x=>esqPartes(x).map(q=>q.startsWith('[[')?a[i++]:q).join(''); const parts=[t(ch.titulo||'')]; (function rec(ns){ ns.forEach(n=>{ parts.push(t(n.txt)); rec(n.hijos||[]); }); })(ch.nodos); speak(parts.join('. ')); });
   show('view-esquemas');
 }
-const CREDITOS = `<footer class="creditos">© 2026 <b>Diego Alberto Moya Puerta</b>, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">Licencia CC BY-NC-SA 4.0</a> · Recurso educativo abierto: puedes compartirlo y adaptarlo citando la autoría, sin fines comerciales y con la misma licencia.</footer>`;
+const AUTORIA = '<b>Diego Alberto Moya Puerta</b>';
+function creditos(){
+  return LANG==='en'
+    ? `<footer class="creditos">© 2026 ${AUTORIA}, Primary School Teacher, Region of Murcia (Spain) · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0 licence</a> · Open educational resource: you may share and adapt it, crediting the author, for non-commercial purposes and under the same licence.</footer>`
+    : `<footer class="creditos">© 2026 ${AUTORIA}, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">Licencia CC BY-NC-SA 4.0</a> · Recurso educativo abierto: puedes compartirlo y adaptarlo citando la autoría, sin fines comerciales y con la misma licencia.</footer>`;
+}
+function licenciaHTML(){
+  return LANG==='en'
+    ? `Program and content: ${AUTORIA}, Primary School Teacher, Region of Murcia (Spain). Licence: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener" style="color:var(--gold)">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 (CC BY-NC-SA 4.0)</a>. Fonts Andika and Lilita One under the SIL Open Font License. References to the textbook belong to their owners.`
+    : `Programa y contenidos: ${AUTORIA}, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia. Licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener" style="color:var(--gold)">Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 (CC BY-NC-SA 4.0)</a>. Tipografías Andika y Lilita One con licencia SIL Open Font License. Las referencias al libro de texto pertenecen a sus titulares.`;
+}
 const FICHAS_URL = 'https://damp83.github.io/AulaNaturales/fichas/';
+const fichaURL = n => LANG==='en' ? FICHAS_URL+'en/'+(n==='sol'?'answer-key-concept-maps.pdf':`topic-${n}-concept-maps.pdf`) : FICHAS_URL+(n==='sol'?'solucionario-esquemas.pdf':`tema-${n}-esquemas.pdf`);
 let evalTema = 0, evalSel = null;
 function evalHTML(list){
   const temas = TEMAS.filter(hasContent), t = temas[Math.min(evalTema, temas.length-1)], cols = columnasEval(t);
@@ -1510,111 +1701,120 @@ function evalHTML(list){
   const sinJuego = crTema(t).filter(c=>!retosDe(t).some(r=>crOf(r).includes(c.id)));
   const cell = (p, col, id) => { const L = logro(p, col.retos);
     if(L.na) return `<td class="num-c" style="color:var(--ink-dim)">—</td>`;
-    if(L.none) return `<td class="num-c" style="color:var(--ink-dim)" title="Todavía no ha jugado estos retos">Sin datos</td>`;
-    return `<td class="num-c"><button type="button" class="ev-cell" data-st="${esc(id)}" data-col="${esc(col.id)}" title="${L.name}: ${L.pct} % (${L.done} de ${L.total} retos jugados)" style="--c:var(${L.color})">${L.short} <small>${L.pct}%</small></button></td>`; };
+    if(L.none) return `<td class="num-c" style="color:var(--ink-dim)" title="${tr('Todavía no ha jugado estos retos')}">${tr('Sin datos')}</td>`;
+    return `<td class="num-c"><button type="button" class="ev-cell" data-st="${esc(id)}" data-col="${esc(col.id)}" title="${L.name}: ${L.pct} % (${tr('{a} de {b} retos jugados',{a:L.done,b:L.total})})" style="--c:var(${L.color})">${L.short} <small>${L.pct}%</small></button></td>`; };
   let detail = '';
   if(evalSel){ const row = list.find(r=>r[0]===evalSel.st), col = cols.find(c=>c.id===evalSel.col);
     if(row && col){ const ev = row[1].ev || {};
       detail = `<div class="panel ev-detail"><b>${esc(row[1].name)} · ${esc(col.label)}</b> <small style="color:var(--ink-soft)">${esc(col.title)}</small>
-        <ul>${col.retos.map(r=>{ const e=ev[r._k]; const m=!e?['·','No jugado','var(--ink-dim)']:e[0]===1?['✔','A la primera','var(--ok)']:e[0]>0?['~','Con algún fallo','var(--gold)']:['✖','No resuelto','var(--bad)'];
-          return `<li><span style="color:${m[2]};font-weight:700">${m[0]} ${m[1]}</span>${e?` <small>(${e[1]} ${e[1]===1?'intento':'intentos'})</small>`:''} · ${esc(r.q)}</li>`; }).join('')}</ul></div>`; } }
-  return `<h2 class="outline-sm" style="color:var(--gold)">Evaluación</h2>
-    <div class="chips" role="group" aria-label="Tema">${temas.map((x,i)=>`<button type="button" class="tile chip ev-tema" aria-pressed="${x===t}" data-i="${i}">Tema ${x.n}</button>`).join('')}</div>
-    <p class="note"><b>Tema ${t.n}: ${esc(t.title)}.</b> ${crTema(t).length ? 'Nivel de logro por criterio de evaluación' : 'Nivel de logro por misión (cuando se añadan los criterios de evaluación, aparecerán aquí)'}, calculado con el mejor resultado de cada reto: acierto a la primera = 100 %, con algún fallo = 50 %. Pulsa una casilla para ver el detalle.</p>
-    ${sab.length ? `<div class="panel ev-sab"><b>Saberes básicos</b><ul>${sab.map(x=>`<li><b>${esc(x.id)}</b> ${esc(x.texto)}</li>`).join('')}</ul></div>` : ''}
+        <ul>${col.retos.map(r=>{ const e=ev[r._k]; const m=!e?['·',tr('No jugado'),'var(--ink-dim)']:e[0]===1?['✔',tr('A la primera'),'var(--ok)']:e[0]>0?['~',tr('Con algún fallo'),'var(--gold)']:['✖',tr('No resuelto'),'var(--bad)'];
+          return `<li><span style="color:${m[2]};font-weight:700">${m[0]} ${m[1]}</span>${e?` <small>(${e[1]} ${tr(e[1]===1?'intento':'intentos')})</small>`:''} · ${esc(r.q)}</li>`; }).join('')}</ul></div>`; } }
+  return `<h2 class="outline-sm" style="color:var(--gold)">${tr('Evaluación')}</h2>
+    <div class="chips" role="group" aria-label="${tr('Tema')}">${temas.map((x,i)=>`<button type="button" class="tile chip ev-tema" aria-pressed="${x===t}" data-i="${i}">${tr('Tema')} ${x.n}</button>`).join('')}</div>
+    <p class="note"><b>${tr('Tema')} ${t.n}: ${esc(t.title)}.</b> ${tr(crTema(t).length ? 'Nivel de logro por criterio de evaluación' : 'Nivel de logro por misión (cuando se añadan los criterios de evaluación, aparecerán aquí)')}${tr(', calculado con el mejor resultado de cada reto: acierto a la primera = 100 %, con algún fallo = 50 %. Pulsa una casilla para ver el detalle.')}${LANG==='en'?' '+tr('Los criterios y saberes se muestran en castellano, como en el currículo oficial.'):''}</p>
+    ${sab.length ? `<div class="panel ev-sab"><b>${tr('Saberes básicos')}</b><ul>${sab.map(x=>`<li><b>${esc(x.id)}</b> ${esc(x.texto)}</li>`).join('')}</ul></div>` : ''}
     <div class="table-wrap panel"><table>
-      <thead><tr><th>Alumno/a</th>${cols.map(c=>`<th title="${esc(c.title)} (${c.retos.length} ${c.retos.length===1?'reto':'retos'})">${esc(c.label)}${c.retos.length && c.retos.length<3?'*':''}</th>`).join('')}</tr></thead>
+      <thead><tr><th>${tr('Alumno/a')}</th>${cols.map(c=>`<th title="${esc(c.title)} (${c.retos.length} ${tr(c.retos.length===1?'reto':'retos')})">${esc(c.label)}${c.retos.length && c.retos.length<3?'*':''}</th>`).join('')}</tr></thead>
       <tbody>${list.map(([id,p])=>`<tr><td>${esc(p.name)}</td>${cols.map(c=>cell(p,c,id)).join('')}</tr>`).join('')}</tbody>
     </table></div>
     ${detail}
-    ${cols.some(c=>c.retos.length && c.retos.length<3) ? '<p class="note">* Criterio con menos de 3 retos en este tema: tómalo como orientativo y compleméntalo con otras evidencias.</p>' : ''}
-    ${sinJuego.length ? `<p class="note">No evaluables en el juego (evalúalos por otras vías): ${sinJuego.map(c=>`<b>${esc(c.id)}</b> ${esc(c.texto)}`).join(' · ')}</p>` : ''}
-    <div class="row"><button class="btn dark small" type="button" id="ev-copy">Copiar tabla</button>${CLOUD ? '<button class="btn dark small" type="button" id="ev-sheet">Guardar en la hoja</button>' : ''}
-      <span class="note">Niveles: SB ≥ 90 % · NT ≥ 70 % · SU ≥ 50 % · IN &lt; 50 %</span></div>`;
+    ${cols.some(c=>c.retos.length && c.retos.length<3) ? `<p class="note">${tr('* Criterio con menos de 3 retos en este tema: tómalo como orientativo y compleméntalo con otras evidencias.')}</p>` : ''}
+    ${sinJuego.length ? `<p class="note">${tr('No evaluables en el juego (evalúalos por otras vías):')} ${sinJuego.map(c=>`<b>${esc(c.id)}</b> ${esc(c.texto)}`).join(' · ')}</p>` : ''}
+    <div class="row"><button class="btn dark small" type="button" id="ev-copy">${tr('Copiar tabla')}</button>${CLOUD ? `<button class="btn dark small" type="button" id="ev-sheet">${tr('Guardar en la hoja')}</button>` : ''}
+      <span class="note">${tr('Niveles')}: SB ≥ 90 % · NT ≥ 70 % · SU ≥ 50 % · IN &lt; 50 %</span></div>`;
 }
 function evalTable(list){
   const t = TEMAS.filter(hasContent)[evalTema], cols = columnasEval(t);
-  const head = ['Alumno/a'].concat(CLOUD?['Cuenta']:[]).concat(cols.map(c=>c.label+(c.title?' · '+c.title:'')));
-  const rows = list.map(([id,p])=>[p.name].concat(CLOUD?[id]:[]).concat(cols.map(c=>{ const L=logro(p,c.retos); return L.na?'':L.none?'Sin datos':`${L.name} (${L.pct} %)`; })));
-  return {tema:`Tema ${t.n}: ${t.title}`, head, rows};
+  const head = [tr('Alumno/a')].concat(CLOUD?[tr('Cuenta')]:[]).concat(cols.map(c=>c.label+(c.title?' · '+c.title:'')));
+  const rows = list.map(([id,p])=>[p.name].concat(CLOUD?[id]:[]).concat(cols.map(c=>{ const L=logro(p,c.retos); return L.na?'':L.none?tr('Sin datos'):`${L.name} (${L.pct} %)`; })));
+  return {tema:`${tr('Tema')} ${t.n}: ${t.title}`, head, rows};
 }
 function bindEval(v, list){
   v.querySelectorAll('.ev-tema').forEach(b=>b.onclick=()=>{ evalTema=+b.dataset.i; evalSel=null; renderTeacher(); });
   v.querySelectorAll('.ev-cell').forEach(b=>b.onclick=()=>{ evalSel={st:b.dataset.st, col:b.dataset.col}; renderTeacher(); });
   const cp=v.querySelector('#ev-copy'); if(cp) cp.onclick=()=>{
     const T=evalTable(list), tsv=[T.head].concat(T.rows).map(r=>r.join('\t')).join('\n');
-    const done=()=>toast('Tabla copiada: pégala en tu cuaderno u hoja de cálculo');
+    const done=()=>toast(tr('Tabla copiada: pégala en tu cuaderno u hoja de cálculo'));
     try{ navigator.clipboard.writeText(tsv).then(done, ()=>fallbackCopy(tsv, done)); }catch(e){ fallbackCopy(tsv, done); }
   };
   const sh=v.querySelector('#ev-sheet'); if(sh) sh.onclick=()=>{
     const T=evalTable(list);
-    google.script.run.withSuccessHandler(()=>toast('Evaluación guardada en la hoja de cálculo'))
-      .withFailureHandler(e=>toast('No se ha podido guardar: '+(e&&e.message||e))).saveEvaluation(T.tema, T.head, T.rows);
+    google.script.run.withSuccessHandler(()=>toast(tr('Evaluación guardada en la hoja de cálculo')))
+      .withFailureHandler(e=>toast(tr('No se ha podido guardar: ')+(e&&e.message||e))).saveEvaluation(T.tema, T.head, T.rows);
   };
 }
 function fallbackCopy(text, done){
   const ta=document.createElement('textarea'); ta.value=text; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.opacity='0';
   document.body.appendChild(ta); ta.select(); let ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
-  ta.remove(); ok ? done() : toast('No se ha podido copiar automáticamente');
+  ta.remove(); ok ? done() : toast(tr('No se ha podido copiar automáticamente'));
 }
 let armedDelete = null;
 function renderTeacher(){
   const v=$('#view-teacher'), withC=TEMAS.filter(hasContent);
   if(CLOUD && CLASS===null){
-    v.innerHTML = `<div class="topbar"><h1 class="outline">Panel del docente</h1></div><p class="note">Cargando el progreso de la clase…</p>`;
+    v.innerHTML = `<div class="topbar"><h1 class="outline">${tr('Panel del docente')}</h1></div><p class="note">${tr('Cargando el progreso de la clase…')}</p>`;
     show('view-teacher');
     google.script.run.withSuccessHandler(rows=>{ CLASS=rows||[]; renderTeacher(); })
-      .withFailureHandler(e=>{ CLASS=[]; toast('No se ha podido leer la clase: '+(e&&e.message||e)); renderTeacher(); }).getClass();
+      .withFailureHandler(e=>{ CLASS=[]; toast(tr('No se ha podido leer la clase: ')+(e&&e.message||e)); renderTeacher(); }).getClass();
     return;
   }
   const list = CLOUD ? CLASS.map(r=>[r.email, r.profile]) : Object.entries(S.profiles);
-  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="tback" type="button" aria-label="Volver">${ico('back')}</button><h1 class="outline">Panel del docente</h1></div>
-    ${CLOUD ? `<p class="note" style="margin-bottom:14px">Progreso de todo el alumnado que ha entrado con su cuenta del centro. Se guarda en la hoja de cálculo de tu Drive${ME&&ME.sheetUrl?` (<a href="${esc(ME.sheetUrl)}" target="_blank" rel="noopener" style="color:var(--gold)">abrir la hoja</a>)`:''}.</p>
-      <div style="margin-bottom:14px"><button class="btn dark small" type="button" id="t-refresh">Actualizar</button></div>`
-    : '<p class="note" style="margin-bottom:14px">Progreso del alumnado que ha jugado en este dispositivo. Los datos se guardan solo en este navegador.</p>'}
+  v.innerHTML = `<div class="topbar"><button class="iconbtn" id="tback" type="button" aria-label="${tr('Volver')}">${ico('back')}</button><h1 class="outline">${tr('Panel del docente')}</h1></div>
+    ${CLOUD ? `<p class="note" style="margin-bottom:14px">${tr('Progreso de todo el alumnado que ha entrado con su cuenta del centro. Se guarda en la hoja de cálculo de tu Drive')}${ME&&ME.sheetUrl?` (<a href="${esc(ME.sheetUrl)}" target="_blank" rel="noopener" style="color:var(--gold)">${tr('abrir la hoja')}</a>)`:''}.</p>
+      <div style="margin-bottom:14px"><button class="btn dark small" type="button" id="t-refresh">${tr('Actualizar')}</button></div>`
+    : `<p class="note" style="margin-bottom:14px">${tr('Progreso del alumnado que ha jugado en este dispositivo. Los datos se guardan solo en este navegador.')}</p>`}
     ${list.length ? `<div class="table-wrap panel"><table>
-      <thead><tr><th>Alumno/a</th><th>Nivel</th><th>XP</th>${withC.map(t=>`<th title="${esc(t.title)}">Tema ${t.n}</th>`).join('')}<th>Insignias</th><th></th></tr></thead>
+      <thead><tr><th>${tr('Alumno/a')}</th><th>${tr('Nivel')}</th><th>XP</th>${withC.map(t=>`<th title="${esc(t.title)}">${tr('Tema')} ${t.n}</th>`).join('')}<th>${tr('Insignias')}</th><th></th></tr></thead>
       <tbody>${list.map(([id,p])=>`<tr><td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:32px;display:inline-block">${avatarSVG(p.avatar)}</span><span>${esc(p.name)}${CLOUD?`<br><small style="color:var(--ink-soft)">${esc(id)}</small>`:''}</span></span></td><td class="num-c">${levelOf(p.xp).n}</td><td class="num-c">${p.xp}</td>
-        ${withC.map(t=>{ const det=stagesOf(t).map((w,k)=>{ const r=p.worlds[w.id]; return `${w.boss?'Jefe':'M'+(k+1)}: ${r?r.stars+'★ ('+r.plays+'×, '+(r.best||0)+'%)':'—'}`; }).join(' · ');
+        ${withC.map(t=>{ const det=stagesOf(t).map((w,k)=>{ const r=p.worlds[w.id]; return `${w.boss?tr('Jefe'):'M'+(k+1)}: ${r?r.stars+'★ ('+r.plays+'×, '+(r.best||0)+'%)':'—'}`; }).join(' · ');
           return `<td class="num-c" title="${esc(det)}">★ ${temaStars(p,t)}/${temaMax(t)}${temaBeaten(p,t)?' ✓':''}</td>`; }).join('')}
         <td class="num-c">${p.badges.length}/${allBadges().length}</td>
-        <td><button class="btn dark small" type="button" data-del="${id}">${armedDelete===id?'¿Seguro? Borrar':'Borrar'}</button></td></tr>`).join('')}</tbody>
-    </table></div><p class="note" style="margin-top:8px">Pasa el ratón sobre las estrellas de un tema para ver el detalle por misión (estrellas, veces jugada y mejor % de aciertos a la primera). ✓ = jefe final vencido.</p>` : `<p class="note">Todavía no hay alumnado registrado${CLOUD?'':' en este dispositivo'}.</p>`}
+        <td><button class="btn dark small" type="button" data-del="${id}">${tr(armedDelete===id?'¿Seguro? Borrar':'Borrar')}</button></td></tr>`).join('')}</tbody>
+    </table></div><p class="note" style="margin-top:8px">${tr('Pasa el ratón sobre las estrellas de un tema para ver el detalle por misión (estrellas, veces jugada y mejor % de aciertos a la primera). ✓ = jefe final vencido.')}</p>` : `<p class="note">${tr(CLOUD?'Todavía no hay alumnado registrado.':'Todavía no hay alumnado registrado en este dispositivo.')}</p>`}
     <div class="teacher-tools">
       ${list.length ? evalHTML(list) : ''}
-      <h2 class="outline-sm" style="color:var(--gold)">Fichas para imprimir</h2>
-      <div class="tema-toggles panel"><p class="note" style="margin:0">Esquemas en papel para completar a mano (A4, una ficha por página), con recuadro de palabras, espacio para dibujar y autoevaluación.</p>
-        <div class="row">${TEMAS.filter(hasContent).map(t=>`<a class="btn dark small" href="${FICHAS_URL}tema-${t.n}-esquemas.pdf" target="_blank" rel="noopener">Tema ${t.n}</a>`).join('')}
-        <a class="btn gold small" href="${FICHAS_URL}solucionario-esquemas.pdf" target="_blank" rel="noopener">Solucionario</a></div></div>
-      <h2 class="outline-sm" style="color:var(--gold)">Temas del curso</h2>
-      <div class="tema-toggles panel">${TEMAS.map((t,i)=>`<label class="switch"><span>Tema ${t.n}: ${esc(t.title)} <small style="color:var(--ink-soft);font-weight:400">${hasContent(t)?`(${t.missions.length} misiones + jefe)`:'(sin contenidos todavía)'}</small></span>
-          <span style="display:inline-flex;gap:8px;align-items:center">${i===0?'<small style="color:var(--ink-soft)">Siempre abierto</small>':`<input type="checkbox" data-open="${t.id}" ${S.open[t.id]?'checked':''} ${hasContent(t)?'':'disabled'}> Abrir ya`}</span></label>`).join('')}</div>
-      <p class="note">Normalmente cada tema se abre cuando el alumno vence al jefe del tema anterior. Marca «Abrir ya» para abrir un tema a toda la clase aunque no hayan terminado el anterior.</p>
-      <h2 class="outline-sm" style="color:var(--gold)">Voz de lectura</h2>
+      <h2 class="outline-sm" style="color:var(--gold)">${tr('Fichas para imprimir')}</h2>
+      <div class="tema-toggles panel"><p class="note" style="margin:0">${tr('Esquemas en papel para completar a mano (A4, una ficha por página), con recuadro de palabras, espacio para dibujar y autoevaluación.')}</p>
+        <div class="row">${TEMAS.filter(hasContent).map(t=>`<a class="btn dark small" href="${fichaURL(t.n)}" target="_blank" rel="noopener">${tr('Tema')} ${t.n}</a>`).join('')}
+        <a class="btn gold small" href="${fichaURL('sol')}" target="_blank" rel="noopener">${tr('Solucionario')}</a></div></div>
+      <h2 class="outline-sm" style="color:var(--gold)">${tr('Temas del curso')}</h2>
+      <div class="tema-toggles panel">${TEMAS.map((t,i)=>`<label class="switch"><span>${tr('Tema')} ${t.n}: ${esc(t.title)} <small style="color:var(--ink-soft);font-weight:400">${hasContent(t)?tr('({n} misiones + jefe)',{n:t.missions.length}):tr('(sin contenidos todavía)')}</small></span>
+          <span style="display:inline-flex;gap:8px;align-items:center">${i===0?`<small style="color:var(--ink-soft)">${tr('Siempre abierto')}</small>`:`<input type="checkbox" data-open="${t.id}" ${S.open[t.id]?'checked':''} ${hasContent(t)?'':'disabled'}> ${tr('Abrir ya')}`}</span></label>`).join('')}</div>
+      <p class="note">${tr('Normalmente cada tema se abre cuando el alumno vence al jefe del tema anterior. Marca «Abrir ya» para abrir un tema a toda la clase aunque no hayan terminado el anterior.')}</p>
+      <h2 class="outline-sm" style="color:var(--gold)">${tr('Idioma')}</h2>
       <div class="tema-toggles panel">
-        <label class="switch" for="voice-sel"><span>Voz</span>
-          <select id="voice-sel" style="font:inherit;padding:8px 10px;border-radius:12px;border:3px solid var(--edge);background:var(--night);color:#fff;max-width:100%">
-            <option value="">Automática (la más natural)</option>
-            ${VOICES.slice().sort((x,y)=>voiceScore(y)-voiceScore(x)).map(v=>`<option value="${esc(v.name)}" ${S.voice===v.name?'selected':''}>${esc(v.name)} (${esc(v.lang)})</option>`).join('')}
+        <label class="switch" for="lang-sel"><span>${tr(CLOUD?'Idioma de la clase':'Idioma del juego')}</span>
+          <select id="lang-sel" style="font:inherit;padding:8px 10px;border-radius:12px;border:3px solid var(--edge);background:var(--night);color:#fff">
+            <option value="es" ${LANG==='es'?'selected':''}>Español</option><option value="en" ${LANG==='en'?'selected':''}>English</option>
           </select></label>
-        <label class="switch" for="voice-rate"><span>Velocidad</span>
-          <select id="voice-rate" style="font:inherit;padding:8px 10px;border-radius:12px;border:3px solid var(--edge);background:var(--night);color:#fff">
-            ${[[0.8,'Despacio'],[0.95,'Normal'],[1.1,'Rápida']].map(([r,l])=>`<option value="${r}" ${(S.voiceRate||0.95)==r?'selected':''}>${l}</option>`).join('')}
-          </select></label>
-        <div><button class="btn blue small" type="button" id="voice-test">${ico('sound')} Probar voz</button></div>
+        <p class="note" style="margin:0">${tr(CLOUD?'Se aplica a todo el alumnado. Cada alumno puede cambiarlo en su dispositivo con el botón ES/EN.':'El alumnado también puede cambiarlo con el botón ES/EN. El progreso y la evaluación son los mismos en los dos idiomas.')}</p>
       </div>
-      <p class="note">${VOICES.length ? 'Las voces dependen del dispositivo y del navegador. Las más naturales suelen llamarse «Natural», «Online», «Mejorada» o «Google».' : 'Este navegador todavía no ha cargado sus voces. Pulsa «Probar voz» y vuelve a abrir este panel.'}</p>
-      <label class="switch"><input type="checkbox" id="free-mode" ${S.free?'checked':''}> Modo libre: todos los temas y misiones desbloqueados</label>
-      <p class="note">Estrellas: 3 con un 85 % de aciertos a la primera, 2 con un 60 % y 1 al terminar. Los contenidos se editan en el archivo <b>contenidos.js</b>.</p>
-      <h2 class="outline-sm" style="color:var(--gold)">Autoría y licencia</h2>
-      <p class="note">Programa y contenidos: <b>Diego Alberto Moya Puerta</b>, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia. Licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener" style="color:var(--gold)">Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 (CC BY-NC-SA 4.0)</a>. Tipografías Andika y Lilita One con licencia SIL Open Font License. Las referencias al libro de texto pertenecen a sus titulares.</p>
+      <h2 class="outline-sm" style="color:var(--gold)">${tr('Voz de lectura')}</h2>
+      <div class="tema-toggles panel">
+        <label class="switch" for="voice-sel"><span>${tr('Voz')}</span>
+          <select id="voice-sel" style="font:inherit;padding:8px 10px;border-radius:12px;border:3px solid var(--edge);background:var(--night);color:#fff;max-width:100%">
+            <option value="">${tr('Automática (la más natural)')}</option>
+            ${VOICES.slice().sort((x,y)=>voiceScore(y)-voiceScore(x)).map(v=>`<option value="${esc(v.name)}" ${S[voiceKey()]===v.name?'selected':''}>${esc(v.name)} (${esc(v.lang)})</option>`).join('')}
+          </select></label>
+        <label class="switch" for="voice-rate"><span>${tr('Velocidad')}</span>
+          <select id="voice-rate" style="font:inherit;padding:8px 10px;border-radius:12px;border:3px solid var(--edge);background:var(--night);color:#fff">
+            ${[[0.8,'Despacio'],[0.95,'Normal'],[1.1,'Rápida']].map(([r,l])=>`<option value="${r}" ${(S.voiceRate||0.95)==r?'selected':''}>${tr(l)}</option>`).join('')}
+          </select></label>
+        <div><button class="btn blue small" type="button" id="voice-test">${ico('sound')} ${tr('Probar voz')}</button></div>
+      </div>
+      <p class="note">${tr(VOICES.length ? 'Las voces dependen del dispositivo y del navegador. Las más naturales suelen llamarse «Natural», «Online», «Mejorada» o «Google».' : 'Este navegador todavía no ha cargado sus voces. Pulsa «Probar voz» y vuelve a abrir este panel.')}</p>
+      <label class="switch"><input type="checkbox" id="free-mode" ${S.free?'checked':''}> ${tr('Modo libre: todos los temas y misiones desbloqueados')}</label>
+      <p class="note">${tr('Estrellas: 3 con un 85 % de aciertos a la primera, 2 con un 60 % y 1 al terminar. Los contenidos se editan en el archivo <b>contenidos.js</b>.')}</p>
+      <h2 class="outline-sm" style="color:var(--gold)">${tr('Autoría y licencia')}</h2>
+      <p class="note">${licenciaHTML()}</p>
     </div>`;
   v.querySelector('#tback').onclick = ()=> P() ? (CT ? goMap() : goCourse()) : renderWelcome();
-  v.querySelector('#voice-sel').onchange = e=>{ S.voice=e.target.value||null; save(); speak('¡Hola! Así sonará mi voz.'); };
-  v.querySelector('#voice-rate').onchange = e=>{ S.voiceRate=+e.target.value; save(); speak('¡Hola! Así sonará mi voz.'); };
-  v.querySelector('#voice-test').onclick = ()=>{ speak('¡Hola! Soy Glo. ¿Preparados para explorar la naturaleza?'); };
-  v.querySelector('#free-mode').onchange = e=>{ S.free=e.target.checked; save(); cloudSettings(); toast(S.free?'Modo libre activado':'Modo libre desactivado'); };
-  v.querySelectorAll('[data-open]').forEach(c=>c.onchange=()=>{ S.open[c.dataset.open]=c.checked; save(); cloudSettings(); toast(c.checked?'Tema abierto para la clase':'Tema cerrado'); });
+  v.querySelector('#lang-sel').onchange = e=>{ if(CLOUD){ S.classLang=e.target.value; cloudSettings(); } setLang(e.target.value); };
+  v.querySelector('#voice-sel').onchange = e=>{ S[voiceKey()]=e.target.value||null; save(); speak(tr('¡Hola! Así sonará mi voz.')); };
+  v.querySelector('#voice-rate').onchange = e=>{ S.voiceRate=+e.target.value; save(); speak(tr('¡Hola! Así sonará mi voz.')); };
+  v.querySelector('#voice-test').onclick = ()=>{ speak(tr('¡Hola! Soy Glo. ¿Preparados para explorar la naturaleza?')); };
+  v.querySelector('#free-mode').onchange = e=>{ S.free=e.target.checked; save(); cloudSettings(); toast(tr(S.free?'Modo libre activado':'Modo libre desactivado')); };
+  v.querySelectorAll('[data-open]').forEach(c=>c.onchange=()=>{ S.open[c.dataset.open]=c.checked; save(); cloudSettings(); toast(tr(c.checked?'Tema abierto para la clase':'Tema cerrado')); });
   bindEval(v, list);
   const rf=v.querySelector('#t-refresh'); if(rf) rf.onclick=()=>{ CLASS=null; renderTeacher(); };
   v.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
@@ -1622,8 +1822,8 @@ function renderTeacher(){
     if(armedDelete!==id){ armedDelete=id; renderTeacher(); return; }
     armedDelete=null;
     if(CLOUD){
-      google.script.run.withSuccessHandler(()=>{ CLASS=CLASS.filter(r=>r.email!==id); if(ME && id===ME.email){ delete S.profiles.me; S.current=null; save(); } toast('Alumno borrado'); renderTeacher(); })
-        .withFailureHandler(e=>toast('No se ha podido borrar: '+(e&&e.message||e))).deleteStudent(id);
+      google.script.run.withSuccessHandler(()=>{ CLASS=CLASS.filter(r=>r.email!==id); if(ME && id===ME.email){ delete S.profiles.me; S.current=null; save(); } toast(tr('Alumno borrado')); renderTeacher(); })
+        .withFailureHandler(e=>toast(tr('No se ha podido borrar: ')+(e&&e.message||e))).deleteStudent(id);
       return;
     }
     delete S.profiles[id]; if(S.current===id) S.current=null; save(); renderTeacher();
@@ -1632,14 +1832,16 @@ function renderTeacher(){
 }
 
 /* ---------- Inicio ---------- */
+applyLang();
 if(S.music){ const resume=()=>{ setMusic(true); removeEventListener('pointerdown', resume); }; addEventListener('pointerdown', resume); }
 function start(){ if(P()) goCourse(); else renderWelcome(); }
 if(CLOUD){
-  $('#view-welcome').innerHTML = `<div class="logo" style="padding-top:60px"><div class="mascot-wrap">${mascotSVG('idle')}</div><h1 class="outline">Cargando tu partida…</h1></div>`;
+  $('#view-welcome').innerHTML = `<div class="logo" style="padding-top:60px"><div class="mascot-wrap">${mascotSVG('idle')}</div><h1 class="outline">${tr('Cargando tu partida…')}</h1></div>`;
   google.script.run
     .withSuccessHandler(st=>{
       ME = st; const set = st.settings || {};
-      S.free = !!set.free; S.open = set.open || {};
+      S.free = !!set.free; S.open = set.open || {}; S.classLang = set.lang || null;
+      if(!S.langChosen && set.lang && set.lang!==LANG) setLang(set.lang, true);
       S.profiles = {}; S.current = null;
       if(st.profile){ S.profiles.me = st.profile; S.current = 'me'; }
       try{ localStorage.setItem(LKEY, JSON.stringify(S)); }catch(e){}
@@ -1647,8 +1849,8 @@ if(CLOUD){
     })
     .withFailureHandler(e=>{
       const msg = String(e && e.message || e);
-      $('#view-welcome').innerHTML = `<div class="logo" style="padding-top:60px"><div class="mascot-wrap">${mascotSVG('oops')}</div><h1 class="outline">No se ha podido entrar</h1>
-        <p class="tagline">${msg.includes('NO_EMAIL') ? 'Entra con tu cuenta de Google del colegio y vuelve a abrir el enlace desde Classroom.' : 'Comprueba la conexión a internet y vuelve a abrir el enlace. ('+esc(msg)+')'}</p></div>`;
+      $('#view-welcome').innerHTML = `<div class="logo" style="padding-top:60px"><div class="mascot-wrap">${mascotSVG('oops')}</div><h1 class="outline">${tr('No se ha podido entrar')}</h1>
+        <p class="tagline">${msg.includes('NO_EMAIL') ? tr('Entra con tu cuenta de Google del colegio y vuelve a abrir el enlace desde Classroom.') : tr('Comprueba la conexión a internet y vuelve a abrir el enlace.')+' ('+esc(msg)+')'}</p></div>`;
     })
     .getState();
   addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden' && pushTimer) pushNow(); });
