@@ -1,10 +1,12 @@
 /**
- * Genera las fichas en papel de los esquemas (2.º de Primaria) a partir de contenidos.js.
+ * Genera las fichas en papel de los esquemas (2.º de Primaria) a partir de contenidos.js
+ * (castellano) y contenidos-en.js (inglés).
  *
  * Uso (desde la raíz del repositorio):   node tools/fichas/generar_fichas.js
  * Crea en la carpeta fichas/:
  *   tema-1-esquemas.pdf … tema-6-esquemas.pdf   (una ficha por página, para el alumnado)
  *   solucionario-esquemas.pdf                   (todas las fichas resueltas, para el docente)
+ *   en/topic-1-concept-maps.pdf … en/answer-key-concept-maps.pdf   (lo mismo, en inglés)
  *
  * © 2026 Diego Alberto Moya Puerta, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · Licencia CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
  *
@@ -22,8 +24,24 @@ const SALIDA = path.join(RAIZ, 'fichas');
 // ---------- Datos ----------
 const ctx = {};
 vm.createContext(ctx);
-vm.runInContext(fs.readFileSync(path.join(RAIZ, 'contenidos.js'), 'utf8') + ';this.CURSO = CURSO;', ctx);
+vm.runInContext(fs.readFileSync(path.join(RAIZ, 'contenidos.js'), 'utf8') + '\n' + fs.readFileSync(path.join(RAIZ, 'contenidos-en.js'), 'utf8') +
+  ';this.CURSO = CURSO; this.IDIOMA = IDIOMA_CONTENIDOS;', ctx);
 const CURSO = ctx.CURSO;
+
+// Textos fijos de las fichas en cada idioma
+const TEXTOS = {
+  es: { nombre: 'Nombre', fecha: 'Fecha', tema: 'Tema', mision: 'Misión', libro: 'Libro', sol: 'Solucionario', juego: 'Exploradores de la Naturaleza', licencia: 'Licencia CC BY-NC-SA 4.0',
+    autor: '© 2026 Diego Alberto Moya Puerta, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia',
+    consigna: '<b>1.</b> Lee las palabras del recuadro. <b>2.</b> Escribe cada palabra en su hueco. <b>3.</b> Tacha la palabra cuando la uses.',
+    dibujo: 'Haz un dibujo sobre este esquema.', auto: '¿Cómo lo he hecho?', colorea: 'Colorea una cara.', caras: ['¡Muy bien!', 'Bien', 'Tengo que repasar'],
+    paginas: p => p.replace('Págs.', 'págs.') },
+  en: { nombre: 'Name', fecha: 'Date', tema: 'Topic', mision: 'Mission', libro: 'Book', sol: 'Answer key', juego: 'Nature Explorers', licencia: 'CC BY-NC-SA 4.0 licence',
+    autor: '© 2026 Diego Alberto Moya Puerta, Primary School Teacher, Region of Murcia (Spain)',
+    consigna: '<b>1.</b> Read the words in the box. <b>2.</b> Write each word in its gap. <b>3.</b> Tick the word when you use it.',
+    dibujo: 'Draw a picture about this concept map.', auto: 'How did I do?', colorea: 'Colour a face.', caras: ['Very well!', 'Well', 'I need to practise'],
+    paginas: p => p.replace(/Págs?\./, 'pp.') }
+};
+let T = TEXTOS.es;
 
 // Colores de cada tema: borde fuerte y fondo suave (se leen bien también en blanco y negro)
 const COLORES = {
@@ -81,23 +99,23 @@ function ficha(tema, mision, k, e, resuelta) {
   const banco = barajar(ans, mision.id);
   return `<section class="pagina" style="--fuerte:${fuerte};--suave:${suave}">
     <header>
-      <div class="datos"><span>Nombre: <i class="linea larga"></i></span><span>Fecha: <i class="linea"></i></span></div>
-      <div class="sello">Tema ${tema.n}</div>
+      <div class="datos"><span>${T.nombre}: <i class="linea larga"></i></span><span>${T.fecha}: <i class="linea"></i></span></div>
+      <div class="sello">${T.tema} ${tema.n}</div>
     </header>
     <div class="cab">
       ${GLO}
-      <div><h1>${esc(mision.title)}</h1><p class="sub">Tema ${tema.n} · ${esc(tema.title)} · Misión ${k + 1}${mision.pages ? ' · Libro, ' + esc(mision.pages.replace('Págs.', 'págs.')) : ''}</p></div>
-      ${resuelta ? '<div class="marca-sol">Solucionario</div>' : ''}
+      <div><h1>${esc(mision.title)}</h1><p class="sub">${T.tema} ${tema.n} · ${esc(tema.title)} · ${T.mision} ${k + 1}${mision.pages ? ' · ' + T.libro + ', ' + esc(T.paginas(mision.pages)) : ''}</p></div>
+      ${resuelta ? `<div class="marca-sol">${T.sol}</div>` : ''}
     </div>
-    <p class="consigna"><b>1.</b> Lee las palabras del recuadro. <b>2.</b> Escribe cada palabra en su hueco. <b>3.</b> Tacha la palabra cuando la uses.</p>
+    <p class="consigna">${T.consigna}</p>
     <div class="banco">${banco.map(w => `<span class="palabra"><i class="check"></i>${esc(w)}</span>`).join('')}</div>
     ${esquema}
     ${resuelta ? '' : `<div class="pie">
-      <div class="dibujo"><b>Haz un dibujo sobre este esquema.</b></div>
-      <div class="auto"><b>¿Cómo lo he hecho?</b><p>Colorea una cara.</p>
-        <div class="caras"><span>${CARA(0)}¡Muy bien!</span><span>${CARA(1)}Bien</span><span>${CARA(2)}Tengo que repasar</span></div></div>
+      <div class="dibujo"><b>${T.dibujo}</b></div>
+      <div class="auto"><b>${T.auto}</b><p>${T.colorea}</p>
+        <div class="caras"><span>${CARA(0)}${T.caras[0]}</span><span>${CARA(1)}${T.caras[1]}</span><span>${CARA(2)}${T.caras[2]}</span></div></div>
     </div>`}
-    <footer class="licencia"><span>Exploradores de la Naturaleza · Licencia CC BY-NC-SA 4.0</span><span>© 2026 Diego Alberto Moya Puerta, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia</span></footer>
+    <footer class="licencia"><span>${T.juego} · ${T.licencia}</span><span>${T.autor}</span></footer>
   </section>`;
 }
 
@@ -169,8 +187,9 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
   const browser = await chromium.launch();
   // Mismo ancho que el área imprimible de un A4 (210 mm − 24 mm de márgenes), para medir como en el papel
   const pagina = await browser.newPage({ viewport: { width: Math.round(186 / 25.4 * 96), height: 1100 } });
-  const doc = cuerpo => `<!doctype html><html lang="es"><head><meta charset="utf-8"><style>${CSS}</style></head><body>${cuerpo}</body></html>`;
+  const doc = cuerpo => `<!doctype html><html lang="${T === TEXTOS.en ? 'en' : 'es'}"><head><meta charset="utf-8"><style>${CSS}</style></head><body>${cuerpo}</body></html>`;
   const pdf = async (html, nombre) => {
+    fs.mkdirSync(path.dirname(path.join(SALIDA, nombre)), { recursive: true });
     await pagina.setContent(html, { waitUntil: 'load' });
     await pagina.evaluate(() => document.fonts.ready);
     await pagina.emulateMedia({ media: 'print' });
@@ -188,18 +207,23 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
     await pagina.pdf({ path: path.join(SALIDA, nombre), format: 'A4', printBackground: true, preferCSSPageSize: true });
     console.log('  ' + nombre);
   };
-  const solucion = [];
-  for (const tema of CURSO.temas) {
-    const fichas = [];
-    (tema.missions || []).forEach((m, k) => {
-      const e = (m.ch || []).find(c => c.t === 'esquema');
-      if (!e) return;
-      fichas.push(ficha(tema, m, k, e, false));
-      solucion.push(ficha(tema, m, k, e, true));
-    });
-    if (fichas.length) await pdf(doc(fichas.join('')), `tema-${tema.n}-esquemas.pdf`);
+  for (const idioma of ['es', 'en']) {
+    T = TEXTOS[idioma];
+    ctx.IDIOMA.aplicar(CURSO, idioma);
+    const nombreTema = n => idioma === 'en' ? `en/topic-${n}-concept-maps.pdf` : `tema-${n}-esquemas.pdf`;
+    const solucion = [];
+    for (const tema of CURSO.temas) {
+      const fichas = [];
+      (tema.missions || []).forEach((m, k) => {
+        const e = (m.ch || []).find(c => c.t === 'esquema');
+        if (!e) return;
+        fichas.push(ficha(tema, m, k, e, false));
+        solucion.push(ficha(tema, m, k, e, true));
+      });
+      if (fichas.length) await pdf(doc(fichas.join('')), nombreTema(tema.n));
+    }
+    await pdf(doc(solucion.join('')), idioma === 'en' ? 'en/answer-key-concept-maps.pdf' : 'solucionario-esquemas.pdf');
   }
-  await pdf(doc(solucion.join('')), 'solucionario-esquemas.pdf');
   await browser.close();
   console.log('Fichas generadas en ' + SALIDA);
 })();
