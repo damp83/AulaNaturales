@@ -14,7 +14,7 @@ La instalación se hace una sola vez y se tarda unos 10 minutos.
 2. Pulsa **Nuevo proyecto**.
 3. Arriba a la izquierda, cambia «Proyecto sin título» por **Exploradores de la Naturaleza**.
 
-## 2. Pegar los tres archivos
+## 2. Pegar los cuatro archivos
 
 Los archivos están en la carpeta `google-classroom` del repositorio: https://github.com/damp83/AulaNaturales/tree/main/google-classroom
 
@@ -25,8 +25,9 @@ Para copiar un archivo: ábrelo en GitHub y pulsa el botón **Copy raw file** (e
 | `Código.gs` (ya existe) | Borra lo que tiene y pega **Codigo.gs** |
 | Pulsa **+** → **HTML** → nómbralo **index** | Borra lo que tiene y pega **index.html** |
 | Pulsa **+** → **HTML** → nómbralo **contenidos** | Borra lo que tiene y pega **contenidos.html** |
+| Pulsa **+** → **HTML** → nómbralo **contenidos_en** | Borra lo que tiene y pega **contenidos_en.html** (contenidos en inglés) |
 
-Los nombres tienen que ser exactamente `index` y `contenidos`, en minúsculas. Apps Script añade solo la terminación `.html`.
+Los nombres tienen que ser exactamente `index`, `contenidos` y `contenidos_en`, en minúsculas. Apps Script añade solo la terminación `.html`.
 
 Pulsa el icono del disquete (**Guardar proyecto**).
 
@@ -66,6 +67,10 @@ Al abrirlo, el alumno elige su personaje y escribe su nombre la primera vez. Las
 - **Abrir ya** y **Modo libre** se aplican a **toda la clase**, en todos los dispositivos.
 - **Borrar** elimina por completo el progreso de ese alumno de la hoja.
 
+## Idioma (castellano / inglés)
+
+El juego está en castellano y en inglés. En el panel del docente, **Idioma de la clase** fija el idioma con el que entra todo el alumnado. Cada alumno puede cambiarlo en su dispositivo con el botón **ES/EN** de la barra superior. El progreso, las estrellas y la evaluación son los mismos en los dos idiomas.
+
 ## Evaluación
 
 En el panel del docente, el apartado **Evaluación** muestra, tema a tema, el **nivel de logro** de cada alumno (SB, NT, SU o IN) por criterio de evaluación. Mientras no se hayan añadido los criterios, lo muestra por misión. Se calcula con el **mejor resultado** de cada reto.
@@ -78,7 +83,7 @@ Los alumnos no ven la evaluación; solo sus estrellas e insignias.
 
 ## Actualizar el juego (temas nuevos o cambios)
 
-1. Sustituye el contenido de los archivos que hayan cambiado (normalmente `contenidos`; si la actualización añade funciones nuevas, también `Codigo.gs` e `index`).
+1. Sustituye el contenido de los archivos que hayan cambiado (normalmente `contenidos` y `contenidos_en`; si la actualización añade funciones nuevas, también `Codigo.gs` e `index`).
 2. **Implementar** → **Gestionar implementaciones** → lápiz (**Editar**) → **Versión: Nueva versión** → **Implementar**.
 
 La URL no cambia, así que el enlace de Classroom sigue sirviendo.
@@ -110,4 +115,4 @@ La URL no cambia, así que el enlace de Classroom sigue sirviendo.
 
 ---
 
-*Para los que mantengan el código:* `index.html` y `contenidos.html` de esta carpeta se generan con `python3 tools/build_classroom.py` a partir de `index.html` y `contenidos.js` de la raíz. No los edites a mano.
+*Para los que mantengan el código:* `index.html`, `contenidos.html` y `contenidos_en.html` de esta carpeta se generan con `python3 tools/build_classroom.py` a partir de `index.html`, `contenidos.js` y `contenidos-en.js` de la raíz. No los edites a mano.

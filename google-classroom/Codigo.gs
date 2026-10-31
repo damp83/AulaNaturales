@@ -85,7 +85,7 @@ function getClass() {
 
 function setSettings(ajustes) {
   soloDocente_();
-  const limpio = { free: !!(ajustes && ajustes.free), open: {} };
+  const limpio = { free: !!(ajustes && ajustes.free), open: {}, lang: (ajustes && (ajustes.lang === 'en' || ajustes.lang === 'es')) ? ajustes.lang : null };
   Object.keys((ajustes && ajustes.open) || {}).forEach(k => { if (ajustes.open[k]) limpio.open[String(k).slice(0, 30)] = true; });
   PropertiesService.getScriptProperties().setProperty('AJUSTES', JSON.stringify(limpio));
   return true;
