@@ -1,0 +1,358 @@
+/* =====================================================================
+   CONTENIDOS DEL CURSO · Exploradores de la Naturaleza
+   © 2026 Diego Alberto Moya Puerta, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · Licencia CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
+   ---------------------------------------------------------------------
+   Cada tema tiene misiones (con tarjetas "learn" y retos "ch") y un jefe
+   final. Un tema sin misiones aparece en el mapa como "Próximamente".
+
+   Para añadir un tema: rellena "missions" y "boss" copiando el modelo del
+   Tema 1. Tipos de reto disponibles:
+     mc       elegir una respuesta        {t:'mc', q, opts:[...], a:índice, hint}
+     tf       verdadero o falso           {t:'tf', q, a:true|false, hint}
+     pick     seleccionar varias          {t:'pick', q, opts:[...], a:[índices], hint}
+     order    ordenar una secuencia       {t:'order', q, items:[en orden correcto], hint}
+     classify clasificar en grupos        {t:'classify', q, bins:[...], items:[[texto, grupo],...], hint}
+     match    unir parejas                {t:'match', q, pairs:[[izq, der],...], hint}
+     fill     completar huecos            {t:'fill', q, parts:['texto ',0,' texto ',1], answers:[...], bank:[distractores], hint}
+   Los "id" de misiones y jefes deben ser únicos en todo el curso.
+   ===================================================================== */
+
+/* ---------- CURRÍCULO: criterios de evaluación y saberes básicos ----------
+   Se rellenan aquí y se asocian:
+     · a cada tema:   criterios:['1.1','2.3'], saberes:['A.1']      (en EVALUACION, al final)
+     · a cada misión: cr:['1.1']   → todos sus retos cuentan para ese criterio
+     · a un reto:     cr:['2.3']   → sustituye al de la misión solo para ese reto
+   Mientras no haya criterios, el panel del docente evalúa por misión. */
+const CURRICULO = {
+  /* Ciencias de la Naturaleza · Segundo ciclo (pendiente de añadir) */
+  criterios: [],
+  saberes: []
+};
+
+/* ---------- TEMA 1 · Agentes del cuerpo humano (libro, págs. 6-23) ---------- */
+const T1_MISIONES = [
+  {
+    id:'vida3', badge:'Detector de vida', title:'Señales de vida', short:'Funciones vitales y emociones', pages:'Págs. 8-9',
+    color:'--sense', icon:'heart',
+    learn:[
+      {h:'Somos seres vivos', p:'Las personas somos seres vivos y realizamos las tres <mark>funciones vitales</mark>: <mark>nutrición</mark>, <mark>relación</mark> y <mark>reproducción</mark>.'},
+      {h:'Las tres funciones vitales', p:'Cada función vital consiste en algo distinto:',
+        extra:'<div class="senses"><b>Nutrición</b><span>tomar alimentos y conseguir de ellos todo lo que necesitamos.</span><b>Relación</b><span>obtener información del entorno y responder a ella.</span><b>Reproducción</b><span>tener hijos e hijas, que suelen parecerse a sus madres y padres.</span></div>'},
+      {h:'¿Qué nos dan los alimentos?', p:'Gracias a los alimentos obtenemos la <mark>energía</mark> que necesitamos para correr o pensar, y los <mark>materiales</mark> que empleamos para crecer.'},
+      {h:'Tenemos emociones', p:'Las <mark>emociones</mark> reflejan nuestros sentimientos. No podemos verlas, pero son una parte muy importante de nosotros.',
+        extra:'<div class="tags"><span class="tag">😄 alegría</span><span class="tag">😢 tristeza</span><span class="tag">😠 enfado</span><span class="tag">😲 sorpresa</span></div>'}
+    ],
+    ch:[
+      {t:'pick', q:'Toca las tres funciones vitales.', opts:['Nutrición','Relación','Reproducción','Respiración','Emoción'], a:[0,1,2], hint:'Son nutrición, relación y reproducción.'},
+      {t:'match', q:'Une cada función vital con lo que consiste.', pairs:[['Nutrición','Tomar alimentos y aprovecharlos'],['Relación','Recibir información del entorno y responder'],['Reproducción','Tener hijos e hijas']], hint:'Repasa la tarjeta de las tres funciones vitales.'},
+      {t:'classify', q:'¿Qué función vital realizas en cada situación?', bins:['Nutrición','Relación','Reproducción'],
+        items:[['🍎 Comer una manzana',0],['🚦 Pararte cuando el semáforo está en rojo',1],['👶 Unos padres tienen un bebé',2],['🥛 Beber un vaso de leche',0],['🔔 Salir al recreo al oír el timbre',1],['👀 Mirar a ambos lados antes de cruzar',1]],
+        hint:'Relación: captamos lo que pasa y respondemos. Nutrición: tomamos alimentos.'},
+      {t:'mc', q:'Gracias a los alimentos obtenemos…', opts:['energía y materiales para crecer','solo agua','emociones'], a:0, hint:'Nos dan energía para movernos y pensar, y materiales para crecer.'},
+      {t:'mc', q:'Correr detrás de una cometa necesita…', opts:['energía','emociones','reproducción'], a:0, hint:'Para correr o pensar usamos la energía de los alimentos.'},
+      {t:'tf', q:'Las emociones se pueden ver igual que un brazo o una pierna.', a:false, hint:'No podemos verlas, pero son una parte importante de nosotros.'},
+      {t:'match', q:'Une cada situación con la emoción que suele provocar.', pairs:[['Te regalan algo que deseabas','Alegría'],['Se pierde tu mascota','Tristeza'],['Alguien rompe tu dibujo a propósito','Enfado'],['Te preparan una fiesta que no esperabas','Sorpresa']], hint:'Piensa cómo te sentirías tú.'},
+      {t:'pick', q:'Toca las cuatro emociones principales que has aprendido.', opts:['Alegría','Tristeza','Hambre','Enfado','Sorpresa','Sueño'], a:[0,1,3,4], hint:'El hambre y el sueño no son emociones.'},
+      {t:'tf', q:'Todas las personas necesitamos tomar exactamente la misma cantidad de alimentos.', a:false, hint:'Depende de la edad, del tamaño y de la actividad de cada persona.'}
+    ]
+  },
+  {
+    id:'mapa3', badge:'Cartógrafo del cuerpo', title:'El mapa del cuerpo humano', short:'Partes del cuerpo y órganos', pages:'Págs. 10-11',
+    color:'--ok', icon:'person',
+    learn:[
+      {h:'Las tres partes del cuerpo', p:'El cuerpo humano tiene tres partes:',
+        extra:'<div class="senses"><b>Cabeza</b><span>por delante tiene la cara.</span><b>Tronco</b><span>formado por el <mark>tórax</mark> (el pecho) y el <mark>abdomen</mark> (la tripa).</span><b>Extremidades</b><span>superiores o <mark>brazos</mark> e inferiores o <mark>piernas</mark>.</span></div>'},
+      {h:'Por fuera', p:'Algunas zonas del cuerpo:',
+        extra:'<div class="tags"><span class="tag">frente</span><span class="tag">mejillas</span><span class="tag">barbilla</span><span class="tag">cuello</span><span class="tag">hombro</span><span class="tag">codo</span><span class="tag">antebrazo</span><span class="tag">muñeca</span><span class="tag">cintura</span><span class="tag">cadera</span><span class="tag">muslo</span><span class="tag">rodilla</span><span class="tag">tobillo</span></div>'},
+      {h:'Por dentro: los órganos', p:'Los <mark>órganos</mark> realizan las funciones vitales. La mayoría no se ven porque están en nuestro <mark>interior</mark>.'},
+      {h:'Órganos de cada función', p:'Cada función vital tiene sus órganos:',
+        extra:'<div class="senses"><b>Nutrición</b><span>boca, corazón, pulmones, estómago e intestino.</span><b>Relación</b><span>ojos, oídos, nariz, lengua, piel, cerebro, nervios, huesos y músculos.</span><b>Reproducción</b><span>testículos y pene; ovarios y vagina.</span></div>'}
+    ],
+    ch:[
+      {t:'mc', q:'¿Cuáles son las tres partes del cuerpo humano?', opts:['Cabeza, tronco y extremidades','Cabeza, brazos y pies','Cara, pecho y tripa'], a:0, hint:'Brazos y piernas son las extremidades.'},
+      {t:'match', q:'Une cada nombre con lo que significa.', pairs:[['Tórax','El pecho'],['Abdomen','La tripa'],['Extremidades superiores','Los brazos'],['Extremidades inferiores','Las piernas']], hint:'El tronco tiene tórax y abdomen.'},
+      {t:'classify', q:'¿En qué parte del cuerpo está?', bins:['Cabeza','Tronco','Extremidades'],
+        items:[['Frente',0],['Mejillas',0],['Barbilla',0],['Cintura',1],['Codo',2],['Muñeca',2],['Rodilla',2],['Tobillo',2],['Abdomen',1]],
+        hint:'La cara está en la cabeza. Brazos y piernas son las extremidades.'},
+      {t:'pick', q:'Toca las zonas que están en el brazo.', opts:['Hombro','Codo','Antebrazo','Muslo','Muñeca','Tobillo'], a:[0,1,2,4], hint:'El muslo y el tobillo están en la pierna.'},
+      {t:'tf', q:'La mayoría de los órganos no se ven porque están en el interior del cuerpo.', a:true, hint:'Sí: corazón, pulmones o estómago están dentro.'},
+      {t:'classify', q:'¿A qué función vital pertenece cada órgano?', bins:['Nutrición','Relación','Reproducción'],
+        items:[['Corazón',0],['Pulmones',0],['Estómago',0],['Cerebro',1],['Ojos',1],['Nervios',1],['Ovarios',2],['Testículos',2],['Intestino',0],['Músculos',1]],
+        hint:'Relación: sentidos, cerebro, nervios, huesos y músculos.'},
+      {t:'mc', q:'¿Qué órgano está en la cabeza y recibe la información de los sentidos?', opts:['El cerebro','El estómago','El corazón'], a:0, hint:'Está protegido por el cráneo.'},
+      {t:'pick', q:'Toca los órganos de los sentidos.', opts:['Ojos','Oídos','Nariz','Lengua','Piel','Pulmones','Intestino'], a:[0,1,2,3,4], hint:'Pulmones e intestino son de la nutrición.'}
+    ]
+  },
+  {
+    id:'motor3', badge:'Motor humano', title:'Palancas y motores', short:'El esqueleto y la musculatura', pages:'Págs. 12-13',
+    color:'--bone', icon:'bone',
+    learn:[
+      {h:'¿Cómo nos movemos?', p:'Nos movemos gracias al trabajo conjunto del <mark>esqueleto</mark> y la <mark>musculatura</mark>.'},
+      {h:'El esqueleto', p:'El esqueleto está formado por los <mark>huesos</mark> y las <mark>articulaciones</mark>. Los huesos son órganos <mark>rígidos y resistentes</mark>.',
+        extra:'<div class="tags"><span class="tag">cráneo</span><span class="tag">costillas</span><span class="tag">columna vertebral</span><span class="tag">húmero</span><span class="tag">cúbito</span><span class="tag">radio</span><span class="tag">fémur</span><span class="tag">tibia</span><span class="tag">peroné</span></div>'},
+      {h:'Las articulaciones', p:'Son las <mark>uniones de los huesos</mark>. Gracias a ellas podemos <mark>girar o doblar</mark> distintas partes del cuerpo, como el codo o la rodilla.'},
+      {h:'La musculatura', p:'Está formada por los <mark>músculos</mark>: órganos blandos que se pueden <mark>encoger y estirar</mark> y hacen que los huesos se muevan.',
+        extra:'<div class="tags"><span class="tag">masetero</span><span class="tag">pectoral</span><span class="tag">bíceps</span><span class="tag">tríceps</span><span class="tag">abdominales</span><span class="tag">trapecio</span><span class="tag">glúteo</span><span class="tag">cuádriceps</span><span class="tag">gemelo</span></div>'}
+    ],
+    ch:[
+      {t:'mc', q:'El movimiento del cuerpo se produce gracias a…', opts:['el esqueleto y la musculatura','el corazón y los pulmones','los ojos y los oídos'], a:0, hint:'Huesos, articulaciones y músculos trabajan juntos.'},
+      {t:'classify', q:'¿Es un hueso, una articulación o un músculo?', bins:['Hueso','Articulación','Músculo'],
+        items:[['Fémur',0],['Húmero',0],['Codo',1],['Rodilla',1],['Bíceps',2],['Gemelo',2],['Peroné',0],['Cuádriceps',2],['Cúbito',0],['Trapecio',2]],
+        hint:'Las articulaciones unen huesos, como el codo o la rodilla.'},
+      {t:'match', q:'Une cada parte con su característica.', pairs:[['Huesos','Rígidos y resistentes'],['Articulaciones','Uniones de los huesos'],['Músculos','Blandos, se encogen y se estiran']], hint:'Repasa las tarjetas de la lección.'},
+      {t:'pick', q:'Toca los huesos del brazo.', opts:['Húmero','Cúbito','Radio','Fémur','Tibia'], a:[0,1,2], hint:'Fémur y tibia están en la pierna.'},
+      {t:'pick', q:'Toca los huesos de la pierna.', opts:['Fémur','Tibia','Peroné','Cráneo','Costillas'], a:[0,1,2], hint:'El cráneo protege el cerebro y las costillas, el tórax.'},
+      {t:'mc', q:'¿Qué articulación usamos cuando doblamos el brazo?', opts:['El codo','La rodilla','El tobillo'], a:0, hint:'Está en la mitad del brazo.'},
+      {t:'mc', q:'¿Qué hueso protege el cerebro?', opts:['El cráneo','El fémur','El radio'], a:0, hint:'Es el hueso de la cabeza.'},
+      {t:'tf', q:'Si no tuviéramos articulaciones, no podríamos doblar ni girar las partes del cuerpo.', a:true, hint:'Las articulaciones permiten girar y doblar.'},
+      {t:'mc', q:'Los músculos hacen que los huesos se muevan porque…', opts:['se encogen y se estiran','son rígidos','están fuera del cuerpo'], a:0, hint:'Al encogerse tiran de los huesos.'}
+    ]
+  },
+  {
+    id:'etapas3', badge:'Viajero del tiempo', title:'La línea del tiempo de la vida', short:'Las etapas de la vida', pages:'Págs. 14-15',
+    color:'--food', icon:'star',
+    learn:[
+      {h:'Cuatro etapas', p:'A lo largo de la vida pasamos por cuatro etapas:',
+        extra:'<ol class="steps"><li><mark>Infancia</mark>: de 0 a 12 años.</li><li><mark>Adolescencia</mark>: de 12 a 16 años.</li><li><mark>Edad adulta</mark>: de 16 a 65 años.</li><li><mark>Ancianidad</mark>: desde los 65 años.</li></ol>'},
+      {h:'La infancia', p:'Es la etapa en la que <mark>más se crece y se cambia</mark>. Los bebés se alimentan de leche y dependen de otras personas. Poco a poco aprendemos a caminar, hablar, leer y escribir.'},
+      {h:'La adolescencia', p:'Se <mark>diferencia el cuerpo</mark> de las mujeres y de los hombres. Desarrollamos gustos personales y somos <mark>más independientes</mark>.'},
+      {h:'Edad adulta y ancianidad', p:'En la <mark>edad adulta</mark> dejamos de crecer y cambiamos lentamente; podemos tener hijos y asumir responsabilidades. En la <mark>ancianidad</mark> se pierde agilidad, fuerza y resistencia, pero se tiene mucha <mark>experiencia</mark>.'}
+    ],
+    ch:[
+      {t:'order', q:'Ordena las etapas de la vida.', items:['Infancia','Adolescencia','Edad adulta','Ancianidad'], hint:'Empieza por los bebés y termina por las personas mayores.'},
+      {t:'match', q:'Une cada etapa con sus años.', pairs:[['Infancia','0-12 años'],['Adolescencia','12-16 años'],['Edad adulta','16-65 años'],['Ancianidad','Desde los 65 años']], hint:'Repasa la tarjeta de las cuatro etapas.'},
+      {t:'match', q:'Une cada etapa con una característica.', pairs:[['Infancia','Es cuando más se crece y se cambia'],['Adolescencia','Se diferencia el cuerpo de mujeres y hombres'],['Edad adulta','Se cambia lentamente'],['Ancianidad','Se pierde agilidad, fuerza y resistencia']], hint:'Repasa las tarjetas de cada etapa.'},
+      {t:'classify', q:'¿En qué etapa está cada persona?', bins:['Infancia','Adolescencia','Edad adulta','Ancianidad'],
+        items:[['Persona de 32 años',2],['Persona de 15 años',1],['Persona de 66 años',3],['Persona de 8 años',0],['Persona de 45 años',2],['Bebé de 1 año',0]],
+        hint:'Infancia hasta 12, adolescencia hasta 16, adulta hasta 65.'},
+      {t:'mc', q:'¿En qué etapa estás tú?', opts:['Infancia','Adolescencia','Edad adulta'], a:0, hint:'La infancia va de 0 a 12 años.'},
+      {t:'tf', q:'Los bebés recién nacidos se alimentan de leche y dependen de otras personas para casi todo.', a:true, hint:'Necesitan que los cuiden.'},
+      {t:'mc', q:'¿Qué podemos aprender de las personas ancianas?', opts:['De su experiencia y conocimientos','A ser más ágiles','A crecer más deprisa'], a:0, hint:'Tienen mucha experiencia.'},
+      {t:'fill', q:'Completa la frase.', parts:['En la ',0,' dejamos de crecer y vamos cambiando más ',1,'.'], answers:['edad adulta','lentamente'],  bank:['infancia','deprisa'], hint:'Es la etapa de los 16 a los 65 años.'}
+    ]
+  },
+  {
+    id:'bienestar3', badge:'Guardián del bienestar', title:'El código del bienestar', short:'Hábitos saludables', pages:'Págs. 16-17',
+    color:'--lung', icon:'heartplus',
+    learn:[
+      {h:'¿Qué es la salud?', p:'Cuando tenemos <mark>salud</mark> nos encontramos bien: el cuerpo funciona correctamente y estamos alegres y relajados. Para mantenerla, debemos tener <mark>hábitos saludables</mark>.'},
+      {h:'Higiene y ejercicio', p:'La <mark>higiene</mark> evita enfermedades: ducha diaria, limpieza de dientes y manos, lavar los alimentos crudos y limpiar los objetos de casa. El <mark>ejercicio físico</mark> con regularidad mejora nuestra salud.'},
+      {h:'Ocio y descanso', p:'El <mark>ocio</mark> son las actividades que hacemos en nuestro <mark>tiempo libre</mark> porque nos gustan y nos divierten. A tu edad conviene <mark>dormir unas diez horas</mark>.'},
+      {h:'Alimentación y postura', p:'Una <mark>alimentación adecuada</mark> nos ayuda a estar sanos. Una <mark>postura correcta</mark> evita dolores y lesiones en la espalda.'}
+    ],
+    ch:[
+      {t:'pick', q:'Toca los cinco hábitos saludables.', opts:['Higiene','Ejercicio físico','Ocio y descanso','Alimentación adecuada','Postura correcta','Ver la tele toda la tarde'], a:[0,1,2,3,4], hint:'Pasar mucho tiempo delante de una pantalla no es saludable.'},
+      {t:'match', q:'Une cada hábito con lo que nos aporta.', pairs:[['Higiene','Evita enfermedades'],['Ejercicio físico','Mejora la salud'],['Postura correcta','Evita dolores de espalda'],['Descanso','Despertar con energía']], hint:'Repasa las tarjetas de la lección.'},
+      {t:'classify', q:'¿Es un hábito saludable o no?', bins:['Saludable','No saludable'],
+        items:[['🚿 Ducharse cada día',0],['🦷 Cepillarse los dientes',0],['🥗 Lavar la fruta antes de comerla',0],['📱 Jugar con el móvil hasta muy tarde',1],['🪑 Sentarse encorvado',1],['🚲 Montar en bici',0],['🍬 Comer golosinas a todas horas',1]],
+        hint:'Los hábitos saludables nos ayudan a estar bien.'},
+      {t:'mc', q:'¿Cuántas horas conviene dormir a tu edad?', opts:['Unas diez horas','Unas cinco horas','Unas dos horas'], a:0, hint:'Así te despiertas con energía.'},
+      {t:'mc', q:'¿Qué es el ocio?', opts:['Las actividades que hacemos en el tiempo libre porque nos gustan','Hacer los deberes','Dormir'], a:0, hint:'Por ejemplo, leer, jugar o patinar.'},
+      {t:'tf', q:'Tener una buena higiene ayuda a evitar enfermedades.', a:true, hint:'La higiene nos protege.'},
+      {t:'tf', q:'Una mala alimentación no influye en la salud.', a:false, hint:'Puede causar graves problemas de salud.'},
+      {t:'mc', q:'Para sentarte bien en la silla debes…', opts:['tener la espalda recta y apoyada','encorvarte hacia delante','sentarte en el borde'], a:0, hint:'La buena postura evita dolores de espalda.'}
+    ]
+  }
+];
+const T1_JEFE = {
+  id:'reto-cuerpo3', boss:true, villain:'Doctor Pereza', badge:'Agente del cuerpo', title:'El Gran Reto del cuerpo', short:'Repaso de todo el tema', pages:'Págs. 8-17',
+  color:'--virus', icon:'trophy',
+  extra:[
+    {t:'classify', q:'¿Es un hueso, un órgano de la nutrición o una etapa de la vida?', bins:['Hueso','Órgano de nutrición','Etapa de la vida'],
+      items:[['Tibia',0],['Costillas',0],['Estómago',1],['Corazón',1],['Adolescencia',2],['Ancianidad',2]],
+      hint:'Repasa las misiones del tema.'}
+  ]
+};
+
+/* ---------- TEMA 2 · Patrulla animal (libro, págs. 24-39) ---------- */
+const T2_MISIONES = [
+  {
+    id:'superviv3', badge:'Experto en supervivencia', title:'Supervivencia animal', short:'Las funciones vitales de los animales', pages:'Págs. 26-27',
+    color:'--food', icon:'paw',
+    learn:[
+      {h:'La nutrición', p:'Con la nutrición, los animales obtienen la <mark>energía</mark> y las sustancias que necesitan. El primer paso es <mark>tomar alimentos</mark>.',
+        extra:'<div class="senses"><b>Herbívoros</b><span>se alimentan de plantas (oruga).</span><b>Carnívoros</b><span>se alimentan de otros animales (tiburón).</span><b>Omnívoros</b><span>comen plantas y animales (zorro).</span></div>'},
+      {h:'La respiración', p:'Los animales necesitan <mark>oxígeno</mark>, un gas que está en el aire y en el agua. Unos lo toman del aire con los <mark>pulmones</mark>; otros, del agua con las <mark>branquias</mark>, unas láminas en contacto con el agua.'},
+      {h:'La relación', p:'Los animales reciben información con los <mark>órganos de los sentidos</mark>. El <mark>cerebro</mark> la interpreta y da una respuesta: si una gacela ve un guepardo, su cerebro le ordena huir.'},
+      {h:'La reproducción', p:'Los animales tienen crías semejantes a ellos. En la mayoría intervienen una <mark>hembra</mark> y un <mark>macho</mark>.',
+        extra:'<div class="senses"><b>Ovíparos</b><span>ponen huevos, de los que nacen sus crías.</span><b>Vivíparos</b><span>las crías crecen en el vientre de su madre y nacen de ella.</span></div>'}
+    ],
+    ch:[
+      {t:'classify', q:'¿Es herbívoro, carnívoro u omnívoro?', bins:['Herbívoro','Carnívoro','Omnívoro'],
+        items:[['🐛 Oruga',0],['🦈 Tiburón',1],['🦊 Zorro',2],['🐄 Vaca',0],['🦁 León',1],['🐻 Oso',2],['🐇 Conejo',0]],
+        hint:'Herbívoros: plantas. Carnívoros: animales. Omnívoros: de todo.'},
+      {t:'mc', q:'Las personas comemos fruta, verdura, carne y pescado. Según la alimentación somos…', opts:['omnívoros','herbívoros','carnívoros'], a:0, hint:'Comemos alimentos vegetales y animales.'},
+      {t:'match', q:'Une cada órgano con dónde toma el oxígeno.', pairs:[['Pulmones','Del aire'],['Branquias','Del agua']], hint:'Los peces respiran con branquias.'},
+      {t:'classify', q:'¿Respira con pulmones o con branquias?', bins:['Pulmones','Branquias'],
+        items:[['🐭 Ratón',0],['🐟 Atún',1],['🐦 Paloma',0],['🦈 Tiburón',1],['🐕 Perro',0]],
+        hint:'Los peces respiran con branquias.'},
+      {t:'order', q:'Una gacela ve un guepardo. Ordena lo que ocurre.', items:['Los ojos ven al guepardo','El cerebro recibe e interpreta la información','El cerebro da la orden de huir','La gacela corre rápidamente'], hint:'Primero los sentidos, después el cerebro y al final la respuesta.'},
+      {t:'classify', q:'Clasifica estos animales según su reproducción.', bins:['Ovíparos','Vivíparos'],
+        items:[['Avestruz',0],['🐅 Tigre',1],['🐴 Caballo',1],['Merluza',0],['🐞 Mariquita',0],['🕊️ Paloma',0],['Buitre',0],['🦌 Ciervo',1]],
+        hint:'Los ovíparos ponen huevos. Los mamíferos son vivíparos.'},
+      {t:'tf', q:'Los mamíferos son vivíparos.', a:true, hint:'Sus crías crecen en el vientre de la madre.'},
+      {t:'pick', q:'Toca las tres funciones vitales de los animales.', opts:['Nutrición','Relación','Reproducción','Hibernación','Migración'], a:[0,1,2], hint:'Son las mismas que en las personas.'}
+    ]
+  },
+  {
+    id:'censo3', badge:'Censista animal', title:'El gran censo animal', short:'Vertebrados e invertebrados', pages:'Págs. 28-29',
+    color:'--sense', icon:'bone',
+    learn:[
+      {h:'Los vertebrados', p:'Tienen un <mark>esqueleto interno</mark> formado por huesos con una <mark>columna vertebral</mark>. Su cuerpo tiene <mark>cabeza</mark> (con la boca, los sentidos y el cráneo), <mark>tronco</mark> (del que salen patas, aletas o alas) y <mark>cola</mark>.'},
+      {h:'Piel y grupos', p:'Algunos tienen la <mark>piel desnuda</mark>; otros, cubierta por <mark>pelos, plumas o escamas</mark>. Hay cinco grupos:',
+        extra:'<div class="tags"><span class="tag">peces</span><span class="tag">anfibios</span><span class="tag">reptiles</span><span class="tag">aves</span><span class="tag">mamíferos</span></div>'},
+      {h:'Los invertebrados', p:'Son grupos muy distintos. Lo que comparten es que <mark>no tienen esqueleto de huesos</mark> y que son <mark>ovíparos</mark>.'},
+      {h:'Grupos de invertebrados', p:'Algunos grupos:',
+        extra:'<div class="senses"><b>Esponjas</b><span>cuerpo irregular; viven fijas en el fondo del mar.</span><b>Medusas</b><span>forma de paraguas; sus tentáculos pican.</span><b>Gusanos</b><span>alargados y sin patas.</span><b>Moluscos</b><span>cuerpo blando, casi siempre con concha.</span><b>Artrópodos</b><span>caparazón duro; los más abundantes son los insectos.</span><b>Equinodermos</b><span>placas duras bajo la piel y espinas (estrella de mar).</span></div>'}
+    ],
+    ch:[
+      {t:'classify', q:'¿Es vertebrado o invertebrado?', bins:['Vertebrado','Invertebrado'],
+        items:[['🐬 Delfín',0],['🐊 Cocodrilo',0],['🐸 Rana',0],['🐞 Mariquita',1],['Medusa',1],['⭐ Estrella de mar',1],['🐟 Sardina',0],['🪱 Lombriz',1]],
+        hint:'Los vertebrados tienen columna vertebral.'},
+      {t:'mc', q:'¿Qué tienen en común todos los vertebrados?', opts:['Un esqueleto interno de huesos con columna vertebral','Que todos tienen plumas','Que todos viven en el agua'], a:0, hint:'Su nombre viene de las vértebras.'},
+      {t:'match', q:'Une cada parte del cuerpo de los vertebrados con lo que tiene.', pairs:[['Cabeza','Boca, sentidos y cráneo'],['Tronco','Columna y extremidades'],['Cola','La recorre la columna vertebral']], hint:'Repasa la primera tarjeta.'},
+      {t:'pick', q:'Toca cómo puede estar cubierta la piel de los vertebrados.', opts:['Pelos','Plumas','Escamas','Desnuda','Concha'], a:[0,1,2,3], hint:'La concha es de los moluscos.'},
+      {t:'pick', q:'Toca los cinco grupos de vertebrados.', opts:['Peces','Anfibios','Reptiles','Aves','Mamíferos','Insectos','Moluscos'], a:[0,1,2,3,4], hint:'Insectos y moluscos son invertebrados.'},
+      {t:'match', q:'Une cada grupo de invertebrados con su característica.', pairs:[['Esponjas','Viven fijas en el fondo del mar'],['Medusas','Forma de paraguas y tentáculos que pican'],['Gusanos','Alargados y sin patas'],['Moluscos','Cuerpo blando, casi siempre con concha'],['Equinodermos','Placas duras y espinas']], hint:'Repasa la tarjeta de los grupos.'},
+      {t:'mc', q:'¿Cuál es el grupo de artrópodos más abundante?', opts:['Los insectos','Las esponjas','Los gusanos'], a:0, hint:'Hormigas, moscas y mariposas son de este grupo.'},
+      {t:'tf', q:'Los invertebrados tienen un esqueleto formado por huesos.', a:false, hint:'No tienen huesos.'}
+    ]
+  },
+  {
+    id:'blandos3', badge:'Buceador de conchas', title:'Cuerpos blanditos', short:'Los moluscos', pages:'Págs. 30-31',
+    color:'--lung', icon:'drop',
+    learn:[
+      {h:'¿Cómo son los moluscos?', p:'Son invertebrados de <mark>cuerpo blando</mark>. La mayoría tienen <mark>una o dos conchas</mark> (almeja); algunos, una <mark>concha interna</mark> (sepia), y otros tienen <mark>tentáculos</mark> (pulpo).'},
+      {h:'¿Dónde viven?', p:'Muchos viven en el agua: <mark>dulce</mark> (almeja de río) o <mark>salada</mark> (mejillón). Otros viven en la <mark>tierra</mark>, como muchos caracoles.'},
+      {h:'¿Cómo se reproducen?', p:'Son <mark>ovíparos</mark>. En algunos, del huevo sale una cría parecida al adulto, pero en la mayoría salen crías muy diferentes llamadas <mark>larvas</mark>.'},
+      {h:'Grupos de moluscos', p:'Hay tres grupos principales:',
+        extra:'<div class="senses"><b>Bivalvos</b><span>dos conchas; acuáticos: mejillón, almeja, ostra, vieira.</span><b>Gasterópodos</b><span>concha en espiral (las babosas no tienen); terrestres o acuáticos: caracol.</span><b>Cefalópodos</b><span>marinos, con tentáculos con ventosas: pulpo, calamar, sepia.</span></div>'}
+    ],
+    ch:[
+      {t:'mc', q:'¿Qué tienen todos los moluscos?', opts:['El cuerpo blando','Dos conchas','Ocho tentáculos'], a:0, hint:'Algunos no tienen concha, pero todos son blandos.'},
+      {t:'match', q:'Une cada molusco con su característica.', pairs:[['Almeja','Dos conchas que protegen su cuerpo'],['Sepia','Concha interna'],['Pulpo','Tentáculos y sin concha']], hint:'Repasa la primera tarjeta.'},
+      {t:'classify', q:'¿A qué grupo de moluscos pertenece?', bins:['Bivalvo','Gasterópodo','Cefalópodo'],
+        items:[['Mejillón',0],['Almeja',0],['Ostra',0],['🐌 Caracol',1],['Babosa',1],['🐙 Pulpo',2],['🦑 Calamar',2],['Sepia',2],['Vieira',0]],
+        hint:'Bivalvos: dos conchas. Gasterópodos: concha en espiral o ninguna. Cefalópodos: tentáculos.'},
+      {t:'classify', q:'¿Dónde vive?', bins:['Agua dulce','Agua salada','Tierra'],
+        items:[['Almeja de río',0],['Mejillón',1],['🐌 Caracol de huerta',2],['🐙 Pulpo',1]],
+        hint:'El mar es agua salada; los ríos, agua dulce.'},
+      {t:'mc', q:'Las crías de muchos moluscos son muy diferentes del adulto. Se llaman…', opts:['larvas','renacuajos','pollitos'], a:0, hint:'Por ejemplo, la larva de caracol marino.'},
+      {t:'tf', q:'Los moluscos son vivíparos.', a:false, hint:'Son ovíparos: ponen huevos.'},
+      {t:'tf', q:'Las babosas son gasterópodos que no tienen concha.', a:true, hint:'Casi todos los gasterópodos tienen concha, pero las babosas no.'},
+      {t:'mc', q:'Para capturar su alimento, los cefalópodos usan…', opts:['tentáculos con ventosas','dos conchas','una concha en espiral'], a:0, hint:'Piensa en el pulpo.'}
+    ]
+  },
+  {
+    id:'armadura3', badge:'Entomólogo', title:'Seis patas y armadura', short:'Los insectos y los artrópodos', pages:'Págs. 32-33',
+    color:'--ok', icon:'bug',
+    learn:[
+      {h:'¿Cómo son los insectos?', p:'Su cuerpo está dividido en tres partes: <mark>cabeza, tórax y abdomen</mark>. Tienen <mark>dos antenas</mark> y <mark>seis patas</mark>. Muchos tienen, además, dos o cuatro <mark>alas</mark>.'},
+      {h:'Metamorfosis', p:'Los insectos son <mark>ovíparos</mark>. En la mariposa, del huevo sale una <mark>larva</mark> llamada <mark>oruga</mark>. Tras varios cambios, se transforma en adulto. Esa transformación se llama <mark>metamorfosis</mark>.',
+        extra:'<ol class="steps"><li>Huevo</li><li>Oruga</li><li>Crisálida</li><li>Mariposa</li></ol>'},
+      {h:'Grupos de insectos', p:'Son muy numerosos y diversos:',
+        extra:'<div class="senses"><b>Mariposas</b><span>cuatro alas iguales para volar.</span><b>Moscas y mosquitos</b><span>vuelan muy deprisa.</span><b>Escarabajos</b><span>dos alas duras que protegen otras dos finas con las que vuelan.</span></div>'},
+      {h:'Los artrópodos', p:'Los insectos son un grupo de <mark>artrópodos</mark>. Los artrópodos están revestidos por piezas unidas, como una <mark>armadura</mark>, y tienen <mark>patas con articulaciones</mark>: escarabajo, araña, ciempiés, cangrejo.'}
+    ],
+    ch:[
+      {t:'order', q:'Ordena las partes del cuerpo de un insecto, de delante hacia atrás.', items:['Cabeza','Tórax','Abdomen'], hint:'Las antenas están en la cabeza.'},
+      {t:'mc', q:'¿Cuántas patas tienen los insectos?', opts:['Seis','Ocho','Cuatro'], a:0, hint:'Las arañas tienen ocho y no son insectos.'},
+      {t:'pick', q:'Toca las características de los insectos.', opts:['Dos antenas','Seis patas','Cabeza, tórax y abdomen','Columna vertebral','Ocho patas','Plumas'], a:[0,1,2], hint:'Son invertebrados: no tienen columna.'},
+      {t:'order', q:'Ordena la metamorfosis de la mariposa.', items:['Huevo','Oruga','Crisálida','Mariposa'], hint:'Del huevo sale la oruga.'},
+      {t:'fill', q:'Completa.', parts:['La transformación de la ',0,' en mariposa se llama ',1,'.'], answers:['oruga','metamorfosis'], bank:['araña','digestión'], hint:'La oruga es la larva de la mariposa.'},
+      {t:'match', q:'Une cada insecto con sus alas.', pairs:[['Mariposa','Cuatro alas iguales'],['Escarabajo','Dos alas duras que protegen otras dos finas']], hint:'Repasa la tarjeta de los grupos de insectos.'},
+      {t:'pick', q:'Toca los artrópodos.', opts:['Escarabajo','Araña','Ciempiés','Cangrejo','Caracol','Lombriz'], a:[0,1,2,3], hint:'El caracol es un molusco y la lombriz, un gusano.'},
+      {t:'mc', q:'¿Qué tienen todos los artrópodos?', opts:['Patas con articulaciones y una armadura','Concha en espiral','Cuerpo blando sin patas'], a:0, hint:'Sus piezas están unidas como una armadura.'},
+      {t:'tf', q:'La araña es un insecto.', a:false, hint:'Es un artrópodo, pero tiene ocho patas.'}
+    ]
+  }
+];
+const T2_JEFE = {
+  id:'reto-animales3', boss:true, villain:'Furtivón', badge:'Patrulla animal', title:'El Gran Reto animal', short:'Repaso de todo el tema', pages:'Págs. 26-33',
+  color:'--virus', icon:'trophy',
+  extra:[
+    {t:'classify', q:'¿Es un molusco, un insecto o un vertebrado?', bins:['Molusco','Insecto','Vertebrado'],
+      items:[['🐙 Pulpo',0],['Mejillón',0],['🦋 Mariposa',1],['🐜 Hormiga',1],['🦅 Águila',2],['🐸 Rana',2]],
+      hint:'Repasa las misiones del tema.'}
+  ]
+};
+
+const CURSO = {
+  asignatura: 'Ciencias de la Naturaleza 3',
+  /* Situaciones de aprendizaje (con títulos propios): agrupan los temas en el mapa */
+  situaciones: [
+    { title:'Base de entrenamiento', temas:['cuerpo3','animales3'] },
+    { title:'Rescate en la naturaleza', temas:['vertebrados3','ecosistemas3'] },
+    { title:'Taller de inventos', temas:['materia3','ordenadores3'] }
+  ],
+  temas: [
+    { id:'cuerpo3', n:1, title:'Agentes del cuerpo humano', short:'Funciones vitales, órganos, movimiento, etapas y salud', pages:'Págs. 6-23',
+      color:'--lung', icon:'person', starsBadge:'Constelación humana',
+      missions: T1_MISIONES, boss: T1_JEFE },
+    { id:'animales3', n:2, title:'Patrulla animal', short:'Funciones vitales, vertebrados, moluscos e insectos', pages:'Págs. 24-43',
+      color:'--ok', icon:'paw', starsBadge:'Estrella salvaje',
+      missions: T2_MISIONES, boss: T2_JEFE },
+    { id:'vertebrados3', n:3, title:'Los de la columna', short:'Próximamente', color:'--food', icon:'feather', missions:[] },
+    { id:'ecosistemas3', n:4, title:'Redes de la vida', short:'Próximamente', color:'--virus', icon:'tree', missions:[] },
+    { id:'materia3', n:5, title:'Taller de la materia', short:'Próximamente', color:'--sense', icon:'flame', missions:[] },
+    { id:'ordenadores3', n:6, title:'Código digital', short:'Próximamente', color:'--bone', icon:'wifi', missions:[] }
+  ]
+};
+
+/* ---------- ESQUEMAS: uno por misión, como último reto ----------
+   tipo 'arbol': título arriba y ramas con sus detalles. tipo 'flujo': pasos en orden.
+   [[palabra]] es un hueco que el alumno completa. «extra» son palabras para despistar. */
+const ESQUEMAS = {
+  /* Tema 1 */
+  vida3: { titulo:'Somos seres [[vivos]]', nodos:[
+    {txt:'Funciones [[vitales]]', hijos:[{txt:'[[Nutrición]]: tomar alimentos'},{txt:'[[Relación]]: responder al entorno'},{txt:'[[Reproducción]]: tener hijos'}]},
+    {txt:'[[Emociones]]', hijos:[{txt:'Alegría, tristeza, [[enfado]] y sorpresa'}]} ], extra:['huesos','branquias'] },
+  mapa3: { titulo:'Nuestro [[cuerpo]]', nodos:[
+    {txt:'Partes', hijos:[{txt:'[[Cabeza]]'},{txt:'[[Tronco]]: tórax y abdomen'},{txt:'[[Extremidades]]: brazos y piernas'}]},
+    {txt:'Órganos [[internos]]', hijos:[{txt:'[[Corazón]] y pulmones'},{txt:'[[Cerebro]] y nervios'},{txt:'[[Estómago]] e intestino'}]} ], extra:['alas','aletas'] },
+  motor3: { titulo:'Nos [[movemos]]', nodos:[
+    {txt:'El [[esqueleto]]', hijos:[{txt:'[[Huesos]]: rígidos y resistentes'},{txt:'[[Articulaciones]]: uniones de los huesos'}]},
+    {txt:'La [[musculatura]]', hijos:[{txt:'Los músculos se encogen y se [[estiran]]'},{txt:'Ej.: bíceps y [[gemelo]]'}]} ], extra:['fémur','pulmón'] },
+  etapas3: { tipo:'flujo', titulo:'Las [[etapas]] de la vida', nodos:[
+    {txt:'[[Infancia]]: de 0 a 12 años'}, {txt:'[[Adolescencia]]: de 12 a 16 años'}, {txt:'Edad [[adulta]]: de 16 a 65 años'}, {txt:'[[Ancianidad]]: desde los 65 años'} ], extra:['bebé','juventud'] },
+  bienestar3: { titulo:'Hábitos [[saludables]]', nodos:[
+    {txt:'[[Higiene]]', hijos:[{txt:'Evita [[enfermedades]]'}]},
+    {txt:'[[Ejercicio]] físico'},
+    {txt:'Ocio y [[descanso]]', hijos:[{txt:'Dormir unas [[diez]] horas'}]},
+    {txt:'[[Alimentación]] adecuada'},
+    {txt:'Buena [[postura]]'} ], extra:['cinco','pantallas'] },
+  /* Tema 2 */
+  superviv3: { titulo:'Tipos de [[animales]]', nodos:[
+    {txt:'Según su [[alimentación]]', hijos:[{txt:'[[Herbívoros]]'},{txt:'[[Carnívoros]]'},{txt:'[[Omnívoros]]'}]},
+    {txt:'Según su [[reproducción]]', hijos:[{txt:'[[Ovíparos]]: ponen huevos'},{txt:'[[Vivíparos]]: nacen del vientre'}]} ], extra:['vertebrados','branquias'] },
+  censo3: { titulo:'Según su [[esqueleto]]', nodos:[
+    {txt:'[[Vertebrados]]', hijos:[{txt:'Tienen [[columna]] vertebral'},{txt:'Peces, anfibios, reptiles, aves y [[mamíferos]]'}]},
+    {txt:'[[Invertebrados]]', hijos:[{txt:'No tienen [[huesos]]'},{txt:'Esponjas, medusas, gusanos, [[moluscos]]...'}]} ], extra:['plumas','pulmones'] },
+  blandos3: { titulo:'Los [[moluscos]]', nodos:[
+    {txt:'Cuerpo [[blando]]'},
+    {txt:'[[Bivalvos]]: dos conchas', hijos:[{txt:'[[Mejillón]], almeja'}]},
+    {txt:'[[Gasterópodos]]: concha en espiral', hijos:[{txt:'[[Caracol]], babosa'}]},
+    {txt:'[[Cefalópodos]]: tentáculos', hijos:[{txt:'[[Pulpo]], calamar'}]} ], extra:['plumas','escarabajo'] },
+  armadura3: { titulo:'Los [[insectos]]', nodos:[
+    {txt:'Cuerpo: cabeza, [[tórax]] y abdomen'},
+    {txt:'Dos [[antenas]] y seis [[patas]]'},
+    {txt:'[[Metamorfosis]]', hijos:[{txt:'Huevo, [[oruga]], crisálida, mariposa'}]},
+    {txt:'Son [[artrópodos]]: patas con articulaciones'} ], extra:['ocho','concha'] }
+};
+CURSO.temas.forEach(t => (t.missions || []).forEach(m => {
+  const e = ESQUEMAS[m.id]; if (!e) return;
+  m.ch.push(Object.assign({ t:'esquema', tipo:'arbol', q:'Completa el esquema de la misión.', hint:'Repasa las tarjetas de la lección: el esquema las resume.' }, e));
+}));
+
+/* ---------- ASOCIACIÓN DE CADA TEMA CON EL CURRÍCULO ----------
+   Se rellena cuando estén los criterios y saberes de 3.º (mira cursos/2-primaria/contenidos.js). */
+const EVALUACION = {};
+CURSO.temas.forEach(t => {
+  const e = EVALUACION[t.id]; if (!e) return;
+  t.criterios = e.criterios; t.saberes = e.saberes;
+  [...(t.missions || []), ...(t.boss ? [t.boss] : [])].forEach(m => {
+    if (e.misiones && e.misiones[m.id]) m.cr = e.misiones[m.id];
+    (m.ch || []).forEach((r, i) => { const k = m.id + '#' + i; if (e.retos && e.retos[k]) r.cr = e.retos[k]; });
+    (m.extra || []).forEach((r, i) => { const k = m.id + '#x' + i; if (e.retos && e.retos[k]) r.cr = e.retos[k]; });
+  });
+});

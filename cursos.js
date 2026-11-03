@@ -16,5 +16,11 @@ const CURSOS = [
     nombre_en: 'Primary 2',
     ingles: true,                         // tiene contenidos-en.js
     clave: 'exploradores-cuerpo-v1'       // dónde se guarda el progreso (no cambiar en cursos ya en uso)
+  },
+  {
+    id: '3-primaria',
+    nombre: '3.º de Primaria',
+    nombre_en: 'Primary 3',
+    ingles: false
   }
 ];

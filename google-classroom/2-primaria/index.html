@@ -498,6 +498,12 @@ const CURSOS = [
     nombre_en: 'Primary 2',
     ingles: true,                         // tiene contenidos-en.js
     clave: 'exploradores-cuerpo-v1'       // dónde se guarda el progreso (no cambiar en cursos ya en uso)
+  },
+  {
+    id: '3-primaria',
+    nombre: '3.º de Primaria',
+    nombre_en: 'Primary 3',
+    ingles: false
   }
 ];
 
@@ -1837,14 +1843,14 @@ function renderTeacher(){
       <div class="tema-toggles panel">${TEMAS.map((t,i)=>`<label class="switch"><span>${tr('Tema')} ${t.n}: ${esc(t.title)} <small style="color:var(--ink-soft);font-weight:400">${hasContent(t)?tr('({n} misiones + jefe)',{n:t.missions.length}):tr('(sin contenidos todavía)')}</small></span>
           <span style="display:inline-flex;gap:8px;align-items:center">${i===0?`<small style="color:var(--ink-soft)">${tr('Siempre abierto')}</small>`:`<input type="checkbox" data-open="${t.id}" ${S.open[t.id]?'checked':''} ${hasContent(t)?'':'disabled'}> ${tr('Abrir ya')}`}</span></label>`).join('')}</div>
       <p class="note">${tr('Normalmente cada tema se abre cuando el alumno vence al jefe del tema anterior. Marca «Abrir ya» para abrir un tema a toda la clase aunque no hayan terminado el anterior.')}</p>
-      <h2 class="outline-sm" style="color:var(--gold)">${tr('Idioma')}</h2>
+      ${HAS_EN ? `<h2 class="outline-sm" style="color:var(--gold)">${tr('Idioma')}</h2>
       <div class="tema-toggles panel">
         <label class="switch" for="lang-sel"><span>${tr(CLOUD?'Idioma de la clase':'Idioma del juego')}</span>
           <select id="lang-sel" style="font:inherit;padding:8px 10px;border-radius:12px;border:3px solid var(--edge);background:var(--night);color:#fff">
             <option value="es" ${LANG==='es'?'selected':''}>Español</option><option value="en" ${LANG==='en'?'selected':''}>English</option>
           </select></label>
         <p class="note" style="margin:0">${tr(CLOUD?'Se aplica a todo el alumnado. Cada alumno puede cambiarlo en su dispositivo con el botón ES/EN.':'El alumnado también puede cambiarlo con el botón ES/EN. El progreso y la evaluación son los mismos en los dos idiomas.')}</p>
-      </div>
+      </div>` : ''}
       <h2 class="outline-sm" style="color:var(--gold)">${tr('Voz de lectura')}</h2>
       <div class="tema-toggles panel">
         <label class="switch" for="voice-sel"><span>${tr('Voz')}</span>
@@ -1865,7 +1871,7 @@ function renderTeacher(){
       <p class="note">${licenciaHTML()}</p>
     </div>`;
   v.querySelector('#tback').onclick = ()=> P() ? (CT ? goMap() : goCourse()) : renderWelcome();
-  v.querySelector('#lang-sel').onchange = e=>{ if(CLOUD){ S.classLang=e.target.value; cloudSettings(); } setLang(e.target.value); };
+  if(HAS_EN) v.querySelector('#lang-sel').onchange = e=>{ if(CLOUD){ S.classLang=e.target.value; cloudSettings(); } setLang(e.target.value); };
   v.querySelector('#voice-sel').onchange = e=>{ S[voiceKey()]=e.target.value||null; save(); speak(tr('¡Hola! Así sonará mi voz.')); };
   v.querySelector('#voice-rate').onchange = e=>{ S.voiceRate=+e.target.value; save(); speak(tr('¡Hola! Así sonará mi voz.')); };
   v.querySelector('#voice-test').onclick = ()=>{ speak(tr('¡Hola! Soy Glo. ¿Preparados para explorar la naturaleza?')); };
