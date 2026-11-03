@@ -16,7 +16,9 @@ La instalación se hace una sola vez y se tarda unos 10 minutos.
 
 ## 2. Pegar los cuatro archivos
 
-Los archivos están en la carpeta `google-classroom` del repositorio: https://github.com/damp83/AulaNaturales/tree/main/google-classroom
+Cada curso tiene su carpeta dentro de `google-classroom` (para 2.º de Primaria: https://github.com/damp83/AulaNaturales/tree/main/google-classroom/2-primaria). `Codigo.gs` está en `google-classroom` y es el mismo para todos los cursos.
+
+Cada curso se instala como **un proyecto de Apps Script distinto**, con su propia hoja de progreso. Si das clase en varios cursos, repite esta guía para cada uno.
 
 Para copiar un archivo: ábrelo en GitHub y pulsa el botón **Copy raw file** (el icono de dos cuadrados, arriba a la derecha del archivo).
 
@@ -25,7 +27,7 @@ Para copiar un archivo: ábrelo en GitHub y pulsa el botón **Copy raw file** (e
 | `Código.gs` (ya existe) | Borra lo que tiene y pega **Codigo.gs** |
 | Pulsa **+** → **HTML** → nómbralo **index** | Borra lo que tiene y pega **index.html** |
 | Pulsa **+** → **HTML** → nómbralo **contenidos** | Borra lo que tiene y pega **contenidos.html** |
-| Pulsa **+** → **HTML** → nómbralo **contenidos_en** | Borra lo que tiene y pega **contenidos_en.html** (contenidos en inglés) |
+| Pulsa **+** → **HTML** → nómbralo **contenidos_en** | Borra lo que tiene y pega **contenidos_en.html** (contenidos en inglés; solo si la carpeta del curso lo tiene) |
 
 Los nombres tienen que ser exactamente `index`, `contenidos` y `contenidos_en`, en minúsculas. Apps Script añade solo la terminación `.html`.
 
@@ -115,4 +117,4 @@ La URL no cambia, así que el enlace de Classroom sigue sirviendo.
 
 ---
 
-*Para los que mantengan el código:* `index.html`, `contenidos.html` y `contenidos_en.html` de esta carpeta se generan con `python3 tools/build_classroom.py` a partir de `index.html`, `contenidos.js` y `contenidos-en.js` de la raíz. No los edites a mano.
+*Para los que mantengan el código:* `index.html`, `contenidos.html` y `contenidos_en.html` de cada carpeta de curso se generan con `python3 tools/build_classroom.py` a partir de `index.html`, `cursos.js` y `cursos/<curso>/contenidos.js` y `contenidos-en.js`. No los edites a mano.

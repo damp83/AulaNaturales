@@ -1,24 +1,44 @@
-"""Genera los archivos de la versión Google Classroom a partir de index.html, contenidos.js
-y contenidos-en.js.
+"""Genera la versión Google Classroom de cada curso.
 
-Uso:  python3 tools/build_classroom.py
-Crea google-classroom/index.html, google-classroom/contenidos.html y
-google-classroom/contenidos_en.html, listos para pegar en el proyecto de Apps Script junto
-con Codigo.gs.
+Uso:  python3 tools/build_classroom.py            (todos los cursos de cursos.js)
+      python3 tools/build_classroom.py 2-primaria (solo ese curso)
+
+Crea google-classroom/<curso>/index.html, contenidos.html y (si el curso tiene inglés)
+contenidos_en.html, listos para pegar en un proyecto de Apps Script junto con
+google-classroom/Codigo.gs. Cada curso se instala como un proyecto distinto.
 """
+import json
+import re
+import sys
 from pathlib import Path
 
 raiz = Path(__file__).resolve().parent.parent
 html = (raiz / 'index.html').read_text(encoding='utf-8')
-etiqueta = '<script src="contenidos.js"></script>'
-assert etiqueta in html, 'No se encuentra la etiqueta de contenidos en index.html'
-salida = raiz / 'google-classroom'
-salida.mkdir(exist_ok=True)
-etiqueta_en = '<script src="contenidos-en.js"></script>'
-assert etiqueta_en in html, 'No se encuentra la etiqueta de contenidos en inglés en index.html'
-html = html.replace(etiqueta, "<?!= include('contenidos'); ?>").replace(etiqueta_en, "<?!= include('contenidos_en'); ?>")
-(salida / 'index.html').write_text(html, encoding='utf-8')
-for origen, destino in (('contenidos.js', 'contenidos.html'), ('contenidos-en.js', 'contenidos_en.html')):
-    texto = (raiz / origen).read_text(encoding='utf-8')
-    (salida / destino).write_text('<script>\n' + texto + '\n</script>\n', encoding='utf-8')
-print('Generados google-classroom/index.html, contenidos.html y contenidos_en.html')
+inicio, fin = '<!-- CARGADOR', '<!-- /CARGADOR -->'
+assert inicio in html and fin in html, 'No se encuentra el cargador de cursos en index.html'
+antes, resto = html.split(inicio, 1)
+_, despues = resto.split(fin, 1)
+
+registro = (raiz / 'cursos.js').read_text(encoding='utf-8')
+cuerpo = registro[registro.index('const CURSOS = ['):]
+ids = re.findall(r"id:\s*'([\w-]+)'", cuerpo)
+pedidos = sys.argv[1:] or ids
+
+for cid in pedidos:
+    assert cid in ids, f'El curso {cid} no está en cursos.js'
+    carpeta = raiz / 'cursos' / cid
+    ingles = (carpeta / 'contenidos-en.js').exists()
+    # En Apps Script no se pueden cargar archivos por ruta: se incluye el curso fijo
+    cargador = (
+        '<script>window.CURSO_ACTIVO = CURSOS.find(c => c.id === ' + json.dumps(cid) + ');</script>\n'
+        "<?!= include('contenidos'); ?>\n" + ("<?!= include('contenidos_en'); ?>\n" if ingles else '')
+    )
+    salida = raiz / 'google-classroom' / cid
+    salida.mkdir(parents=True, exist_ok=True)
+    pagina = antes.replace('<script src="cursos.js"></script>', '<script>\n' + registro + '\n</script>') + cargador + despues
+    (salida / 'index.html').write_text(pagina, encoding='utf-8')
+    archivos = [('contenidos.js', 'contenidos.html')] + ([('contenidos-en.js', 'contenidos_en.html')] if ingles else [])
+    for origen, destino in archivos:
+        texto = (carpeta / origen).read_text(encoding='utf-8')
+        (salida / destino).write_text('<script>\n' + texto + '\n</script>\n', encoding='utf-8')
+    print(f'Generada la versión de Classroom de {cid} en google-classroom/{cid}/')

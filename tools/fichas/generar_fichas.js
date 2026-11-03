@@ -1,11 +1,12 @@
 /**
- * Genera las fichas en papel de los esquemas (2.º de Primaria) a partir de contenidos.js
- * (castellano) y contenidos-en.js (inglés).
+ * Genera las fichas en papel de los esquemas de cada curso a partir de cursos/<curso>/contenidos.js
+ * (castellano) y cursos/<curso>/contenidos-en.js (inglés, si existe).
  *
- * Uso (desde la raíz del repositorio):   node tools/fichas/generar_fichas.js
- * Crea en la carpeta fichas/:
- *   tema-1-esquemas.pdf … tema-6-esquemas.pdf   (una ficha por página, para el alumnado)
- *   solucionario-esquemas.pdf                   (todas las fichas resueltas, para el docente)
+ * Uso (desde la raíz del repositorio):   node tools/fichas/generar_fichas.js              (todos los cursos)
+ *                                         node tools/fichas/generar_fichas.js 2-primaria   (solo ese curso)
+ * Crea en la carpeta fichas/<curso>/:
+ *   tema-1-esquemas.pdf …          (una ficha por página, para el alumnado)
+ *   solucionario-esquemas.pdf      (todas las fichas resueltas, para el docente)
  *   en/topic-1-concept-maps.pdf … en/answer-key-concept-maps.pdf   (lo mismo, en inglés)
  *
  * © 2026 Diego Alberto Moya Puerta, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · Licencia CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
@@ -19,14 +20,24 @@ const vm = require('vm');
 const { chromium } = require('playwright');
 
 const RAIZ = path.resolve(__dirname, '..', '..');
-const SALIDA = path.join(RAIZ, 'fichas');
+let SALIDA;
 
 // ---------- Datos ----------
-const ctx = {};
-vm.createContext(ctx);
-vm.runInContext(fs.readFileSync(path.join(RAIZ, 'contenidos.js'), 'utf8') + '\n' + fs.readFileSync(path.join(RAIZ, 'contenidos-en.js'), 'utf8') +
-  ';this.CURSO = CURSO; this.IDIOMA = IDIOMA_CONTENIDOS;', ctx);
-const CURSO = ctx.CURSO;
+const reg = {};
+vm.createContext(reg);
+vm.runInContext(fs.readFileSync(path.join(RAIZ, 'cursos.js'), 'utf8') + ';this.CURSOS = CURSOS;', reg);
+let ctx, CURSO;
+function cargarCurso(cid) {
+  const carpeta = path.join(RAIZ, 'cursos', cid);
+  const en = path.join(carpeta, 'contenidos-en.js');
+  ctx = {};
+  vm.createContext(ctx);
+  vm.runInContext(fs.readFileSync(path.join(carpeta, 'contenidos.js'), 'utf8') + '\n' + (fs.existsSync(en) ? fs.readFileSync(en, 'utf8') : '') +
+    ';this.CURSO = CURSO; this.IDIOMA = typeof IDIOMA_CONTENIDOS !== "undefined" ? IDIOMA_CONTENIDOS : null;', ctx);
+  CURSO = ctx.CURSO;
+  SALIDA = path.join(RAIZ, 'fichas', cid);
+  return !!ctx.IDIOMA;
+}
 
 // Textos fijos de las fichas en cada idioma
 const TEXTOS = {
@@ -183,7 +194,6 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
 `;
 
 (async () => {
-  fs.mkdirSync(SALIDA, { recursive: true });
   const browser = await chromium.launch();
   // Mismo ancho que el área imprimible de un A4 (210 mm − 24 mm de márgenes), para medir como en el papel
   const pagina = await browser.newPage({ viewport: { width: Math.round(186 / 25.4 * 96), height: 1100 } });
@@ -207,9 +217,13 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
     await pagina.pdf({ path: path.join(SALIDA, nombre), format: 'A4', printBackground: true, preferCSSPageSize: true });
     console.log('  ' + nombre);
   };
-  for (const idioma of ['es', 'en']) {
+  const pedidos = process.argv.slice(2).length ? process.argv.slice(2) : reg.CURSOS.map(c => c.id);
+  for (const cid of pedidos) {
+  console.log(`Curso ${cid}:`);
+  const conIngles = cargarCurso(cid);
+  for (const idioma of conIngles ? ['es', 'en'] : ['es']) {
     T = TEXTOS[idioma];
-    ctx.IDIOMA.aplicar(CURSO, idioma);
+    if (ctx.IDIOMA) ctx.IDIOMA.aplicar(CURSO, idioma);
     const nombreTema = n => idioma === 'en' ? `en/topic-${n}-concept-maps.pdf` : `tema-${n}-esquemas.pdf`;
     const solucion = [];
     for (const tema of CURSO.temas) {
@@ -222,8 +236,9 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
       });
       if (fichas.length) await pdf(doc(fichas.join('')), nombreTema(tema.n));
     }
-    await pdf(doc(solucion.join('')), idioma === 'en' ? 'en/answer-key-concept-maps.pdf' : 'solucionario-esquemas.pdf');
+    if (solucion.length) await pdf(doc(solucion.join('')), idioma === 'en' ? 'en/answer-key-concept-maps.pdf' : 'solucionario-esquemas.pdf');
+  }
   }
   await browser.close();
-  console.log('Fichas generadas en ' + SALIDA);
+  console.log('Fichas generadas en ' + path.join(RAIZ, 'fichas'));
 })();
