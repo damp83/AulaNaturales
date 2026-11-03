@@ -71,18 +71,18 @@ const IDIOMA_CONTENIDOS = (() => {
 
 const CONTENIDOS_EN = {
   asignatura: 'Natural Science 2',
-  situaciones: ['Shall we go on a trip?', 'Is water running out?', 'Do you like your neighbourhood?'],
+  situaciones: ['Outdoor expedition', 'The water trail', 'Neighbourhood mission'],
   temas: {
-    cuerpo:     { title: 'This is how our body works', short: 'Life processes, movement, breathing and digestion', starsBadge: 'Constellation' },
-    salud:      { title: 'We look after our health', short: 'Health, habits, food and accidents', starsBadge: 'Health star' },
-    animales:   { title: 'Very different animals', short: 'Animal groups and where animals live', starsBadge: 'Ark of stars' },
-    plantas:    { title: 'The life of plants', short: 'Parts, types, reproduction and importance of plants', starsBadge: 'Garden of stars' },
-    ciencia:    { title: 'We like science', short: 'Scientific method, matter, mixtures, materials, light and sound', starsBadge: 'Star lab' },
-    conectados: { title: 'We are connected', short: 'Devices, the internet, presentations and good use', starsBadge: 'Fully connected' }
+    cuerpo:     { title: 'The body machine', short: 'Life processes, movement, breathing and digestion', starsBadge: 'Constellation' },
+    salud:      { title: 'Mission: healthy life', short: 'Health, habits, food and accidents', starsBadge: 'Health star' },
+    animales:   { title: 'Animal safari', short: 'Animal groups and where animals live', starsBadge: 'Ark of stars' },
+    plantas:    { title: 'The green kingdom', short: 'Parts, types, reproduction and importance of plants', starsBadge: 'Garden of stars' },
+    ciencia:    { title: 'The secret lab', short: 'Scientific method, matter, mixtures, materials, light and sound', starsBadge: 'Star lab' },
+    conectados: { title: 'Digital planet', short: 'Devices, the internet, presentations and good use', starsBadge: 'Fully connected' }
   },
   misiones: {
-    /* ---------- TOPIC 1 · This is how our body works ---------- */
-    funciones: { title: 'How does our body work?', short: 'Life processes', badge: 'Eagle eye',
+    /* ---------- TOPIC 1 · The body machine ---------- */
+    funciones: { title: 'The three powers of life', short: 'Life processes', badge: 'Eagle eye',
       learn: [
         { h: 'The three life processes', p: 'All living things do three <mark>life processes</mark>: <mark>interaction</mark>, <mark>nutrition</mark> and <mark>reproduction</mark>.' },
         { h: 'Interaction', p: 'With our <mark>senses</mark> we notice what happens around us and we react. We have five senses and each one has its own organ.',
@@ -107,7 +107,7 @@ const CONTENIDOS_EN = {
           { txt: '[[Nutrition]]', hijos: [{ txt: 'We [[breathe]] and eat to grow' }] },
           { txt: '[[Reproduction]]', hijos: [{ txt: 'Adults can have [[children]]' }] }], extra: ['bones', 'digestion'] }
       ] },
-    movemos: { title: 'How do we move?', short: 'Bones, joints and muscles', badge: 'Steel skeleton',
+    movemos: { title: 'On the move!', short: 'Bones, joints and muscles', badge: 'Steel skeleton',
       learn: [
         { h: 'Bones', p: '<mark>Bones</mark> are inside our body. They are <mark>hard and stiff</mark>: they can’t bend. All our bones together make the <mark>skeleton</mark>.',
           extra: '<div class="tags"><span class="tag">skull</span><span class="tag">ribs</span><span class="tag">spine</span><span class="tag">femur</span><span class="tag">tibia</span></div>' },
@@ -137,7 +137,7 @@ const CONTENIDOS_EN = {
           { txt: '[[Joints]]', hijos: [{ txt: 'They are where bones meet' }, { txt: 'For example: the elbow and the [[knee]]' }] },
           { txt: '[[Muscles]]', hijos: [{ txt: 'They are soft and [[stretchy]]' }, { txt: 'They [[pull]] the bones' }] }], extra: ['skull', 'hard'] }
       ] },
-    respiramos: { title: 'How do we breathe?', short: 'The journey of air', badge: 'Champion lungs',
+    respiramos: { title: 'The air journey', short: 'The journey of air', badge: 'Champion lungs',
       learn: [
         { h: 'Oxygen', p: 'When we breathe, we get the <mark>oxygen</mark> we need to live. Oxygen is a <mark>gas in the air</mark>.' },
         { h: 'The journey of air', p: 'This is how air travels through our body:',
@@ -162,7 +162,7 @@ const CONTENIDOS_EN = {
           { txt: 'It comes in through the [[nose]] or the mouth' }, { txt: 'It goes down the [[windpipe]]' }, { txt: 'It reaches the [[lungs]]' },
           { txt: 'The body takes the [[oxygen]]' }, { txt: 'The air that is left goes [[out]]' }], extra: ['oesophagus', 'stomach'] }
       ] },
-    alimentamos: { title: 'How do we digest food?', short: 'Digestion', badge: 'Super digestion',
+    alimentamos: { title: 'The food trail', short: 'Digestion', badge: 'Super digestion',
       learn: [
         { h: 'Digestion', p: 'Eating is part of nutrition. Inside the body, <mark>digestion</mark> changes food into simpler substances called <mark>nutrients</mark>.' },
         { h: 'Nutrients', p: 'Nutrients give us two very important things:',
@@ -191,8 +191,8 @@ const CONTENIDOS_EN = {
         { q: 'Where does it go: air or food?', bins: ['Air', 'Food'], items: ['Windpipe', 'Oesophagus', 'Lungs', 'Stomach', 'Intestines', 'Nose'],
           hint: 'Air goes down the windpipe to the lungs. Food goes down the oesophagus to the stomach.' }
       ] },
-    /* ---------- TOPIC 2 · We look after our health ---------- */
-    salud1: { title: 'How do we look after our health?', short: 'Illnesses, vaccines and health workers', badge: 'Super doctor',
+    /* ---------- TOPIC 2 · Mission: healthy life ---------- */
+    salud1: { title: 'Health detectives', short: 'Illnesses, vaccines and health workers', badge: 'Super doctor',
       learn: [
         { h: 'Health', p: 'We are <mark>healthy</mark> when our body works well and we feel good inside and outside. If a part of the body does not work well, we feel bad because we are <mark>ill</mark>.',
           extra: '<div class="tags"><span class="tag">a cold</span><span class="tag">the flu</span><span class="tag">COVID</span></div>' },
@@ -215,7 +215,7 @@ const CONTENIDOS_EN = {
           { txt: 'To prevent illnesses: [[vaccines]]' },
           { txt: 'Health workers', hijos: [{ txt: '[[Doctor]]: decides how to cure us' }, { txt: '[[Nurse]]: looks after cuts' }, { txt: '[[Psychologist]]: helps if we are sad' }] }], extra: ['sweets', 'toys'] }
       ] },
-    salud2: { title: 'Do we have healthy habits?', short: 'Hygiene, exercise, posture and rest', badge: 'Champion habits',
+    salud2: { title: 'Champion routines', short: 'Hygiene, exercise, posture and rest', badge: 'Champion habits',
       learn: [
         { h: 'Healthy habits', p: 'To look after our health we need <mark>healthy habits</mark>: hygiene, exercise, good posture, rest and good food.' },
         { h: 'Hygiene', p: 'To stop illnesses we must <mark>wash our hands well</mark>, <mark>have a shower</mark> often and <mark>brush our teeth</mark> after every meal.' },
@@ -239,7 +239,7 @@ const CONTENIDOS_EN = {
           { txt: '[[Rest]]', hijos: [{ txt: 'Sleep about [[ten]] hours' }] },
           { txt: 'Good [[posture]]', hijos: [{ txt: 'A straight back when you sit' }] }], extra: ['six', 'TV'] }
       ] },
-    salud3: { title: 'Do we eat well?', short: 'Food groups', badge: 'Healthy chef',
+    salud3: { title: 'The balanced plate', short: 'Food groups', badge: 'Healthy chef',
       learn: [
         { h: 'Eating well', p: 'To be healthy we must eat well:',
           extra: '<ol class="steps"><li>We need to have <mark>five meals</mark> a day.</li><li>We should have a <mark>good breakfast</mark>.</li><li>It is good to eat <mark>fresh food</mark>.</li></ol>' },
@@ -264,7 +264,7 @@ const CONTENIDOS_EN = {
           { txt: '[[Vitamins]] and fibre', hijos: [{ txt: '[[Fruit]] and vegetables' }] },
           { txt: 'And drink lots of [[water]]' }], extra: ['fizzy drinks', 'cakes'] }
       ] },
-    salud4: { title: 'How can we prevent accidents?', short: 'Safety at home and outside', badge: 'Safety shield',
+    salud4: { title: 'Safety patrol', short: 'Safety at home and outside', badge: 'Safety shield',
       learn: [
         { h: 'Accidents', p: '<mark>Accidents</mark> can be dangerous for our health. If we are <mark>careful</mark>, we can stop many accidents.' },
         { h: 'At home', p: 'We prevent accidents at home:',
@@ -294,8 +294,8 @@ const CONTENIDOS_EN = {
         { q: 'Is it good for your health or not?', bins: ['Good for health', 'Not good'], items: ['🍎 Eating fruit and vegetables', '💉 Having vaccines', 'Sleeping very little', '🧼 Washing your hands', 'Riding a bike without a helmet', 'Doing no exercise at all'],
           hint: 'Healthy habits and prevention look after our health.' }
       ] },
-    /* ---------- TOPIC 3 · Very different animals ---------- */
-    animales1: { title: 'How do we classify animals?', short: 'Vertebrates and invertebrates', badge: 'Expert classifier',
+    /* ---------- TOPIC 3 · Animal safari ---------- */
+    animales1: { title: 'Bones or no bones', short: 'Vertebrates and invertebrates', badge: 'Expert classifier',
       learn: [
         { h: 'Vertebrates and invertebrates', p: 'Some animals have a skeleton inside their body and some don’t. <mark>Vertebrates</mark> have a skeleton made of bones with a <mark>backbone</mark>. <mark>Invertebrates</mark> have no bones.',
           extra: '<div class="senses"><b>Vertebrates</b><span>wolf, seagull, rabbit, toad.</span><b>Invertebrates</b><span>wasp, jellyfish, snail, spider.</span></div>' },
@@ -317,7 +317,7 @@ const CONTENIDOS_EN = {
           { txt: '[[Vertebrates]]: they have [[bones]]', hijos: [{ txt: 'Five groups: mammals, birds, reptiles, [[amphibians]] and fish' }] },
           { txt: '[[Invertebrates]]: they have no bones', hijos: [{ txt: 'Insects, snails, jellyfish…' }] }], extra: ['feathers', 'scales'] }
       ] },
-    animales2: { title: 'Mammals and birds', short: 'Viviparous and oviparous', badge: 'Fur and feathers',
+    animales2: { title: 'The fur and feather club', short: 'Viviparous and oviparous', badge: 'Fur and feathers',
       learn: [
         { h: 'Mammals', p: '<mark>Mammals</mark> are <mark>viviparous</mark>: babies are born from their mother’s body. The babies drink milk from their mother’s <mark>breasts</mark>.',
           extra: '<div class="tags"><span class="tag">they have hair</span><span class="tag">they have teeth</span><span class="tag">most have four legs</span></div>' },
@@ -340,7 +340,7 @@ const CONTENIDOS_EN = {
           { txt: '[[Mammals]]', hijos: [{ txt: 'They are [[viviparous]]' }, { txt: 'They have [[hair]] and teeth' }, { txt: 'Babies drink [[milk]]' }] },
           { txt: '[[Birds]]', hijos: [{ txt: 'They are [[oviparous]]' }, { txt: 'They have [[feathers]] and a beak' }] }], extra: ['scales', 'fins'] }
       ] },
-    animales3: { title: 'Fish, reptiles and amphibians', short: 'Fins, scales and bare skin', badge: 'Scales and fins',
+    animales3: { title: 'Scales, fins and skin', short: 'Fins, scales and bare skin', badge: 'Scales and fins',
       learn: [
         { h: 'Fish', p: '<mark>Fish</mark> are oviparous and live in water. They have <mark>fins</mark>, their body is covered in <mark>scales</mark> and they breathe in water with their <mark>gills</mark>.' },
         { h: 'Reptiles', p: '<mark>Reptiles</mark> are oviparous. Some live on land and some live in water. They are covered in <mark>scales</mark>, they have a <mark>long tail</mark> and most have four legs. Some have a <mark>shell</mark>.' },
@@ -362,7 +362,7 @@ const CONTENIDOS_EN = {
           { txt: '[[Reptiles]]', hijos: [{ txt: 'Scales and a long tail' }, { txt: 'Some have a [[shell]]' }] },
           { txt: '[[Amphibians]]', hijos: [{ txt: 'They have [[bare]] skin' }, { txt: 'Their babies are [[tadpoles]]' }] }], extra: ['feathers', 'hair'] }
       ] },
-    animales4: { title: 'What are invertebrates like?', short: 'Insects, molluscs and more', badge: 'Bug hunter',
+    animales4: { title: 'Bug world', short: 'Insects, molluscs and more', badge: 'Bug hunter',
       learn: [
         { h: 'Invertebrates', p: 'Animals without a skeleton made of bones are <mark>invertebrates</mark>. There are many different kinds and most are <mark>oviparous</mark>.',
           extra: '<div class="senses"><b>Squid</b><span>soft body with eight arms and two tentacles.</span><b>Snail</b><span>protected by a shell.</span><b>Crab</b><span>two claws and a hard shell.</span></div>' },
@@ -383,7 +383,7 @@ const CONTENIDOS_EN = {
           { txt: '[[Insects]]', hijos: [{ txt: 'Six [[legs]] and two [[antennae]]' }, { txt: 'Egg, [[caterpillar]], cocoon, butterfly' }] },
           { txt: 'Other invertebrates', hijos: [{ txt: 'Snail: it has a [[shell]]' }, { txt: 'Crab: two [[claws]]' }, { txt: 'Squid: eight [[arms]]' }] }], extra: ['bones', 'feathers'] }
       ] },
-    animales5: { title: 'Where do animals live?', short: 'Land and water habitats', badge: 'Habitat explorer',
+    animales5: { title: 'A home for every animal', short: 'Land and water habitats', badge: 'Habitat explorer',
       learn: [
         { h: 'Land habitats', p: 'Some places are on dry land:',
           extra: '<div class="senses"><b>Forests</b><span>lots of trees grow. Squirrels and birds live there.</span><b>Grasslands</b><span>lots of grass grows. Rabbits and zebras live there.</span><b>Deserts</b><span>there is very little water. Scorpions and camels live there.</span><b>Poles</b><span>covered in ice. Polar bears in the north and penguins in the south.</span></div>' },
@@ -410,8 +410,8 @@ const CONTENIDOS_EN = {
         { q: 'Is it viviparous or oviparous?', bins: ['Viviparous', 'Oviparous'], items: ['🐄 Cow', '🐔 Hen', '🐬 Dolphin', '🐍 Snake', '🐸 Frog', '🐱 Cat'],
           hint: 'Mammals are viviparous. Birds, reptiles, amphibians and fish are oviparous.' }
       ] },
-    /* ---------- TOPIC 4 · The life of plants ---------- */
-    plantas1: { title: 'What are plants like?', short: 'Parts of a plant and photosynthesis', badge: 'Champion root',
+    /* ---------- TOPIC 4 · The green kingdom ---------- */
+    plantas1: { title: 'Inside a plant', short: 'Parts of a plant and photosynthesis', badge: 'Champion root',
       learn: [
         { h: 'Living things', p: 'Plants are <mark>living things</mark>: they are born, grow, reproduce and die. They have very different parts and each part has a job.' },
         { h: 'The parts of a plant', p: 'Each part has its job:',
@@ -433,7 +433,7 @@ const CONTENIDOS_EN = {
           { txt: '[[Leaves]]', hijos: [{ txt: 'They take in light and do [[photosynthesis]]' }] },
           { txt: 'Flowers and [[fruits]]', hijos: [{ txt: 'Fruits have the [[seeds]] inside' }] }], extra: ['gills', 'bones'] }
       ] },
-    plantas2: { title: 'How do we classify plants?', short: 'Trees, bushes and herbs', badge: 'Forest ranger',
+    plantas2: { title: 'Forest sorters', short: 'Trees, bushes and herbs', badge: 'Forest ranger',
       learn: [
         { h: 'By their stem', p: 'There are three kinds of plants, depending on how tall and thick their stem is:',
           extra: '<div class="senses"><b>Trees</b><span>thick, hard, tall stem called a trunk. Branches grow from it. Example: pine.</span><b>Bushes</b><span>thin stem, not very tall. Branches grow near the ground. Example: broom.</span><b>Herbs</b><span>thin, soft, green stem. They are short. Example: mint.</span></div>' },
@@ -456,7 +456,7 @@ const CONTENIDOS_EN = {
           { txt: 'By their [[stem]]', hijos: [{ txt: '[[Tree]]: thick, tall trunk' }, { txt: '[[Bush]]: branches near the ground' }, { txt: '[[Herb]]: soft, green stem' }] },
           { txt: 'By their [[leaves]]', hijos: [{ txt: '[[Evergreen]]: leaves all year' }, { txt: '[[Deciduous]]: leaves fall in autumn' }] }], extra: ['moss', 'root'] }
       ] },
-    plantas3: { title: 'How do plants reproduce?', short: 'Seeds and spores', badge: 'Magic seed',
+    plantas3: { title: 'From seed to flower', short: 'Seeds and spores', badge: 'Magic seed',
       learn: [
         { h: 'Flowering plants', p: 'Most flowering plants reproduce with <mark>seeds</mark>:',
           extra: '<ol class="steps"><li>A seed falls to the ground.</li><li>If the ground is wet, a new plant grows from the seed.</li><li>The plant grows and, in the right season, it has flowers.</li><li>Insects and the wind help the plant to reproduce.</li><li>The flowers turn into fruits, which have the seeds inside.</li></ol>' },
@@ -476,7 +476,7 @@ const CONTENIDOS_EN = {
           { txt: 'A [[seed]] falls to the ground' }, { txt: 'With water, a new plant [[grows]]' }, { txt: 'The plant grows and has [[flowers]]' },
           { txt: 'Insects and the [[wind]] help' }, { txt: 'The flowers turn into [[fruits]]' }], extra: ['spores', 'roots'] }
       ] },
-    plantas4: { title: 'Why are plants important?', short: 'Wild and farmed plants', badge: 'Expert farmer',
+    plantas4: { title: 'Plants that help us', short: 'Wild and farmed plants', badge: 'Expert farmer',
       learn: [
         { h: 'Wild plants', p: 'Many plants grow where they find what they need, and make forests, grasslands or jungles. These are <mark>wild plants</mark>. They give <mark>food and shelter</mark> to many wild animals.' },
         { h: 'The air', p: 'All plants help to <mark>make the air cleaner</mark>. During photosynthesis they make <mark>oxygen</mark>, which most living things need.' },
@@ -501,8 +501,8 @@ const CONTENIDOS_EN = {
       extra: [
         { q: 'Match each word with its meaning.', pairs: [['Photosynthesis', 'Plants make their food'], ['Spores', 'Ferns and moss reproduce with them'], ['Deciduous', 'Loses its leaves in autumn']], hint: 'Look at the key words of the topic.' }
       ] },
-    /* ---------- TOPIC 5 · We like science ---------- */
-    ciencia1: { title: 'What is the scientific method?', short: 'Observe, ask, experiment and conclude', badge: 'Little scientist',
+    /* ---------- TOPIC 5 · The secret lab ---------- */
+    ciencia1: { title: 'Think like a scientist', short: 'Observe, ask, experiment and conclude', badge: 'Little scientist',
       learn: [
         { h: 'Asking questions', p: 'People have always asked questions to understand the world. To answer them, scientists use the <mark>scientific method</mark>.' },
         { h: 'Steps of the scientific method', p: 'This is how a scientist investigates:',
@@ -519,7 +519,7 @@ const CONTENIDOS_EN = {
         { tipo: 'flujo', titulo: 'The [[scientific]] method', nodos: [
           { txt: 'We [[observe]] the world around us' }, { txt: 'We ask a [[question]]' }, { txt: 'We do [[experiments]]' }, { txt: 'We reach [[conclusions]]' }], extra: ['guess', 'forget'] }
       ] },
-    ciencia2: { title: 'What are the states of matter?', short: 'Solid, liquid and gas', badge: 'Ice master',
+    ciencia2: { title: 'Solid, liquid or gas', short: 'Solid, liquid and gas', badge: 'Ice master',
       learn: [
         { h: 'Matter', p: 'Most things around us are made of <mark>matter</mark>: mountains, clouds, water, air, our body… Matter can be in three <mark>states</mark>:',
           extra: '<div class="senses"><b>Solid</b><span>soil.</span><b>Liquid</b><span>water in its natural state.</span><b>Gas</b><span>air.</span></div>' },
@@ -544,7 +544,7 @@ const CONTENIDOS_EN = {
           { txt: '[[Gas]]', hijos: [{ txt: 'Air, smoke' }] },
           { txt: 'When they [[heat]] up or cool down, they change state' }], extra: ['soft', 'metal'] }
       ] },
-    ciencia3: { title: 'What are mixtures?', short: 'Substances, mixtures and solutions', badge: 'Mad mixer',
+    ciencia3: { title: 'The mixing kitchen', short: 'Substances, mixtures and solutions', badge: 'Mad mixer',
       learn: [
         { h: 'Substances and mixtures', p: 'Air, water and wood are <mark>substances</mark>. A salad or milky coffee are <mark>mixtures</mark> of substances.' },
         { h: 'Kinds of mixtures', p: 'In some mixtures we can’t see the different substances: they are <mark>solutions</mark>. If we mix salt and water, the salt dissolves and we can’t see it. In other mixtures we can see the substances: oil floats on water.' },
@@ -566,7 +566,7 @@ const CONTENIDOS_EN = {
           { txt: 'You can see the parts', hijos: [{ txt: 'Water with [[oil]]' }] },
           { txt: 'How to separate them', hijos: [{ txt: '[[Sieve]]: sand and water' }, { txt: 'Let the water [[evaporate]]: salt and water' }] }], extra: ['magnet', 'scissors'] }
       ] },
-    ciencia4: { title: 'What are materials like?', short: 'Origin and properties', badge: 'Builder',
+    ciencia4: { title: 'What is it made of?', short: 'Origin and properties', badge: 'Builder',
       learn: [
         { h: 'Natural and artificial', p: '<mark>Materials</mark> are the substances we use to make things.',
           extra: '<div class="senses"><b>Natural</b><span>we use them as they are in nature: silk (from silkworms), wood (from trees).</span><b>Artificial</b><span>people make them by changing natural substances: plastic.</span></div>' },
@@ -588,7 +588,7 @@ const CONTENIDOS_EN = {
           { txt: '[[Artificial]]', hijos: [{ txt: '[[Plastic]]' }] },
           { txt: 'Properties', hijos: [{ txt: '[[Fragile]]: breaks when it is hit' }, { txt: '[[Flexible]]: bends without breaking' }, { txt: '[[Strong]]: holds heavy things' }] }], extra: ['transparent', 'liquid'] }
       ] },
-    ciencia5: { title: 'Light and sound', short: 'How we see and how we hear', badge: 'Eyes and ears',
+    ciencia5: { title: 'Lights and sounds', short: 'How we see and how we hear', badge: 'Eyes and ears',
       learn: [
         { h: 'Light', p: '<mark>Light</mark> lets us see things. Without light, it is dark. <mark>Natural light</mark> comes from the Sun, the stars or lightning. People make things that give <mark>artificial light</mark>, like light bulbs.' },
         { h: 'Materials and light', p: 'Light goes through some materials, but not all:',
@@ -615,8 +615,8 @@ const CONTENIDOS_EN = {
       extra: [
         { q: 'Match each word with an example.', pairs: [['Solution', 'Water with salt'], ['Artificial material', 'Plastic'], ['Opaque material', 'Cardboard'], ['High sound', 'Whistle']], hint: 'Review the whole topic.' }
       ] },
-    /* ---------- TOPIC 6 · We are connected ---------- */
-    digital1: { title: 'What are digital devices?', short: 'Mobile phone, tablet and laptop', badge: 'Tech expert',
+    /* ---------- TOPIC 6 · Digital planet ---------- */
+    digital1: { title: 'Screens and gadgets', short: 'Mobile phone, tablet and laptop', badge: 'Tech expert',
       learn: [
         { h: 'What they are for', p: '<mark>Digital devices</mark> are machines that help us do many things:',
           extra: '<div class="senses"><b>Learning</b><span>writing texts, looking for information or videos for schoolwork.</span><b>Having fun</b><span>reading, listening to music, watching videos, taking photos, playing…</span><b>Communicating</b><span>sending or getting texts, pictures or videos and making video calls.</span></div>' },
@@ -637,7 +637,7 @@ const CONTENIDOS_EN = {
           { txt: 'They are for', hijos: [{ txt: '[[Learning]]' }, { txt: 'Having fun' }, { txt: '[[Communicating]]' }] },
           { txt: 'Some devices', hijos: [{ txt: 'Mobile [[phone]]: small, touch screen' }, { txt: '[[Tablet]]: bigger, touch screen' }, { txt: '[[Laptop]]: for harder tasks' }] }], extra: ['fridge', 'washing machine'] }
       ] },
-    digital2: { title: 'Where do we look for information?', short: 'The internet and browsers', badge: 'Web detective',
+    digital2: { title: 'Internet detectives', short: 'The internet and browsers', badge: 'Web detective',
       learn: [
         { h: 'The internet and browsers', p: 'On the <mark>internet</mark> we can find a lot of information. To find it we use programs called <mark>browsers</mark>, like Google Chrome or Microsoft Edge.' },
         { h: 'How do we look for information?', p: 'Follow these steps:',
@@ -655,7 +655,7 @@ const CONTENIDOS_EN = {
           { txt: 'Open a [[browser]]' }, { txt: 'Write what you want to know in “[[Search]]”' }, { txt: 'Look at the list of [[web pages]]' },
           { txt: 'Read and compare different pages' }, { txt: 'Ask an [[adult]]' }], extra: ['stranger', 'advert'] }
       ] },
-    digital3: { title: 'How do we present information?', short: 'Programs and storage', badge: 'Star presenter',
+    digital3: { title: 'Present and save', short: 'Programs and storage', badge: 'Star presenter',
       learn: [
         { h: 'Computer programs', p: 'To organise information and present our work we use <mark>computer programs</mark>:',
           extra: '<div class="senses"><b>Word processor</b><span>to write and correct texts. We can change the size, colour and type of letters.</span><b>Presentation maker</b><span>for projects and talks. We can add text, drawings, photos and tables.</span></div>' },
@@ -675,7 +675,7 @@ const CONTENIDOS_EN = {
           { txt: 'Programs', hijos: [{ txt: 'Word [[processor]]: for writing' }, { txt: '[[Presentation]] maker: for talks' }] },
           { txt: '[[Storage]] devices', hijos: [{ txt: '[[Hard]] disk: saves a lot' }, { txt: 'Memory [[stick]]: easy to carry' }, { txt: 'Memory [[card]]: cameras and phones' }] }], extra: ['light bulb', 'socket'] }
       ] },
-    digital4: { title: 'Do we use digital devices well?', short: 'Dangers and good use', badge: 'Cyber guardian',
+    digital4: { title: 'Cyber safety for kids', short: 'Dangers and good use', badge: 'Cyber guardian',
       learn: [
         { h: 'Dangers', p: 'The internet and digital devices are not always safe:',
           extra: '<ol class="steps"><li>Don’t click on adverts or pages you don’t know: this way you avoid <mark>computer viruses</mark>.</li><li>A lot of content is not right for children: always go on the internet with an <mark>adult watching</mark>.</li></ol>' },
