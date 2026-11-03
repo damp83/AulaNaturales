@@ -2,16 +2,16 @@
 
 Videojuego educativo de Ciencias de la Naturaleza organizado por temas. Cada tema es un mundo del **mapa del curso** y se desbloquea al vencer al jefe final del tema anterior (o cuando el docente lo abre).
 
-Temas del libro (Ciencias de la Naturaleza 2), agrupados por situación de aprendizaje:
+Temas de Ciencias de la Naturaleza de 2.º de Primaria, agrupados por situación de aprendizaje. Los títulos de temas, situaciones y misiones son propios del juego; las páginas del libro solo se indican como referencia para el docente.
 
 | Situación | Tema | Estado |
 |---|---|---|
-| ¿Nos vamos de excursión? | 1. Así funciona nuestro cuerpo | 4 misiones + jefe |
-| | 2. Cuidamos nuestra salud | 4 misiones + jefe |
-| ¿El agua se acaba? | 3. Animales muy diferentes | 5 misiones + jefe |
-| | 4. La vida de las plantas | 4 misiones + jefe |
-| ¿Te gusta tu barrio? | 5. Nos gusta la ciencia | 5 misiones + jefe |
-| | 6. Estamos conectados | 4 misiones + jefe |
+| Expedición al aire libre | 1. La máquina del cuerpo | 4 misiones + jefe |
+| | 2. Misión: vida sana | 4 misiones + jefe |
+| La ruta del agua | 3. Safari animal | 5 misiones + jefe |
+| | 4. El reino verde | 4 misiones + jefe |
+| Misión en el barrio | 5. El laboratorio secreto | 5 misiones + jefe |
+| | 6. Planeta digital | 4 misiones + jefe |
 
 Cada misión empieza con tarjetas de repaso (con lectura en voz alta) y sigue con retos de varios tipos:
 elegir respuesta, verdadero/falso, seleccionar varias, ordenar secuencias, clasificar, unir parejas y completar huecos.
