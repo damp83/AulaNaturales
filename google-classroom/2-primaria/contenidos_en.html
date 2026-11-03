@@ -26,7 +26,7 @@ const IDIOMA_CONTENIDOS = (() => {
     if (curso._es) return;
     curso._es = { asignatura: curso.asignatura, situaciones: (curso.situaciones || []).map(s => s.title) };
     curso.temas.forEach(t => {
-      t._es = { title: t.title, short: t.short, starsBadge: t.starsBadge };
+      t._es = { title: t.title, short: t.short, starsBadge: t.starsBadge, minijuego: copia(t.minijuego) };
       [...(t.missions || []), ...(t.boss ? [t.boss] : [])].forEach(m => {
         m._es = { title: m.title, short: m.short, badge: m.badge, villain: m.villain, learn: copia(m.learn) };
         [...(m.ch || []), ...(m.extra || [])].forEach(r => {
@@ -58,6 +58,7 @@ const IDIOMA_CONTENIDOS = (() => {
       t.title = ot ? ot.title : t._es.title;
       t.short = ot ? ot.short : t._es.short;
       t.starsBadge = ot && ot.starsBadge ? ot.starsBadge : t._es.starsBadge;
+      if (t.minijuego) t.minijuego = ot && ot.minijuego ? Object.assign({}, t.minijuego, copia(ot.minijuego)) : copia(t._es.minijuego);
       [...(t.missions || []), ...(t.boss ? [t.boss] : [])].forEach(m => {
         const om = en && en.misiones[m.id];
         ['title', 'short', 'badge', 'villain'].forEach(k => { m[k] = om && om[k] !== undefined ? om[k] : m._es[k]; });
@@ -75,7 +76,15 @@ const CONTENIDOS_EN = {
   situaciones: ['Outdoor expedition', 'The water trail', 'Neighbourhood mission'],
   temas: {
     cuerpo:     { title: 'The body machine', short: 'Life processes, movement, breathing and digestion', starsBadge: 'Constellation' },
-    salud:      { title: 'Mission: healthy life', short: 'Health, habits, food and accidents', starsBadge: 'Health star' },
+    salud:      { title: 'Mission: healthy life', short: 'Health, habits, food and accidents', starsBadge: 'Health star',
+      minijuego: { titulo: 'Healthy race', preguntas: [
+        {q: 'How many hours should children sleep?', ok: 'About ten hours', no: 'About four hours'},
+        {q: 'When should we brush our teeth?', ok: 'After every meal', no: 'Once a week'},
+        {q: 'What are vaccines for?', ok: 'To prevent illnesses', no: 'To grow taller'},
+        {q: 'What should we drink during the day?', ok: 'Water', no: 'Fizzy drinks'},
+        {q: 'What do you wear to ride a bike?', ok: 'A helmet', no: 'Sunglasses'},
+        {q: 'Where do we cross the street?', ok: 'At the zebra crossing', no: 'Anywhere we like'},
+        {q: 'What makes muscles and bones strong?', ok: 'Exercise', no: 'Watching TV'} ] } },
     animales:   { title: 'Animal safari', short: 'Animal groups and where animals live', starsBadge: 'Ark of stars' },
     plantas:    { title: 'The green kingdom', short: 'Parts, types, reproduction and importance of plants', starsBadge: 'Garden of stars' },
     ciencia:    { title: 'The secret lab', short: 'Scientific method, matter, mixtures, materials, light and sound', starsBadge: 'Star lab' },
