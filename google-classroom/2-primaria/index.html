@@ -396,6 +396,8 @@ td.num-c{font-variant-numeric:tabular-nums}
 .lang-switch{display:flex;gap:8px;justify-content:flex-end}
 .lang-switch .chip{min-height:40px;padding:6px 14px;font-size:1rem}
 .lang-btn{font-family:var(--f-game);font-size:1rem}
+.curso-sel select{width:100%;font:inherit;font-size:1.05rem;padding:10px 12px;border-radius:14px;border:3px solid var(--edge);background:var(--night);color:#fff}
+.curso-link{background:var(--night);border:2px solid var(--edge);border-radius:10px;padding:6px 10px;font-size:.9rem;overflow-wrap:anywhere;color:var(--ink-soft)}
 /* Personajes */
 .avatar{width:100%;height:auto;overflow:visible;display:block}
 .frame .avatar{width:52px;margin-top:4px}
@@ -477,8 +479,33 @@ td.num-c{font-variant-numeric:tabular-nums}
 </div>
 <div id="toast" role="status" hidden></div>
 
+<script>
+/* =====================================================================
+   CURSOS DE LA PLATAFORMA · Exploradores de la Naturaleza
+   © 2026 Diego Alberto Moya Puerta, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia · Licencia CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
+   ---------------------------------------------------------------------
+   Cada curso tiene su carpeta en cursos/<id>/ con:
+     contenidos.js      temas, misiones, retos, esquemas y currículo (obligatorio)
+     contenidos-en.js   los mismos contenidos en inglés (opcional; si no existe, el curso va solo en castellano)
+   Cada curso tiene su propio enlace:  https://damp83.github.io/AulaNaturales/?curso=<id>
+   y guarda el progreso por separado.
+   Para crear un curso nuevo:  python3 tools/nuevo_curso.py <id> "<nombre>"
+   ===================================================================== */
+const CURSOS = [
+  {
+    id: '2-primaria',
+    nombre: '2.º de Primaria',           // como aparece en el selector de curso
+    nombre_en: 'Primary 2',
+    ingles: true,                         // tiene contenidos-en.js
+    clave: 'exploradores-cuerpo-v1'       // dónde se guarda el progreso (no cambiar en cursos ya en uso)
+  }
+];
+
+</script>
+<script>window.CURSO_ACTIVO = CURSOS.find(c => c.id === "2-primaria");</script>
 <?!= include('contenidos'); ?>
 <?!= include('contenidos_en'); ?>
+
 <script>
 /* ---------- Iconos ---------- */
 const ICONS = {
@@ -641,7 +668,7 @@ const GLOBAL_BADGES = [
 ];
 
 /* ---------- Estado y guardado ---------- */
-const KEY = 'exploradores-cuerpo-v1';
+const KEY = CURSO_ACTIVO.clave || ('exploradores-' + CURSO_ACTIVO.id + '-v1');
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rand = a => a[Math.floor(Math.random()*a.length)];
@@ -652,7 +679,7 @@ const lastPos = {};
 /* Versión Google Classroom: si el juego se abre desde Apps Script, el progreso se guarda en la
    hoja de cálculo del docente (ver carpeta google-classroom). Si no, se guarda en este navegador. */
 const CLOUD = !!(window.google && google.script && google.script.run);
-const LKEY = CLOUD ? 'exploradores-classroom-v1' : KEY;
+const LKEY = CLOUD ? (CURSO_ACTIVO.id === '2-primaria' ? 'exploradores-classroom-v1' : 'exploradores-classroom-' + CURSO_ACTIVO.id) : KEY;
 let ME = null, CLASS = null, pushTimer = null, pushing = false, pushAgain = false;
 function load(){ try{ const v = JSON.parse(localStorage.getItem(LKEY)); if(v && v.profiles) return v; }catch(e){} return {profiles:{}, current:null, free:false, sound:true, music:false, open:{}}; }
 function save(){ try{ localStorage.setItem(LKEY, JSON.stringify(S)); }catch(e){} if(CLOUD && P()) schedulePush(); }
@@ -803,6 +830,9 @@ const UI_EN = {
   'Este navegador todavía no ha cargado sus voces. Pulsa «Probar voz» y vuelve a abrir este panel.':'This browser has not loaded its voices yet. Tap “Test voice” and open this panel again.',
   'Modo libre: todos los temas y misiones desbloqueados':'Free mode: all topics and missions unlocked',
   'Estrellas: 3 con un 85 % de aciertos a la primera, 2 con un 60 % y 1 al terminar. Los contenidos se editan en el archivo <b>contenidos.js</b>.':'Stars: 3 with 85 % right first time, 2 with 60 % and 1 for finishing. The English content is in the file <b>contenidos-en.js</b>.',
+  'Curso':'Course', 'Cambiar de curso':'Change course', 'Enlace de este curso para el alumnado:':'Link to this course for students:', 'Copiar enlace':'Copy link', 'Enlace copiado':'Link copied',
+  'Cada curso guarda su progreso por separado.':'Each course saves its progress separately.',
+  'Esta instalación de Google Classroom es solo para este curso. Para otro curso, instala su propia versión.':'This Google Classroom installation is only for this course. For another course, install its own version.',
   'Autoría y licencia':'Author and licence', '¡Hola! Así sonará mi voz.':'Hello! This is how my voice will sound.',
   '¡Hola! Soy Glo. ¿Preparados para explorar la naturaleza?':'Hello! I am Glo. Are you ready to explore nature?',
   'Modo libre activado':'Free mode on', 'Modo libre desactivado':'Free mode off', 'Tema abierto para la clase':'Topic opened for the class', 'Tema cerrado':'Topic closed',
@@ -813,7 +843,8 @@ const UI_EN = {
   'Entra con tu cuenta de Google del colegio y vuelve a abrir el enlace desde Classroom.':'Sign in with your school Google account and open the link from Classroom again.',
   'Comprueba la conexión a internet y vuelve a abrir el enlace.':'Check your internet connection and open the link again.'
 };
-let LANG = (S.lang === 'en') ? 'en' : 'es';
+const HAS_EN = typeof CONTENIDOS_EN !== 'undefined';
+let LANG = (HAS_EN && S.lang === 'en') ? 'en' : 'es';
 function tr(s, v){
   let r = (LANG === 'en' && UI_EN[s] !== undefined) ? UI_EN[s] : s;
   if(v) r = r.replace(/\{(\w+)\}/g, (m, k) => v[k] !== undefined ? v[k] : m);
@@ -829,6 +860,7 @@ function applyLang(){
 }
 function setLang(l, silencioso){
   if(l !== 'es' && l !== 'en') return;
+  if(l === 'en' && !HAS_EN) return;
   LANG = l; S.lang = l; if(!silencioso) S.langChosen = true; save(); applyLang();
   if(silencioso) return;
   const vista = [...document.querySelectorAll('.view')].find(v => !v.hidden);
@@ -836,7 +868,20 @@ function setLang(l, silencioso){
   else if(!P()) renderWelcome();
   else if(CT) goMap(); else goCourse();
 }
+const nombreCurso = c => LANG === 'en' && c.nombre_en ? c.nombre_en : c.nombre;
+function cursoSwitchHTML(){
+  if(CLOUD || CURSOS.length < 2) return '';
+  return `<div class="field curso-sel"><label for="curso-sel">${tr('Curso')}</label><select id="curso-sel">${CURSOS.map(c=>`<option value="${c.id}" ${c.id===CURSO_ACTIVO.id?'selected':''}>${esc(nombreCurso(c))}</option>`).join('')}</select></div>`;
+}
+function cambiarCurso(id){
+  if(id === CURSO_ACTIVO.id) return;
+  try{ localStorage.setItem('exploradores-curso', id); }catch(e){}
+  // Si el enlace ya indica un curso (?curso=), se cambia en el enlace; si no, con #curso- (vale también dentro de un artefacto)
+  if(new URLSearchParams(location.search).has('curso')) location.search = '?curso=' + id;
+  else { location.hash = 'curso-' + id; location.reload(); }
+}
 function langSwitchHTML(){
+  if(!HAS_EN) return '';
   return `<div class="lang-switch" role="group" aria-label="${tr('Idioma')}">${[['es','Español'],['en','English']].map(([c,n])=>`<button type="button" class="tile chip" data-lang="${c}" aria-pressed="${LANG===c}">${n}</button>`).join('')}</div>`;
 }
 function bindLangSwitch(v){ v.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => setLang(b.dataset.lang)); }
@@ -1066,6 +1111,7 @@ function renderWelcome(){
     </div>
     <div class="panel start-panel">
       ${langSwitchHTML()}
+      ${cursoSwitchHTML()}
       ${list.length ? `<div><h2 class="outline-sm">${tr('Partidas guardadas')}</h2><div class="slots" style="margin-top:12px">${list.map(([id,p])=>`<button class="slot-btn" type="button" data-id="${id}">${avatarSVG(p.avatar)}<span><b>${esc(p.name)}</b><small>${tr('Nivel {n} · {s} estrellas',{n:levelOf(p.xp).n,s:courseStars(p)})}</small></span></button>`).join('')}</div></div>` : ''}
       <form id="new-profile" style="display:grid;gap:16px" novalidate>
         ${CLOUD && ME ? `<p class="tip">${tr('Has entrado con la cuenta <b>{e}</b>. Tu progreso se guarda en tu cuenta.',{e:esc(ME.email)})}</p>` : ''}
@@ -1098,6 +1144,7 @@ function renderWelcome(){
   };
   const tl=v.querySelector('#teacher-link'); if(tl) tl.onclick = renderTeacher;
   bindLangSwitch(v);
+  const cs=v.querySelector('#curso-sel'); if(cs) cs.onchange=e=>cambiarCurso(e.target.value);
   show('view-welcome');
 }
 
@@ -1118,7 +1165,7 @@ function hudHTML(){
     <div class="hud-tools">
       <button class="iconbtn ${S.music?'on':''}" type="button" data-act="music" aria-label="${tr(S.music?'Parar música':'Poner música')}" aria-pressed="${!!S.music}">${ico('music')}</button>
       <button class="iconbtn" type="button" data-act="sound" aria-label="${tr(S.sound?'Quitar efectos de sonido':'Activar efectos de sonido')}">${ico(S.sound?'sound':'mute')}</button>
-      <button class="iconbtn lang-btn" type="button" data-act="lang" aria-label="${tr('Cambiar idioma')}">${LANG==='es'?'EN':'ES'}</button>
+      ${HAS_EN ? `<button class="iconbtn lang-btn" type="button" data-act="lang" aria-label="${tr('Cambiar idioma')}">${LANG==='es'?'EN':'ES'}</button>` : ''}
       ${!CLOUD || (ME && ME.teacher) ? `<button class="iconbtn" type="button" data-act="teacher" aria-label="${tr('Panel del docente')}">${ico('teacher')}</button>` : ''}
     </div>
   </header>`;
@@ -1128,7 +1175,7 @@ function bindHud(v, rerender){
   v.querySelector('[data-act="sound"]').onclick = ()=>{ S.sound=!S.sound; save(); rerender(); sfx('tick'); };
   v.querySelector('[data-act="music"]').onclick = ()=>{ setMusic(!S.music); rerender(); };
   const tb=v.querySelector('[data-act="teacher"]'); if(tb) tb.onclick = renderTeacher;
-  v.querySelector('[data-act="lang"]').onclick = ()=>setLang(LANG==='es'?'en':'es');
+  const lb=v.querySelector('[data-act="lang"]'); if(lb) lb.onclick = ()=>setLang(LANG==='es'?'en':'es');
 }
 
 /* ---------- Mapa del curso ---------- */
@@ -1692,7 +1739,8 @@ function licenciaHTML(){
     ? `Program and content: ${AUTORIA}, Primary School Teacher, Region of Murcia (Spain). Licence: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener" style="color:var(--gold)">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 (CC BY-NC-SA 4.0)</a>. Fonts Andika and Lilita One under the SIL Open Font License. References to the textbook belong to their owners.`
     : `Programa y contenidos: ${AUTORIA}, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia. Licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener" style="color:var(--gold)">Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 (CC BY-NC-SA 4.0)</a>. Tipografías Andika y Lilita One con licencia SIL Open Font License. Las referencias al libro de texto pertenecen a sus titulares.`;
 }
-const FICHAS_URL = 'https://damp83.github.io/AulaNaturales/fichas/';
+const WEB_URL = 'https://damp83.github.io/AulaNaturales/';
+const FICHAS_URL = WEB_URL + 'fichas/' + CURSO_ACTIVO.id + '/';
 const fichaURL = n => LANG==='en' ? FICHAS_URL+'en/'+(n==='sol'?'answer-key-concept-maps.pdf':`topic-${n}-concept-maps.pdf`) : FICHAS_URL+(n==='sol'?'solucionario-esquemas.pdf':`tema-${n}-esquemas.pdf`);
 let evalTema = 0, evalSel = null;
 function evalHTML(list){
@@ -1772,7 +1820,15 @@ function renderTeacher(){
         <td><button class="btn dark small" type="button" data-del="${id}">${tr(armedDelete===id?'¿Seguro? Borrar':'Borrar')}</button></td></tr>`).join('')}</tbody>
     </table></div><p class="note" style="margin-top:8px">${tr('Pasa el ratón sobre las estrellas de un tema para ver el detalle por misión (estrellas, veces jugada y mejor % de aciertos a la primera). ✓ = jefe final vencido.')}</p>` : `<p class="note">${tr(CLOUD?'Todavía no hay alumnado registrado.':'Todavía no hay alumnado registrado en este dispositivo.')}</p>`}
     <div class="teacher-tools">
-      ${list.length ? evalHTML(list) : ''}
+      ${list.length && TEMAS.some(hasContent) ? evalHTML(list) : ''}
+      <h2 class="outline-sm" style="color:var(--gold)">${tr('Curso')}: ${esc(nombreCurso(CURSO_ACTIVO))}</h2>
+      <div class="tema-toggles panel">
+        ${CLOUD ? `<p class="note" style="margin:0">${tr('Esta instalación de Google Classroom es solo para este curso. Para otro curso, instala su propia versión.')}</p>`
+        : `<p class="note" style="margin:0">${tr('Enlace de este curso para el alumnado:')}</p>
+          <div class="row"><code class="curso-link" id="curso-link">${WEB_URL}?curso=${CURSO_ACTIVO.id}</code><button class="btn dark small" type="button" id="curso-copy">${tr('Copiar enlace')}</button></div>
+          ${CURSOS.length>1 ? `<label class="switch" for="curso-sel-t"><span>${tr('Cambiar de curso')}</span><select id="curso-sel-t" style="font:inherit;padding:8px 10px;border-radius:12px;border:3px solid var(--edge);background:var(--night);color:#fff">${CURSOS.map(c=>`<option value="${c.id}" ${c.id===CURSO_ACTIVO.id?'selected':''}>${esc(nombreCurso(c))}</option>`).join('')}</select></label>` : ''}
+          <p class="note" style="margin:0">${tr('Cada curso guarda su progreso por separado.')}</p>`}
+      </div>
       <h2 class="outline-sm" style="color:var(--gold)">${tr('Fichas para imprimir')}</h2>
       <div class="tema-toggles panel"><p class="note" style="margin:0">${tr('Esquemas en papel para completar a mano (A4, una ficha por página), con recuadro de palabras, espacio para dibujar y autoevaluación.')}</p>
         <div class="row">${TEMAS.filter(hasContent).map(t=>`<a class="btn dark small" href="${fichaURL(t.n)}" target="_blank" rel="noopener">${tr('Tema')} ${t.n}</a>`).join('')}
@@ -1804,7 +1860,7 @@ function renderTeacher(){
       </div>
       <p class="note">${tr(VOICES.length ? 'Las voces dependen del dispositivo y del navegador. Las más naturales suelen llamarse «Natural», «Online», «Mejorada» o «Google».' : 'Este navegador todavía no ha cargado sus voces. Pulsa «Probar voz» y vuelve a abrir este panel.')}</p>
       <label class="switch"><input type="checkbox" id="free-mode" ${S.free?'checked':''}> ${tr('Modo libre: todos los temas y misiones desbloqueados')}</label>
-      <p class="note">${tr('Estrellas: 3 con un 85 % de aciertos a la primera, 2 con un 60 % y 1 al terminar. Los contenidos se editan en el archivo <b>contenidos.js</b>.')}</p>
+      <p class="note">${tr('Estrellas: 3 con un 85 % de aciertos a la primera, 2 con un 60 % y 1 al terminar. Los contenidos se editan en el archivo <b>contenidos.js</b>.')} <small>(cursos/${CURSO_ACTIVO.id}/)</small></p>
       <h2 class="outline-sm" style="color:var(--gold)">${tr('Autoría y licencia')}</h2>
       <p class="note">${licenciaHTML()}</p>
     </div>`;
@@ -1816,6 +1872,8 @@ function renderTeacher(){
   v.querySelector('#free-mode').onchange = e=>{ S.free=e.target.checked; save(); cloudSettings(); toast(tr(S.free?'Modo libre activado':'Modo libre desactivado')); };
   v.querySelectorAll('[data-open]').forEach(c=>c.onchange=()=>{ S.open[c.dataset.open]=c.checked; save(); cloudSettings(); toast(tr(c.checked?'Tema abierto para la clase':'Tema cerrado')); });
   bindEval(v, list);
+  const cc=v.querySelector('#curso-copy'); if(cc) cc.onclick=()=>{ const t=v.querySelector('#curso-link').textContent; const ok=()=>toast(tr('Enlace copiado')); try{ navigator.clipboard.writeText(t).then(ok, ()=>fallbackCopy(t, ok)); }catch(e){ fallbackCopy(t, ok); } };
+  const ct=v.querySelector('#curso-sel-t'); if(ct) ct.onchange=e=>cambiarCurso(e.target.value);
   const rf=v.querySelector('#t-refresh'); if(rf) rf.onclick=()=>{ CLASS=null; renderTeacher(); };
   v.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
     const id=b.dataset.del;

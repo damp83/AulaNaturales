@@ -1,13 +1,20 @@
 /**
- * Comprueba que contenidos-en.js encaja con contenidos.js (mismo número y orden de tarjetas,
- * retos, opciones, grupos, parejas y huecos) y que no quedan textos en castellano.
- * Uso:  node tools/validar_ingles.js
+ * Comprueba que el contenidos-en.js de cada curso encaja con su contenidos.js (mismo número y orden
+ * de tarjetas, retos, opciones, grupos, parejas y huecos) y que no quedan textos en castellano.
+ * Uso:  node tools/validar_ingles.js              (todos los cursos con inglés)
+ *       node tools/validar_ingles.js 2-primaria   (solo ese curso)
  */
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const raiz = path.resolve(__dirname, '..');
+const reg = {}; vm.createContext(reg); vm.runInContext(fs.readFileSync(path.join(raiz, 'cursos.js'), 'utf8') + ';this.CURSOS=CURSOS;', reg);
+const cursos = (process.argv.slice(2).length ? process.argv.slice(2) : reg.CURSOS.filter(c => c.ingles).map(c => c.id));
+let total = 0;
+for (const cid of cursos) {
+const carpeta = path.join(raiz, 'cursos', cid);
+console.log(`Curso ${cid}:`);
 const ctx = {};
 vm.createContext(ctx);
-vm.runInContext(fs.readFileSync(path.join(raiz, 'contenidos.js'), 'utf8') + '\n' + fs.readFileSync(path.join(raiz, 'contenidos-en.js'), 'utf8') +
+vm.runInContext(fs.readFileSync(path.join(carpeta, 'contenidos.js'), 'utf8') + '\n' + fs.readFileSync(path.join(carpeta, 'contenidos-en.js'), 'utf8') +
   ';this.CURSO=CURSO;this.EN=CONTENIDOS_EN;this.I=IDIOMA_CONTENIDOS;', ctx);
 const { CURSO, EN } = ctx;
 const errores = [], avisos = [];
@@ -58,5 +65,7 @@ if (!/How many/.test(enQ)) errores.push('La traducción no se aplica');
 avisos.forEach(a => console.log('  aviso · ' + a));
 errores.forEach(e => console.log('  ERROR · ' + e));
 const n = Object.keys(EN.misiones).length;
-console.log(errores.length ? `\n${errores.length} errores` : `\nContenidos en inglés correctos: ${n} misiones y jefes comprobados.`);
-process.exit(errores.length ? 1 : 0);
+console.log(errores.length ? `  ${errores.length} errores` : `  Contenidos en inglés correctos: ${n} misiones y jefes comprobados.`);
+total += errores.length;
+}
+process.exit(total ? 1 : 0);

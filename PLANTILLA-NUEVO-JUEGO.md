@@ -29,7 +29,8 @@ temática visual y los contenidos.
 - Criterios de evaluación y saberes básicos: [texto pegado]
 
 ## 3. Qué tienes que generar
-1. contenidos.js nuevo. Para cada tema:
+1. contenidos.js nuevo (para añadir solo otro curso a este mismo juego, basta con
+   `python3 tools/nuevo_curso.py` y rellenar cursos/<curso>/contenidos.js). Para cada tema:
    - Entre 4 y 5 misiones, una por doble página del libro. Cada misión lleva:
      - tarjetas de repaso con lo esencial;
      - de 7 a 10 retos que mezclen los 7 tipos: elegir respuesta, verdadero
@@ -102,14 +103,16 @@ temática visual y los contenidos.
 
 | Archivo | Qué contiene |
 |---|---|
-| `contenidos.js` | Temas, misiones, retos, esquemas, currículo y su asociación con la evaluación |
-| `contenidos-en.js` | Los mismos contenidos en inglés (solo textos) |
+| `cursos.js` | Lista de cursos de la plataforma |
+| `cursos/<curso>/contenidos.js` | Temas, misiones, retos, esquemas, currículo y su asociación con la evaluación |
+| `cursos/<curso>/contenidos-en.js` | Los mismos contenidos en inglés (solo textos; opcional) |
+| `tools/nuevo_curso.py` | Crea la carpeta y el registro de un curso nuevo |
 | `tools/validar_ingles.js` | Comprueba que la versión inglesa encaja con la castellana |
 | `index.html` | El juego: diseño, personajes, mecánicas y panel del docente |
-| `google-classroom/` | Versión que guarda el progreso en la nube, con su guía de instalación |
-| `tools/build_classroom.py` | Genera la versión de Google Classroom a partir de los dos archivos anteriores |
+| `google-classroom/` | Versión que guarda el progreso en la nube (una carpeta por curso), con su guía de instalación |
+| `tools/build_classroom.py` | Genera la versión de Google Classroom de cada curso |
 | `tools/fichas/` | Generador de las fichas en papel (PDF) y sus tipografías |
-| `fichas/` | Fichas en PDF ya generadas y su solucionario |
+| `fichas/<curso>/` | Fichas en PDF ya generadas y su solucionario |
 
 ---
 
