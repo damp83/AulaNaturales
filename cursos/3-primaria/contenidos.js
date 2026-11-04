@@ -288,7 +288,16 @@ const CURSO = {
   temas: [
     { id:'cuerpo3', n:1, title:'Agentes del cuerpo humano', short:'Funciones vitales, órganos, movimiento, etapas y salud', pages:'Págs. 6-23',
       color:'--lung', icon:'person', starsBadge:'Constelación humana',
-      missions: T1_MISIONES, boss: T1_JEFE },
+      missions: T1_MISIONES, boss: T1_JEFE,
+      /* Minijuego de premio: se desbloquea al vencer al jefe del tema (ok = respuesta correcta) */
+      minijuego: { tipo:'carrera', titulo:'Carrera saludable', preguntas:[
+        {q:'¿Cuántas horas conviene dormir a tu edad?', ok:'Unas 10 horas', no:'Unas 5 horas'},
+        {q:'¿Qué hábito ayuda a evitar enfermedades?', ok:'La higiene', no:'Comer golosinas'},
+        {q:'¿Cómo debes sentarte en la silla?', ok:'Con la espalda recta', no:'Encorvado'},
+        {q:'¿Qué es el ocio?', ok:'Lo que hacemos en el tiempo libre', no:'Hacer los deberes'},
+        {q:'¿Qué mejora nuestra salud?', ok:'Hacer ejercicio a menudo', no:'Estar siempre sentado'},
+        {q:'¿Qué hay que hacer con la fruta antes de comerla?', ok:'Lavarla', no:'Guardarla en la mochila'},
+        {q:'Cuando tenemos salud, estamos…', ok:'Alegres y relajados', no:'Cansados y tristes'} ] } },
     { id:'animales3', n:2, title:'Patrulla animal', short:'Funciones vitales, vertebrados, moluscos e insectos', pages:'Págs. 24-43',
       color:'--ok', icon:'paw', starsBadge:'Estrella salvaje',
       missions: T2_MISIONES, boss: T2_JEFE },

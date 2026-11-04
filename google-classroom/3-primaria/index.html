@@ -455,6 +455,43 @@ td.num-c{font-variant-numeric:tabular-nums}
 .tema-toggles{display:grid;gap:8px;padding:14px}
 .tema-toggles .switch{justify-content:space-between;flex-wrap:wrap}
 .unlock-banner{background:var(--c);color:var(--edge);border:3px solid var(--edge);border-radius:18px;padding:12px 18px;font-family:var(--f-game);font-size:1.3rem;width:100%;box-shadow:inset 0 -5px 0 var(--cd),0 5px 0 var(--edge);animation:zoomin .5s 1s backwards}
+/* Minijuegos de premio */
+.mini-stage{position:relative;overflow:hidden;border-radius:22px;border:3px solid var(--edge);box-shadow:0 6px 0 var(--edge);margin-top:16px;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.mini-stage canvas{display:block;width:100%;height:clamp(300px,52vw,500px);cursor:pointer}
+.mini-hud{position:absolute;inset:10px 10px auto 10px;display:flex;align-items:center;gap:10px;pointer-events:none}
+.mini-hud .iconbtn{pointer-events:auto;width:44px;height:44px;font-size:1rem}
+.mini-hearts{font-size:1.5rem;letter-spacing:.05em;filter:drop-shadow(0 2px 0 var(--edge))}
+.mini-pill{font-family:var(--f-game);font-size:1.15rem;background:var(--edge);border-radius:999px;padding:4px 14px;font-variant-numeric:tabular-nums}
+.mini-track{flex:1;min-width:60px;height:14px;border-radius:999px;background:var(--edge);overflow:hidden;position:relative}
+.mini-track i{position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,var(--ok),var(--gold));border-radius:999px}
+.mini-q{position:absolute;left:50%;top:60px;transform:translateX(-50%);width:min(92%,640px);padding:10px 16px;text-align:center;pointer-events:none}
+.mini-q b{font-family:var(--f-game);font-weight:400;font-size:clamp(1.1rem,3.6vw,1.6rem);display:block;line-height:1.15}
+.mini-q small{display:block;color:var(--ink-soft);font-size:.95rem;margin-top:4px}
+.mini-toast{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);font-family:var(--f-game);font-size:1.2rem;background:var(--edge);border-radius:14px;padding:6px 16px;white-space:nowrap;pointer-events:none}
+.mini-over{position:absolute;inset:0;display:grid;place-items:center;padding:14px;background:rgba(6,18,42,.55);overflow-y:auto}
+.mini-card{max-width:560px;width:100%;padding:18px;display:grid;gap:12px;justify-items:center;text-align:center}
+.mini-card p{margin:0;color:var(--ink-soft)}
+.mini-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%}
+.mini-legend div{background:var(--night-2);border:3px solid var(--edge);border-radius:16px;padding:8px 10px}
+.mini-legend b{font-family:var(--f-game);font-weight:400;display:block}
+.mini-legend .good b{color:var(--ok)} .mini-legend .bad b{color:var(--bad)}
+.mini-legend span{font-size:1.4rem;letter-spacing:.1em}
+.mini-stars .icon{width:44px;height:44px;color:var(--edge);fill:var(--panel)}
+.mini-stars .icon.on{fill:var(--gold)}
+.mini-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+.mini-stats div{background:var(--night-2);border:3px solid var(--edge);border-radius:16px;padding:8px}
+.mini-stats b{font-family:var(--f-game);font-weight:400;font-size:1.6rem;display:block;font-variant-numeric:tabular-nums}
+.mini-stats span{font-size:.85rem;color:var(--ink-soft)}
+.mini-got{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.mini-got span{background:var(--night-2);border:2px solid var(--edge);border-radius:999px;padding:1px 10px;font-size:.9rem}
+.mini-controls{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:14px}
+.mini-controls p{margin:0;color:var(--ink-soft);flex:1 1 240px;min-width:0}
+#mj-jump{min-width:180px;font-size:1.5rem}
+.extra.is-locked{opacity:.7}
+.mini-stage.card-mode{border:0;box-shadow:none;overflow:visible}
+.mini-stage.card-mode canvas,.mini-stage.card-mode .mini-hud,.mini-stage.card-mode .mini-q,.mini-stage.card-mode .mini-toast{display:none}
+.mini-stage.card-mode .mini-over{position:static;background:none;padding:0}
+@media (max-width:700px){ .mini-stage canvas{height:clamp(300px,92vw,440px)} .mini-q{top:54px;padding:8px 12px} .mini-q small{display:none} #mj-jump{flex:1 1 100%} }
 </style>
 </head>
 <body>
@@ -471,6 +508,7 @@ td.num-c{font-variant-numeric:tabular-nums}
   <section id="view-badges" class="view" hidden></section>
   <section id="view-teacher" class="view" hidden></section>
   <section id="view-esquemas" class="view" hidden></section>
+  <section id="view-mini" class="view" hidden></section>
 </main>
 <div id="splash" hidden></div>
 <div id="feedback" class="feedback" role="status" hidden>
@@ -546,6 +584,7 @@ const ICONS = {
   back:'<path d="M15 18 9 12l6-6"/>',
   close:'<path d="M18 6 6 18M6 6l12 12"/>',
   teacher:'<path d="M3 5h18v11H3z"/><path d="M8 21l4-5 4 5M7 9h6M7 12h4"/>',
+  game:'<rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10.5v4M5 12.5h4"/><circle cx="15.5" cy="11.5" r="1"/><circle cx="18" cy="14" r="1"/>',
   chest:'<path d="M3 10h18v10H3z"/><path d="M3 10a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5"/><path d="M10 12h4v3h-4z"/>'
 };
 const ico = (n, cls='') => `<svg class="icon ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]||ICONS.star}</svg>`;
@@ -700,13 +739,72 @@ function pushNow(){
     .withFailureHandler(()=>{ pushing=false; toast(tr('No se ha podido guardar. Comprueba la conexión a internet.')); setTimeout(schedulePush, 5000); })
     .saveProgress(JSON.stringify(p), summaryOf(p));
 }
-function cloudSettings(){ if(CLOUD && ME && ME.teacher) google.script.run.withFailureHandler(()=>toast(tr('No se ha podido guardar el ajuste.'))).setSettings({free:!!S.free, open:S.open||{}, lang:S.classLang||null}); }
+function cloudSettings(){ if(CLOUD && ME && ME.teacher) google.script.run.withFailureHandler(()=>toast(tr('No se ha podido guardar el ajuste.'))).setSettings({free:!!S.free, open:S.open||{}, lang:S.classLang||null, mini:S.mini!==false}); }
 let S = load(); S.open = S.open || {};
 if(S.voice && !S.voice_es){ S.voice_es = S.voice; delete S.voice; }
 /* ---------- Idiomas (castellano / inglés) ----------
    tr('texto en castellano', {variables}) devuelve el texto en el idioma del juego.
    Los textos de la interfaz en inglés están en UI_EN; los contenidos, en contenidos-en.js. */
 const UI_EN = {
+  /* Minijuegos de premio */
+  'Fruta':'Fruit',
+  'Verdura':'Vegetables',
+  'Agua':'Water',
+  'Dientes limpios':'Clean teeth',
+  'Manos limpias':'Clean hands',
+  'Ejercicio':'Exercise',
+  'Jugar al aire libre':'Playing outdoors',
+  'Dormir 10 horas':'Sleeping 10 hours',
+  'Leer un cuento':'Reading a story',
+  'Pescado':'Fish',
+  'Golosinas a todas horas':'Sweets all day',
+  'Muchos fritos':'Lots of fried food',
+  'Refrescos':'Fizzy drinks',
+  'Pantallas sin parar':'Endless screens',
+  'Bollería':'Pastries',
+  'alimentación adecuada':'healthy eating',
+  'beber agua':'drinking water',
+  'higiene':'hygiene',
+  'ejercicio físico':'exercise',
+  'descanso':'rest',
+  'ocio':'free time',
+  'Vence al {v} para desbloquearlo.':'Defeat {v} to unlock it.',
+  'Tu récord: {n} puntos':'Your record: {n} points',
+  '¡Desbloqueado! Pulsa para jugar.':'Unlocked! Tap to play.',
+  'Premio':'Prize',
+  'Pista de la carrera. Toca para saltar.':'Race track. Tap to jump.',
+  'Pausa':'Pause',
+  'Seguir':'Resume',
+  '⬆️ Salta para la de ARRIBA · ➡️ sigue por el suelo para la de ABAJO':'⬆️ Jump for the TOP one · ➡️ stay on the ground for the BOTTOM one',
+  'Recoge los hábitos sanos y salta los demás. Si te chocas, pierdes un corazón.':'Collect the healthy habits and jump over the others. If you bump into one, you lose a heart.',
+  'Saltar':'Jump',
+  'Corre por el parque, recoge los hábitos que te dan salud y salta los que no. En las puertas de pregunta, salta para cruzar la de arriba o sigue por el suelo para la de abajo.':'Run through the park, collect the habits that keep you healthy and jump over the ones that don\'t. At the question gates, jump to go through the top gate or stay on the ground for the bottom one.',
+  'Recoge':'Collect',
+  'Salta por encima':'Jump over',
+  '¡A correr!':'Ready, set, go!',
+  'Arriba: {a}. Abajo: {b}.':'Top: {a}. Bottom: {b}.',
+  '¡Correcto! +50':'Correct! +50',
+  'Era: {r}':'The answer was: {r}',
+  '{n}: ¡no!':'{n}: no!',
+  'Toca para seguir':'Tap to continue',
+  'Carrera terminada':'Race finished',
+  'Te has quedado sin energía':'You ran out of energy',
+  '¡Meta!':'Finish!',
+  '¡Casi!':'Almost!',
+  'puntos':'points',
+  'preguntas':'questions',
+  'tu récord':'your record',
+  '¡Nuevo récord!':'New record!',
+  'Esta vez no has recogido hábitos sanos':'You didn\'t collect any healthy habits this time',
+  'Has practicado: {l}. ¡Así se cuida la salud!':'You practised: {l}. That\'s how to stay healthy!',
+  'Recuerda: higiene, ejercicio, ocio y descanso, buena alimentación y buena postura.':'Remember: hygiene, exercise, free time and rest, healthy eating and good posture.',
+  'Jugar otra vez':'Play again',
+  'Premio: {t}':'Prize: {t}',
+  '¡Premio desbloqueado: {t}!':'Prize unlocked: {t}!',
+  'Jugar al premio':'Play the prize game',
+  'Minijuegos de premio: se desbloquean al vencer al jefe final de un tema':'Prize mini-games: unlocked by defeating a topic\'s final boss',
+  'Minijuegos activados':'Mini-games on',
+  'Minijuegos desactivados':'Mini-games off',
   // Generales y navegación
   'Tema':'Topic', 'Misión':'Mission', 'Jefe final':'Final boss', 'jefe final':'final boss', 'jefe':'boss', 'Jefe':'Boss', 'Libro':'Book',
   'Volver':'Back', 'Volver al mapa':'Back to the map', 'Volver al mapa ▶':'Back to the map ▶', 'Volver al mapa del tema':'Back to the topic map',
@@ -1288,10 +1386,12 @@ function renderMap(){
           <span class="side"><span class="stars" aria-label="${tr('{n} de 3 estrellas',{n:st})}">${[0,1,2].map(k=>ico('star', k<st?'on':'')).join('')}</span><span class="play-tag">${tr(open?(st?'Repetir':'¡Jugar!'):'Bloqueada')}</span></span>
         </button>`; }).join('')}
         ${CT.missions.some(m=>(m.ch||[]).some(c=>c.t==='esquema')) ? `<button class="extra" data-act="esquemas" type="button" style="--c:var(--gold);--cd:var(--gold-d)"><span class="coin">${ico('map')}</span><span><b>${tr('Esquemas del tema')}</b><small>${tr('Repasa los esquemas que has completado')}</small></span></button>` : ''}
+        ${miniButtonHTML(CT)}
         <button class="btn dark" data-act="course2" type="button">${ico('map')} ${tr('Mapa del curso')}</button>
       </div>
     </div>`;
   bindHud(v, renderMap);
+  const mb=v.querySelector('[data-act="mini"]'); if(mb) mb.onclick = ()=>{ if(miniUnlocked(CT)){ sfx('coin'); openMini(CT); } else { const m=tr('Vence al {v} para desbloquearlo.',{v:CT.boss.villain||tr('jefe final')}); sfx('bad'); toast(m); speak(m); } };
   v.querySelector('[data-act="course"]').onclick = goCourse;
   v.querySelector('[data-act="course2"]').onclick = goCourse;
   const eb=v.querySelector('[data-act="esquemas"]'); if(eb) eb.onclick = renderEsquemas;
@@ -1596,6 +1696,7 @@ function finish(success){
     unlockMsg = hasContent(nextT) && !nextWasOpen ? tr('¡Nuevo tema desbloqueado! Tema {n}: {t}',{n:nextT.n,t:nextT.title}) : !hasContent(nextT) ? tr('¡Tema {a} superado! El tema {b} llegará pronto.',{a:CT.n,b:nextT.n}) : '';
   }
   $('#feedback').hidden = true;
+  const miniPrize = w.boss && success && CT.minijuego && miniOn();
   const go = () => {
     const v=$('#view-result'); v.setAttribute('style', cvars(w));
     const banner = tr(!success ? '¡Casi lo consigues!' : w.boss ? '¡Jefe derrotado!' : '¡Misión superada!');
@@ -1611,15 +1712,18 @@ function finish(success){
         <div class="panel"><b class="outline-sm">${M.bestCombo}</b><small>${tr('mejor racha')}</small></div>
       </div>
       ${unlockMsg ? `<div class="unlock-banner" style="${ut}">${esc(unlockMsg)}</div>` : ''}
+      ${miniPrize ? `<div class="unlock-banner" style="--c:var(--ok);--cd:var(--ok-d)">${esc(tr(wasBeaten?'Premio: {t}':'¡Premio desbloqueado: {t}!',{t:CT.minijuego.titulo}))}</div>` : ''}
       ${after.n>before.n ? `<div class="levelup outline-sm">${tr('¡SUBES AL NIVEL {n}!',{n:after.n})} · ${after.name}</div>` : ''}
       ${news.length ? `<div class="chest panel"><h3 class="outline-sm">${ico('chest')} ${tr('¡Cofre de insignias!')}</h3>${news.map((b,k)=>`<div class="new-badge" style="animation-delay:${1+k*.3}s"><span class="medal" style="${badgeStyle(b)}">${ico(b.icon)}</span><span><b style="font-family:var(--f-game);font-weight:400;font-size:1.2rem">${esc(b.name)}</b><br><small style="color:var(--ink-soft)">${esc(b.desc)}</small></span></div>`).join('')}</div>` : ''}
       <div class="row" style="justify-content:center">
+        ${miniPrize ? `<button class="btn" type="button" id="r-mini">${ico('game')} ${tr('Jugar al premio')}</button>` : ''}
         ${w.boss && success ? `<button class="btn gold" type="button" id="r-course">${ico('map')} ${tr('Mapa del curso')}</button><button class="btn dark" type="button" id="r-map">${tr('Mapa del tema')}</button>`
           : `<button class="btn gold" type="button" id="r-map">${tr('Volver al mapa ▶')}</button>`}
         <button class="btn dark" type="button" id="r-again">${tr('Repetir')}</button>
       </div></div>`;
     v.querySelector('#r-map').onclick=goMap;
     const rc=v.querySelector('#r-course'); if(rc) rc.onclick=goCourse;
+    const rm=v.querySelector('#r-mini'); if(rm) rm.onclick=()=>openMini(CT);
     v.querySelector('#r-again').onclick=()=>startPlay(w);
     show('view-result');
     const icons=v.querySelectorAll('#bigstars .icon');
@@ -1634,6 +1738,242 @@ function finish(success){
   if(w.boss && success){ $('#virus').classList.add('dead'); sfx('hit'); popText('¡K.O.!', 'var(--virus)'); setTimeout(go, 1100); }
   else go();
 }
+
+/* ---------- Minijuegos de premio ----------
+   Un tema puede tener un minijuego que se desbloquea al vencer a su jefe final (en contenidos.js:
+   minijuego:{ tipo:'carrera', titulo, preguntas:[{q, ok, no}] }). El docente puede desactivarlos.
+   «carrera»: el personaje corre, recoge hábitos saludables, salta los que no lo son y responde
+   preguntas cruzando la puerta de arriba (saltando) o la de abajo (por el suelo). */
+const MINI_BUENOS = [
+  {e:'🍎', n:'Fruta', d:'alimentación adecuada'}, {e:'🥦', n:'Verdura', d:'alimentación adecuada'},
+  {e:'💧', n:'Agua', d:'beber agua'}, {e:'🪥', n:'Dientes limpios', d:'higiene'},
+  {e:'🧼', n:'Manos limpias', d:'higiene'}, {e:'🚲', n:'Ejercicio', d:'ejercicio físico'},
+  {e:'⚽', n:'Jugar al aire libre', d:'ejercicio físico'}, {e:'😴', n:'Dormir 10 horas', d:'descanso'},
+  {e:'📚', n:'Leer un cuento', d:'ocio'}, {e:'🐟', n:'Pescado', d:'alimentación adecuada'}
+];
+const MINI_MALOS = [
+  {e:'🍬', n:'Golosinas a todas horas'}, {e:'🍟', n:'Muchos fritos'}, {e:'🥤', n:'Refrescos'},
+  {e:'📱', n:'Pantallas sin parar'}, {e:'🍩', n:'Bollería'}
+];
+const miniOn = () => S.mini !== false;
+const miniUnlocked = t => S.free || temaBeaten(P(), t);
+const miniRec = (p, t) => (p.mini && p.mini[t.id]) || null;
+let MG = null;
+
+function miniButtonHTML(t){
+  if(!t.minijuego || !miniOn()) return '';
+  const open = miniUnlocked(t), rec = miniRec(P(), t);
+  const sub = !open ? tr('Vence al {v} para desbloquearlo.',{v:t.boss.villain||tr('jefe final')}) : rec ? tr('Tu récord: {n} puntos',{n:rec.best}) : tr('¡Desbloqueado! Pulsa para jugar.');
+  return `<button class="extra ${open?'':'is-locked'}" data-act="mini" type="button" style="--c:var(--ok);--cd:var(--ok-d)" ${open?'':'aria-disabled="true"'}><span class="coin">${ico(open?'game':'lock')}</span><span><b>${tr('Premio')}: ${esc(t.minijuego.titulo)}</b><small>${sub}</small></span></button>`;
+}
+
+function openMini(t){
+  const v=$('#view-mini'), mj=t.minijuego;
+  v.setAttribute('style', cvars(t));
+  v.innerHTML = `${hudHTML()}
+    <div class="topbar" style="margin:20px 0 0"><button class="iconbtn" data-act="back" type="button" aria-label="${tr('Volver al mapa del tema')}">${ico('back')}</button><h1 class="outline">${esc(mj.titulo)}</h1></div>
+    <div class="mini-stage" id="mj-stage">
+      <canvas id="mj-cv" aria-label="${tr('Pista de la carrera. Toca para saltar.')}"></canvas>
+      <div class="mini-hud"><span class="mini-hearts" id="mj-hearts"></span><span class="mini-pill" id="mj-score">0</span><div class="mini-track" aria-hidden="true"><i id="mj-prog"></i></div><button class="iconbtn" id="mj-pause" type="button" aria-label="${tr('Pausa')}">❚❚</button></div>
+      <div class="mini-q panel" id="mj-q" hidden><b id="mj-qt"></b><small>${tr('⬆️ Salta para la de ARRIBA · ➡️ sigue por el suelo para la de ABAJO')}</small></div>
+      <div class="mini-toast" id="mj-toast" hidden></div>
+      <div class="mini-over" id="mj-over"></div>
+    </div>
+    <div class="mini-controls" id="mj-controls"><p>${tr('Recoge los hábitos sanos y salta los demás. Si te chocas, pierdes un corazón.')}</p><button class="btn" id="mj-jump" type="button">⬆️ ${tr('Saltar')}</button></div>`;
+  bindHud(v, ()=>{ miniStop(); openMini(t); });
+  v.querySelector('[data-act="back"]').onclick = ()=>{ miniStop(); goMap(); };
+  const cv=v.querySelector('#mj-cv');
+  const jumpEv = e=>{ e.preventDefault(); miniJump(); };
+  cv.addEventListener('pointerdown', jumpEv); v.querySelector('#mj-jump').addEventListener('pointerdown', jumpEv);
+  v.querySelector('#mj-pause').onclick = miniPause;
+  MG = { t, cv, cx:cv.getContext('2d'), img:null, state:'intro' };
+  const im = new Image(); im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(avatarSVG(P().avatar).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="240" ')); MG.img = im;
+  show('view-mini'); miniResize(); miniIntro();
+}
+function miniCards(on){ $('#mj-stage').classList.toggle('card-mode', on); $('#mj-controls').hidden = on; }
+function miniIntro(){
+  const o=$('#mj-over'); o.hidden=false; miniCards(true);
+  o.innerHTML = `<div class="mini-card panel">
+    <p>${tr('Corre por el parque, recoge los hábitos que te dan salud y salta los que no. En las puertas de pregunta, salta para cruzar la de arriba o sigue por el suelo para la de abajo.')}</p>
+    <div class="mini-legend"><div class="good"><b>＋ ${tr('Recoge')}</b><span>🍎🥦💧🪥🚲😴</span></div><div class="bad"><b>✕ ${tr('Salta por encima')}</b><span>🍬🍟🥤📱🍩</span></div></div>
+    <button class="btn gold" id="mj-go" type="button">${tr('¡A correr!')}</button></div>`;
+  o.querySelector('#mj-go').onclick = miniStart;
+  miniNew();
+}
+function miniResize(){
+  if(!MG) return; const r=MG.cv.getBoundingClientRect(); if(!r.width) return;
+  MG.dpr=Math.min(window.devicePixelRatio||1,2); MG.cv.width=Math.round(r.width*MG.dpr); MG.cv.height=Math.round(r.height*MG.dpr);
+  MG.H=360; MG.W=MG.H*r.width/r.height; MG.GROUND=MG.H-62; MG.PX=Math.max(90, MG.W*.17);
+}
+addEventListener('resize', ()=>{ if(MG && !$('#view-mini').hidden){ miniResize(); if(MG.g) miniDraw(); } });
+function miniNew(){
+  const qs = [...MG.t.minijuego.preguntas].sort(()=>Math.random()-.5).slice(0,3);
+  MG.g = { t:0, speed:190, dist:0, score:0, hearts:3, inv:0, y:MG.GROUND, vy:0, jumps:0, onGround:true, squash:0,
+    items:[], parts:[], floats:[], next:1.2, got:{}, hits:0, qok:0, nq:qs.length, paused:false, over:false, shake:0,
+    gates: qs.map((q,i)=>({at:[18,40,60][i], q, top:Math.random()<.5, state:'wait'})) };
+  miniHud();
+}
+function miniStart(){ $('#mj-over').hidden=true; miniCards(false); miniResize(); miniNew(); MG.state='play'; MG.last=performance.now(); sfx('go'); cancelAnimationFrame(MG.raf); MG.raf=requestAnimationFrame(miniLoop); }
+function miniStop(){ if(MG){ cancelAnimationFrame(MG.raf); MG.state='off'; } try{ speechSynthesis.cancel(); }catch(e){} }
+function miniJump(){
+  if(!MG || MG.state!=='play') return; const g=MG.g;
+  if(g.paused) return miniPause();
+  if(g.onGround || g.jumps<2){ g.vy=-670*(g.jumps===1?.85:1); g.jumps++; g.onGround=false; if(S.sound) try{ const t=ac().currentTime; tone(330,t,.08,'square',.05); tone(660,t+.06,.08,'square',.05); }catch(e){} }
+}
+function miniPause(){ if(!MG || MG.state!=='play') return; const g=MG.g; g.paused=!g.paused; $('#mj-pause').textContent=g.paused?'▶':'❚❚'; $('#mj-pause').setAttribute('aria-label', tr(g.paused?'Seguir':'Pausa')); miniDraw(); }
+function miniToast(txt, ms=1300){ const t=$('#mj-toast'); if(!t) return; t.textContent=txt; t.hidden=false; clearTimeout(miniToast.h); miniToast.h=setTimeout(()=>t.hidden=true, ms); }
+function miniBurst(x,y,col,n=10){ if(reduced()) n=4; for(let i=0;i<n;i++) MG.g.parts.push({x,y,vx:(Math.random()-.5)*320,vy:-40-Math.random()*220,life:.4+Math.random()*.4,col,s:Math.random()<.5?4:6}); }
+function miniHud(){ const g=MG.g; $('#mj-hearts').textContent='❤️'.repeat(Math.max(0,g.hearts))+'🤍'.repeat(3-Math.max(0,g.hearts)); $('#mj-score').textContent=g.score; $('#mj-prog').style.width=Math.min(100,g.t/75*100)+'%'; }
+function miniLoop(ts){
+  if(!MG || MG.state!=='play') return;
+  if($('#view-mini').hidden){ miniStop(); return; }
+  const dt=Math.min(.05,(ts-MG.last)/1000||0); MG.last=ts;
+  if(!MG.g.paused) miniUpdate(dt);
+  if(MG.state==='play'){ miniDraw(); MG.raf=requestAnimationFrame(miniLoop); }
+}
+function miniUpdate(dt){
+  const g=MG.g, {W,GROUND,PX}=MG, DUR=75;
+  g.t+=dt;
+  const gate=g.gates.find(q=>q.state==='run');
+  g.speed += ((gate?130:190+Math.min(g.t,DUR)*1.4) - g.speed)*Math.min(1,dt*2);
+  g.dist += g.speed*dt;
+  for(const q of g.gates){
+    if(q.state==='wait' && g.t>=q.at-3.2){ q.state='announce'; $('#mj-qt').textContent=q.q.q; $('#mj-q').hidden=false; speak(q.q.q); }
+    if(q.state==='announce' && g.t>=q.at){
+      q.state='run'; const up=q.top?q.q.ok:q.q.no, down=q.top?q.q.no:q.q.ok;
+      g.items.push({kind:'gate', q, x:W+60, up, down}); speak(tr('Arriba: {a}. Abajo: {b}.',{a:up,b:down}));
+    }
+  }
+  if(!g.onGround){ g.vy+=1500*dt; g.y+=g.vy*dt; if(g.y>=GROUND){ g.y=GROUND; g.vy=0; g.onGround=true; g.jumps=0; g.squash=1; miniBurst(PX,GROUND,'#E8C590',5); } }
+  g.squash=Math.max(0,g.squash-dt*5); g.inv=Math.max(0,g.inv-dt); g.shake=Math.max(0,g.shake-dt*3);
+  g.next-=dt;
+  if(g.next<=0 && g.t<DUR-2){
+    if(g.gates.some(q=>q.state==='announce'||q.state==='run')) g.next=.6;
+    else {
+      if(Math.random()<.62){ const it=MINI_BUENOS[Math.floor(Math.random()*MINI_BUENOS.length)], air=Math.random()<.45; g.items.push({kind:'good',it,x:W+40,y:air?GROUND-150:GROUND-34,r:24,bob:Math.random()*6}); }
+      else { const it=MINI_MALOS[Math.floor(Math.random()*MINI_MALOS.length)]; g.items.push({kind:'bad',it,x:W+40,y:GROUND-30,r:24,bob:0}); }
+      g.next=(.75+Math.random()*.6)*250/g.speed+.25;
+    }
+  }
+  const pTop=g.y-96, pBot=g.y, pL=PX-20, pR=PX+20;
+  for(const o of g.items){
+    o.x-=g.speed*dt;
+    if(o.kind==='gate'){
+      if(!o.done && Math.abs(o.x-PX)<75 && g.y<GROUND-60) o.air=true;
+      if(!o.done && o.x<PX-75){
+        o.done=true; $('#mj-q').hidden=true;
+        if(!!o.air===o.q.top){ g.qok++; g.score+=50; sfx('ok'); miniToast(tr('¡Correcto! +50')); miniBurst(PX,g.y-60,'#FFC93C',18); }
+        else { sfx('bad'); miniToast(tr('Era: {r}',{r:o.q.q.ok}), 2200); }
+      }
+      continue;
+    }
+    if(o.hit) continue;
+    const oy=o.y+Math.sin(g.t*4+o.bob)*(o.kind==='good'?5:0), r=o.kind==='bad'?17:o.r;
+    if(!(o.x+r>pL && o.x-r<pR && oy+r>pTop && oy-r<pBot)) continue;
+    if(o.kind==='good'){ o.hit=true; g.score+=10; g.got[o.it.e]=(g.got[o.it.e]||0)+1; sfx('coin'); miniBurst(o.x,oy,'#43D166'); g.floats.push({x:o.x,y:oy-30,txt:tr(o.it.n),life:1.1,col:'#43D166'}); }
+    else if(g.inv<=0){
+      o.hit=true; g.hearts--; g.hits++; g.inv=1.2; g.shake=1; sfx('hit'); miniBurst(o.x,oy,'#FF5A5A',12);
+      g.floats.push({x:o.x,y:oy-36,txt:tr('{n}: ¡no!',{n:tr(o.it.n)}),life:1.3,col:'#FF5A5A'});
+      if(g.hearts<=0){ miniHud(); return miniFinish(false); }
+    }
+  }
+  g.items=g.items.filter(o=>o.x>-200 && !(o.hit && o.kind==='good'));
+  for(const p of g.parts){ p.vy+=900*dt; p.x+=p.vx*dt-g.speed*dt*.3; p.y+=p.vy*dt; p.life-=dt; } g.parts=g.parts.filter(p=>p.life>0);
+  for(const f of g.floats){ f.y-=40*dt; f.life-=dt; } g.floats=g.floats.filter(f=>f.life>0);
+  if(g.onGround && !reduced() && Math.random()<dt*10) g.parts.push({x:PX-22,y:GROUND-2,vx:-40-Math.random()*80,vy:-20-Math.random()*60,life:.35,col:'#E8C590',s:4});
+  miniHud();
+  if(g.t>=DUR) miniFinish(true);
+}
+function miniDraw(){
+  const {cx,W,H,GROUND,PX,g}=MG; if(!W) return;
+  const px=n=>Math.round(n/4)*4;
+  cx.setTransform(MG.cv.width/W,0,0,MG.cv.height/H,0,0);
+  cx.save(); if(g.shake>0 && !reduced()) cx.translate(Math.sin(g.t*80)*g.shake*5,0);
+  const sky=cx.createLinearGradient(0,0,0,H); sky.addColorStop(0,'#10274D'); sky.addColorStop(.55,'#1F5A8A'); sky.addColorStop(1,'#3FB6FF');
+  cx.fillStyle=sky; cx.fillRect(0,0,W,H);
+  cx.fillStyle='#FFC93C'; const sx=W*.78; for(let y=-28;y<=28;y+=4) for(let x=-28;x<=28;x+=4) if(x*x+y*y<=784) cx.fillRect(sx+x,70+y,4,4);
+  cx.fillStyle='rgba(255,255,255,.85)';
+  for(let i=0;i<4;i++){ const x=px(((i*260-g.dist*.08)%(W+240)+W+240)%(W+240)-120), y=40+(i%2)*38; [[0,8,48,12],[8,0,28,8],[12,20,36,4]].forEach(([a,b,c,d])=>cx.fillRect(x+a,y+b,c,d)); }
+  [[.18,'#1C6E73',110,46,300],[.35,'#23935A',74,30,190]].forEach(([f,col,hg,amp,per])=>{ cx.fillStyle=col; const off=g.dist*f; for(let x=0;x<W+8;x+=8){ const y=GROUND-18-hg+Math.sin((x+off)/per*Math.PI*2)*amp*.5+Math.sin((x+off)/(per*.37))*amp*.25; cx.fillRect(x,px(y),8,H); } });
+  const toff=(g.dist*.55)%170;
+  for(let x=-toff;x<W+170;x+=170){ cx.fillStyle='#7A4E2D'; cx.fillRect(px(x+40),GROUND-70,12,50); cx.fillStyle='#1F8A3B'; cx.beginPath(); cx.arc(x+46,GROUND-84,30,0,7); cx.fill(); cx.fillStyle='#43D166'; cx.beginPath(); cx.arc(x+38,GROUND-92,14,0,7); cx.fill(); }
+  cx.fillStyle='#43D166'; cx.fillRect(0,GROUND-18,W,16);
+  cx.fillStyle='#1F8A3B'; for(let x=-(g.dist%24);x<W;x+=24){ cx.fillRect(px(x),GROUND-22,4,6); cx.fillRect(px(x+10),GROUND-20,4,4); }
+  cx.fillStyle='#C98A55'; cx.fillRect(0,GROUND-2,W,H-GROUND+2);
+  cx.fillStyle='#E8C590'; for(let x=-(g.dist%60);x<W;x+=60) cx.fillRect(px(x),GROUND+24,32,6);
+  cx.fillStyle='#A86E3E'; for(let x=-(g.dist%36);x<W;x+=36) cx.fillRect(px(x+12),GROUND+44,8,4);
+  const rr=(x,y,w,h,r)=>{ cx.beginPath(); if(cx.roundRect) cx.roundRect(x,y,w,h,r); else cx.rect(x,y,w,h); };
+  const emoji=(e,x,y,s)=>{ cx.font=`${s}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(e,x,y); };
+  for(const o of g.items){
+    if(o.kind==='gate'){
+      const w=150;
+      [[o.up,100,GROUND-128],[o.down,GROUND-108,GROUND-6]].forEach(([txt,y0,y1],i)=>{
+        let col=i===0?'#2079C7':'#D63B50'; if(o.done) col=((i===0)===o.q.top)?'#43D166':'#5A6B85';
+        cx.fillStyle='rgba(6,18,42,.55)'; rr(o.x-w/2,y0,w,y1-y0,16); cx.fill(); cx.strokeStyle=col; cx.lineWidth=8; cx.stroke();
+        cx.fillStyle=col; rr(o.x-w/2-6,i===0?y1-46:y0-4,w+12,50,12); cx.fill(); cx.strokeStyle='#06122A'; cx.lineWidth=3; cx.stroke();
+        cx.fillStyle='#fff'; cx.font='18px "Lilita One", sans-serif'; cx.textAlign='center'; cx.textBaseline='middle';
+        const words=String(txt).split(' '), lines=[]; let l=''; for(const wd of words){ const tt=l?l+' '+wd:wd; if(cx.measureText(tt).width>w-10 && l){ lines.push(l); l=wd; } else l=tt; } lines.push(l);
+        const cy=i===0?y1-21:y0+21; lines.slice(0,2).forEach((ln,k,a)=>cx.fillText(ln,o.x,cy+(k-(a.length-1)/2)*19));
+        cx.font='22px sans-serif'; cx.fillText(i===0?'⬆️':'➡️',o.x,i===0?y0+28:y1-24);
+      });
+      continue;
+    }
+    if(o.hit) continue;
+    const good=o.kind==='good', y=o.y+Math.sin(g.t*4+o.bob)*(good?5:0), ring=good?'#43D166':'#FF5A5A', R=30+(good?Math.sin(g.t*6+o.bob)*1.5:0);
+    cx.fillStyle='rgba(6,18,42,.35)'; cx.beginPath(); cx.ellipse(o.x, good&&o.y<GROUND-60?y+R+14:GROUND+4, R*.8, 6, 0, 0, 7); cx.fill();
+    cx.beginPath(); cx.arc(o.x,y,R+3,0,7); cx.fillStyle='#06122A'; cx.fill();
+    cx.beginPath(); cx.arc(o.x,y,R,0,7); cx.fillStyle=ring; cx.fill();
+    cx.beginPath(); cx.arc(o.x,y,R-6,0,7); cx.fillStyle='#FFFFFF'; cx.fill();
+    emoji(o.it.e,o.x,y+2,34);
+    const bx=o.x+R*.72, by=y-R*.72;
+    cx.beginPath(); cx.arc(bx,by,11,0,7); cx.fillStyle='#06122A'; cx.fill(); cx.beginPath(); cx.arc(bx,by,8.5,0,7); cx.fillStyle=ring; cx.fill();
+    cx.strokeStyle='#FFFFFF'; cx.lineWidth=3; cx.lineCap='round'; cx.beginPath();
+    if(good){ cx.moveTo(bx-4,by); cx.lineTo(bx+4,by); cx.moveTo(bx,by-4); cx.lineTo(bx,by+4); } else { cx.moveTo(bx-3.5,by-3.5); cx.lineTo(bx+3.5,by+3.5); cx.moveTo(bx+3.5,by-3.5); cx.lineTo(bx-3.5,by+3.5); }
+    cx.stroke();
+  }
+  const run=g.onGround?Math.sin(g.t*18):0, sq=g.squash*.18, w=84*(1+sq), h=100*(1-sq);
+  cx.save(); cx.translate(PX, g.y+(g.onGround?-Math.abs(run)*5:0)); cx.rotate(g.onGround?run*.06:Math.max(-.25,Math.min(.25,g.vy/2600)));
+  if(MG.img && MG.img.complete && !(g.inv>0 && Math.floor(g.t*12)%2)) cx.drawImage(MG.img,-w/2,-h,w,h);
+  cx.restore();
+  for(const p of g.parts){ cx.globalAlpha=Math.min(1,p.life*2); cx.fillStyle=p.col; cx.fillRect(px(p.x),px(p.y),p.s,p.s); }
+  cx.globalAlpha=1; cx.font='18px "Lilita One", sans-serif'; cx.textAlign='center'; cx.lineWidth=5; cx.strokeStyle='#06122A';
+  for(const f of g.floats){ cx.globalAlpha=Math.min(1,f.life*2); cx.strokeText(f.txt,f.x,f.y); cx.fillStyle=f.col; cx.fillText(f.txt,f.x,f.y); }
+  cx.globalAlpha=1;
+  if(g.t>72){ const mx=PX+(75-g.t)*g.speed; for(let y=GROUND-150;y<GROUND;y+=12) for(let k=0;k<2;k++){ cx.fillStyle=((y/12+k)%2)?'#fff':'#06122A'; cx.fillRect(mx+k*12,y,12,12); } }
+  if(g.paused){ cx.fillStyle='rgba(6,18,42,.6)'; cx.fillRect(0,0,W,H); cx.fillStyle='#fff'; cx.font='40px "Lilita One", sans-serif'; cx.fillText(tr('Pausa'),W/2,H/2-10); cx.font='20px Andika, sans-serif'; cx.fillText(tr('Toca para seguir'),W/2,H/2+26); }
+  cx.restore();
+}
+function miniFinish(won){
+  const g=MG.g, t=MG.t, p=P(); MG.state='end'; cancelAnimationFrame(MG.raf); $('#mj-q').hidden=true;
+  try{ speechSynthesis.cancel(); }catch(e){}
+  p.mini = p.mini || {};
+  const rec = p.mini[t.id] || {best:0, plays:0, stars:0};
+  const st = !won ? 1 : (g.hits===0 && g.qok===g.nq ? 3 : (g.qok>=2 || g.hits<=1) ? 2 : 1);
+  const gain = Math.round(Math.max(0, g.score-rec.best)/10), record = g.score>rec.best && rec.plays>0;
+  rec.plays++; rec.best=Math.max(rec.best,g.score); rec.stars=Math.max(rec.stars,st); p.mini[t.id]=rec;
+  p.xp += gain; save();
+  const got = Object.entries(g.got).sort((a,b)=>b[1]-a[1]), info = e => MINI_BUENOS.find(b=>b.e===e);
+  const tipos = [...new Set(got.map(([e])=>tr(info(e).d)))];
+  const o=$('#mj-over'); o.hidden=false; miniCards(true); window.scrollTo(0,0);
+  o.innerHTML = `<div class="mini-card panel">
+    <div class="eyebrow">${tr(won?'Carrera terminada':'Te has quedado sin energía')}</div>
+    <h2 class="outline" style="color:var(--gold);font-size:clamp(2rem,6vw,2.8rem)">${tr(won?'¡Meta!':'¡Casi!')}</h2>
+    <div class="mini-stars" aria-label="${tr('{n} de 3 estrellas',{n:st})}">${[0,1,2].map(k=>ico('star',k<st?'on':'')).join('')}</div>
+    <div class="mini-stats"><div><b>${g.score}</b><span>${tr('puntos')}</span></div><div><b>${g.qok}/${g.nq}</b><span>${tr('preguntas')}</span></div><div><b>${rec.best}</b><span>${tr('tu récord')}</span></div></div>
+    ${record ? `<div class="levelup outline-sm">${tr('¡Nuevo récord!')}${gain?' +'+gain+' XP':''}</div>` : gain ? `<div class="levelup outline-sm">+${gain} XP</div>` : ''}
+    <div class="mini-got">${got.length ? got.map(([e,n])=>`<span>${e} ${esc(tr(info(e).n))} ×${n}</span>`).join('') : `<span>${tr('Esta vez no has recogido hábitos sanos')}</span>`}</div>
+    <p>${tipos.length ? tr('Has practicado: {l}. ¡Así se cuida la salud!',{l:tipos.join(', ')}) : tr('Recuerda: higiene, ejercicio, ocio y descanso, buena alimentación y buena postura.')}</p>
+    <div class="row" style="justify-content:center"><button class="btn gold" id="mj-again" type="button">${tr('Jugar otra vez')}</button><button class="btn dark" id="mj-map" type="button">${tr('Mapa del tema')}</button></div></div>`;
+  o.querySelector('#mj-again').onclick = miniStart;
+  o.querySelector('#mj-map').onclick = ()=>{ miniStop(); goMap(); };
+  sfx(won?'win':'bad'); if(st>=2) setTimeout(confetti, 300);
+}
+addEventListener('keydown', e=>{
+  if(!MG || $('#view-mini').hidden || MG.state!=='play') return;
+  if(e.code==='Space' || e.code==='ArrowUp'){ e.preventDefault(); miniJump(); }
+  if(e.code==='Escape' || e.code==='KeyP') miniPause();
+});
+document.addEventListener('visibilitychange', ()=>{ if(document.hidden && MG && MG.state==='play' && !MG.g.paused) miniPause(); });
 
 /* ---------- Zona de calma ---------- */
 let calmTimer = null;
@@ -1865,6 +2205,7 @@ function renderTeacher(){
       </div>
       <p class="note">${tr(VOICES.length ? 'Las voces dependen del dispositivo y del navegador. Las más naturales suelen llamarse «Natural», «Online», «Mejorada» o «Google».' : 'Este navegador todavía no ha cargado sus voces. Pulsa «Probar voz» y vuelve a abrir este panel.')}</p>
       <label class="switch"><input type="checkbox" id="free-mode" ${S.free?'checked':''}> ${tr('Modo libre: todos los temas y misiones desbloqueados')}</label>
+      ${TEMAS.some(t=>t.minijuego) ? `<label class="switch"><input type="checkbox" id="mini-mode" ${miniOn()?'checked':''}> ${tr('Minijuegos de premio: se desbloquean al vencer al jefe final de un tema')}</label>` : ''}
       <p class="note">${tr('Estrellas: 3 con un 85 % de aciertos a la primera, 2 con un 60 % y 1 al terminar. Los contenidos se editan en el archivo <b>contenidos.js</b>.')} <small>(cursos/${CURSO_ACTIVO.id}/)</small></p>
       <h2 class="outline-sm" style="color:var(--gold)">${tr('Autoría y licencia')}</h2>
       <p class="note">${licenciaHTML()}</p>
@@ -1874,6 +2215,7 @@ function renderTeacher(){
   v.querySelector('#voice-sel').onchange = e=>{ S[voiceKey()]=e.target.value||null; save(); speak(tr('¡Hola! Así sonará mi voz.')); };
   v.querySelector('#voice-rate').onchange = e=>{ S.voiceRate=+e.target.value; save(); speak(tr('¡Hola! Así sonará mi voz.')); };
   v.querySelector('#voice-test').onclick = ()=>{ speak(tr('¡Hola! Soy Glo. ¿Preparados para explorar la naturaleza?')); };
+  const mm=v.querySelector('#mini-mode'); if(mm) mm.onchange = e=>{ S.mini=e.target.checked; save(); cloudSettings(); toast(tr(S.mini?'Minijuegos activados':'Minijuegos desactivados')); };
   v.querySelector('#free-mode').onchange = e=>{ S.free=e.target.checked; save(); cloudSettings(); toast(tr(S.free?'Modo libre activado':'Modo libre desactivado')); };
   v.querySelectorAll('[data-open]').forEach(c=>c.onchange=()=>{ S.open[c.dataset.open]=c.checked; save(); cloudSettings(); toast(tr(c.checked?'Tema abierto para la clase':'Tema cerrado')); });
   bindEval(v, list);
@@ -1903,7 +2245,7 @@ if(CLOUD){
   google.script.run
     .withSuccessHandler(st=>{
       ME = st; const set = st.settings || {};
-      S.free = !!set.free; S.open = set.open || {}; S.classLang = set.lang || null;
+      S.free = !!set.free; S.open = set.open || {}; S.classLang = set.lang || null; S.mini = set.mini !== false;
       if(!S.langChosen && set.lang && set.lang!==LANG) setLang(set.lang, true);
       S.profiles = {}; S.current = null;
       if(st.profile){ S.profiles.me = st.profile; S.current = 'me'; }

@@ -739,7 +739,16 @@ const CURSO = {
       missions: TEMA1_MISIONES, boss: TEMA1_JEFE },
     { id:'salud', n:2, title:'Misión: vida sana', short:'Salud, hábitos, alimentación y accidentes', pages:'Págs. 26-41',
       color:'--ok', icon:'heartplus', starsBadge:'Estrella de la salud',
-      missions: TEMA2_MISIONES, boss: TEMA2_JEFE },
+      missions: TEMA2_MISIONES, boss: TEMA2_JEFE,
+      /* Minijuego de premio: se desbloquea al vencer al jefe del tema (ok = respuesta correcta) */
+      minijuego: { tipo:'carrera', titulo:'Carrera saludable', preguntas:[
+        {q:'¿Cuántas horas deben dormir los niños y niñas?', ok:'Unas diez horas', no:'Unas cuatro horas'},
+        {q:'¿Cuándo debemos cepillarnos los dientes?', ok:'Después de cada comida', no:'Una vez a la semana'},
+        {q:'¿Para qué sirven las vacunas?', ok:'Para prevenir enfermedades', no:'Para crecer más'},
+        {q:'¿Qué debemos beber a lo largo del día?', ok:'Agua', no:'Refrescos'},
+        {q:'¿Qué te pones para montar en bici?', ok:'El casco', no:'Unas gafas de sol'},
+        {q:'¿Por dónde cruzamos la calle?', ok:'Por el paso de peatones', no:'Por donde queramos'},
+        {q:'¿Qué fortalece músculos y huesos?', ok:'El ejercicio', no:'Ver la tele'} ] } },
     { id:'animales', n:3, title:'Safari animal', short:'Clasificación de los animales y dónde viven', pages:'Págs. 46-63',
       color:'--food', icon:'paw', starsBadge:'Arca de estrellas',
       missions: TEMA3_MISIONES, boss: TEMA3_JEFE },

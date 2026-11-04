@@ -56,10 +56,19 @@ CURSO.temas.forEach(t => {
     });
   });
 });
+// Minijuegos: mismas preguntas en los dos idiomas
+CURSO.temas.forEach(t => {
+  if (!t.minijuego) return;
+  const e = EN.temas[t.id] && EN.temas[t.id].minijuego;
+  if (!e) { avisos.push(`tema ${t.id}: el minijuego no tiene versión en inglés`); return; }
+  if (!e.titulo) errores.push(`tema ${t.id}: falta el título del minijuego`);
+  if (!e.preguntas || e.preguntas.length !== t.minijuego.preguntas.length) errores.push(`tema ${t.id}: el minijuego tiene ${(e.preguntas || []).length} preguntas en inglés y ${t.minijuego.preguntas.length} en castellano`);
+  else e.preguntas.forEach((q, i) => { if (!q.q || !q.ok || !q.no) errores.push(`tema ${t.id}: pregunta ${i + 1} del minijuego incompleta`); });
+});
 // La aplicación debe poder ir y volver entre idiomas sin perder nada
-const antes = JSON.stringify(CURSO.temas.map(t => (t.missions || []).map(m => m.ch.map(r => r.q))));
+const antes = JSON.stringify(CURSO.temas.map(t => [(t.missions || []).map(m => m.ch.map(r => r.q)), t.minijuego || null]));
 ctx.I.aplicar(CURSO, 'en'); const enQ = CURSO.temas[0].missions[0].ch[0].q; ctx.I.aplicar(CURSO, 'es');
-const despues = JSON.stringify(CURSO.temas.map(t => (t.missions || []).map(m => m.ch.map(r => r.q))));
+const despues = JSON.stringify(CURSO.temas.map(t => [(t.missions || []).map(m => m.ch.map(r => r.q)), t.minijuego || null]));
 if (antes !== despues) errores.push('Al volver al castellano no se recuperan los textos originales');
 if (!/How many/.test(enQ)) errores.push('La traducción no se aplica');
 avisos.forEach(a => console.log('  aviso · ' + a));
