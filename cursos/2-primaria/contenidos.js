@@ -751,7 +751,12 @@ const CURSO = {
         {q:'¿Qué fortalece músculos y huesos?', ok:'El ejercicio', no:'Ver la tele'} ] } },
     { id:'animales', n:3, title:'Safari animal', short:'Clasificación de los animales y dónde viven', pages:'Págs. 46-63',
       color:'--food', icon:'paw', starsBadge:'Arca de estrellas',
-      missions: TEMA3_MISIONES, boss: TEMA3_JEFE },
+      missions: TEMA3_MISIONES, boss: TEMA3_JEFE,
+      /* Minijuego de premio: llevar cada animal al refugio de su grupo (g = posición del refugio, empezando en 0) */
+      minijuego: { tipo:'rescate', titulo:'Rescate en el bosque', refugios:['Mamíferos','Aves','Peces'], animales:[
+        {e:'🐰', n:'Conejo', g:0}, {e:'🐺', n:'Lobo', g:0}, {e:'🐴', n:'Caballo', g:0}, {e:'🐱', n:'Gato', g:0}, {e:'🐮', n:'Vaca', g:0},
+        {e:'🦅', n:'Águila', g:1}, {e:'🦆', n:'Pato', g:1}, {e:'🦉', n:'Búho', g:1}, {e:'🐔', n:'Gallina', g:1}, {e:'🐧', n:'Pingüino', g:1},
+        {e:'🐟', n:'Sardina', g:2}, {e:'🐠', n:'Pez payaso', g:2}, {e:'🦈', n:'Tiburón', g:2}, {e:'🐡', n:'Pez globo', g:2} ] } },
     { id:'plantas', n:4, title:'El reino verde', short:'Partes, tipos, reproducción e importancia de las plantas', pages:'Págs. 64-79',
       color:'--virus', icon:'leaf', starsBadge:'Jardín de estrellas',
       missions: TEMA4_MISIONES, boss: TEMA4_JEFE },

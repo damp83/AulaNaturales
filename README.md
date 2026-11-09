@@ -30,7 +30,7 @@ elegir respuesta, verdadero/falso, seleccionar varias, ordenar secuencias, clasi
 - **Fichas en papel**: en `fichas/<curso>/` (por ejemplo, `fichas/2-primaria/`) están los esquemas en PDF para imprimir y completar a mano (uno por tema y un solucionario), pensados para 2.º de Primaria. Las fichas en inglés están en la subcarpeta `en/`. Se regeneran con `node tools/fichas/generar_fichas.js`.
 - **Evaluación**: nivel de logro (SB, NT, SU, IN) de cada alumno por criterio de evaluación y tema, calculado con el mejor resultado de cada reto. Los criterios y saberes básicos se definen en el `contenidos.js` de cada curso (`CURRICULO`).
 - **Panel del docente**: progreso de cada alumno/a por tema, opción de abrir un tema a toda la clase y *modo libre* para desbloquear todo.
-- **Minijuegos de premio**: al vencer al jefe final de algunos temas se desbloquea un minijuego. *Carrera saludable* (tema 1 de 3.º y tema 2 de 2.º): el alumno corre con su personaje, recoge hábitos saludables, salta los que no lo son y responde preguntas cruzando la puerta de arriba (saltando) o la de abajo (por el suelo). Se guarda el récord de cada alumno y el docente puede desactivar los minijuegos desde su panel.
+- **Minijuegos de premio**: al vencer al jefe final de algunos temas se desbloquea un minijuego. *Carrera saludable* (tema 1 de 3.º y tema 2 de 2.º): el alumno corre con su personaje, recoge hábitos saludables, salta los que no lo son y responde preguntas cruzando la puerta de arriba (saltando) o la de abajo (por el suelo). *Rescate en el bosque* (tema 2 de 3.º y tema 3 de 2.º): el alumno mueve a su personaje por el bosque, recoge animales perdidos y lleva cada uno al refugio de su grupo, esquivando al villano. Se guarda el récord de cada alumno y el docente puede desactivar los minijuegos desde su panel.
 
 ## Varios cursos
 La plataforma puede tener varios cursos con el mismo juego. Están registrados en `cursos.js` y cada uno tiene su carpeta en `cursos/<curso>/` con sus contenidos.
@@ -50,7 +50,7 @@ Crea `cursos/3-primaria/contenidos.js` con los temas vacíos («Próximamente»)
 ## Añadir un tema nuevo
 Los contenidos de cada curso están en `cursos/<curso>/contenidos.js`. Cada tema tiene misiones (tarjetas de repaso y retos) y un jefe final; las instrucciones y los tipos de reto están explicados al principio del archivo.
 
-Para dar a un tema la *Carrera saludable* como premio, añade en ese tema `minijuego: { tipo:'carrera', titulo:'Carrera saludable', preguntas:[{q:'Pregunta', ok:'Respuesta correcta', no:'Respuesta incorrecta'}, …] }` (de cada partida salen 3 preguntas al azar). Si el curso tiene inglés, pon también el título y las preguntas en `contenidos-en.js`.
+Para dar a un tema la *Carrera saludable* como premio, añade en ese tema `minijuego: { tipo:'carrera', titulo:'Carrera saludable', preguntas:[{q:'Pregunta', ok:'Respuesta correcta', no:'Respuesta incorrecta'}, …] }` (de cada partida salen 3 preguntas al azar). Para *Rescate en el bosque*: `minijuego: { tipo:'rescate', titulo:'Rescate en el bosque', refugios:['Grupo A','Grupo B','Grupo C'], animales:[{e:'🐙', n:'Pulpo', g:1}, …] }`, donde `g` es la posición del refugio correcto (empezando en 0); en cada partida salen 8 animales al azar. Si el curso tiene inglés, pon también los textos del minijuego en `contenidos-en.js`.
 
 ## Uso
 El juego es `index.html`; los cursos están en `cursos.js` y sus contenidos en `cursos/`. Ábrelo en el navegador o publícalo con GitHub Pages
