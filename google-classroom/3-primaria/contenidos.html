@@ -301,7 +301,12 @@ const CURSO = {
         {q:'Cuando tenemos salud, estamos…', ok:'Alegres y relajados', no:'Cansados y tristes'} ] } },
     { id:'animales3', n:2, title:'Patrulla animal', short:'Funciones vitales, vertebrados, moluscos e insectos', pages:'Págs. 24-43',
       color:'--ok', icon:'paw', starsBadge:'Estrella salvaje',
-      missions: T2_MISIONES, boss: T2_JEFE },
+      missions: T2_MISIONES, boss: T2_JEFE,
+      /* Minijuego de premio: llevar cada animal al refugio de su grupo (g = posición del refugio, empezando en 0) */
+      minijuego: { tipo:'rescate', titulo:'Rescate en el bosque', refugios:['Vertebrados','Moluscos','Insectos'], animales:[
+        {e:'🦅', n:'Águila', g:0}, {e:'🐸', n:'Rana', g:0}, {e:'🦎', n:'Lagartija', g:0}, {e:'🦊', n:'Zorro', g:0}, {e:'🐟', n:'Sardina', g:0},
+        {e:'🐌', n:'Caracol', g:1}, {e:'🐙', n:'Pulpo', g:1}, {e:'🦑', n:'Calamar', g:1}, {e:'🦪', n:'Ostra', g:1},
+        {e:'🦋', n:'Mariposa', g:2}, {e:'🐜', n:'Hormiga', g:2}, {e:'🐝', n:'Abeja', g:2}, {e:'🐞', n:'Mariquita', g:2}, {e:'🦟', n:'Mosquito', g:2} ] } },
     { id:'vertebrados3', n:3, title:'Los de la columna', short:'Próximamente', color:'--food', icon:'feather', missions:[] },
     { id:'ecosistemas3', n:4, title:'Redes de la vida', short:'Próximamente', color:'--virus', icon:'tree', missions:[] },
     { id:'materia3', n:5, title:'Taller de la materia', short:'Próximamente', color:'--sense', icon:'flame', missions:[] },

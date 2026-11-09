@@ -62,6 +62,13 @@ CURSO.temas.forEach(t => {
   const e = EN.temas[t.id] && EN.temas[t.id].minijuego;
   if (!e) { avisos.push(`tema ${t.id}: el minijuego no tiene versión en inglés`); return; }
   if (!e.titulo) errores.push(`tema ${t.id}: falta el título del minijuego`);
+  if (t.minijuego.tipo === 'rescate') {
+    const es = t.minijuego;
+    if (!e.refugios || e.refugios.length !== es.refugios.length) errores.push(`tema ${t.id}: los refugios del minijuego no coinciden`);
+    if (!e.animales || e.animales.length !== es.animales.length) errores.push(`tema ${t.id}: el minijuego tiene ${(e.animales || []).length} animales en inglés y ${es.animales.length} en castellano`);
+    else e.animales.forEach((a, i) => { if (!a.n || a.e !== es.animales[i].e || a.g !== es.animales[i].g) errores.push(`tema ${t.id}: el animal ${i + 1} del minijuego no coincide con el castellano`); });
+    return;
+  }
   if (!e.preguntas || e.preguntas.length !== t.minijuego.preguntas.length) errores.push(`tema ${t.id}: el minijuego tiene ${(e.preguntas || []).length} preguntas en inglés y ${t.minijuego.preguntas.length} en castellano`);
   else e.preguntas.forEach((q, i) => { if (!q.q || !q.ok || !q.no) errores.push(`tema ${t.id}: pregunta ${i + 1} del minijuego incompleta`); });
 });
