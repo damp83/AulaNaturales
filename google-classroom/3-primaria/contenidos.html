@@ -278,6 +278,217 @@ const T2_JEFE = {
   ]
 };
 
+/* ---------- TEMA 3 · Los de la columna (libro, págs. 44-59) ---------- */
+const T3_MISIONES = [
+  {
+    id:'vert3a', badge:'Amigo de los mamíferos', title:'Pelo y leche', short:'Los mamíferos', pages:'Págs. 46-47',
+    color:'--food', icon:'paw',
+    learn:[
+      {h:'¿Cómo son los mamíferos?', p:'Su piel está cubierta de <mark>pelo</mark>. La mayoría tiene <mark>cuatro patas</mark> y dos <mark>orejas</mark> que protegen los oídos. Tienen <mark>labios y dientes</mark> en la boca.'},
+      {h:'¿Cómo viven?', p:'Respiran el oxígeno del aire con <mark>pulmones</mark>. Las crías se forman en el interior del cuerpo de la madre (son <mark>vivíparos</mark>) y, al nacer, se alimentan de la <mark>leche</mark> que producen las <mark>mamas</mark> de la madre.'},
+      {h:'Grupos de mamíferos', p:'Hay diferentes grupos:',
+        extra:'<div class="senses"><b>Carnívoros</b><span>colmillos afilados y garras: gatos, osos, lobos.</span><b>Con pezuñas</b><span>terrestres y herbívoros: cabras, ciervos.</span><b>Primates</b><span>cinco dedos en manos y pies. Las personas somos primates.</span><b>Murciélagos</b><span>sus patas delanteras son alas; son nocturnos.</span><b>Delfines y ballenas</b><span>nadan con la cola y las aletas; salen a respirar aire.</span></div>'}
+    ],
+    ch:[
+      {t:'pick', q:'Toca las características de los mamíferos.', opts:['Piel cubierta de pelo','Labios y dientes','Respiran con pulmones','Piel con plumas','Ponen huevos'], a:[0,1,2], hint:'Las plumas son de las aves.'},
+      {t:'mc', q:'¿De qué se alimentan las crías de los mamíferos al nacer?', opts:['De la leche de su madre','De insectos','De semillas'], a:0, hint:'Por eso se llaman mamíferos: maman.'},
+      {t:'tf', q:'Las crías de los mamíferos se forman en el interior del cuerpo de la madre.', a:true, hint:'Son vivíparos.'},
+      {t:'match', q:'Une cada grupo de mamíferos con su característica.', pairs:[['Carnívoros','Colmillos afilados y garras'],['Con pezuñas','Terrestres y herbívoros'],['Primates','Cinco dedos en manos y pies'],['Murciélagos','Sus patas delanteras son alas'],['Delfines y ballenas','Nadan con la cola y las aletas']], hint:'Repasa la tarjeta de los grupos.'},
+      {t:'classify', q:'¿A qué grupo de mamíferos pertenece?', bins:['Carnívoro','Con pezuñas','Primate'],
+        items:[['🐯 Tigre',0],['🐺 Lobo',0],['🐐 Cabra',1],['🦌 Ciervo',1],['🐒 Mono',2],['🧑 Persona',2],['🐆 Leopardo',0]],
+        hint:'Las personas somos primates.'},
+      {t:'mc', q:'¿Por qué el delfín es un mamífero y no un pez?', opts:['Porque respira aire con pulmones y sus crías maman','Porque vive en el mar','Porque tiene aletas'], a:0, hint:'Sale del agua para tomar aire.'},
+      {t:'tf', q:'Los murciélagos son aves.', a:false, hint:'Tienen pelo y sus crías maman: son mamíferos.'},
+      {t:'mc', q:'¿Cómo respiran las ballenas?', opts:['Salen del agua para tomar aire por un orificio','Con branquias','No respiran'], a:0, hint:'Son mamíferos, como los delfines.'}
+    ]
+  },
+  {
+    id:'vert3b', badge:'Plumas y escamas', title:'Plumas y escamas', short:'Las aves y los reptiles', pages:'Págs. 48-49',
+    color:'--sense', icon:'feather',
+    learn:[
+      {h:'¿Cómo son las aves?', p:'Están cubiertas de <mark>plumas</mark>, sus extremidades anteriores son <mark>alas</mark> y tienen un <mark>pico</mark> duro. Respiran con <mark>pulmones</mark> y ponen <mark>huevos</mark>; cuidan los huevos y a sus polluelos.'},
+      {h:'Grupos de aves', p:'Algunos grupos:',
+        extra:'<div class="senses"><b>Corredoras</b><span>no pueden volar; patas muy fuertes (avestruz).</span><b>Ánades</b><span>dedos unidos por una membrana para nadar (pato).</span><b>Rapaces</b><span>carnívoras con garras y pico fuertes (águila).</span><b>Pájaros</b><span>el grupo más numeroso; pequeños y muchos cantan.</span></div>'},
+      {h:'¿Cómo son los reptiles?', p:'Su piel está cubierta de <mark>escamas</mark>, la mayoría tiene cuatro patas y una cola larga. Respiran con <mark>pulmones</mark> y ponen <mark>huevos</mark>, que no suelen cuidar.'},
+      {h:'Grupos de reptiles', p:'Hay lagartos, <mark>tortugas</mark> (terrestres o acuáticas, con caparazón), <mark>serpientes</mark> (se desplazan reptando, sin patas) y <mark>cocodrilos</mark> (carnívoros acuáticos de gran tamaño).'}
+    ],
+    ch:[
+      {t:'classify', q:'¿Es una característica de las aves o de los reptiles?', bins:['Aves','Reptiles'],
+        items:[['Plumas',0],['Pico',0],['Alas',0],['Escamas',1],['Cola larga',1],['Cuidan a sus polluelos',0]],
+        hint:'Los reptiles no suelen cuidar sus huevos.'},
+      {t:'match', q:'Une cada grupo de aves con su característica.', pairs:[['Corredoras','No pueden volar'],['Ánades','Dedos unidos por una membrana'],['Rapaces','Garras y pico para cazar'],['Pájaros','Pequeños y muchos cantan']], hint:'Repasa la tarjeta de los grupos de aves.'},
+      {t:'classify', q:'¿A qué grupo de aves pertenece?', bins:['Corredora','Ánade','Rapaz'],
+        items:[['Avestruz',0],['🦆 Pato',1],['🦅 Águila',2],['Halcón',2],['Ganso',1]], hint:'Los ánades nadan.'},
+      {t:'mc', q:'¿Qué características nos dicen que el pingüino es un ave?', opts:['Tiene plumas, pico y pone huevos','Nada en el mar','Vive en el frío'], a:0, hint:'Aunque no vuele, es un ave.'},
+      {t:'match', q:'¿Qué reptil es?', pairs:[['No tiene patas','Serpiente'],['Tiene caparazón','Tortuga'],['Carnívoro acuático de gran tamaño','Cocodrilo']], hint:'Repasa la tarjeta de los grupos de reptiles.'},
+      {t:'mc', q:'¿Por qué las tortugas marinas salen del agua de vez en cuando?', opts:['Porque respiran aire con pulmones','Porque tienen frío','Porque no saben nadar'], a:0, hint:'Los reptiles respiran con pulmones.'},
+      {t:'tf', q:'Los reptiles cuidan siempre a sus crías.', a:false, hint:'La mayoría no las cuida.'},
+      {t:'tf', q:'Aves y reptiles ponen huevos.', a:true, hint:'Los dos son ovíparos.'}
+    ]
+  },
+  {
+    id:'vert3c', badge:'Anfibio honorario', title:'Entre el agua y la tierra', short:'Los anfibios y los peces', pages:'Págs. 50-51',
+    color:'--lung', icon:'fish',
+    learn:[
+      {h:'¿Cómo son los anfibios?', p:'Tienen la piel <mark>desnuda</mark>: sin pelos, plumas ni escamas. De adultos se desplazan con sus <mark>cuatro patas</mark>. Algunos tienen una lengua larga para cazar insectos.'},
+      {h:'¿Cómo viven los anfibios?', p:'Los adultos respiran con <mark>pulmones</mark>. Son <mark>ovíparos</mark>. Sus crías, los <mark>renacuajos</mark>, tienen cola, nadan y respiran con <mark>branquias</mark>. El cambio de renacuajo a adulto se llama <mark>metamorfosis</mark>.',
+        extra:'<div class="senses"><b>Sin cola</b><span>ranas y sapos.</span><b>Con cola</b><span>salamandras y tritones.</span></div>'},
+      {h:'¿Cómo son los peces?', p:'Están cubiertos de <mark>escamas</mark>, se desplazan con <mark>aletas</mark> y respiran en el agua con <mark>branquias</mark>. Las hembras ponen huevos que no suelen cuidar; las crías se llaman <mark>alevines</mark>.'},
+      {h:'Tipos de peces', p:'Según su esqueleto:',
+        extra:'<div class="senses"><b>Óseos</b><span>esqueleto de huesos (espinas): la mayoría, como el pez payaso.</span><b>Cartilaginosos</b><span>esqueleto de cartílago: mantas, rayas y tiburones.</span></div>'}
+    ],
+    ch:[
+      {t:'mc', q:'¿Cómo es la piel de los anfibios?', opts:['Desnuda','Con escamas','Con plumas'], a:0, hint:'No tienen pelos, plumas ni escamas.'},
+      {t:'order', q:'Ordena la metamorfosis de la rana.', items:['Huevo','Renacuajo con cola','Renacuajo con patas','Rana adulta'], hint:'Del huevo sale el renacuajo.'},
+      {t:'classify', q:'¿Cómo respira?', bins:['Pulmones','Branquias'],
+        items:[['Rana adulta',0],['Renacuajo',1],['Sardina',1],['Salamandra adulta',0],['Tiburón',1]],
+        hint:'Las crías de los anfibios respiran como los peces.'},
+      {t:'classify', q:'¿Anfibio con cola o sin cola?', bins:['Sin cola','Con cola'],
+        items:[['🐸 Rana',0],['Sapo',0],['Salamandra',1],['Tritón',1]], hint:'Ranas y sapos no tienen cola de adultos.'},
+      {t:'pick', q:'Toca las características de los peces.', opts:['Escamas','Aletas','Branquias','Plumas','Piel desnuda'], a:[0,1,2], hint:'La piel desnuda es de los anfibios.'},
+      {t:'classify', q:'¿Pez óseo o cartilaginoso?', bins:['Óseo','Cartilaginoso'],
+        items:[['🐠 Pez payaso',0],['🦈 Tiburón',1],['Raya',1],['Sardina',0],['Manta',1]], hint:'Mantas, rayas y tiburones son cartilaginosos.'},
+      {t:'mc', q:'¿Cómo se llaman las crías de los peces?', opts:['Alevines','Renacuajos','Polluelos'], a:0, hint:'Los renacuajos son de los anfibios.'},
+      {t:'mc', q:'Salí de un huevo en el agua y respiraba con branquias, pero ahora respiro con pulmones. ¿Quién soy?', opts:['Una rana','Una sardina','Una serpiente'], a:0, hint:'He pasado por la metamorfosis.'}
+    ]
+  },
+  {
+    id:'vert3d', badge:'Protector animal', title:'Animales imprescindibles', short:'La importancia de los animales', pages:'Págs. 52-53',
+    color:'--ok', icon:'heart',
+    learn:[
+      {h:'Los animales y el medioambiente', p:'Todos los animales son importantes:',
+        extra:'<div class="senses"><b>Alimento</b><span>muchos animales sirven de alimento a otros.</span><b>Abejas</b><span>son fundamentales para la reproducción de muchas plantas.</span><b>Carroñeros</b><span>hienas y buitres comen animales muertos y limpian el campo.</span><b>Lombrices</b><span>comen restos de seres vivos; sus desechos alimentan a las plantas.</span></div>'},
+      {h:'Los animales y las personas', p:'Los animales nos dan muchas cosas:',
+        extra:'<div class="senses"><b>Alimento</b><span>carne, leche, huevos y miel.</span><b>Compañía</b><span>perros y gatos.</span><b>Defensa</b><span>perros que vigilan el ganado.</span><b>Materiales</b><span>lana, seda y cuero.</span><b>Ocio</b><span>observar o fotografiar animales.</span></div>'},
+      {h:'Hay que cuidarlos', p:'Los animales siguen siendo <mark>imprescindibles</mark> para las personas. Por eso debemos <mark>respetarlos y cuidarlos</mark>.'}
+    ],
+    ch:[
+      {t:'match', q:'Une cada animal con su importancia en la naturaleza.', pairs:[['Abeja','Ayuda a que se reproduzcan las plantas'],['Buitre','Limpia el campo de animales muertos'],['Lombriz','Sus desechos alimentan a las plantas']], hint:'Repasa la primera tarjeta.'},
+      {t:'classify', q:'¿Qué nos da cada animal?', bins:['Alimento','Compañía','Materiales'],
+        items:[['Vaca: leche',0],['Gallina: huevos',0],['Abeja: miel',0],['Gato',1],['Oveja: lana',2],['Gusano de seda',2]],
+        hint:'La lana y la seda sirven para hacer ropa.'},
+      {t:'mc', q:'¿Para qué se usan algunos perros en el campo?', opts:['Para defender el ganado','Para dar leche','Para dar lana'], a:0, hint:'Vigilan las ovejas.'},
+      {t:'mc', q:'¿Por qué son importantes las hienas y los buitres?', opts:['Limpian el campo de animales muertos','Porque son malos','Porque dan miel'], a:0, hint:'Son carroñeros.'},
+      {t:'tf', q:'Las lombrices de tierra son buenas para las plantas de un huerto.', a:true, hint:'Sus desechos alimentan a las plantas.'},
+      {t:'pick', q:'Toca lo que podemos hacer para cuidar a los animales.', opts:['Respetar su hábitat','Observarlos sin molestarlos','Cuidar bien a las mascotas','Asustarlos por diversión'], a:[0,1,2], hint:'Hay que respetarlos.'},
+      {t:'mc', q:'¿Qué le dirías a alguien que dice que las hienas son «malas»?', opts:['Que son importantes para limpiar el campo','Que tiene razón','Que hay que eliminarlas'], a:0, hint:'Todos los animales son importantes.'}
+    ]
+  }
+];
+const T3_JEFE = {
+  id:'reto-vert3', boss:true, villain:'Cazador Sombrío', badge:'Guardián de los vertebrados', title:'El Gran Reto de los vertebrados', short:'Repaso de todo el tema', pages:'Págs. 46-53',
+  color:'--virus', icon:'trophy',
+  extra:[
+    {t:'classify', q:'¿A qué grupo de vertebrados pertenece?', bins:['Mamífero','Ave','Reptil','Anfibio','Pez'],
+      items:[['🐬 Delfín',0],['🦇 Murciélago',0],['🐧 Pingüino',1],['🐢 Tortuga',2],['🐍 Serpiente',2],['🐸 Rana',3],['🦈 Tiburón',4]],
+      hint:'Repasa las misiones del tema.'}
+  ]
+};
+
+/* ---------- TEMA 4 · Redes de la vida (libro, págs. 60-75) ---------- */
+const T4_MISIONES = [
+  {
+    id:'eco3a', badge:'Explorador de ecosistemas', title:'Un mundo en equipo', short:'¿Qué es un ecosistema?', pages:'Págs. 62-63',
+    color:'--ok', icon:'tree',
+    learn:[
+      {h:'El ecosistema', p:'Un <mark>ecosistema</mark> es un conjunto formado por tres componentes: los <mark>seres vivos</mark>, el <mark>medio físico</mark> y las <mark>relaciones</mark> entre ellos. Un bosque, una pradera o un río son ecosistemas.'},
+      {h:'Los seres vivos', p:'Todos pertenecen a una <mark>especie</mark>. Los de la misma especie que viven en un ecosistema forman una <mark>población</mark> (por ejemplo, los jabalíes de un bosque). Todas las poblaciones juntas forman una <mark>comunidad</mark>.'},
+      {h:'El medio físico', p:'Son los <mark>componentes no vivos</mark>: las rocas, el agua o el aire. Puede ser <mark>terrestre</mark> o <mark>acuático</mark>. Los seres vivos dependen del medio físico: cada planta solo vive donde encuentra la humedad y la temperatura que necesita.'}
+    ],
+    ch:[
+      {t:'pick', q:'Toca los tres componentes de un ecosistema.', opts:['Seres vivos','Medio físico','Relaciones','Ciudades','Ordenadores'], a:[0,1,2], hint:'Seres vivos, lo que no está vivo y cómo se relacionan.'},
+      {t:'classify', q:'¿Es un ser vivo o parte del medio físico?', bins:['Ser vivo','Medio físico'],
+        items:[['🐿️ Ardilla',0],['🌳 Encina',0],['🪨 Roca',1],['💧 Agua',1],['💨 Aire',1],['🌸 Amapola',0]],
+        hint:'El medio físico son los componentes no vivos.'},
+      {t:'match', q:'Une cada palabra con lo que significa.', pairs:[['Especie','Seres vivos de un mismo tipo'],['Población','Los de la misma especie en un ecosistema'],['Comunidad','Todas las poblaciones de un ecosistema']], hint:'Repasa la tarjeta de los seres vivos.'},
+      {t:'order', q:'Ordena de lo más pequeño a lo más grande.', items:['Ser vivo','Población','Comunidad','Ecosistema'], hint:'El ecosistema lo incluye todo.'},
+      {t:'mc', q:'Los jabalíes que viven en un bosque forman…', opts:['una población','una comunidad','un medio físico'], a:0, hint:'Son todos de la misma especie.'},
+      {t:'mc', q:'¿Puede existir un ecosistema solo con seres vivos?', opts:['No, también necesita un medio físico','Sí, sin problema'], a:0, hint:'Los seres vivos dependen del medio físico.'},
+      {t:'classify', q:'¿Es un medio terrestre o acuático?', bins:['Terrestre','Acuático'],
+        items:[['Bosque',0],['Río',1],['Desierto',0],['Mar',1],['Pradera',0],['Laguna',1]], hint:'Los acuáticos están en el agua.'},
+      {t:'tf', q:'La mayoría de los seres vivos solo pueden vivir en un medio terrestre o en uno acuático.', a:true, hint:'Pocos pueden vivir en los dos.'}
+    ]
+  },
+  {
+    id:'eco3b', badge:'Rey de la cadena', title:'¿Quién come a quién?', short:'Las relaciones de alimentación', pages:'Págs. 64-65',
+    color:'--food', icon:'apple',
+    learn:[
+      {h:'Productores', p:'Las <mark>plantas</mark> producen su propio alimento. Por eso son los <mark>productores</mark> del ecosistema.'},
+      {h:'Consumidores', p:'Los animales tienen que tomar alimentos: son <mark>consumidores</mark>.',
+        extra:'<div class="senses"><b>Primarios</b><span>comen plantas: son herbívoros (jirafa, conejo).</span><b>Secundarios</b><span>comen consumidores primarios: son carnívoros.</span><b>Terciarios</b><span>comen consumidores secundarios: también carnívoros.</span></div>'},
+      {h:'Cadenas alimentarias', p:'Representan quién se come a quién. Las <mark>flechas</mark> van del que sirve de alimento al que se alimenta.',
+        extra:'<div class="flow"><span class="box">🌿 Hierba</span><span class="arrow">→</span><span class="box">🐇 Conejo</span><span class="arrow">→</span><span class="box">🐈 Lince</span></div>'},
+      {h:'Redes alimentarias', p:'Un mismo ser vivo está en varias cadenas. Todas juntas forman una <mark>red alimentaria</mark>.'}
+    ],
+    ch:[
+      {t:'mc', q:'¿Por qué las plantas son productores?', opts:['Porque fabrican su propio alimento','Porque comen animales','Porque viven en el agua'], a:0, hint:'No necesitan comer a otros.'},
+      {t:'classify', q:'¿Productor, consumidor primario o consumidor secundario?', bins:['Productor','Consumidor primario','Consumidor secundario'],
+        items:[['🌿 Hierba',0],['🌳 Encina',0],['🐇 Conejo',1],['🦒 Jirafa',1],['🐈 Lince',2],['🦊 Zorro',2]],
+        hint:'Los consumidores primarios son herbívoros.'},
+      {t:'order', q:'Ordena la cadena alimentaria.', items:['Hierba','Conejo','Lince'], hint:'Empieza por el productor.'},
+      {t:'order', q:'Ordena: «Los pulgones comen rosales, las mariquitas comen pulgones y los petirrojos comen mariquitas».', items:['Rosal','Pulgón','Mariquita','Petirrojo'], hint:'El productor va primero.'},
+      {t:'order', q:'Ordena la cadena con saltamontes, hierba, gavilán y petirrojo.', items:['Hierba','Saltamontes','Petirrojo','Gavilán'], hint:'El gavilán es una rapaz que caza pájaros.'},
+      {t:'mc', q:'En una cadena alimentaria, las flechas van…', opts:['del que sirve de alimento al que se alimenta','del más grande al más pequeño','al revés, del que come al que es comido'], a:0, hint:'Hierba → conejo: el conejo come hierba.'},
+      {t:'mc', q:'¿Qué es una red alimentaria?', opts:['Varias cadenas alimentarias unidas','Una red para pescar','Un solo animal'], a:0, hint:'Un ser vivo puede estar en varias cadenas.'},
+      {t:'tf', q:'Los consumidores secundarios y terciarios son carnívoros.', a:true, hint:'Se alimentan de otros animales.'}
+    ]
+  },
+  {
+    id:'eco3c', badge:'Socio de la naturaleza', title:'Socios y rivales', short:'Otras relaciones en los ecosistemas', pages:'Págs. 66-67',
+    color:'--lung', icon:'bug',
+    learn:[
+      {h:'Dentro de la misma especie', p:'Los animales de una especie se relacionan:',
+        extra:'<div class="senses"><b>Grupos familiares</b><span>se ayudan con las crías y se defienden (gorilas).</span><b>Asociaciones</b><span>se agrupan un tiempo para defenderse o viajar (bancos de peces, bandadas).</span><b>Sociedades</b><span>se reparten las funciones (colmena de abejas, hormiguero).</span></div>'},
+      {h:'Entre distintas especies', p:'También se relacionan especies distintas:',
+        extra:'<div class="senses"><b>Mutualismo</b><span>las dos se benefician (pulgones y hormigas).</span><b>Comensalismo</b><span>una se beneficia y a la otra ni le beneficia ni le perjudica (peces rémora y tiburón).</span><b>Parasitismo</b><span>una se beneficia y la otra sale perjudicada (pulgas).</span><b>Competencia</b><span>las dos tienen las mismas necesidades y salen perjudicadas (plantas que compiten por la luz).</span></div>'}
+    ],
+    ch:[
+      {t:'classify', q:'¿Relación dentro de la misma especie o entre especies distintas?', bins:['Misma especie','Distintas especies'],
+        items:[['Grupo familiar',0],['Sociedad',0],['Asociación',0],['Mutualismo',1],['Parasitismo',1],['Competencia',1]],
+        hint:'Mutualismo, comensalismo, parasitismo y competencia son entre especies.'},
+      {t:'match', q:'Une cada relación con lo que ocurre.', pairs:[['Mutualismo','Las dos especies se benefician'],['Comensalismo','Una se beneficia y la otra ni gana ni pierde'],['Parasitismo','Una se beneficia y la otra sale perjudicada'],['Competencia','Las dos salen perjudicadas']], hint:'Repasa la tarjeta.'},
+      {t:'match', q:'¿Qué relación es?', pairs:[['Pulgas que chupan la sangre de un perro','Parasitismo'],['Peces rémora que comen los restos del tiburón','Comensalismo'],['Hormigas que defienden a los pulgones','Mutualismo'],['Plantas muy juntas que se quitan la luz','Competencia']], hint:'Piensa quién gana y quién pierde.'},
+      {t:'mc', q:'En una colmena, unas abejas se reproducen y otras recogen alimento o defienden. Es una…', opts:['sociedad','asociación','competencia'], a:0, hint:'Se reparten las funciones.'},
+      {t:'mc', q:'Los estorninos que vuelan juntos en una bandada forman una…', opts:['asociación','sociedad','relación de parasitismo'], a:0, hint:'Se agrupan un tiempo para viajar o defenderse.'},
+      {t:'mc', q:'Un pájaro come los restos de comida entre los dientes de un cocodrilo y lo deja limpio. ¿Qué relación es?', opts:['Mutualismo','Parasitismo','Competencia'], a:0, hint:'El pájaro come y el cocodrilo queda limpio: los dos ganan.'},
+      {t:'mc', q:'Unas moscas se alimentan de las heces de una vaca. A la vaca no le afecta. ¿Qué relación es?', opts:['Comensalismo','Parasitismo','Sociedad'], a:0, hint:'Las moscas ganan y la vaca ni gana ni pierde.'},
+      {t:'tf', q:'En la competencia, las dos especies salen beneficiadas.', a:false, hint:'Las dos resultan perjudicadas.'}
+    ]
+  },
+  {
+    id:'eco3d', badge:'Viajero del planeta', title:'La vuelta al mundo', short:'Los principales ecosistemas', pages:'Págs. 68-69',
+    color:'--sense', icon:'drop',
+    learn:[
+      {h:'Ecosistemas terrestres', p:'Algunos ecosistemas en tierra:',
+        extra:'<div class="senses"><b>Bosques</b><span>muchos árboles que dan refugio y alimento a ardillas, pájaros carpinteros y osos.</span><b>Praderas</b><span>mucha hierba; herbívoros como elefantes y cebras, y los carnívoros que los cazan.</span><b>Desiertos</b><span>casi no llueve; camellos, escorpiones y algunos reptiles.</span><b>Zonas polares</b><span>cubiertas de hielo; osos polares, focas y pingüinos.</span></div>'},
+      {h:'Ecosistemas acuáticos', p:'Pueden ser de dos tipos:',
+        extra:'<div class="senses"><b>Agua dulce</b><span>ríos, arroyos y lagunas: plantas acuáticas, peces, anfibios e invertebrados.</span><b>Agua salada</b><span>costa y mar abierto. En la costa hay más seres vivos.</span></div>'}
+    ],
+    ch:[
+      {t:'classify', q:'¿Ecosistema terrestre o acuático?', bins:['Terrestre','Acuático'],
+        items:[['Bosque',0],['Pradera',0],['Desierto',0],['Zona polar',0],['Río',1],['Mar abierto',1],['Laguna',1]],
+        hint:'Las zonas polares son terrestres, aunque haya hielo.'},
+      {t:'match', q:'Une cada animal con su ecosistema.', pairs:[['🐿️ Ardilla','Bosque'],['🦓 Cebra','Pradera'],['🐪 Camello','Desierto'],['🐻‍❄️ Oso polar','Zona polar']], hint:'Repasa la tarjeta de los terrestres.'},
+      {t:'match', q:'Une cada ecosistema con su característica.', pairs:[['Bosque','Muchos árboles'],['Pradera','Abunda la hierba'],['Desierto','Casi no llueve'],['Zona polar','Cubierta de hielo']], hint:'Repasa la tarjeta.'},
+      {t:'classify', q:'¿Agua dulce o agua salada?', bins:['Agua dulce','Agua salada'],
+        items:[['Río',0],['Arroyo',0],['Laguna',0],['Costa',1],['Mar abierto',1]], hint:'El mar es de agua salada.'},
+      {t:'mc', q:'¿En qué ecosistema hay más animales herbívoros?', opts:['En la pradera','En el desierto','En la zona polar'], a:0, hint:'Allí abunda la hierba, que es su alimento.'},
+      {t:'mc', q:'¿Por qué a las zonas polares se les llama «desiertos helados»?', opts:['Porque hay pocas plantas y pocos animales','Porque hace mucho calor','Porque hay mucha arena'], a:0, hint:'Como en los desiertos, hay muy poca vida.'},
+      {t:'tf', q:'En la costa hay más seres vivos que en el mar abierto.', a:true, hint:'Así lo explica la lección.'},
+      {t:'pick', q:'Toca los animales que viven en las zonas polares.', opts:['Oso polar','Foca','Pingüino','Camello','Escorpión'], a:[0,1,2], hint:'Camellos y escorpiones viven en el desierto.'}
+    ]
+  }
+];
+const T4_JEFE = {
+  id:'reto-eco3', boss:true, villain:'Contaminator', badge:'Héroe de los ecosistemas', title:'El Gran Reto de los ecosistemas', short:'Repaso de todo el tema', pages:'Págs. 62-69',
+  color:'--virus', icon:'trophy',
+  extra:[
+    {t:'classify', q:'¿Es un componente del ecosistema, una relación o un tipo de ecosistema?', bins:['Componente','Relación','Tipo de ecosistema'],
+      items:[['Seres vivos',0],['Medio físico',0],['Mutualismo',1],['Parasitismo',1],['Pradera',2],['Desierto',2]],
+      hint:'Repasa las misiones del tema.'}
+  ]
+};
+
 /* ---------- TEMA 5 · Taller de la materia (libro, págs. 80-97) ---------- */
 const T5_MISIONES = [
   {
@@ -553,8 +764,12 @@ const CURSO = {
         {e:'🦅', n:'Águila', g:0}, {e:'🐸', n:'Rana', g:0}, {e:'🦎', n:'Lagartija', g:0}, {e:'🦊', n:'Zorro', g:0}, {e:'🐟', n:'Sardina', g:0},
         {e:'🐌', n:'Caracol', g:1}, {e:'🐙', n:'Pulpo', g:1}, {e:'🦑', n:'Calamar', g:1}, {e:'🦪', n:'Ostra', g:1},
         {e:'🦋', n:'Mariposa', g:2}, {e:'🐜', n:'Hormiga', g:2}, {e:'🐝', n:'Abeja', g:2}, {e:'🐞', n:'Mariquita', g:2}, {e:'🦟', n:'Mosquito', g:2} ] } },
-    { id:'vertebrados3', n:3, title:'Los de la columna', short:'Próximamente', color:'--food', icon:'feather', missions:[] },
-    { id:'ecosistemas3', n:4, title:'Redes de la vida', short:'Próximamente', color:'--virus', icon:'tree', missions:[] },
+    { id:'vertebrados3', n:3, title:'Los de la columna', short:'Mamíferos, aves, reptiles, anfibios, peces y su importancia', pages:'Págs. 44-59',
+      color:'--food', icon:'feather', starsBadge:'Manada de estrellas',
+      missions: T3_MISIONES, boss: T3_JEFE },
+    { id:'ecosistemas3', n:4, title:'Redes de la vida', short:'Ecosistemas, cadenas alimentarias y relaciones', pages:'Págs. 60-75',
+      color:'--virus', icon:'tree', starsBadge:'Bosque de estrellas',
+      missions: T4_MISIONES, boss: T4_JEFE },
     { id:'materia3', n:5, title:'Taller de la materia', short:'Materia, materiales, calor, cambios y energía', pages:'Págs. 80-97',
       color:'--sense', icon:'flame', starsBadge:'Chispa estelar',
       missions: T5_MISIONES, boss: T5_JEFE },
@@ -603,6 +818,37 @@ const ESQUEMAS = {
     {txt:'Dos [[antenas]] y seis [[patas]]'},
     {txt:'[[Metamorfosis]]', hijos:[{txt:'Huevo, [[oruga]], crisálida, mariposa'}]},
     {txt:'Son [[artrópodos]]: patas con articulaciones'} ], extra:['ocho','concha'] },
+  /* Tema 3 */
+  vert3a: { titulo:'Los [[mamíferos]]', nodos:[
+    {txt:'Piel cubierta de [[pelo]]'},
+    {txt:'Respiran con [[pulmones]]'},
+    {txt:'Las crías maman [[leche]]'},
+    {txt:'Grupos', hijos:[{txt:'Carnívoros, con [[pezuñas]] y primates'},{txt:'[[Murciélagos]], delfines y ballenas'}]} ], extra:['plumas','branquias'] },
+  vert3b: { titulo:'Aves y [[reptiles]]', nodos:[
+    {txt:'[[Aves]]', hijos:[{txt:'[[Plumas]], alas y [[pico]]'},{txt:'Cuidan a sus [[polluelos]]'}]},
+    {txt:'Reptiles', hijos:[{txt:'Piel con [[escamas]]'},{txt:'Lagartos, tortugas, [[serpientes]] y cocodrilos'}]} ], extra:['pelo','aletas'] },
+  vert3c: { titulo:'Anfibios y [[peces]]', nodos:[
+    {txt:'[[Anfibios]]', hijos:[{txt:'Piel [[desnuda]]'},{txt:'Sus crías son [[renacuajos]]'},{txt:'Cambian por [[metamorfosis]]'}]},
+    {txt:'Peces', hijos:[{txt:'[[Escamas]] y aletas'},{txt:'Respiran con [[branquias]]'},{txt:'Óseos y [[cartilaginosos]]'}]} ], extra:['plumas','pulmones'] },
+  vert3d: { titulo:'Los animales son [[importantes]]', nodos:[
+    {txt:'Para la [[naturaleza]]', hijos:[{txt:'Las [[abejas]] ayudan a las plantas'},{txt:'Los [[carroñeros]] limpian el campo'}]},
+    {txt:'Para las [[personas]]', hijos:[{txt:'[[Alimento]]: leche, huevos y miel'},{txt:'[[Compañía]]: perros y gatos'},{txt:'Materiales: [[lana]] y cuero'}]} ], extra:['plástico','petróleo'] },
+  /* Tema 4 */
+  eco3a: { titulo:'El [[ecosistema]]', nodos:[
+    {txt:'Seres [[vivos]]', hijos:[{txt:'Misma especie: [[población]]'},{txt:'Todas las poblaciones: [[comunidad]]'}]},
+    {txt:'Medio [[físico]]', hijos:[{txt:'Rocas, [[agua]] y aire'}]},
+    {txt:'[[Relaciones]] entre ellos'} ], extra:['ordenador','calor'] },
+  eco3b: { tipo:'flujo', titulo:'Una cadena [[alimentaria]]', nodos:[
+    {txt:'[[Productor]]: la hierba'}, {txt:'Consumidor [[primario]]: el conejo'}, {txt:'Consumidor [[secundario]]: el lince'},
+    {txt:'Varias cadenas forman una [[red]] alimentaria'} ], extra:['terciario','piedra'] },
+  eco3c: { titulo:'Relaciones entre [[especies]]', nodos:[
+    {txt:'[[Mutualismo]]: las dos ganan'},
+    {txt:'[[Comensalismo]]: una gana y la otra ni gana ni pierde'},
+    {txt:'[[Parasitismo]]: una gana y la otra pierde'},
+    {txt:'[[Competencia]]: las dos pierden'} ], extra:['sociedad','bandada'] },
+  eco3d: { titulo:'Principales [[ecosistemas]]', nodos:[
+    {txt:'[[Terrestres]]', hijos:[{txt:'[[Bosques]] y praderas'},{txt:'[[Desiertos]] y zonas polares'}]},
+    {txt:'[[Acuáticos]]', hijos:[{txt:'Agua [[dulce]]: ríos y lagunas'},{txt:'Agua [[salada]]: costa y mar abierto'}]} ], extra:['ciudad','volcán'] },
   /* Tema 5 */
   mat3a: { titulo:'La [[materia]]', nodos:[
     {txt:'Propiedades', hijos:[{txt:'[[Masa]]: cantidad de materia'},{txt:'[[Volumen]]: espacio que ocupa'}]},
