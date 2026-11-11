@@ -766,16 +766,50 @@ const CURSO = {
         {e:'🦋', n:'Mariposa', g:2}, {e:'🐜', n:'Hormiga', g:2}, {e:'🐝', n:'Abeja', g:2}, {e:'🐞', n:'Mariquita', g:2}, {e:'🦟', n:'Mosquito', g:2} ] } },
     { id:'vertebrados3', n:3, title:'Los de la columna', short:'Mamíferos, aves, reptiles, anfibios, peces y su importancia', pages:'Págs. 44-59',
       color:'--food', icon:'feather', starsBadge:'Manada de estrellas',
-      missions: T3_MISIONES, boss: T3_JEFE },
+      missions: T3_MISIONES, boss: T3_JEFE,
+      /* Minijuego de premio: parejas de cartas (en cada partida salen 6 al azar) */
+      minijuego: { tipo:'memoria', titulo:'Parejas de vertebrados', parejas:[
+        ['🐻 Mamíferos','Pelo y leche'], ['🦅 Aves','Plumas y pico'], ['🦎 Reptiles','Escamas y pulmones'], ['🐸 Anfibios','Piel desnuda'],
+        ['🐟 Peces','Aletas y branquias'], ['🦇 Murciélago','Mamífero que vuela'], ['Renacuajo','Cría de la rana'], ['Alevín','Cría de un pez'] ] } },
     { id:'ecosistemas3', n:4, title:'Redes de la vida', short:'Ecosistemas, cadenas alimentarias y relaciones', pages:'Págs. 60-75',
       color:'--virus', icon:'tree', starsBadge:'Bosque de estrellas',
-      missions: T4_MISIONES, boss: T4_JEFE },
+      missions: T4_MISIONES, boss: T4_JEFE,
+      /* Minijuego de premio: llevar cada animal a su ecosistema (g = posición del refugio, empezando en 0) */
+      minijuego: { tipo:'rescate', titulo:'Cada uno a su hogar', refugios:['Bosque','Pradera','Desierto','Zona polar'],
+        intro:'¡Estos animales se han perdido! Acércate a cada uno para recogerlo y llévalo a su ecosistema antes de que se acabe el tiempo. ¡Cuidado con Contaminator!',
+        animales:[
+        {e:'🐿️', n:'Ardilla', g:0}, {e:'🐻', n:'Oso pardo', g:0}, {e:'🐦', n:'Pájaro carpintero', g:0},
+        {e:'🐘', n:'Elefante', g:1}, {e:'🦓', n:'Cebra', g:1}, {e:'🦁', n:'León', g:1},
+        {e:'🐪', n:'Camello', g:2}, {e:'🦂', n:'Escorpión', g:2},
+        {e:'🐻‍❄️', n:'Oso polar', g:3}, {e:'🦭', n:'Foca', g:3}, {e:'🐧', n:'Pingüino', g:3} ] } },
     { id:'materia3', n:5, title:'Taller de la materia', short:'Materia, materiales, calor, cambios y energía', pages:'Págs. 80-97',
       color:'--sense', icon:'flame', starsBadge:'Chispa estelar',
-      missions: T5_MISIONES, boss: T5_JEFE },
+      missions: T5_MISIONES, boss: T5_JEFE,
+      /* Minijuego de premio: atrapar solo lo que pide cada ronda (ok = se atrapa, no = se deja caer) */
+      minijuego: { tipo:'lluvia', titulo:'Lluvia de materia', fondo:'lab', necesarios:5, rondas:[
+        { meta:'Atrapa los SÓLIDOS', ok:[{e:'🪨',n:'Piedra'},{e:'🥄',n:'Cuchara'},{e:'🧊',n:'Hielo'},{e:'🔑',n:'Llave'},{e:'🪑',n:'Silla'}],
+          no:[{e:'💧',n:'Agua'},{e:'🥛',n:'Leche'},{e:'💨',n:'Aire'},{e:'♨️',n:'Vapor'},{e:'🧃',n:'Zumo'}] },
+        { meta:'Atrapa los LÍQUIDOS', ok:[{e:'💧',n:'Agua'},{e:'🥛',n:'Leche'},{e:'🧃',n:'Zumo'},{e:'🥤',n:'Refresco'},{e:'🍵',n:'Té'}],
+          no:[{e:'🪨',n:'Piedra'},{e:'🧊',n:'Hielo'},{e:'💨',n:'Aire'},{e:'♨️',n:'Vapor'},{e:'🔑',n:'Llave'}] },
+        { meta:'Atrapa los materiales NATURALES', ok:[{e:'🌳',n:'Madera'},{e:'🧶',n:'Lana'},{e:'🪨',n:'Granito'},{e:'👞',n:'Cuero'},{e:'🧵',n:'Algodón'}],
+          no:[{e:'📄',n:'Papel'},{e:'🧪',n:'Vidrio'},{e:'🧴',n:'Plástico'}] } ] } },
     { id:'ordenadores3', n:6, title:'Código digital', short:'Ordenadores, internet y riesgos digitales', pages:'Págs. 98-113',
       color:'--bone', icon:'wifi', starsBadge:'Red de estrellas',
-      missions: T6_MISIONES, boss: T6_JEFE }
+      missions: T6_MISIONES, boss: T6_JEFE,
+      /* Minijuego de premio: carrera con hábitos digitales seguros (buenos) y riesgos (malos) */
+      minijuego: { tipo:'carrera', titulo:'Carrera segura', fondo:'digital',
+        intro:'Corre por la red, recoge los hábitos que te protegen y salta los riesgos. En las puertas de pregunta, salta para cruzar la de arriba o sigue por el suelo para la de abajo.',
+        fin:'Recuerda: no des datos personales, usa páginas de confianza y cuéntale a un adulto lo que te preocupe.',
+        buenos:[{e:'🛡️',n:'Antivirus'},{e:'🔒',n:'Datos protegidos'},{e:'👨‍👩‍👧',n:'Hablar con la familia'},{e:'⏰',n:'Tiempo controlado'},{e:'✅',n:'Página de confianza'},{e:'⚽',n:'Hacer deporte'},{e:'📚',n:'Leer'}],
+        malos:[{e:'🦠',n:'Virus'},{e:'📩',n:'Mensaje de un desconocido'},{e:'😡',n:'Insultos'},{e:'📢',n:'Publicidad rara'},{e:'🕹️',n:'Jugar sin parar'},{e:'🤥',n:'Noticia falsa'}],
+        preguntas:[
+        {q:'¿Qué haces si recibes insultos por internet?', ok:'Contárselo a un adulto', no:'Contestar con insultos'},
+        {q:'¿Qué protege el ordenador de los virus?', ok:'Un antivirus', no:'Un teclado nuevo'},
+        {q:'¿Debes dar tus datos personales en internet?', ok:'No', no:'Sí, a cualquiera'},
+        {q:'¿Qué es internet?', ok:'Ordenadores conectados', no:'Un solo ordenador'},
+        {q:'¿Dónde se guardan los documentos?', ok:'En el disco duro', no:'En el ratón'},
+        {q:'¿Todo lo que hay en internet es verdad?', ok:'No, hay noticias falsas', no:'Sí, todo'},
+        {q:'¿Con qué se escribe en el ordenador?', ok:'Con el teclado', no:'Con el monitor'} ] } }
   ]
 };
 
