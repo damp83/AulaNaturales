@@ -24,9 +24,47 @@
      · a un reto:     cr:['2.3']   → sustituye al de la misión solo para ese reto
    Mientras no haya criterios, el panel del docente evalúa por misión. */
 const CURRICULO = {
-  /* Ciencias de la Naturaleza · Segundo ciclo (pendiente de añadir) */
-  criterios: [],
-  saberes: []
+  /* Ciencias de la Naturaleza · Segundo ciclo. Numeración: competencia específica.criterio */
+  criterios: [
+    { id:'1.1', texto:'Utilizar dispositivos y recursos digitales, de acuerdo con las necesidades del contexto educativo de forma segura, buscando información, comunicándose y trabajando de forma individual y en equipo, reelaborando y creando contenidos digitales sencillos.' },
+    { id:'2.1', texto:'Formular preguntas y realizar predicciones razonadas, demostrando curiosidad por el medio natural cercano.' },
+    { id:'2.2', texto:'Buscar y seleccionar información de diferentes fuentes seguras y fiables, utilizándola en investigaciones relacionadas con el medio natural y adquiriendo léxico científico básico.' },
+    { id:'2.3', texto:'Realizar experimentos guiados, cuando la investigación lo requiera, utilizando diferentes técnicas de indagación y modelos, empleando de forma segura instrumentos y dispositivos, realizando observaciones y mediciones precisas y registrándolas correctamente.' },
+    { id:'2.4', texto:'Proponer posibles respuestas a las preguntas planteadas, a través de la interpretación de la información y los resultados obtenidos, comparándolos con las predicciones realizadas.' },
+    { id:'2.5', texto:'Presentar los resultados de las investigaciones en diferentes formatos, utilizando lenguaje científico básico y explicando los pasos seguidos.' },
+    { id:'3.1', texto:'Construir en equipo un producto final sencillo que dé solución a un problema de diseño, proponiendo posibles soluciones, probando diferentes prototipos y utilizando de forma segura las herramientas, técnicas y materiales adecuados.' },
+    { id:'3.2', texto:'Presentar el producto final de los proyectos de diseño en diferentes formatos y explicando los pasos seguidos.' },
+    { id:'3.3', texto:'Resolver, de forma guiada, problemas sencillos de programación, modificando algoritmos de acuerdo con los principios básicos del pensamiento computacional.' },
+    { id:'4.1', texto:'Mostrar actitudes que fomenten el bienestar emocional y social, identificando las emociones propias y las de los demás, mostrando empatía y estableciendo relaciones afectivas saludables.' },
+    { id:'5.1', texto:'Identificar las características, la organización y las propiedades de los elementos del medio natural a través de la indagación y utilizando las herramientas y procesos adecuados.' },
+    { id:'5.2', texto:'Identificar conexiones sencillas entre diferentes elementos del medio natural mostrando comprensión de las relaciones que se establecen.' },
+    { id:'5.3', texto:'Proteger el patrimonio natural y valorarlo como un bien común, adoptando conductas respetuosas para su disfrute y proponiendo acciones para su conservación y mejora.' }
+  ],
+  /* Numeración: bloque (A Cultura científica, B Tecnología y digitalización).apartado.saber */
+  saberes: [
+    { id:'A.1.1', bloque:'Iniciación en la actividad científica', texto:'Procedimientos de indagación adecuados a las necesidades de la investigación (observación en el tiempo, identificación y clasificación, búsqueda de patrones, creación de modelos, investigación a través de búsqueda de información, experimentos con control de variables...).' },
+    { id:'A.1.2', bloque:'Iniciación en la actividad científica', texto:'Instrumentos y dispositivos apropiados para realizar observaciones y mediciones precisas de acuerdo a las necesidades de la investigación.' },
+    { id:'A.1.3', bloque:'Iniciación en la actividad científica', texto:'Vocabulario científico básico relacionado con las diferentes investigaciones.' },
+    { id:'A.1.4', bloque:'Iniciación en la actividad científica', texto:'Fomento de la curiosidad, la iniciativa y la constancia en la realización de las diferentes investigaciones.' },
+    { id:'A.1.5', bloque:'Iniciación en la actividad científica', texto:'Avances en el pasado relacionados con la ciencia y la tecnología que han contribuido a transformar nuestra sociedad mostrando modelos que incorporen una perspectiva de género.' },
+    { id:'A.1.6', bloque:'Iniciación en la actividad científica', texto:'La importancia del uso de la ciencia y la tecnología para ayudar a comprender las causas de las propias acciones, tomar decisiones razonadas y realizar tareas de forma más eficiente.' },
+    { id:'A.1.7', bloque:'Iniciación en la actividad científica', texto:'Técnicas de estudio y trabajo. Desarrollo de hábitos de trabajo. Esfuerzo y responsabilidad.' },
+    { id:'A.2.1', bloque:'La vida en nuestro planeta', texto:'Los reinos de la naturaleza desde una perspectiva general e integrada a partir del estudio y análisis de las características de diferentes ecosistemas.' },
+    { id:'A.2.2', bloque:'La vida en nuestro planeta', texto:'Características propias de los animales que permiten su clasificación y diferenciación en subgrupos relacionados con su capacidad adaptativa al medio: obtención de energía, relación con el entorno y perpetuación de la especie.' },
+    { id:'A.2.3', bloque:'La vida en nuestro planeta', texto:'Características propias de las plantas que permiten su clasificación en relación con su capacidad adaptativa al medio: obtención de energía, fotosíntesis, relación con el entorno y perpetuación de la especie.' },
+    { id:'A.2.4', bloque:'La vida en nuestro planeta', texto:'Los ecosistemas como lugar donde intervienen factores bióticos y abióticos, manteniéndose un equilibrio entre los diferentes elementos y recursos. Importancia de la biodiversidad.' },
+    { id:'A.2.5', bloque:'La vida en nuestro planeta', texto:'Las funciones y servicios de los ecosistemas.' },
+    { id:'A.3.1', bloque:'Materia, fuerzas y energía', texto:'El calor. Cambios de estado, materiales conductores y aislantes, instrumentos de medición y aplicaciones en la vida cotidiana.' },
+    { id:'A.3.2', bloque:'Materia, fuerzas y energía', texto:'Los cambios reversibles e irreversibles que experimenta la materia desde un estado inicial a uno final identificando los procesos y transformaciones que experimenta en situaciones de la vida cotidiana.' },
+    { id:'A.3.3', bloque:'Materia, fuerzas y energía', texto:'Fuerzas de contacto y a distancia (el magnetismo). Las fuerzas y sus efectos.' },
+    { id:'A.3.4', bloque:'Materia, fuerzas y energía', texto:'Propiedades de las máquinas simples y su efecto sobre las fuerzas. Aplicaciones y usos en la vida cotidiana.' },
+    { id:'B.1.1', bloque:'Digitalización del entorno personal de aprendizaje', texto:'Dispositivos y recursos digitales de acuerdo con las necesidades del contexto educativo.' },
+    { id:'B.1.2', bloque:'Digitalización del entorno personal de aprendizaje', texto:'Estrategias de búsquedas guiadas de información seguras y eficientes en Internet (valoración, discriminación, selección y organización).' },
+    { id:'B.2.1', bloque:'Proyectos de diseño y pensamiento computacional', texto:'Fases de los proyectos de diseño: diseño, prototipado, prueba y comunicación.' },
+    { id:'B.2.2', bloque:'Proyectos de diseño y pensamiento computacional', texto:'Materiales, herramientas y objetos adecuados a la consecución de un proyecto de diseño.' },
+    { id:'B.2.3', bloque:'Proyectos de diseño y pensamiento computacional', texto:'Técnicas cooperativas sencillas para el trabajo en equipo y estrategias para la gestión de conflictos y promoción de conductas empáticas e inclusivas.' },
+    { id:'B.2.4', bloque:'Proyectos de diseño y pensamiento computacional', texto:'Iniciación en la programación a través de recursos analógicos (actividades desenchufadas) o digitales (plataformas digitales de iniciación en la programación, aplicaciones de programación por bloques, robótica educativa...).' }
+  ]
 };
 
 /* ---------- TEMA 1 · Agentes del cuerpo humano (libro, págs. 6-23) ---------- */
@@ -930,8 +968,29 @@ CURSO.temas.forEach(t => (t.missions || []).forEach(m => {
 }));
 
 /* ---------- ASOCIACIÓN DE CADA TEMA CON EL CURRÍCULO ----------
-   Se rellena cuando estén los criterios y saberes de 3.º (mira cursos/2-primaria/contenidos.js). */
-const EVALUACION = {};
+   criterios: los del tema (los que no tengan retos aparecen como «no evaluables en el juego»).
+   misiones:  criterio que evalúan todos los retos de esa misión (también el jefe final).
+   retos:     excepciones para un reto concreto, con la clave «misión#número» (el número empieza en 0). */
+const EVALUACION = {
+  cuerpo3: { criterios:['4.1','5.1','5.2'], saberes:['A.1.3','A.1.7'],
+    misiones:{ vida3:['5.1'], mapa3:['5.1'], motor3:['5.1'], etapas3:['5.1'], bienestar3:['4.1'], 'reto-cuerpo3':['5.1'] },
+    retos:{ 'vida3#5':['4.1'], 'vida3#6':['4.1'], 'vida3#7':['4.1'], 'mapa3#5':['5.2'], 'motor3#7':['5.2'], 'motor3#8':['5.2'] } },
+  animales3: { criterios:['5.1','5.2'], saberes:['A.2.2','A.1.1','A.1.3'],
+    misiones:{ superviv3:['5.1'], censo3:['5.1'], blandos3:['5.1'], armadura3:['5.1'], 'reto-animales3':['5.1'] },
+    retos:{ 'superviv3#4':['5.2'] } },
+  vertebrados3: { criterios:['5.1','5.2','5.3'], saberes:['A.2.2','A.2.1','A.1.1'],
+    misiones:{ vert3a:['5.1'], vert3b:['5.1'], vert3c:['5.1'], vert3d:['5.2'], 'reto-vert3':['5.1'] },
+    retos:{ 'vert3d#5':['5.3'], 'vert3d#6':['5.3'] } },
+  ecosistemas3: { criterios:['5.1','5.2','5.3'], saberes:['A.2.4','A.2.5','A.2.1'],
+    misiones:{ eco3a:['5.1'], eco3b:['5.2'], eco3c:['5.2'], eco3d:['5.1'], 'reto-eco3':['5.2'] } },
+  materia3: { criterios:['2.1','2.3','2.4','3.1','5.1','5.2','5.3'], saberes:['A.3.1','A.3.2','A.1.2','A.1.3'],
+    misiones:{ mat3a:['5.1'], mat3b:['5.1'], mat3c:['5.1'], mat3d:['5.1'], mat3e:['5.1'], 'reto-materia3':['5.1'] },
+    retos:{ 'mat3a#7':['2.1'], 'mat3b#4':['3.1'], 'mat3b#5':['3.1'], 'mat3b#6':['3.1'], 'mat3b#7':['2.1'], 'mat3c#3':['5.2'], 'mat3c#7':['2.4'],
+      'mat3d#4':['2.4'], 'mat3d#8':['5.2'], 'mat3e#4':['5.2'], 'mat3e#5':['5.2'], 'mat3e#7':['5.3'], 'mat3e#8':['5.3'] } },
+  ordenadores3: { criterios:['1.1','2.2','3.3','4.1'], saberes:['B.1.1','B.1.2'],
+    misiones:{ dig3a:['1.1'], dig3b:['1.1'], dig3c:['1.1'], dig3d:['1.1'], 'reto-digital3':['1.1'] },
+    retos:{ 'dig3c#4':['2.2'], 'dig3c#5':['2.2'], 'dig3d#2':['4.1'] } }
+};
 CURSO.temas.forEach(t => {
   const e = EVALUACION[t.id]; if (!e) return;
   t.criterios = e.criterios; t.saberes = e.saberes;
