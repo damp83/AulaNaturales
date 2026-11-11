@@ -125,8 +125,8 @@ button{font:inherit;color:inherit}
 .bm-out .limb{stroke:var(--sense);stroke-width:44;stroke-linecap:round;fill:none}
 .bm-in circle,.bm-in rect{fill:#163463}
 .bm-in .limb{stroke:#163463;stroke-width:36;stroke-linecap:round;fill:none}
-.trail{fill:none;stroke:var(--ink-dim);stroke-width:5;stroke-dasharray:1 12;stroke-linecap:round}
-.trail.lit{stroke:var(--gold);stroke-dasharray:none;stroke-width:6;filter:drop-shadow(0 0 4px var(--gold))}
+.trail{fill:none;stroke:var(--edge);opacity:.55;stroke-width:5;stroke-dasharray:1 12;stroke-linecap:round}
+.trail.lit{stroke:var(--gold);opacity:1;stroke-dasharray:none;stroke-width:6;filter:drop-shadow(0 0 4px var(--gold))}
 .node{cursor:pointer}
 .node .n-top{transition:transform .12s}
 .node:hover .n-top{transform:translateY(-3px)}
@@ -488,6 +488,15 @@ td.num-c{font-variant-numeric:tabular-nums}
 .mini-controls p{margin:0;color:var(--ink-soft);flex:1 1 240px;min-width:0}
 #mj-jump{min-width:180px;font-size:1.5rem}
 .extra.is-locked{opacity:.7}
+.memo-help{margin:14px 0 0;color:var(--ink-soft)} .memo-help b{font-family:var(--f-game);font-weight:400;color:var(--gold);white-space:nowrap}
+.memo-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}
+.memo-card{position:relative;min-height:112px;padding:8px;border-radius:18px;border:3px solid var(--edge);background:var(--panel-2);color:#fff;cursor:pointer;box-shadow:0 5px 0 var(--edge);font-family:var(--f-game);font-size:clamp(.95rem,2.6vw,1.25rem);line-height:1.15;display:grid;place-items:center;text-align:center;overflow-wrap:anywhere}
+.memo-card .back{font-size:2.4rem;color:var(--gold)} .memo-card .front{display:none}
+.memo-card.open .back{display:none} .memo-card.open .front{display:block}
+.memo-card.open{background:var(--night-2);border-color:var(--sense)} .memo-card.open:has(.s1){border-color:var(--gold)}
+.memo-card.done{background:var(--ok-d);border-color:var(--ok);cursor:default}
+.memo-card:focus-visible{outline:4px solid var(--gold);outline-offset:3px}
+@media (max-width:700px){ .memo-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px} .memo-card{min-height:92px;padding:6px} }
 .mini-stage.resc canvas{touch-action:none;height:clamp(380px,56vw,540px)}
 .resc-legend,.resc-groups{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;width:100%}
 .resc-legend span{font-family:var(--f-game);background:var(--rc);color:#fff;border:3px solid var(--edge);border-radius:14px;padding:4px 12px;text-shadow:0 2px 0 rgba(0,0,0,.35)}
@@ -735,6 +744,29 @@ if(S.voice && !S.voice_es){ S.voice_es = S.voice; delete S.voice; }
    Los textos de la interfaz en inglés están en UI_EN; los contenidos, en contenidos-en.js. */
 const UI_EN = {
   /* Minijuegos de premio */
+  'Recoge lo que tiene aro verde y salta lo que tiene aro rojo. Si te chocas, pierdes un corazón.':'Collect the things with a green ring and jump over the ones with a red ring. If you bump into one, you lose a heart.',
+  'Esta vez no has recogido nada':'You didn\'t collect anything this time',
+  'Llevas: {a}. ¿Dónde va?':'You are carrying: {a}. Where does it go?',
+  '{a} va en: {g}':'{a} goes in: {g}',
+  'Todo está en su sitio':'Everything is in its place',
+  '¡Misión completada!':'Mission complete!',
+  'colocados':'sorted',
+  'Fallos: {n}. ¡Repasa y vuelve a intentarlo!':'Mistakes: {n}. Review and try again!',
+  '¡Ni un solo error!':'Not a single mistake!',
+  'Toca o arrastra para mover a tu personaje (o usa las flechas). Lleva cada cosa a su sitio.':'Tap or drag to move your character (or use the arrow keys). Take each thing to its place.',
+  'Destapa dos cartas. Si forman pareja, se quedan a la vista. ¡Encuéntralas todas con los menos intentos posibles!':'Turn over two cards. If they match, they stay face up. Find all the pairs in as few tries as you can!',
+  'Intentos: {n}':'Tries: {n}',
+  'Carta tapada':'Face-down card',
+  'Todas las parejas encontradas':'All pairs found',
+  '¡Buena memoria!':'Great memory!',
+  'Toca o arrastra para mover a tu personaje.':'Tap or drag to move your character.',
+  'Toca o arrastra para mover a tu personaje (o usa las flechas). Atrapa solo lo que pide el cartel.':'Tap or drag to move your character (or use the arrow keys). Catch only what the sign asks for.',
+  '¡Están cayendo cosas del cielo! Mueve a tu personaje y atrapa solo lo que pide el cartel. Si atrapas otra cosa, pierdes un corazón.':'Things are falling from the sky! Move your character and catch only what the sign asks for. If you catch something else, you lose a heart.',
+  '¡A jugar!':'Let\'s play!',
+  '¡Ronda superada!':'Round complete!',
+  'Has superado todas las rondas':'You completed every round',
+  '¡Conseguido!':'You did it!',
+  'rondas':'rounds',
   'Bosque. Toca o arrastra para mover a tu personaje.':'Forest. Tap or drag to move your character.',
   'Toca o arrastra para mover a tu personaje (o usa las flechas). Lleva cada animal al refugio de su grupo.':'Tap or drag to move your character (or use the arrow keys). Take each animal to the shelter for its group.',
   '¡Hay animales perdidos en el bosque! Acércate a un animal para recogerlo y llévalo al refugio de su grupo antes de que se acabe el tiempo. ¡Cuidado con {v}!':'There are lost animals in the forest! Walk up to an animal to pick it up and take it to the shelter for its group before time runs out. Watch out for {v}!',
@@ -1345,6 +1377,38 @@ function nodeSVG(w, i, x, y, open, st, isNext, label){
 function pinSVG(x, y, avatar){
   return `<g class="pin" transform="translate(${x+26},${y-74})"><g class="bob"><svg x="-24" y="0" width="48" height="58" viewBox="0 0 100 120">${avatarSVG(avatar).replace(/^<svg[^>]*>|<\/svg>$/g,'')}</svg></g></g>`;
 }
+/* Escenarios de los mapas de tema: en contenidos.js, cada tema elige el suyo con map:'huerto', map:'lab'...
+   Cada uno tiene cielo (dos colores), terreno, color del camino, dibujos grandes (junto a cada misión) y pequeños. */
+const ESCENAS = {
+  salud:   { sky:['#1D4E7A','#2C8C7A'], blob:'#3FBF8F', road:'#F4E3B5', deco:['🍎','🧼','🚲','😴','🥦','🏥'], bits:['❤️','💧','⭐'] },
+  sabana:  { sky:['#2A4D7A','#B8793A'], blob:'#D9A441', road:'#F6E2B0', deco:['🦒','🐘','🦜','🐢','🦋','🌴'], bits:['🐾','🌿','🐾'] },
+  huerto:  { sky:['#1F5A8A','#2F8F4E'], blob:'#49B35F', road:'#D9A066', deco:['🌻','🌳','🌷','🍅','🌲','☀️'], bits:['🌱','🐝','🍃'] },
+  lab:     { sky:['#241B55','#3E3A8C'], blob:'#5B55B8', road:'#C9D3E3', deco:['🧪','🔬','🧲','💡','🔦','⚗️'], bits:['✨','⚙️','✨'], dots:true },
+  digital: { sky:['#0E1B3D','#143A66'], blob:'#1E5FA8', road:'#5CF0FF', deco:['💻','📱','🖨️','🌐','🛡️','⌨️'], bits:['📶','💾','🔌'], grid:true },
+  cuerpo:  { sky:['#3A1F4D','#7A2E4E'], blob:'#B8446A', road:'#FFD27A', deco:['❤️','🧠','🦴','👶','🍎','💪'], bits:['👁️','👂','✋'] },
+  bosque:  { sky:['#173F4A','#1F6B45'], blob:'#2E9E5B', road:'#E0C08A', deco:['🦊','🐸','🐌','🦋','🌲','🐙'], bits:['🍄','🌿','🐾'] },
+  rio:     { sky:['#1B4B7A','#2A7FA8'], blob:'#3FB6C8', road:'#EADBA6', deco:['🐻','🦅','🐸','🐄','🐟','🐊'], bits:['🌊','🌾','🌊'] },
+  mundo:   { sky:['#1A3F5C','#8A6A2E'], blob:'#4FAF6A', road:'#EAD9A8', deco:['🌲','🐇','🐝','🌵','🐧','🐠'], bits:['☁️','🌿','☁️'] },
+  energia: { sky:['#2B1B4D','#8A3A2E'], blob:'#D9662E', road:'#FFE08A', deco:['🧊','🧱','🌡️','🔥','⚡','💨'], bits:['✨','💧','✨'], dots:true }
+};
+function sceneSVG(t, pts, H){
+  const e = ESCENAS[t.map]; if(!e) return '';
+  const id = 'sc-' + t.id, n = pts.length;
+  const road = pts.slice(1).map((q,i)=>{ const a=pts[i]; return `M${a[0]} ${a[1]} C${a[0]} ${a[1]+60} ${q[0]} ${q[1]-60} ${q[0]} ${q[1]}`; }).join(' ');
+  let s = `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${e.sky[0]}"/><stop offset="1" stop-color="${e.sky[1]}"/></linearGradient><clipPath id="${id}-c"><rect x="0" y="0" width="300" height="${H}" rx="22"/></clipPath></defs>
+    <g aria-hidden="true" clip-path="url(#${id}-c)"><rect x="0" y="0" width="300" height="${H}" fill="url(#${id})"/>`;
+  if(e.grid){ for(let y=30;y<H;y+=42) s+=`<path d="M0 ${y}H300" stroke="${e.road}" stroke-width="1" opacity=".14"/>`; for(let x=30;x<300;x+=42) s+=`<path d="M${x} 0V${H}" stroke="${e.road}" stroke-width="1" opacity=".14"/>`; }
+  if(e.dots){ for(let i=0;i<Math.round(H/14);i++) s+=`<circle cx="${(i*83)%300}" cy="${(i*131)%H}" r="${1+i%3}" fill="#fff" opacity=".3"/>`; }
+  // terreno: una mancha suave al lado contrario de cada misión, donde va su dibujo
+  pts.forEach((q,i)=>{ const x = q[0]<150 ? 262 : 38; s+=`<ellipse cx="${x}" cy="${q[1]+26}" rx="92" ry="40" fill="${e.blob}" opacity=".55"/><ellipse cx="${x}" cy="${q[1]+34}" rx="70" ry="26" fill="${e.blob}" opacity=".5"/>`; });
+  s += `<path d="${road}" fill="none" stroke="#06122A" stroke-width="30" stroke-linecap="round" opacity=".35"/><path d="${road}" fill="none" stroke="${e.road}" stroke-width="22" stroke-linecap="round" opacity=".85"/>`;
+  pts.forEach((q,i)=>{
+    const left = q[0]>=150, x = left ? 52 : 248, fin = i===n-1;
+    s+=`<text x="${x}" y="${q[1]+22}" font-size="${fin?50:42}" text-anchor="middle">${fin?'🏰':e.deco[i%e.deco.length]}</text>`;
+    if(i<n-1) s+=`<text x="${left?262:38}" y="${q[1]+70}" font-size="20" text-anchor="middle" opacity=".9">${e.bits[i%e.bits.length]}</text>`;
+  });
+  return s + '</g>';
+}
 function renderMap(){
   const p=P(), nx=nextIdx(), L=stagesOf(CT), v=$('#view-map');
   const label = (w,i) => w.boss ? tr('Jefe final') : tr('Misión')+' '+(i+1);
@@ -1373,7 +1437,7 @@ function renderMap(){
     const H = 60+L.length*105;
     const trails = pts.slice(1).map((q,i)=>{ const a=pts[i]; return `<path class="trail ${stars(p,L[i].id)>0?'lit':''}" d="M${a[0]} ${a[1]} C${a[0]} ${a[1]+60} ${q[0]} ${q[1]-60} ${q[0]} ${q[1]}"/>`; }).join('');
     const pin = pts[nx>=0?nx:pts.length-1];
-    svg = `<svg class="bodymap" viewBox="0 0 300 ${H}" role="group" aria-label="${tr('Mapa de las misiones del tema')}">${trails}
+    svg = `<svg class="bodymap" viewBox="0 0 300 ${H}" role="group" aria-label="${tr('Mapa de las misiones del tema')}">${sceneSVG(CT, pts, H)}${trails}
       ${L.map((w,i)=>nodeSVG(w,i,pts[i][0],pts[i][1],unlocked(i),stars(p,w.id),i===nx,label(w,i))).join('')}${pinSVG(pin[0],pin[1],p.avatar)}</svg>`;
   }
   v.setAttribute('style', cvars(CT));
@@ -1759,6 +1823,7 @@ const MINI_MALOS = [
   {e:'📱', n:'Pantallas sin parar'}, {e:'🍩', n:'Bollería'}
 ];
 const miniOn = () => S.mini !== false;
+const miniB = () => MG.t.minijuego.buenos || MINI_BUENOS, miniM = () => MG.t.minijuego.malos || MINI_MALOS;
 const miniUnlocked = t => S.free || temaBeaten(P(), t);
 const miniRec = (p, t) => (p.mini && p.mini[t.id]) || null;
 let MG = null;
@@ -1772,6 +1837,8 @@ function miniButtonHTML(t){
 
 function openMini(t){
   if(t.minijuego.tipo==='rescate') return openRescate(t);
+  if(t.minijuego.tipo==='memoria') return openMemoria(t);
+  if(t.minijuego.tipo==='lluvia') return openLluvia(t);
   const v=$('#view-mini'), mj=t.minijuego;
   v.setAttribute('style', cvars(t));
   v.innerHTML = `${hudHTML()}
@@ -1783,7 +1850,7 @@ function openMini(t){
       <div class="mini-toast" id="mj-toast" hidden></div>
       <div class="mini-over" id="mj-over"></div>
     </div>
-    <div class="mini-controls" id="mj-controls"><p>${tr('Recoge los hábitos sanos y salta los demás. Si te chocas, pierdes un corazón.')}</p><button class="btn" id="mj-jump" type="button">⬆️ ${tr('Saltar')}</button></div>`;
+    <div class="mini-controls" id="mj-controls"><p>${tr(mj.buenos ? 'Recoge lo que tiene aro verde y salta lo que tiene aro rojo. Si te chocas, pierdes un corazón.' : 'Recoge los hábitos sanos y salta los demás. Si te chocas, pierdes un corazón.')}</p><button class="btn" id="mj-jump" type="button">⬆️ ${tr('Saltar')}</button></div>`;
   bindHud(v, ()=>{ miniStop(); openMini(t); });
   v.querySelector('[data-act="back"]').onclick = ()=>{ miniStop(); goMap(); };
   const cv=v.querySelector('#mj-cv');
@@ -1798,8 +1865,8 @@ function miniCards(on){ $('#mj-stage').classList.toggle('card-mode', on); $('#mj
 function miniIntro(){
   const o=$('#mj-over'); o.hidden=false; miniCards(true);
   o.innerHTML = `<div class="mini-card panel">
-    <p>${tr('Corre por el parque, recoge los hábitos que te dan salud y salta los que no. En las puertas de pregunta, salta para cruzar la de arriba o sigue por el suelo para la de abajo.')}</p>
-    <div class="mini-legend"><div class="good"><b>＋ ${tr('Recoge')}</b><span>🍎🥦💧🪥🚲😴</span></div><div class="bad"><b>✕ ${tr('Salta por encima')}</b><span>🍬🍟🥤📱🍩</span></div></div>
+    <p>${MG.t.minijuego.intro ? esc(MG.t.minijuego.intro) : tr('Corre por el parque, recoge los hábitos que te dan salud y salta los que no. En las puertas de pregunta, salta para cruzar la de arriba o sigue por el suelo para la de abajo.')}</p>
+    <div class="mini-legend"><div class="good"><b>＋ ${tr('Recoge')}</b><span>${miniB().slice(0,6).map(x=>x.e).join('')}</span></div><div class="bad"><b>✕ ${tr('Salta por encima')}</b><span>${miniM().slice(0,6).map(x=>x.e).join('')}</span></div></div>
     <button class="btn gold" id="mj-go" type="button">${tr('¡A correr!')}</button></div>`;
   o.querySelector('#mj-go').onclick = miniStart;
   miniNew();
@@ -1809,7 +1876,7 @@ function miniResize(){
   MG.dpr=Math.min(window.devicePixelRatio||1,2); MG.cv.width=Math.round(r.width*MG.dpr); MG.cv.height=Math.round(r.height*MG.dpr);
   MG.H=360; MG.W=MG.H*r.width/r.height; MG.GROUND=MG.H-62; MG.PX=Math.max(90, MG.W*.17);
 }
-addEventListener('resize', ()=>{ if(!MG || $('#view-mini').hidden) return; if(MG.tipo==='rescate'){ if(MG.state==='play'){ rescResize(); rescDraw(); } } else { miniResize(); if(MG.g) miniDraw(); } });
+addEventListener('resize', ()=>{ if(!MG || $('#view-mini').hidden) return; if(MG.tipo==='memoria') return; if(MG.tipo==='rescate'){ if(MG.state==='play'){ rescResize(); rescDraw(); } } else if(MG.tipo==='lluvia'){ if(MG.state==='play'){ lluResize(); lluDraw(); } } else { miniResize(); if(MG.g) miniDraw(); } });
 function miniNew(){
   const qs = [...MG.t.minijuego.preguntas].sort(()=>Math.random()-.5).slice(0,3);
   MG.g = { t:0, speed:190, dist:0, score:0, hearts:3, inv:0, y:MG.GROUND, vy:0, jumps:0, onGround:true, squash:0,
@@ -1854,8 +1921,8 @@ function miniUpdate(dt){
   if(g.next<=0 && g.t<DUR-2){
     if(g.gates.some(q=>q.state==='announce'||q.state==='run')) g.next=.6;
     else {
-      if(Math.random()<.62){ const it=MINI_BUENOS[Math.floor(Math.random()*MINI_BUENOS.length)], air=Math.random()<.45; g.items.push({kind:'good',it,x:W+40,y:air?GROUND-150:GROUND-34,r:24,bob:Math.random()*6}); }
-      else { const it=MINI_MALOS[Math.floor(Math.random()*MINI_MALOS.length)]; g.items.push({kind:'bad',it,x:W+40,y:GROUND-30,r:24,bob:0}); }
+      if(Math.random()<.62){ const B=miniB(), it=B[Math.floor(Math.random()*B.length)], air=Math.random()<.45; g.items.push({kind:'good',it,x:W+40,y:air?GROUND-150:GROUND-34,r:24,bob:Math.random()*6}); }
+      else { const B=miniM(), it=B[Math.floor(Math.random()*B.length)]; g.items.push({kind:'bad',it,x:W+40,y:GROUND-30,r:24,bob:0}); }
       g.next=(.75+Math.random()*.6)*250/g.speed+.25;
     }
   }
@@ -1890,22 +1957,22 @@ function miniUpdate(dt){
 }
 function miniDraw(){
   const {cx,W,H,GROUND,PX,g}=MG; if(!W) return;
-  const px=n=>Math.round(n/4)*4;
+  const px=n=>Math.round(n/4)*4, D=MG.t.minijuego.fondo==='digital';
   cx.setTransform(MG.cv.width/W,0,0,MG.cv.height/H,0,0);
   cx.save(); if(g.shake>0 && !reduced()) cx.translate(Math.sin(g.t*80)*g.shake*5,0);
-  const sky=cx.createLinearGradient(0,0,0,H); sky.addColorStop(0,'#10274D'); sky.addColorStop(.55,'#1F5A8A'); sky.addColorStop(1,'#3FB6FF');
+  const sky=cx.createLinearGradient(0,0,0,H); sky.addColorStop(0,D?'#1B1140':'#10274D'); sky.addColorStop(.55,D?'#3A1F7A':'#1F5A8A'); sky.addColorStop(1,D?'#8A5CF6':'#3FB6FF');
   cx.fillStyle=sky; cx.fillRect(0,0,W,H);
   cx.fillStyle='#FFC93C'; const sx=W*.78; for(let y=-28;y<=28;y+=4) for(let x=-28;x<=28;x+=4) if(x*x+y*y<=784) cx.fillRect(sx+x,70+y,4,4);
   cx.fillStyle='rgba(255,255,255,.85)';
   for(let i=0;i<4;i++){ const x=px(((i*260-g.dist*.08)%(W+240)+W+240)%(W+240)-120), y=40+(i%2)*38; [[0,8,48,12],[8,0,28,8],[12,20,36,4]].forEach(([a,b,c,d])=>cx.fillRect(x+a,y+b,c,d)); }
-  [[.18,'#1C6E73',110,46,300],[.35,'#23935A',74,30,190]].forEach(([f,col,hg,amp,per])=>{ cx.fillStyle=col; const off=g.dist*f; for(let x=0;x<W+8;x+=8){ const y=GROUND-18-hg+Math.sin((x+off)/per*Math.PI*2)*amp*.5+Math.sin((x+off)/(per*.37))*amp*.25; cx.fillRect(x,px(y),8,H); } });
+  [[.18,D?'#2B2A72':'#1C6E73',110,46,300],[.35,D?'#3D3CA3':'#23935A',74,30,190]].forEach(([f,col,hg,amp,per])=>{ cx.fillStyle=col; const off=g.dist*f; for(let x=0;x<W+8;x+=8){ const y=GROUND-18-hg+Math.sin((x+off)/per*Math.PI*2)*amp*.5+Math.sin((x+off)/(per*.37))*amp*.25; cx.fillRect(x,px(y),8,H); } });
   const toff=(g.dist*.55)%170;
-  for(let x=-toff;x<W+170;x+=170){ cx.fillStyle='#7A4E2D'; cx.fillRect(px(x+40),GROUND-70,12,50); cx.fillStyle='#1F8A3B'; cx.beginPath(); cx.arc(x+46,GROUND-84,30,0,7); cx.fill(); cx.fillStyle='#43D166'; cx.beginPath(); cx.arc(x+38,GROUND-92,14,0,7); cx.fill(); }
-  cx.fillStyle='#43D166'; cx.fillRect(0,GROUND-18,W,16);
-  cx.fillStyle='#1F8A3B'; for(let x=-(g.dist%24);x<W;x+=24){ cx.fillRect(px(x),GROUND-22,4,6); cx.fillRect(px(x+10),GROUND-20,4,4); }
-  cx.fillStyle='#C98A55'; cx.fillRect(0,GROUND-2,W,H-GROUND+2);
-  cx.fillStyle='#E8C590'; for(let x=-(g.dist%60);x<W;x+=60) cx.fillRect(px(x),GROUND+24,32,6);
-  cx.fillStyle='#A86E3E'; for(let x=-(g.dist%36);x<W;x+=36) cx.fillRect(px(x+12),GROUND+44,8,4);
+  for(let x=-toff;x<W+170;x+=170){ if(D){ cx.fillStyle='#5CF0FF'; cx.fillRect(px(x+44),GROUND-84,4,66); cx.fillRect(px(x+34),GROUND-88,24,6); cx.fillRect(px(x+38),GROUND-74,16,4); continue; } cx.fillStyle='#7A4E2D'; cx.fillRect(px(x+40),GROUND-70,12,50); cx.fillStyle='#1F8A3B'; cx.beginPath(); cx.arc(x+46,GROUND-84,30,0,7); cx.fill(); cx.fillStyle='#43D166'; cx.beginPath(); cx.arc(x+38,GROUND-92,14,0,7); cx.fill(); }
+  cx.fillStyle=D?'#3FB6FF':'#43D166'; cx.fillRect(0,GROUND-18,W,16);
+  cx.fillStyle=D?'#1A6FB0':'#1F8A3B'; for(let x=-(g.dist%24);x<W;x+=24){ cx.fillRect(px(x),GROUND-22,4,6); cx.fillRect(px(x+10),GROUND-20,4,4); }
+  cx.fillStyle=D?'#24334F':'#C98A55'; cx.fillRect(0,GROUND-2,W,H-GROUND+2);
+  cx.fillStyle=D?'#5CF0FF':'#E8C590'; for(let x=-(g.dist%60);x<W;x+=60) cx.fillRect(px(x),GROUND+24,32,6);
+  cx.fillStyle=D?'#16203A':'#A86E3E'; for(let x=-(g.dist%36);x<W;x+=36) cx.fillRect(px(x+12),GROUND+44,8,4);
   const rr=(x,y,w,h,r)=>{ cx.beginPath(); if(cx.roundRect) cx.roundRect(x,y,w,h,r); else cx.rect(x,y,w,h); };
   const emoji=(e,x,y,s)=>{ cx.font=`${s}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(e,x,y); };
   for(const o of g.items){
@@ -1915,9 +1982,9 @@ function miniDraw(){
         let col=i===0?'#2079C7':'#D63B50'; if(o.done) col=((i===0)===o.q.top)?'#43D166':'#5A6B85';
         cx.fillStyle='rgba(6,18,42,.55)'; rr(o.x-w/2,y0,w,y1-y0,16); cx.fill(); cx.strokeStyle=col; cx.lineWidth=8; cx.stroke();
         cx.fillStyle=col; rr(o.x-w/2-6,i===0?y1-46:y0-4,w+12,50,12); cx.fill(); cx.strokeStyle='#06122A'; cx.lineWidth=3; cx.stroke();
-        cx.fillStyle='#fff'; cx.font='18px "Lilita One", sans-serif'; cx.textAlign='center'; cx.textBaseline='middle';
+        const big=String(txt).length<=24; cx.fillStyle='#fff'; cx.font=(big?18:14)+'px "Lilita One", sans-serif'; cx.textAlign='center'; cx.textBaseline='middle';
         const words=String(txt).split(' '), lines=[]; let l=''; for(const wd of words){ const tt=l?l+' '+wd:wd; if(cx.measureText(tt).width>w-10 && l){ lines.push(l); l=wd; } else l=tt; } lines.push(l);
-        const cy=i===0?y1-21:y0+21; lines.slice(0,2).forEach((ln,k,a)=>cx.fillText(ln,o.x,cy+(k-(a.length-1)/2)*19));
+        const cy=i===0?y1-21:y0+21; lines.slice(0,3).forEach((ln,k,a)=>cx.fillText(ln,o.x,cy+(k-(a.length-1)/2)*(big?19:15)));
         cx.font='22px sans-serif'; cx.fillText(i===0?'⬆️':'➡️',o.x,i===0?y0+28:y1-24);
       });
       continue;
@@ -1956,8 +2023,8 @@ function miniFinish(won){
   const gain = Math.round(Math.max(0, g.score-rec.best)/10), record = g.score>rec.best && rec.plays>0;
   rec.plays++; rec.best=Math.max(rec.best,g.score); rec.stars=Math.max(rec.stars,st); p.mini[t.id]=rec;
   p.xp += gain; save();
-  const got = Object.entries(g.got).sort((a,b)=>b[1]-a[1]), info = e => MINI_BUENOS.find(b=>b.e===e);
-  const tipos = [...new Set(got.map(([e])=>tr(info(e).d)))];
+  const got = Object.entries(g.got).sort((a,b)=>b[1]-a[1]), info = e => miniB().find(b=>b.e===e), mj = t.minijuego;
+  const tipos = [...new Set(got.map(([e])=>info(e).d).filter(Boolean).map(d=>tr(d)))];
   const o=$('#mj-over'); o.hidden=false; miniCards(true); window.scrollTo(0,0);
   o.innerHTML = `<div class="mini-card panel">
     <div class="eyebrow">${tr(won?'Carrera terminada':'Te has quedado sin energía')}</div>
@@ -1965,19 +2032,19 @@ function miniFinish(won){
     <div class="mini-stars" aria-label="${tr('{n} de 3 estrellas',{n:st})}">${[0,1,2].map(k=>ico('star',k<st?'on':'')).join('')}</div>
     <div class="mini-stats"><div><b>${g.score}</b><span>${tr('puntos')}</span></div><div><b>${g.qok}/${g.nq}</b><span>${tr('preguntas')}</span></div><div><b>${rec.best}</b><span>${tr('tu récord')}</span></div></div>
     ${record ? `<div class="levelup outline-sm">${tr('¡Nuevo récord!')}${gain?' +'+gain+' XP':''}</div>` : gain ? `<div class="levelup outline-sm">+${gain} XP</div>` : ''}
-    <div class="mini-got">${got.length ? got.map(([e,n])=>`<span>${e} ${esc(tr(info(e).n))} ×${n}</span>`).join('') : `<span>${tr('Esta vez no has recogido hábitos sanos')}</span>`}</div>
-    <p>${tipos.length ? tr('Has practicado: {l}. ¡Así se cuida la salud!',{l:tipos.join(', ')}) : tr('Recuerda: higiene, ejercicio, ocio y descanso, buena alimentación y buena postura.')}</p>
+    <div class="mini-got">${got.length ? got.map(([e,n])=>`<span>${e} ${esc(tr(info(e).n))} ×${n}</span>`).join('') : `<span>${tr(mj.buenos ? 'Esta vez no has recogido nada' : 'Esta vez no has recogido hábitos sanos')}</span>`}</div>
+    ${mj.buenos ? (mj.fin ? `<p>${esc(mj.fin)}</p>` : '') : `<p>${tipos.length ? tr('Has practicado: {l}. ¡Así se cuida la salud!',{l:tipos.join(', ')}) : tr('Recuerda: higiene, ejercicio, ocio y descanso, buena alimentación y buena postura.')}</p>`}
     <div class="row" style="justify-content:center"><button class="btn gold" id="mj-again" type="button">${tr('Jugar otra vez')}</button><button class="btn dark" id="mj-map" type="button">${tr('Mapa del tema')}</button></div></div>`;
   o.querySelector('#mj-again').onclick = miniStart;
   o.querySelector('#mj-map').onclick = ()=>{ miniStop(); goMap(); };
   sfx(won?'win':'bad'); if(st>=2) setTimeout(confetti, 300);
 }
 addEventListener('keydown', e=>{
-  if(!MG || MG.tipo==='rescate' || $('#view-mini').hidden || MG.state!=='play') return;
+  if(!MG || MG.tipo || $('#view-mini').hidden || MG.state!=='play') return;
   if(e.code==='Space' || e.code==='ArrowUp'){ e.preventDefault(); miniJump(); }
   if(e.code==='Escape' || e.code==='KeyP') miniPause();
 });
-document.addEventListener('visibilitychange', ()=>{ if(document.hidden && MG && MG.state==='play' && !MG.g.paused) (MG.tipo==='rescate' ? rescPause : miniPause)(); });
+document.addEventListener('visibilitychange', ()=>{ if(document.hidden && MG && MG.state==='play' && MG.g && !MG.g.paused) (MG.tipo==='rescate' ? rescPause : MG.tipo==='lluvia' ? lluPause : miniPause)(); });
 /* ---------- Minijuego «rescate» ----------
    El alumno mueve a su personaje por el bosque (tocando, arrastrando o con las flechas), recoge
    animales perdidos y lleva cada uno al refugio de su grupo. En contenidos.js:
@@ -1994,7 +2061,7 @@ function openRescate(t){
       <div class="mini-toast" id="mj-toast" hidden></div>
       <div class="mini-over" id="mj-over"></div>
     </div>
-    <div class="mini-controls" id="mj-controls"><p>${tr('Toca o arrastra para mover a tu personaje (o usa las flechas). Lleva cada animal al refugio de su grupo.')}</p></div>`;
+    <div class="mini-controls" id="mj-controls"><p>${tr(mj.cosas ? 'Toca o arrastra para mover a tu personaje (o usa las flechas). Lleva cada cosa a su sitio.' : 'Toca o arrastra para mover a tu personaje (o usa las flechas). Lleva cada animal al refugio de su grupo.')}</p></div>`;
   bindHud(v, ()=>{ miniStop(); openMini(t); });
   v.querySelector('[data-act="back"]').onclick = ()=>{ miniStop(); goMap(); };
   const cv=v.querySelector('#mj-cv');
@@ -2008,8 +2075,8 @@ function openRescate(t){
   show('view-mini');
   const o=$('#mj-over'); o.hidden=false; miniCards(true);
   o.innerHTML = `<div class="mini-card panel">
-    <p>${tr('¡Hay animales perdidos en el bosque! Acércate a un animal para recogerlo y llévalo al refugio de su grupo antes de que se acabe el tiempo. ¡Cuidado con {v}!',{v:esc(mj.villano||t.boss.villain||tr('el villano'))})}</p>
-    <div class="resc-legend">${mj.refugios.map((r,i)=>`<span style="--rc:${RESC_COL[i%4]}">🏠 ${esc(r)}</span>`).join('')}</div>
+    <p>${mj.intro ? esc(mj.intro) : tr('¡Hay animales perdidos en el bosque! Acércate a un animal para recogerlo y llévalo al refugio de su grupo antes de que se acabe el tiempo. ¡Cuidado con {v}!',{v:esc(mj.villano||t.boss.villain||tr('el villano'))})}</p>
+    <div class="resc-legend">${mj.refugios.map((r,i)=>`<span style="--rc:${RESC_COL[i%4]}">${mj.cosas?'📦':'🏠'} ${esc(r)}</span>`).join('')}</div>
     <button class="btn gold" id="mj-go" type="button">${tr('¡Al rescate!')}</button></div>`;
   o.querySelector('#mj-go').onclick = rescStart;
 }
@@ -2040,13 +2107,13 @@ function rescStart(){
   while(pick.length<8 && pool.length) pick.push(pool.shift());
   g.total=pick.length; g.animals=[];
   pick.forEach(a=>{ const s=rescSpot(g,[{x:g.x,y:g.y},...g.animals]); g.animals.push({a, x:s.x, y:s.y, bob:Math.random()*6}); });
-  for(let k=0;k<Math.round(W/90);k++) g.trees.push({x:Math.random()*W, y:top+100+Math.random()*(H-top-110), s:.6+Math.random()*.35});
+  if(mj.fondo!=='lab') for(let k=0;k<Math.round(W/90);k++) g.trees.push({x:Math.random()*W, y:top+100+Math.random()*(H-top-110), s:.6+Math.random()*.35});
   MG.state='play'; MG.last=performance.now(); MG.keys={}; sfx('go'); rescHud();
   cancelAnimationFrame(MG.raf); MG.raf=requestAnimationFrame(rescLoop);
 }
 function rescPause(){ if(!MG || MG.state!=='play') return; const g=MG.g; g.paused=!g.paused; $('#mj-pause').textContent=g.paused?'▶':'❚❚'; $('#mj-pause').setAttribute('aria-label', tr(g.paused?'Seguir':'Pausa')); rescDraw(); }
 function rescHud(){ const g=MG.g; $('#mj-hearts').textContent='❤️'.repeat(Math.max(0,g.hearts))+'🤍'.repeat(3-Math.max(0,g.hearts)); $('#mj-score').textContent=g.saved+'/'+g.total; $('#mj-prog').style.width=Math.max(0,100-g.t/g.DUR*100)+'%'; }
-function rescCarry(){ const g=MG.g, t=$('#mj-toast'); clearTimeout(miniToast.h); if(g.carry){ t.textContent=tr('Llevas: {a}. ¿A qué refugio va?',{a:g.carry.a.e+' '+g.carry.a.n}); t.hidden=false; } else t.hidden=true; }
+function rescCarry(){ const g=MG.g, t=$('#mj-toast'); clearTimeout(miniToast.h); if(g.carry){ t.textContent=tr(MG.t.minijuego.cosas ? 'Llevas: {a}. ¿Dónde va?' : 'Llevas: {a}. ¿A qué refugio va?',{a:g.carry.a.e+' '+g.carry.a.n}); t.hidden=false; } else t.hidden=true; }
 function rescLoop(ts){
   if(!MG || MG.state!=='play' || MG.tipo!=='rescate') return;
   if($('#view-mini').hidden){ miniStop(); return; }
@@ -2067,14 +2134,14 @@ function rescUpdate(dt){
   if(!g.carry) for(const a of g.animals){ if(Math.hypot(a.x-g.x, a.y-(g.y-24))<36){ g.carry=a; g.animals=g.animals.filter(x=>x!==a); sfx('coin'); speak(a.a.n); rescCarry(); break; } }
   // entregar
   if(g.carry){
-    const h=g.huts.find(h=>g.x>h.x-6 && g.x<h.x+h.w+6 && g.y<h.y+h.h+34);
+    const h=g.huts.find(h=>g.x>h.x+4 && g.x<h.x+h.w-4 && g.y<h.y+h.h+18);  /* hay que llegar hasta la puerta */
     if(h){
       const a=g.carry, ok=a.a.g===h.i; g.carry=null; g.target=null;
       if(ok){ g.saved++; g.score+=20; h.n++; h.flash=1; g.done.push(a.a); sfx('ok'); miniBurstAt(g, h.x+h.w/2, h.y+h.h, '#FFC93C', 16); g.floats.push({x:h.x+h.w/2,y:h.y+h.h+26,txt:'+20',life:1,col:'#FFC93C'}); rescCarry(); }
       else {
         g.errors++; h.flash=-1; sfx('bad'); const s=rescSpot(g,[{x:g.x,y:g.y},...g.animals]); a.x=s.x; a.y=s.y; g.animals.push(a);
         g.y=h.y+h.h+60; const good=MG.t.minijuego.refugios[a.a.g];
-        miniToast(tr('{a} va al refugio: {g}',{a:a.a.n,g:good}), 2600); speak(tr('{a} va al refugio: {g}',{a:a.a.n,g:good}));
+        miniToast(tr(MG.t.minijuego.cosas ? '{a} va en: {g}' : '{a} va al refugio: {g}',{a:a.a.n,g:good}), 2600); speak(tr(MG.t.minijuego.cosas ? '{a} va en: {g}' : '{a} va al refugio: {g}',{a:a.a.n,g:good}));
       }
       rescHud();
       if(g.saved>=g.total) return rescFinish(true);
@@ -2102,16 +2169,17 @@ function rescUpdate(dt){
 function miniBurstAt(g,x,y,col,n){ if(reduced()) n=4; for(let i=0;i<n;i++) g.parts.push({x,y,vx:(Math.random()-.5)*260,vy:-40-Math.random()*200,life:.4+Math.random()*.4,col,s:Math.random()<.5?4:6}); }
 function rescDraw(){
   const {cx,W,H,g}=MG; if(!W||!g) return;
+  const L=MG.t.minijuego.fondo==='lab';
   cx.setTransform(MG.cv.width/W,0,0,MG.cv.height/H,0,0);
   const emoji=(e,x,y,s)=>{ cx.font=`${s}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(e,x,y); };
   const rr=(x,y,w,h,r)=>{ cx.beginPath(); if(cx.roundRect) cx.roundRect(x,y,w,h,r); else cx.rect(x,y,w,h); };
   const label=(txt,x,y,size,col)=>{ cx.font=`${size}px "Lilita One", sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.lineWidth=4; cx.lineJoin='round'; cx.strokeStyle='#06122A'; cx.strokeText(txt,x,y); cx.fillStyle=col||'#fff'; cx.fillText(txt,x,y); };
   // hierba con cuadros pixel
-  cx.fillStyle='#2FA35A'; cx.fillRect(0,0,W,H);
-  cx.fillStyle='#37B366'; for(let y=0;y<H;y+=40) for(let x=(y/40%2)*40;x<W;x+=80) cx.fillRect(x,y,40,40);
-  cx.fillStyle='#1F8A3B'; for(let i=0;i<60;i++){ const x=(i*97.3)%W, y=(i*61.7)%H; cx.fillRect(Math.round(x/4)*4,Math.round(y/4)*4,4,8); }
+  cx.fillStyle=L?'#3A4C70':'#2FA35A'; cx.fillRect(0,0,W,H);
+  cx.fillStyle=L?'#445A85':'#37B366'; for(let y=0;y<H;y+=40) for(let x=(y/40%2)*40;x<W;x+=80) cx.fillRect(x,y,40,40);
+  cx.fillStyle=L?'#2E3D5E':'#1F8A3B'; for(let i=0;i<60;i++){ const x=(i*97.3)%W, y=(i*61.7)%H; cx.fillRect(Math.round(x/4)*4,Math.round(y/4)*4,4,8); }
   cx.fillStyle='#10274D'; cx.fillRect(0,0,W,g.top-6);
-  cx.fillStyle='#C98A55'; cx.fillRect(0,g.top+62,W,26); cx.fillStyle='#E8C590'; for(let x=6;x<W;x+=44) cx.fillRect(x,g.top+73,24,4);
+  cx.fillStyle=L?'#8A93A6':'#C98A55'; cx.fillRect(0,g.top+62,W,26); cx.fillStyle=L?'#C9D3E3':'#E8C590'; for(let x=6;x<W;x+=44) cx.fillRect(x,g.top+73,24,4);
   // refugios
   for(const h of g.huts){
     const c=RESC_COL[h.i%4], cxm=h.x+h.w/2;
@@ -2157,13 +2225,13 @@ function rescFinish(won, timeUp){
   p.xp += gain; save();
   const o=$('#mj-over'); o.hidden=false; miniCards(true); window.scrollTo(0,0);
   o.innerHTML = `<div class="mini-card panel">
-    <div class="eyebrow">${tr(won?'Todos los animales están a salvo':timeUp?'Se acabó el tiempo':'Te has quedado sin corazones')}</div>
-    <h2 class="outline" style="color:var(--gold);font-size:clamp(2rem,6vw,2.8rem)">${tr(won?'¡Rescate completado!':'¡Casi!')}</h2>
+    <div class="eyebrow">${tr(won?(mj.cosas?'Todo está en su sitio':'Todos los animales están a salvo'):timeUp?'Se acabó el tiempo':'Te has quedado sin corazones')}</div>
+    <h2 class="outline" style="color:var(--gold);font-size:clamp(2rem,6vw,2.8rem)">${tr(won?(mj.cosas?'¡Misión completada!':'¡Rescate completado!'):'¡Casi!')}</h2>
     <div class="mini-stars" aria-label="${tr('{n} de 3 estrellas',{n:st})}">${[0,1,2].map(k=>ico('star',k<st?'on':'')).join('')}</div>
-    <div class="mini-stats"><div><b>${g.score}</b><span>${tr('puntos')}</span></div><div><b>${g.saved}/${g.total}</b><span>${tr('rescatados')}</span></div><div><b>${rec.best}</b><span>${tr('tu récord')}</span></div></div>
+    <div class="mini-stats"><div><b>${g.score}</b><span>${tr('puntos')}</span></div><div><b>${g.saved}/${g.total}</b><span>${tr(mj.cosas?'colocados':'rescatados')}</span></div><div><b>${rec.best}</b><span>${tr('tu récord')}</span></div></div>
     ${record ? `<div class="levelup outline-sm">${tr('¡Nuevo récord!')}${gain?' +'+gain+' XP':''}</div>` : gain ? `<div class="levelup outline-sm">+${gain} XP</div>` : ''}
     <div class="resc-groups">${mj.refugios.map((r,i)=>{ const l=g.done.filter(a=>a.g===i); return l.length ? `<div style="--rc:${RESC_COL[i%4]}"><b>${esc(r)}</b><span>${l.map(a=>a.e+' '+esc(a.n)).join(' · ')}</span></div>` : ''; }).join('')}</div>
-    ${g.errors ? `<p>${tr('Refugios equivocados: {n}. ¡Repasa los grupos y vuelve a intentarlo!',{n:g.errors})}</p>` : won ? `<p>${tr('¡Ni un solo error! Conoces muy bien los grupos de animales.')}</p>` : ''}
+    ${g.errors ? `<p>${tr(mj.cosas?'Fallos: {n}. ¡Repasa y vuelve a intentarlo!':'Refugios equivocados: {n}. ¡Repasa los grupos y vuelve a intentarlo!',{n:g.errors})}</p>` : won ? `<p>${tr(mj.cosas?'¡Ni un solo error!':'¡Ni un solo error! Conoces muy bien los grupos de animales.')}</p>` : ''}
     <div class="row" style="justify-content:center"><button class="btn gold" id="mj-again" type="button">${tr('Jugar otra vez')}</button><button class="btn dark" id="mj-map" type="button">${tr('Mapa del tema')}</button></div></div>`;
   o.querySelector('#mj-again').onclick = rescStart;
   o.querySelector('#mj-map').onclick = ()=>{ miniStop(); goMap(); };
@@ -2173,6 +2241,209 @@ function rescFinish(won, timeUp){
   const on = v => e => { if(!MG || MG.tipo!=='rescate' || MG.state!=='play' || $('#view-mini').hidden) return; if(K[e.code]){ e.preventDefault(); MG.keys[K[e.code]]=v; } else if(v && (e.code==='Escape'||e.code==='KeyP')) rescPause(); };
   addEventListener('keydown', on(true)); addEventListener('keyup', on(false)); })();
 
+
+/* ---------- Minijuego «memoria» ----------
+   Parejas de cartas: el alumno las destapa de dos en dos hasta encontrar todas las parejas.
+   minijuego:{ tipo:'memoria', titulo, parejas:[['Vista','Ojos'], …] } (en cada partida salen 6 al azar) */
+function miniSave(t, score, st){
+  const p=P(); p.mini = p.mini || {};
+  const rec = p.mini[t.id] || {best:0, plays:0, stars:0};
+  const gain = Math.round(Math.max(0, score-rec.best)/10), record = score>rec.best && rec.plays>0;
+  rec.plays++; rec.best=Math.max(rec.best,score); rec.stars=Math.max(rec.stars,st); p.mini[t.id]=rec;
+  p.xp += gain; save();
+  return {rec, gain, record};
+}
+const miniEndHTML = (o) => `<div class="mini-card panel">
+    <div class="eyebrow">${o.eyebrow}</div>
+    <h2 class="outline" style="color:var(--gold);font-size:clamp(2rem,6vw,2.8rem)">${o.title}</h2>
+    <div class="mini-stars" aria-label="${tr('{n} de 3 estrellas',{n:o.st})}">${[0,1,2].map(k=>ico('star',k<o.st?'on':'')).join('')}</div>
+    <div class="mini-stats"><div><b>${o.score}</b><span>${tr('puntos')}</span></div><div><b>${o.mid}</b><span>${o.midLabel}</span></div><div><b>${o.r.rec.best}</b><span>${tr('tu récord')}</span></div></div>
+    ${o.r.record ? `<div class="levelup outline-sm">${tr('¡Nuevo récord!')}${o.r.gain?' +'+o.r.gain+' XP':''}</div>` : o.r.gain ? `<div class="levelup outline-sm">+${o.r.gain} XP</div>` : ''}
+    ${o.extra||''}
+    <div class="row" style="justify-content:center"><button class="btn gold" id="mj-again" type="button">${tr('Jugar otra vez')}</button><button class="btn dark" id="mj-map" type="button">${tr('Mapa del tema')}</button></div></div>`;
+
+function openMemoria(t){
+  const v=$('#view-mini'), mj=t.minijuego;
+  v.setAttribute('style', cvars(t));
+  const idx = mj.parejas.map((_,i)=>i).sort(()=>Math.random()-.5).slice(0,6);
+  const cards = idx.flatMap(i=>[{p:i, s:0, txt:mj.parejas[i][0]}, {p:i, s:1, txt:mj.parejas[i][1]}]).sort(()=>Math.random()-.5);
+  MG = { tipo:'memoria', t, state:'play', tries:0, found:0, total:idx.length, open:[], lock:false };
+  v.innerHTML = `${hudHTML()}
+    <div class="topbar" style="margin:20px 0 0"><button class="iconbtn" data-act="back" type="button" aria-label="${tr('Volver al mapa del tema')}">${ico('back')}</button><h1 class="outline">${esc(mj.titulo)}</h1><span class="counter" id="mm-count">0/${idx.length}</span></div>
+    <p class="memo-help">${tr('Destapa dos cartas. Si forman pareja, se quedan a la vista. ¡Encuéntralas todas con los menos intentos posibles!')} <b id="mm-tries">${tr('Intentos: {n}',{n:0})}</b></p>
+    <div class="memo-grid" id="mm-grid">${cards.map((c,i)=>`<button type="button" class="memo-card" data-i="${i}" aria-label="${tr('Carta tapada')}"><span class="back">?</span><span class="front s${c.s}">${esc(c.txt)}</span></button>`).join('')}</div>
+    <div id="mj-over" hidden></div>`;
+  bindHud(v, ()=>{ miniStop(); openMini(t); });
+  v.querySelector('[data-act="back"]').onclick = ()=>{ miniStop(); goMap(); };
+  const els=[...v.querySelectorAll('.memo-card')];
+  els.forEach((b,i)=>b.onclick=()=>{
+    if(MG.lock || MG.state!=='play' || b.classList.contains('open')) return;
+    b.classList.add('open'); b.setAttribute('aria-label', cards[i].txt); sfx('tick'); speak(cards[i].txt); MG.open.push(i);
+    if(MG.open.length<2) return;
+    const [a,c]=MG.open; MG.open=[]; MG.tries++; $('#mm-tries').textContent=tr('Intentos: {n}',{n:MG.tries});
+    if(cards[a].p===cards[c].p){
+      els[a].classList.add('done'); els[c].classList.add('done'); MG.found++; $('#mm-count').textContent=MG.found+'/'+MG.total; sfx('ok');
+      if(MG.found===MG.total) setTimeout(memoFinish, 700);
+    } else {
+      MG.lock=true; sfx('bad');
+      setTimeout(()=>{ [a,c].forEach(k=>{ els[k].classList.remove('open'); els[k].setAttribute('aria-label', tr('Carta tapada')); }); MG.lock=false; }, 1100);
+    }
+  });
+  show('view-mini');
+}
+function memoFinish(){
+  if(!MG || MG.tipo!=='memoria' || $('#view-mini').hidden) return;
+  const t=MG.t, n=MG.total, extra=MG.tries-n; MG.state='end';
+  const score=Math.max(20, 200-extra*10), st = extra<=4 ? 3 : extra<=9 ? 2 : 1;
+  const r=miniSave(t, score, st), o=$('#mj-over');
+  $('#mm-grid').hidden=true; document.querySelector('.memo-help').hidden=true; o.hidden=false; window.scrollTo(0,0);
+  o.innerHTML = miniEndHTML({eyebrow:tr('Todas las parejas encontradas'), title:tr('¡Buena memoria!'), st, score, mid:MG.tries, midLabel:tr('intentos'), r,
+    extra:`<div class="resc-groups">${t.minijuego.parejas.map(p=>`<div style="--rc:var(--sense)"><b>${esc(p[0])}</b><span>${esc(p[1])}</span></div>`).join('')}</div>`});
+  o.querySelector('#mj-again').onclick = ()=>openMemoria(t);
+  o.querySelector('#mj-map').onclick = ()=>{ miniStop(); goMap(); };
+  sfx('win'); if(st>=2) setTimeout(confetti, 300);
+}
+
+/* ---------- Minijuego «lluvia» ----------
+   Caen cosas del cielo y el alumno mueve a su personaje para atrapar solo las que pide cada ronda.
+   minijuego:{ tipo:'lluvia', titulo, necesarios:5, rondas:[{meta:'Atrapa los sólidos', ok:[{e:'🧊',n:'Hielo'}], no:[{e:'💧',n:'Agua'}]}] } */
+function openLluvia(t){
+  const v=$('#view-mini'), mj=t.minijuego;
+  v.setAttribute('style', cvars(t));
+  v.innerHTML = `${hudHTML()}
+    <div class="topbar" style="margin:20px 0 0"><button class="iconbtn" data-act="back" type="button" aria-label="${tr('Volver al mapa del tema')}">${ico('back')}</button><h1 class="outline">${esc(mj.titulo)}</h1></div>
+    <div class="mini-stage resc" id="mj-stage">
+      <canvas id="mj-cv" aria-label="${tr('Toca o arrastra para mover a tu personaje.')}"></canvas>
+      <div class="mini-hud"><span class="mini-hearts" id="mj-hearts"></span><span class="mini-pill" id="mj-score">0</span><div class="mini-track" aria-hidden="true"><i id="mj-prog"></i></div><button class="iconbtn" id="mj-pause" type="button" aria-label="${tr('Pausa')}">❚❚</button></div>
+      <div class="mini-q panel" id="mj-q"><b id="mj-qt"></b></div>
+      <div class="mini-toast" id="mj-toast" hidden></div>
+      <div class="mini-over" id="mj-over"></div>
+    </div>
+    <div class="mini-controls" id="mj-controls"><p>${tr('Toca o arrastra para mover a tu personaje (o usa las flechas). Atrapa solo lo que pide el cartel.')}</p></div>`;
+  bindHud(v, ()=>{ miniStop(); openMini(t); });
+  v.querySelector('[data-act="back"]').onclick = ()=>{ miniStop(); goMap(); };
+  const cv=v.querySelector('#mj-cv');
+  const im=new Image(); im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(avatarSVG(P().avatar).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="240" '));
+  MG = { tipo:'lluvia', t, cv, cx:cv.getContext('2d'), img:im, state:'intro', keys:{} };
+  const px = e => { const r=cv.getBoundingClientRect(); return (e.clientX-r.left)/r.width*MG.W; };
+  cv.addEventListener('pointerdown', e=>{ e.preventDefault(); if(MG.state!=='play') return; if(MG.g.paused) return lluPause(); MG.drag=true; MG.g.target=px(e); try{ cv.setPointerCapture(e.pointerId); }catch(_){} });
+  cv.addEventListener('pointermove', e=>{ if(MG.drag && MG.state==='play') MG.g.target=px(e); });
+  ['pointerup','pointercancel'].forEach(n=>cv.addEventListener(n, ()=>{ MG.drag=false; }));
+  v.querySelector('#mj-pause').onclick = lluPause;
+  show('view-mini');
+  const o=$('#mj-over'); o.hidden=false; miniCards(true);
+  o.innerHTML = `<div class="mini-card panel">
+    <p>${mj.intro ? esc(mj.intro) : tr('¡Están cayendo cosas del cielo! Mueve a tu personaje y atrapa solo lo que pide el cartel. Si atrapas otra cosa, pierdes un corazón.')}</p>
+    <div class="resc-legend">${mj.rondas.map((r,i)=>`<span style="--rc:${RESC_COL[i%4]}">${i+1}. ${esc(r.meta)}</span>`).join('')}</div>
+    <button class="btn gold" id="mj-go" type="button">${tr('¡A jugar!')}</button></div>`;
+  o.querySelector('#mj-go').onclick = lluStart;
+}
+function lluResize(){
+  const r=MG.cv.getBoundingClientRect(); if(!r.width) return;
+  MG.dpr=Math.min(window.devicePixelRatio||1,2); MG.cv.width=Math.round(r.width*MG.dpr); MG.cv.height=Math.round(r.height*MG.dpr);
+  MG.H=400; MG.W=MG.H*r.width/r.height;
+}
+function lluStart(){
+  $('#mj-over').hidden=true; miniCards(false); lluResize();
+  const mj=MG.t.minijuego;
+  MG.g = { t:0, DUR:110, score:0, hearts:3, inv:0, hits:0, ronda:0, n:0, need:mj.necesarios||5, x:MG.W/2, y:MG.H-14, target:null, face:1, step:0,
+    items:[], parts:[], floats:[], next:.6, lastX:-99, got:[], paused:false, flash:0 };
+  MG.state='play'; MG.last=performance.now(); MG.keys={}; sfx('go'); lluRonda(); lluHud();
+  cancelAnimationFrame(MG.raf); MG.raf=requestAnimationFrame(lluLoop);
+}
+function lluRonda(){ const g=MG.g, r=MG.t.minijuego.rondas[g.ronda]; g.n=0; g.items=[]; g.next=.8; $('#mj-qt').textContent=r.meta+' · '+g.n+'/'+g.need; speak(r.meta); }
+function lluPause(){ if(!MG || MG.state!=='play') return; const g=MG.g; g.paused=!g.paused; $('#mj-pause').textContent=g.paused?'▶':'❚❚'; $('#mj-pause').setAttribute('aria-label', tr(g.paused?'Seguir':'Pausa')); lluDraw(); }
+function lluHud(){ const g=MG.g; $('#mj-hearts').textContent='❤️'.repeat(Math.max(0,g.hearts))+'🤍'.repeat(3-Math.max(0,g.hearts)); $('#mj-score').textContent=g.score; $('#mj-prog').style.width=Math.max(0,100-g.t/g.DUR*100)+'%'; }
+function lluLoop(ts){
+  if(!MG || MG.state!=='play' || MG.tipo!=='lluvia') return;
+  if($('#view-mini').hidden){ miniStop(); return; }
+  const dt=Math.min(.05,(ts-MG.last)/1000||0); MG.last=ts;
+  if(!MG.g.paused) lluUpdate(dt);
+  if(MG.state==='play'){ lluDraw(); MG.raf=requestAnimationFrame(lluLoop); }
+}
+function lluUpdate(dt){
+  const g=MG.g, {W,H,keys}=MG, mj=MG.t.minijuego, R=mj.rondas[g.ronda];
+  g.t+=dt; g.inv=Math.max(0,g.inv-dt); g.flash=Math.max(0,g.flash-dt*2);
+  const dir=(keys.right?1:0)-(keys.left?1:0);
+  if(dir){ g.target=null; g.x+=dir*250*dt; g.face=dir; g.step+=dt*14; }
+  else if(g.target!=null){ const d=g.target-g.x; if(Math.abs(d)<4) g.target=null; else { g.x+=Math.sign(d)*Math.min(Math.abs(d),250*dt); g.face=Math.sign(d); g.step+=dt*14; } }
+  g.x=Math.max(26,Math.min(W-26,g.x));
+  g.next-=dt;
+  if(g.next<=0){
+    const ok=Math.random()<.55, list=ok?R.ok:R.no, it=list[Math.floor(Math.random()*list.length)];
+    let x=40+Math.random()*(W-80); if(Math.abs(x-g.lastX)<90) x = x<W/2 ? Math.min(W-40,x+110) : Math.max(40,x-110);
+    g.lastX=x; g.items.push({it, ok, x, y:112, v:52+Math.min(g.t,80)*.2});
+    g.next=1.05+Math.random()*.5;
+  }
+  for(const o of g.items){
+    o.y+=o.v*dt;
+    if(o.hit || Math.abs(o.x-g.x)>36 || o.y<g.y-78 || o.y>g.y-8) continue;
+    o.hit=true;
+    if(o.ok){
+      g.n++; g.score+=10; g.flash=1; if(!g.got.includes(o.it.n)) g.got.push(o.it.n); sfx('coin'); miniBurstAt(g,o.x,o.y,'#43D166',10);
+      g.floats.push({x:o.x,y:o.y-20,txt:o.it.n,life:1,col:'#43D166'});
+      if(g.n>=g.need){
+        g.ronda++; sfx('ok');
+        if(g.ronda>=mj.rondas.length){ lluHud(); return lluFinish(true); }
+        miniToast(tr('¡Ronda superada!'), 1400); lluRonda();
+      } else $('#mj-qt').textContent=R.meta+' · '+g.n+'/'+g.need;
+    } else if(g.inv<=0){
+      g.hearts--; g.hits++; g.inv=1.2; sfx('hit'); miniBurstAt(g,o.x,o.y,'#FF5A5A',12);
+      miniToast(tr('{n}: ¡no!',{n:o.it.n}), 1600);
+      if(g.hearts<=0){ lluHud(); return lluFinish(false); }
+    }
+  }
+  g.items=g.items.filter(o=>!o.hit && o.y<H+30);
+  for(const p of g.parts){ p.vy+=700*dt; p.x+=p.vx*dt; p.y+=p.vy*dt; p.life-=dt; } g.parts=g.parts.filter(p=>p.life>0);
+  for(const f of g.floats){ f.y-=30*dt; f.life-=dt; } g.floats=g.floats.filter(f=>f.life>0);
+  lluHud();
+  if(g.t>=g.DUR) lluFinish(false, true);
+}
+function lluDraw(){
+  const {cx,W,H}=MG, g=MG.g; if(!W||!g) return;
+  const lab=MG.t.minijuego.fondo==='lab';
+  cx.setTransform(MG.cv.width/W,0,0,MG.cv.height/H,0,0);
+  const sky=cx.createLinearGradient(0,0,0,H); sky.addColorStop(0,lab?'#1B1140':'#10274D'); sky.addColorStop(.6,lab?'#3A2F7A':'#1F5A8A'); sky.addColorStop(1,lab?'#5B4FB0':'#3FB6FF');
+  cx.fillStyle=sky; cx.fillRect(0,0,W,H);
+  cx.fillStyle='rgba(255,255,255,.8)';
+  if(lab){ for(let i=0;i<24;i++) cx.fillRect(Math.round(((i*71.3)%W)/4)*4, 100+Math.round(((i*47.7)%200)/4)*4, 4, 4); }
+  else for(let i=0;i<3;i++){ const x=Math.round((((i*190+g.t*6)%(W+160))-80)/4)*4, y=120+(i%2)*46; [[0,8,48,12],[8,0,28,8],[12,20,36,4]].forEach(([a,b,c,d])=>cx.fillRect(x+a,y+b,c,d)); }
+  cx.fillStyle=lab?'#8A93A6':'#43D166'; cx.fillRect(0,H-26,W,10);
+  cx.fillStyle=lab?'#5A6B85':'#C98A55'; cx.fillRect(0,H-16,W,16);
+  cx.fillStyle=lab?'#3B4A63':'#1F8A3B'; for(let x=4;x<W;x+=24) cx.fillRect(x,H-30,4,6);
+  const emoji=(e,x,y,s)=>{ cx.font=`${s}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(e,x,y); };
+  const label=(txt,x,y,size,col)=>{ cx.font=`${size}px "Lilita One", sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.lineWidth=4; cx.lineJoin='round'; cx.strokeStyle='#06122A'; cx.strokeText(txt,x,y); cx.fillStyle=col||'#fff'; cx.fillText(txt,x,y); };
+  for(const o of g.items){
+    cx.beginPath(); cx.arc(o.x,o.y,25,0,7); cx.fillStyle='#06122A'; cx.fill(); cx.beginPath(); cx.arc(o.x,o.y,22,0,7); cx.fillStyle='#fff'; cx.fill();
+    emoji(o.it.e,o.x,o.y+2,28);
+    const lx=Math.max(8+cx.measureText('').width, Math.min(W-8, o.x)); cx.font='13px "Lilita One", sans-serif'; const hw=cx.measureText(o.it.n).width/2+4;
+    label(o.it.n, Math.max(hw, Math.min(W-hw, lx)), o.y+37, 13);
+  }
+  const bob=Math.abs(Math.sin(g.step))*4;
+  cx.fillStyle='rgba(6,18,42,.3)'; cx.beginPath(); cx.ellipse(g.x,g.y,22,5,0,0,7); cx.fill();
+  if(g.flash>0){ cx.globalAlpha=g.flash*.6; cx.beginPath(); cx.arc(g.x,g.y-40,44,0,7); cx.fillStyle='#43D166'; cx.fill(); cx.globalAlpha=1; }
+  if(!(g.inv>0 && Math.floor(g.t*12)%2) && MG.img.complete){ cx.save(); cx.translate(g.x,g.y-bob); cx.scale(g.face||1,1); cx.drawImage(MG.img,-32,-76,64,76); cx.restore(); }
+  for(const p of g.parts){ cx.globalAlpha=Math.min(1,p.life*2); cx.fillStyle=p.col; cx.fillRect(p.x,p.y,p.s,p.s); }
+  for(const f of g.floats){ cx.globalAlpha=Math.min(1,f.life*2); label(f.txt,f.x,f.y,16,f.col); }
+  cx.globalAlpha=1;
+  if(g.paused){ cx.fillStyle='rgba(6,18,42,.6)'; cx.fillRect(0,0,W,H); label(tr('Pausa'),W/2,H/2-10,40); cx.font='20px Andika, sans-serif'; cx.fillStyle='#fff'; cx.fillText(tr('Toca para seguir'),W/2,H/2+26); }
+}
+function lluFinish(won, timeUp){
+  const g=MG.g, t=MG.t, mj=t.minijuego; MG.state='end'; cancelAnimationFrame(MG.raf); $('#mj-toast').hidden=true;
+  try{ speechSynthesis.cancel(); }catch(e){}
+  if(won) g.score += Math.max(0, Math.round((g.DUR-g.t)/2));
+  const st = won ? (g.hits===0 ? 3 : 2) : (g.ronda>=1 ? 1 : 0), r=miniSave(t, g.score, st);
+  const o=$('#mj-over'); o.hidden=false; miniCards(true); window.scrollTo(0,0);
+  o.innerHTML = miniEndHTML({eyebrow:tr(won?'Has superado todas las rondas':timeUp?'Se acabó el tiempo':'Te has quedado sin corazones'), title:tr(won?'¡Conseguido!':'¡Casi!'), st, score:g.score,
+    mid:Math.min(g.ronda,mj.rondas.length)+'/'+mj.rondas.length, midLabel:tr('rondas'), r,
+    extra:`<div class="resc-groups">${mj.rondas.map((x,i)=>`<div style="--rc:${RESC_COL[i%4]}"><b>${esc(x.meta)}</b><span>${x.ok.map(a=>a.e+' '+esc(a.n)).join(' · ')}</span></div>`).join('')}</div>`});
+  o.querySelector('#mj-again').onclick = lluStart;
+  o.querySelector('#mj-map').onclick = ()=>{ miniStop(); goMap(); };
+  sfx(won?'win':'bad'); if(st>=2) setTimeout(confetti, 300);
+}
+(()=>{ const K={ArrowLeft:'left',ArrowRight:'right',KeyA:'left',KeyD:'right'};
+  const on = v => e => { if(!MG || MG.tipo!=='lluvia' || MG.state!=='play' || $('#view-mini').hidden) return; if(K[e.code]){ e.preventDefault(); MG.keys[K[e.code]]=v; } else if(v && (e.code==='Escape'||e.code==='KeyP')) lluPause(); };
+  addEventListener('keydown', on(true)); addEventListener('keyup', on(false)); })();
 
 /* ---------- Zona de calma ---------- */
 let calmTimer = null;

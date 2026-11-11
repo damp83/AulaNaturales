@@ -737,9 +737,13 @@ const CURSO = {
   temas: [
     { id:'cuerpo', n:1, title:'La máquina del cuerpo', short:'Funciones vitales, movimiento, respiración y digestión', pages:'Págs. 8-25',
       color:'--lung', icon:'person', map:'body', starsBadge:'Constelación',
-      missions: TEMA1_MISIONES, boss: TEMA1_JEFE },
+      missions: TEMA1_MISIONES, boss: TEMA1_JEFE,
+      /* Minijuego de premio: parejas de cartas (en cada partida salen 6 al azar) */
+      minijuego: { tipo:'memoria', titulo:'Parejas del cuerpo', parejas:[
+        ['👁️ Vista','Ojos'], ['👃 Olfato','Nariz'], ['👂 Oído','Oídos'], ['👅 Gusto','Lengua'], ['✋ Tacto','Piel'],
+        ['Pulmones','Toman el oxígeno'], ['Esófago','Tubo de la comida'], ['Tráquea','Tubo del aire'], ['Esqueleto','Todos los huesos'] ] } },
     { id:'salud', n:2, title:'Misión: vida sana', short:'Salud, hábitos, alimentación y accidentes', pages:'Págs. 26-41',
-      color:'--ok', icon:'heartplus', starsBadge:'Estrella de la salud',
+      color:'--ok', icon:'heartplus', map:'salud', starsBadge:'Estrella de la salud',
       missions: TEMA2_MISIONES, boss: TEMA2_JEFE,
       /* Minijuego de premio: se desbloquea al vencer al jefe del tema (ok = respuesta correcta) */
       minijuego: { tipo:'carrera', titulo:'Carrera saludable', preguntas:[
@@ -751,7 +755,7 @@ const CURSO = {
         {q:'¿Por dónde cruzamos la calle?', ok:'Por el paso de peatones', no:'Por donde queramos'},
         {q:'¿Qué fortalece músculos y huesos?', ok:'El ejercicio', no:'Ver la tele'} ] } },
     { id:'animales', n:3, title:'Safari animal', short:'Clasificación de los animales y dónde viven', pages:'Págs. 46-63',
-      color:'--food', icon:'paw', starsBadge:'Arca de estrellas',
+      color:'--food', icon:'paw', map:'sabana', starsBadge:'Arca de estrellas',
       missions: TEMA3_MISIONES, boss: TEMA3_JEFE,
       /* Minijuego de premio: llevar cada animal al refugio de su grupo (g = posición del refugio, empezando en 0) */
       minijuego: { tipo:'rescate', titulo:'Rescate en el bosque', refugios:['Mamíferos','Aves','Peces'], animales:[
@@ -759,14 +763,43 @@ const CURSO = {
         {e:'🦅', n:'Águila', g:1}, {e:'🦆', n:'Pato', g:1}, {e:'🦉', n:'Búho', g:1}, {e:'🐔', n:'Gallina', g:1}, {e:'🐧', n:'Pingüino', g:1},
         {e:'🐟', n:'Sardina', g:2}, {e:'🐠', n:'Pez payaso', g:2}, {e:'🦈', n:'Tiburón', g:2}, {e:'🐡', n:'Pez globo', g:2} ] } },
     { id:'plantas', n:4, title:'El reino verde', short:'Partes, tipos, reproducción e importancia de las plantas', pages:'Págs. 64-79',
-      color:'--virus', icon:'leaf', starsBadge:'Jardín de estrellas',
-      missions: TEMA4_MISIONES, boss: TEMA4_JEFE },
+      color:'--virus', icon:'leaf', map:'huerto', starsBadge:'Jardín de estrellas',
+      missions: TEMA4_MISIONES, boss: TEMA4_JEFE,
+      /* Minijuego de premio: atrapar solo lo que pide cada ronda (ok = se atrapa, no = se deja caer) */
+      minijuego: { tipo:'lluvia', titulo:'Lluvia en el huerto', necesarios:4, rondas:[
+        { meta:'Atrapa las PARTES de una planta', ok:[{e:'🍃',n:'Hoja'},{e:'🌸',n:'Flor'},{e:'🍎',n:'Fruto'},{e:'🌰',n:'Semilla'},{e:'🌱',n:'Tallo'}],
+          no:[{e:'🪶',n:'Pluma'},{e:'🦴',n:'Hueso'},{e:'🐚',n:'Concha'},{e:'🦷',n:'Diente'}] },
+        { meta:'Atrapa lo que NECESITA una planta', ok:[{e:'💧',n:'Agua'},{e:'☀️',n:'Luz del sol'},{e:'💨',n:'Aire'},{e:'🟤',n:'Tierra'}],
+          no:[{e:'🍬',n:'Golosinas'},{e:'🥤',n:'Refresco'},{e:'🍕',n:'Pizza'},{e:'📱',n:'Móvil'}] },
+        { meta:'Atrapa lo que nos DAN las plantas', ok:[{e:'🍊',n:'Fruta'},{e:'🥕',n:'Verdura'},{e:'🌳',n:'Madera'},{e:'🌬️',n:'Oxígeno'}],
+          no:[{e:'🥚',n:'Huevos'},{e:'🥛',n:'Leche'},{e:'🧶',n:'Lana'},{e:'🍯',n:'Miel'}] } ] } },
     { id:'ciencia', n:5, title:'El laboratorio secreto', short:'Método científico, materia, mezclas, materiales, luz y sonido', pages:'Págs. 84-101',
-      color:'--sense', icon:'flask', starsBadge:'Laboratorio estelar',
-      missions: TEMA5_MISIONES, boss: TEMA5_JEFE },
+      color:'--sense', icon:'flask', map:'lab', starsBadge:'Laboratorio estelar',
+      missions: TEMA5_MISIONES, boss: TEMA5_JEFE,
+      /* Minijuego de premio: llevar cada cosa a la estantería de su estado (g = posición, empezando en 0) */
+      minijuego: { tipo:'rescate', titulo:'Laboratorio en orden', cosas:true, fondo:'lab', refugios:['Sólido','Líquido','Gas'],
+        intro:'¡El laboratorio está desordenado! Acércate a cada cosa para recogerla y llévala a la estantería de su estado: sólido, líquido o gas. ¡Cuidado con el Doctor Burbujas!',
+        animales:[
+        {e:'🧊', n:'Hielo', g:0}, {e:'🪨', n:'Piedra', g:0}, {e:'🥄', n:'Cuchara', g:0}, {e:'🔑', n:'Llave', g:0},
+        {e:'💧', n:'Agua', g:1}, {e:'🥛', n:'Leche', g:1}, {e:'🧃', n:'Zumo', g:1}, {e:'🍵', n:'Té', g:1},
+        {e:'💨', n:'Aire', g:2}, {e:'🌫️', n:'Humo', g:2}, {e:'♨️', n:'Vapor', g:2} ] } },
     { id:'conectados', n:6, title:'Planeta digital', short:'Dispositivos, internet, presentaciones y buen uso', pages:'Págs. 102-117',
-      color:'--bone', icon:'wifi', starsBadge:'Conexión total',
-      missions: TEMA6_MISIONES, boss: TEMA6_JEFE }
+      color:'--bone', icon:'wifi', map:'digital', starsBadge:'Conexión total',
+      missions: TEMA6_MISIONES, boss: TEMA6_JEFE,
+      /* Minijuego de premio: carrera con hábitos digitales seguros (buenos) y riesgos (malos) */
+      minijuego: { tipo:'carrera', titulo:'Carrera segura', fondo:'digital',
+        intro:'Corre por la red, recoge los buenos hábitos y salta los peligros. En las puertas de pregunta, salta para cruzar la de arriba o sigue por el suelo para la de abajo.',
+        fin:'Recuerda: navega con una persona adulta, acuerda un tiempo de uso y siéntate con la espalda recta.',
+        buenos:[{e:'👨‍👩‍👧',n:'Navegar con un adulto'},{e:'⏰',n:'Tiempo acordado'},{e:'🙋',n:'Pedir permiso'},{e:'🪑',n:'Espalda recta'},{e:'💾',n:'Guardar el trabajo'},{e:'🔍',n:'Comparar páginas'}],
+        malos:[{e:'🦠',n:'Virus'},{e:'📢',n:'Anuncio desconocido'},{e:'📩',n:'Mensaje de un desconocido'},{e:'🌙',n:'Pantalla toda la noche'},{e:'👀',n:'Pantalla muy cerca'}],
+        preguntas:[
+        {q:'¿Con quién debes navegar por internet?', ok:'Con una persona adulta', no:'Siempre yo solo'},
+        {q:'¿Qué haces si ves algo que te asusta?', ok:'Contárselo a un adulto', no:'Seguir mirando'},
+        {q:'¿Haces clic en anuncios desconocidos?', ok:'No, nunca', no:'Sí, siempre'},
+        {q:'¿Cómo te sientas ante la pantalla?', ok:'Con la espalda recta', no:'Tumbado y torcido'},
+        {q:'¿Qué puede estropear el ordenador?', ok:'Un virus informático', no:'Guardar el trabajo'},
+        {q:'¿Qué dispositivo es pequeño y táctil?', ok:'El teléfono móvil', no:'La nevera'},
+        {q:'¿Dónde se guarda muchísima información?', ok:'En el disco duro', no:'En el teclado'} ] } }
   ]
 };
 

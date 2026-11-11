@@ -62,6 +62,15 @@ CURSO.temas.forEach(t => {
   const e = EN.temas[t.id] && EN.temas[t.id].minijuego;
   if (!e) { avisos.push(`tema ${t.id}: el minijuego no tiene versión en inglés`); return; }
   if (!e.titulo) errores.push(`tema ${t.id}: falta el título del minijuego`);
+  const es0 = t.minijuego, igual = (a, b, que) => { if (!a || !b || a.length !== b.length) errores.push(`tema ${t.id}: ${que} del minijuego no coinciden (${(a || []).length} en inglés y ${(b || []).length} en castellano)`); else return true; };
+  ['buenos', 'malos'].forEach(k => { if (es0[k] && igual(e[k], es0[k], k)) e[k].forEach((x, i) => { if (!x.n || x.e !== es0[k][i].e) errores.push(`tema ${t.id}: ${k} ${i + 1} del minijuego no coincide`); }); });
+  ['intro', 'fin'].forEach(k => { if (es0[k] && !e[k]) errores.push(`tema ${t.id}: falta «${k}» del minijuego en inglés`); });
+  if (es0.tipo === 'memoria') { if (igual(e.parejas, es0.parejas, 'las parejas')) e.parejas.forEach((p, i) => { if (!p[0] || !p[1]) errores.push(`tema ${t.id}: pareja ${i + 1} incompleta`); }); return; }
+  if (es0.tipo === 'lluvia') {
+    if (igual(e.rondas, es0.rondas, 'las rondas')) e.rondas.forEach((r, i) => { if (!r.meta) errores.push(`tema ${t.id}: falta la meta de la ronda ${i + 1}`);
+      ['ok', 'no'].forEach(k => { if (igual(r[k], es0.rondas[i][k], `ronda ${i + 1} (${k})`)) r[k].forEach((x, j) => { if (!x.n || x.e !== es0.rondas[i][k][j].e) errores.push(`tema ${t.id}: ronda ${i + 1}, ${k} ${j + 1} no coincide`); }); }); });
+    return;
+  }
   if (t.minijuego.tipo === 'rescate') {
     const es = t.minijuego;
     if (!e.refugios || e.refugios.length !== es.refugios.length) errores.push(`tema ${t.id}: los refugios del minijuego no coinciden`);

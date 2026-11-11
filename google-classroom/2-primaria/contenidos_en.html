@@ -75,7 +75,10 @@ const CONTENIDOS_EN = {
   asignatura: 'Natural Science 2',
   situaciones: ['Outdoor expedition', 'The water trail', 'Neighbourhood mission'],
   temas: {
-    cuerpo:     { title: 'The body machine', short: 'Life processes, movement, breathing and digestion', starsBadge: 'Constellation' },
+    cuerpo:     { title: 'The body machine', short: 'Life processes, movement, breathing and digestion', starsBadge: 'Constellation',
+      minijuego: { titulo: 'Body pairs', parejas: [
+        ['👁️ Sight', 'Eyes'], ['👃 Smell', 'Nose'], ['👂 Hearing', 'Ears'], ['👅 Taste', 'Tongue'], ['✋ Touch', 'Skin'],
+        ['Lungs', 'Take in oxygen'], ['Oesophagus', 'Food tube'], ['Windpipe', 'Air tube'], ['Skeleton', 'All the bones'] ] } },
     salud:      { title: 'Mission: healthy life', short: 'Health, habits, food and accidents', starsBadge: 'Health star',
       minijuego: { titulo: 'Healthy race', preguntas: [
         {q: 'How many hours should children sleep?', ok: 'About ten hours', no: 'About four hours'},
@@ -90,9 +93,35 @@ const CONTENIDOS_EN = {
         {e:'🐰', n:'Rabbit', g:0}, {e:'🐺', n:'Wolf', g:0}, {e:'🐴', n:'Horse', g:0}, {e:'🐱', n:'Cat', g:0}, {e:'🐮', n:'Cow', g:0},
         {e:'🦅', n:'Eagle', g:1}, {e:'🦆', n:'Duck', g:1}, {e:'🦉', n:'Owl', g:1}, {e:'🐔', n:'Hen', g:1}, {e:'🐧', n:'Penguin', g:1},
         {e:'🐟', n:'Sardine', g:2}, {e:'🐠', n:'Clownfish', g:2}, {e:'🦈', n:'Shark', g:2}, {e:'🐡', n:'Pufferfish', g:2} ] } },
-    plantas:    { title: 'The green kingdom', short: 'Parts, types, reproduction and importance of plants', starsBadge: 'Garden of stars' },
-    ciencia:    { title: 'The secret lab', short: 'Scientific method, matter, mixtures, materials, light and sound', starsBadge: 'Star lab' },
-    conectados: { title: 'Digital planet', short: 'Devices, the internet, presentations and good use', starsBadge: 'Fully connected' }
+    plantas:    { title: 'The green kingdom', short: 'Parts, types, reproduction and importance of plants', starsBadge: 'Garden of stars',
+      minijuego: { titulo: 'Garden rain', rondas: [
+        { meta: 'Catch the PARTS of a plant', ok: [{e:'🍃',n:'Leaf'},{e:'🌸',n:'Flower'},{e:'🍎',n:'Fruit'},{e:'🌰',n:'Seed'},{e:'🌱',n:'Stem'}],
+          no: [{e:'🪶',n:'Feather'},{e:'🦴',n:'Bone'},{e:'🐚',n:'Shell'},{e:'🦷',n:'Tooth'}] },
+        { meta: 'Catch what a plant NEEDS', ok: [{e:'💧',n:'Water'},{e:'☀️',n:'Sunlight'},{e:'💨',n:'Air'},{e:'🟤',n:'Soil'}],
+          no: [{e:'🍬',n:'Sweets'},{e:'🥤',n:'Fizzy drink'},{e:'🍕',n:'Pizza'},{e:'📱',n:'Mobile phone'}] },
+        { meta: 'Catch what plants GIVE us', ok: [{e:'🍊',n:'Fruit'},{e:'🥕',n:'Vegetables'},{e:'🌳',n:'Wood'},{e:'🌬️',n:'Oxygen'}],
+          no: [{e:'🥚',n:'Eggs'},{e:'🥛',n:'Milk'},{e:'🧶',n:'Wool'},{e:'🍯',n:'Honey'}] } ] } },
+    ciencia:    { title: 'The secret lab', short: 'Scientific method, matter, mixtures, materials, light and sound', starsBadge: 'Star lab',
+      minijuego: { titulo: 'Tidy up the lab', refugios: ['Solid', 'Liquid', 'Gas'],
+        intro: 'The lab is a mess! Walk up to each thing to pick it up and take it to the shelf for its state: solid, liquid or gas. Watch out for Doctor Bubbles!',
+        animales: [
+        {e:'🧊', n:'Ice', g:0}, {e:'🪨', n:'Stone', g:0}, {e:'🥄', n:'Spoon', g:0}, {e:'🔑', n:'Key', g:0},
+        {e:'💧', n:'Water', g:1}, {e:'🥛', n:'Milk', g:1}, {e:'🧃', n:'Juice', g:1}, {e:'🍵', n:'Tea', g:1},
+        {e:'💨', n:'Air', g:2}, {e:'🌫️', n:'Smoke', g:2}, {e:'♨️', n:'Steam', g:2} ] } },
+    conectados: { title: 'Digital planet', short: 'Devices, the internet, presentations and good use', starsBadge: 'Fully connected',
+      minijuego: { titulo: 'Safe race',
+        intro: 'Run through the net, collect the good habits and jump over the dangers. At the question gates, jump to go through the top gate or stay on the ground for the bottom one.',
+        fin: 'Remember: go online with an adult, agree on screen time and sit with your back straight.',
+        buenos: [{e:'👨‍👩‍👧',n:'Going online with an adult'},{e:'⏰',n:'Agreed screen time'},{e:'🙋',n:'Asking permission'},{e:'🪑',n:'Straight back'},{e:'💾',n:'Saving your work'},{e:'🔍',n:'Comparing websites'}],
+        malos: [{e:'🦠',n:'Virus'},{e:'📢',n:'Unknown advert'},{e:'📩',n:'Message from a stranger'},{e:'🌙',n:'Screen all night'},{e:'👀',n:'Screen too close'}],
+        preguntas: [
+        {q: 'Who should you go online with?', ok: 'With an adult', no: 'Always on my own'},
+        {q: 'What do you do if you see something scary?', ok: 'Tell an adult', no: 'Keep looking'},
+        {q: 'Do you click on unknown adverts?', ok: 'No, never', no: 'Yes, always'},
+        {q: 'How do you sit at the screen?', ok: 'With my back straight', no: 'Lying down, twisted'},
+        {q: 'What can damage the computer?', ok: 'A computer virus', no: 'Saving your work'},
+        {q: 'Which device is small and has a touch screen?', ok: 'A mobile phone', no: 'A fridge'},
+        {q: 'Where is lots of information stored?', ok: 'On the hard disk', no: 'On the keyboard'} ] } }
   },
   misiones: {
     /* ---------- TOPIC 1 · The body machine ---------- */
