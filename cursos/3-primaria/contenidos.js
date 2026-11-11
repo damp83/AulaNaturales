@@ -744,7 +744,7 @@ const CURSO = {
   ],
   temas: [
     { id:'cuerpo3', n:1, title:'Agentes del cuerpo humano', short:'Funciones vitales, órganos, movimiento, etapas y salud', pages:'Págs. 6-23',
-      color:'--lung', icon:'person', starsBadge:'Constelación humana',
+      color:'--lung', icon:'person', map:'cuerpo', starsBadge:'Constelación humana',
       missions: T1_MISIONES, boss: T1_JEFE,
       /* Minijuego de premio: se desbloquea al vencer al jefe del tema (ok = respuesta correcta) */
       minijuego: { tipo:'carrera', titulo:'Carrera saludable', preguntas:[
@@ -756,7 +756,7 @@ const CURSO = {
         {q:'¿Qué hay que hacer con la fruta antes de comerla?', ok:'Lavarla', no:'Guardarla en la mochila'},
         {q:'Cuando tenemos salud, estamos…', ok:'Alegres y relajados', no:'Cansados y tristes'} ] } },
     { id:'animales3', n:2, title:'Patrulla animal', short:'Funciones vitales, vertebrados, moluscos e insectos', pages:'Págs. 24-43',
-      color:'--ok', icon:'paw', starsBadge:'Estrella salvaje',
+      color:'--ok', icon:'paw', map:'bosque', starsBadge:'Estrella salvaje',
       missions: T2_MISIONES, boss: T2_JEFE,
       /* Minijuego de premio: llevar cada animal al refugio de su grupo (g = posición del refugio, empezando en 0) */
       minijuego: { tipo:'rescate', titulo:'Rescate en el bosque', refugios:['Vertebrados','Moluscos','Insectos'], animales:[
@@ -764,14 +764,14 @@ const CURSO = {
         {e:'🐌', n:'Caracol', g:1}, {e:'🐙', n:'Pulpo', g:1}, {e:'🦑', n:'Calamar', g:1}, {e:'🦪', n:'Ostra', g:1},
         {e:'🦋', n:'Mariposa', g:2}, {e:'🐜', n:'Hormiga', g:2}, {e:'🐝', n:'Abeja', g:2}, {e:'🐞', n:'Mariquita', g:2}, {e:'🦟', n:'Mosquito', g:2} ] } },
     { id:'vertebrados3', n:3, title:'Los de la columna', short:'Mamíferos, aves, reptiles, anfibios, peces y su importancia', pages:'Págs. 44-59',
-      color:'--food', icon:'feather', starsBadge:'Manada de estrellas',
+      color:'--food', icon:'feather', map:'rio', starsBadge:'Manada de estrellas',
       missions: T3_MISIONES, boss: T3_JEFE,
       /* Minijuego de premio: parejas de cartas (en cada partida salen 6 al azar) */
       minijuego: { tipo:'memoria', titulo:'Parejas de vertebrados', parejas:[
         ['🐻 Mamíferos','Pelo y leche'], ['🦅 Aves','Plumas y pico'], ['🦎 Reptiles','Escamas y pulmones'], ['🐸 Anfibios','Piel desnuda'],
         ['🐟 Peces','Aletas y branquias'], ['🦇 Murciélago','Mamífero que vuela'], ['Renacuajo','Cría de la rana'], ['Alevín','Cría de un pez'] ] } },
     { id:'ecosistemas3', n:4, title:'Redes de la vida', short:'Ecosistemas, cadenas alimentarias y relaciones', pages:'Págs. 60-75',
-      color:'--virus', icon:'tree', starsBadge:'Bosque de estrellas',
+      color:'--virus', icon:'tree', map:'mundo', starsBadge:'Bosque de estrellas',
       missions: T4_MISIONES, boss: T4_JEFE,
       /* Minijuego de premio: llevar cada animal a su ecosistema (g = posición del refugio, empezando en 0) */
       minijuego: { tipo:'rescate', titulo:'Cada uno a su hogar', refugios:['Bosque','Pradera','Desierto','Zona polar'],
@@ -782,7 +782,7 @@ const CURSO = {
         {e:'🐪', n:'Camello', g:2}, {e:'🦂', n:'Escorpión', g:2},
         {e:'🐻‍❄️', n:'Oso polar', g:3}, {e:'🦭', n:'Foca', g:3}, {e:'🐧', n:'Pingüino', g:3} ] } },
     { id:'materia3', n:5, title:'Taller de la materia', short:'Materia, materiales, calor, cambios y energía', pages:'Págs. 80-97',
-      color:'--sense', icon:'flame', starsBadge:'Chispa estelar',
+      color:'--sense', icon:'flame', map:'energia', starsBadge:'Chispa estelar',
       missions: T5_MISIONES, boss: T5_JEFE,
       /* Minijuego de premio: atrapar solo lo que pide cada ronda (ok = se atrapa, no = se deja caer) */
       minijuego: { tipo:'lluvia', titulo:'Lluvia de materia', fondo:'lab', necesarios:5, rondas:[
@@ -793,7 +793,7 @@ const CURSO = {
         { meta:'Atrapa los materiales NATURALES', ok:[{e:'🌳',n:'Madera'},{e:'🧶',n:'Lana'},{e:'🪨',n:'Granito'},{e:'👞',n:'Cuero'},{e:'🧵',n:'Algodón'}],
           no:[{e:'📄',n:'Papel'},{e:'🧪',n:'Vidrio'},{e:'🧴',n:'Plástico'}] } ] } },
     { id:'ordenadores3', n:6, title:'Código digital', short:'Ordenadores, internet y riesgos digitales', pages:'Págs. 98-113',
-      color:'--bone', icon:'wifi', starsBadge:'Red de estrellas',
+      color:'--bone', icon:'wifi', map:'digital', starsBadge:'Red de estrellas',
       missions: T6_MISIONES, boss: T6_JEFE,
       /* Minijuego de premio: carrera con hábitos digitales seguros (buenos) y riesgos (malos) */
       minijuego: { tipo:'carrera', titulo:'Carrera segura', fondo:'digital',

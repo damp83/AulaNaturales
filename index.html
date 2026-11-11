@@ -125,8 +125,8 @@ button{font:inherit;color:inherit}
 .bm-out .limb{stroke:var(--sense);stroke-width:44;stroke-linecap:round;fill:none}
 .bm-in circle,.bm-in rect{fill:#163463}
 .bm-in .limb{stroke:#163463;stroke-width:36;stroke-linecap:round;fill:none}
-.trail{fill:none;stroke:var(--ink-dim);stroke-width:5;stroke-dasharray:1 12;stroke-linecap:round}
-.trail.lit{stroke:var(--gold);stroke-dasharray:none;stroke-width:6;filter:drop-shadow(0 0 4px var(--gold))}
+.trail{fill:none;stroke:var(--edge);opacity:.55;stroke-width:5;stroke-dasharray:1 12;stroke-linecap:round}
+.trail.lit{stroke:var(--gold);opacity:1;stroke-dasharray:none;stroke-width:6;filter:drop-shadow(0 0 4px var(--gold))}
 .node{cursor:pointer}
 .node .n-top{transition:transform .12s}
 .node:hover .n-top{transform:translateY(-3px)}
@@ -1377,6 +1377,38 @@ function nodeSVG(w, i, x, y, open, st, isNext, label){
 function pinSVG(x, y, avatar){
   return `<g class="pin" transform="translate(${x+26},${y-74})"><g class="bob"><svg x="-24" y="0" width="48" height="58" viewBox="0 0 100 120">${avatarSVG(avatar).replace(/^<svg[^>]*>|<\/svg>$/g,'')}</svg></g></g>`;
 }
+/* Escenarios de los mapas de tema: en contenidos.js, cada tema elige el suyo con map:'huerto', map:'lab'...
+   Cada uno tiene cielo (dos colores), terreno, color del camino, dibujos grandes (junto a cada misión) y pequeños. */
+const ESCENAS = {
+  salud:   { sky:['#1D4E7A','#2C8C7A'], blob:'#3FBF8F', road:'#F4E3B5', deco:['🍎','🧼','🚲','😴','🥦','🏥'], bits:['❤️','💧','⭐'] },
+  sabana:  { sky:['#2A4D7A','#B8793A'], blob:'#D9A441', road:'#F6E2B0', deco:['🦒','🐘','🦜','🐢','🦋','🌴'], bits:['🐾','🌿','🐾'] },
+  huerto:  { sky:['#1F5A8A','#2F8F4E'], blob:'#49B35F', road:'#D9A066', deco:['🌻','🌳','🌷','🍅','🌲','☀️'], bits:['🌱','🐝','🍃'] },
+  lab:     { sky:['#241B55','#3E3A8C'], blob:'#5B55B8', road:'#C9D3E3', deco:['🧪','🔬','🧲','💡','🔦','⚗️'], bits:['✨','⚙️','✨'], dots:true },
+  digital: { sky:['#0E1B3D','#143A66'], blob:'#1E5FA8', road:'#5CF0FF', deco:['💻','📱','🖨️','🌐','🛡️','⌨️'], bits:['📶','💾','🔌'], grid:true },
+  cuerpo:  { sky:['#3A1F4D','#7A2E4E'], blob:'#B8446A', road:'#FFD27A', deco:['❤️','🧠','🦴','👶','🍎','💪'], bits:['👁️','👂','✋'] },
+  bosque:  { sky:['#173F4A','#1F6B45'], blob:'#2E9E5B', road:'#E0C08A', deco:['🦊','🐸','🐌','🦋','🌲','🐙'], bits:['🍄','🌿','🐾'] },
+  rio:     { sky:['#1B4B7A','#2A7FA8'], blob:'#3FB6C8', road:'#EADBA6', deco:['🐻','🦅','🐸','🐄','🐟','🐊'], bits:['🌊','🌾','🌊'] },
+  mundo:   { sky:['#1A3F5C','#8A6A2E'], blob:'#4FAF6A', road:'#EAD9A8', deco:['🌲','🐇','🐝','🌵','🐧','🐠'], bits:['☁️','🌿','☁️'] },
+  energia: { sky:['#2B1B4D','#8A3A2E'], blob:'#D9662E', road:'#FFE08A', deco:['🧊','🧱','🌡️','🔥','⚡','💨'], bits:['✨','💧','✨'], dots:true }
+};
+function sceneSVG(t, pts, H){
+  const e = ESCENAS[t.map]; if(!e) return '';
+  const id = 'sc-' + t.id, n = pts.length;
+  const road = pts.slice(1).map((q,i)=>{ const a=pts[i]; return `M${a[0]} ${a[1]} C${a[0]} ${a[1]+60} ${q[0]} ${q[1]-60} ${q[0]} ${q[1]}`; }).join(' ');
+  let s = `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${e.sky[0]}"/><stop offset="1" stop-color="${e.sky[1]}"/></linearGradient><clipPath id="${id}-c"><rect x="0" y="0" width="300" height="${H}" rx="22"/></clipPath></defs>
+    <g aria-hidden="true" clip-path="url(#${id}-c)"><rect x="0" y="0" width="300" height="${H}" fill="url(#${id})"/>`;
+  if(e.grid){ for(let y=30;y<H;y+=42) s+=`<path d="M0 ${y}H300" stroke="${e.road}" stroke-width="1" opacity=".14"/>`; for(let x=30;x<300;x+=42) s+=`<path d="M${x} 0V${H}" stroke="${e.road}" stroke-width="1" opacity=".14"/>`; }
+  if(e.dots){ for(let i=0;i<Math.round(H/14);i++) s+=`<circle cx="${(i*83)%300}" cy="${(i*131)%H}" r="${1+i%3}" fill="#fff" opacity=".3"/>`; }
+  // terreno: una mancha suave al lado contrario de cada misión, donde va su dibujo
+  pts.forEach((q,i)=>{ const x = q[0]<150 ? 262 : 38; s+=`<ellipse cx="${x}" cy="${q[1]+26}" rx="92" ry="40" fill="${e.blob}" opacity=".55"/><ellipse cx="${x}" cy="${q[1]+34}" rx="70" ry="26" fill="${e.blob}" opacity=".5"/>`; });
+  s += `<path d="${road}" fill="none" stroke="#06122A" stroke-width="30" stroke-linecap="round" opacity=".35"/><path d="${road}" fill="none" stroke="${e.road}" stroke-width="22" stroke-linecap="round" opacity=".85"/>`;
+  pts.forEach((q,i)=>{
+    const left = q[0]>=150, x = left ? 52 : 248, fin = i===n-1;
+    s+=`<text x="${x}" y="${q[1]+22}" font-size="${fin?50:42}" text-anchor="middle">${fin?'🏰':e.deco[i%e.deco.length]}</text>`;
+    if(i<n-1) s+=`<text x="${left?262:38}" y="${q[1]+70}" font-size="20" text-anchor="middle" opacity=".9">${e.bits[i%e.bits.length]}</text>`;
+  });
+  return s + '</g>';
+}
 function renderMap(){
   const p=P(), nx=nextIdx(), L=stagesOf(CT), v=$('#view-map');
   const label = (w,i) => w.boss ? tr('Jefe final') : tr('Misión')+' '+(i+1);
@@ -1405,7 +1437,7 @@ function renderMap(){
     const H = 60+L.length*105;
     const trails = pts.slice(1).map((q,i)=>{ const a=pts[i]; return `<path class="trail ${stars(p,L[i].id)>0?'lit':''}" d="M${a[0]} ${a[1]} C${a[0]} ${a[1]+60} ${q[0]} ${q[1]-60} ${q[0]} ${q[1]}"/>`; }).join('');
     const pin = pts[nx>=0?nx:pts.length-1];
-    svg = `<svg class="bodymap" viewBox="0 0 300 ${H}" role="group" aria-label="${tr('Mapa de las misiones del tema')}">${trails}
+    svg = `<svg class="bodymap" viewBox="0 0 300 ${H}" role="group" aria-label="${tr('Mapa de las misiones del tema')}">${sceneSVG(CT, pts, H)}${trails}
       ${L.map((w,i)=>nodeSVG(w,i,pts[i][0],pts[i][1],unlocked(i),stars(p,w.id),i===nx,label(w,i))).join('')}${pinSVG(pin[0],pin[1],p.avatar)}</svg>`;
   }
   v.setAttribute('style', cvars(CT));

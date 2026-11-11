@@ -50,6 +50,8 @@ Crea `cursos/3-primaria/contenidos.js` con los temas vacíos («Próximamente»)
 ## Añadir un tema nuevo
 Los contenidos de cada curso están en `cursos/<curso>/contenidos.js`. Cada tema tiene misiones (tarjetas de repaso y retos) y un jefe final; las instrucciones y los tipos de reto están explicados al principio del archivo.
 
+Cada tema puede tener un mapa ilustrado: añade `map:'huerto'` (o `salud`, `sabana`, `lab`, `digital`, `cuerpo`, `bosque`, `rio`, `mundo`, `energia`) en el tema. Los escenarios están en `ESCENAS`, en `index.html`. Sin `map`, el tema usa el camino sencillo.
+
 Para dar a un tema la *Carrera saludable* como premio, añade en ese tema `minijuego: { tipo:'carrera', titulo:'Carrera saludable', preguntas:[{q:'Pregunta', ok:'Respuesta correcta', no:'Respuesta incorrecta'}, …] }` (de cada partida salen 3 preguntas al azar). Para *Rescate en el bosque*: `minijuego: { tipo:'rescate', titulo:'Rescate en el bosque', refugios:['Grupo A','Grupo B','Grupo C'], animales:[{e:'🐙', n:'Pulpo', g:1}, …] }`, donde `g` es la posición del refugio correcto (empezando en 0); en cada partida salen 8 animales al azar. La carrera admite además `buenos`, `malos` (listas `{e:'🛡️', n:'Antivirus'}`), `intro`, `fin` y `fondo:'digital'`; el rescate, `cosas:true`, `intro` y `fondo:'lab'`. Para las parejas: `minijuego: { tipo:'memoria', titulo, parejas:[['Vista','Ojos'], …] }`. Para la lluvia: `minijuego: { tipo:'lluvia', titulo, necesarios:5, rondas:[{meta:'Atrapa los sólidos', ok:[{e:'🧊', n:'Hielo'}], no:[{e:'💧', n:'Agua'}]}] }`. Hay ejemplos de todos en los `contenidos.js` de 2.º y 3.º. Si el curso tiene inglés, pon también los textos del minijuego en `contenidos-en.js`.
 
 ## Uso
