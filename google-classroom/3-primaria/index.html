@@ -551,14 +551,16 @@ const CURSOS = [
     nombre: '2.º de Primaria',           // como aparece en el selector de curso
     nombre_en: 'Primary 2',
     ingles: true,                         // tiene contenidos-en.js
-    clave: 'exploradores-cuerpo-v1'       // dónde se guarda el progreso (no cambiar en cursos ya en uso)
+    clave: 'exploradores-cuerpo-v1',       // dónde se guarda el progreso (no cambiar en cursos ya en uso)
+    fichas: '9f529a0f'                     // versión de las fichas: la escribe tools/fichas/generar_fichas.js
   },
   {
     id: '3-primaria',
     nombre: '3.º de Primaria',
     nombre_en: 'Primary 3',
     ingles: false,
-    ciclo: 2                              // fichas en papel de segundo ciclo (más exigentes)
+    ciclo: 2,                              // fichas en papel de segundo ciclo (más exigentes)
+    fichas: '882635f1'                     // versión de las fichas: la escribe tools/fichas/generar_fichas.js
   }
 ];
 
@@ -2576,7 +2578,7 @@ function licenciaHTML(){
 }
 const WEB_URL = 'https://damp83.github.io/AulaNaturales/';
 const FICHAS_URL = WEB_URL + 'fichas/' + CURSO_ACTIVO.id + '/';
-const fichaURL = n => LANG==='en' ? FICHAS_URL+'en/'+(n==='sol'?'answer-key-concept-maps.pdf':`topic-${n}-concept-maps.pdf`) : FICHAS_URL+(n==='sol'?'solucionario-esquemas.pdf':`tema-${n}-esquemas.pdf`);
+const fichaURL = n => (LANG==='en' ? FICHAS_URL+'en/'+(n==='sol'?'answer-key-concept-maps.pdf':`topic-${n}-concept-maps.pdf`) : FICHAS_URL+(n==='sol'?'solucionario-esquemas.pdf':`tema-${n}-esquemas.pdf`)) + (CURSO_ACTIVO.fichas ? '?v='+CURSO_ACTIVO.fichas : '');
 let evalTema = 0, evalSel = null;
 function evalHTML(list){
   const temas = TEMAS.filter(hasContent), t = temas[Math.min(evalTema, temas.length-1)], cols = columnasEval(t);

@@ -221,7 +221,9 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
   // Mismo ancho que el área imprimible de un A4 (210 mm − 24 mm de márgenes), para medir como en el papel
   const pagina = await browser.newPage({ viewport: { width: Math.round(186 / 25.4 * 96), height: 1100 } });
   const doc = cuerpo => `<!doctype html><html lang="${T === TEXTOS.en ? 'en' : 'es'}"><head><meta charset="utf-8"><style>${CSS}</style></head><body>${cuerpo}</body></html>`;
+  let huella;  // resume el contenido de todas las fichas del curso: cambia solo si cambian las fichas
   const pdf = async (html, nombre) => {
+    huella.update(nombre + html);
     fs.mkdirSync(path.dirname(path.join(SALIDA, nombre)), { recursive: true });
     await pagina.setContent(html, { waitUntil: 'load' });
     await pagina.evaluate(() => document.fonts.ready);
@@ -244,6 +246,7 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
   for (const cid of pedidos) {
   console.log(`Curso ${cid}:`);
   const conIngles = cargarCurso(cid);
+  huella = require('crypto').createHash('sha1');
   for (const idioma of conIngles ? ['es', 'en'] : ['es']) {
     T = TEXTOS[idioma];
     if (ctx.IDIOMA) ctx.IDIOMA.aplicar(CURSO, idioma);
@@ -261,6 +264,16 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
     }
     if (solucion.length) await pdf(doc(solucion.join('')), idioma === 'en' ? 'en/answer-key-concept-maps.pdf' : 'solucionario-esquemas.pdf');
   }
+  // Versión de las fichas en cursos.js: el juego la añade a los enlaces (…pdf?v=…) para que el navegador
+  // no muestre una copia antigua cuando las fichas cambian
+  const version = huella.digest('hex').slice(0, 8), archivo = path.join(RAIZ, 'cursos.js');
+  let registro = fs.readFileSync(archivo, 'utf8');
+  const ini = registro.indexOf(`id: '${cid}'`), fin = registro.indexOf('}', ini);
+  let entrada = registro.slice(ini, fin);
+  entrada = /fichas:\s*'[^']*'/.test(entrada) ? entrada.replace(/fichas:\s*'[^']*'/, `fichas: '${version}'`)
+    : entrada.replace(/\s*$/, '') .replace(/(\S)(\s*(\/\/[^\n]*)?)$/, `$1,$2\n    fichas: '${version}'      // versión de las fichas: la escribe tools/fichas/generar_fichas.js\n  `);
+  fs.writeFileSync(archivo, registro.slice(0, ini) + entrada + registro.slice(fin));
+  console.log(`  versión de las fichas: ${version}`);
   }
   await browser.close();
   console.log('Fichas generadas en ' + path.join(RAIZ, 'fichas'));

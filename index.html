@@ -2556,7 +2556,7 @@ function licenciaHTML(){
 }
 const WEB_URL = 'https://damp83.github.io/AulaNaturales/';
 const FICHAS_URL = WEB_URL + 'fichas/' + CURSO_ACTIVO.id + '/';
-const fichaURL = n => LANG==='en' ? FICHAS_URL+'en/'+(n==='sol'?'answer-key-concept-maps.pdf':`topic-${n}-concept-maps.pdf`) : FICHAS_URL+(n==='sol'?'solucionario-esquemas.pdf':`tema-${n}-esquemas.pdf`);
+const fichaURL = n => (LANG==='en' ? FICHAS_URL+'en/'+(n==='sol'?'answer-key-concept-maps.pdf':`topic-${n}-concept-maps.pdf`) : FICHAS_URL+(n==='sol'?'solucionario-esquemas.pdf':`tema-${n}-esquemas.pdf`)) + (CURSO_ACTIVO.fichas ? '?v='+CURSO_ACTIVO.fichas : '');
 let evalTema = 0, evalSel = null;
 function evalHTML(list){
   const temas = TEMAS.filter(hasContent), t = temas[Math.min(evalTema, temas.length-1)], cols = columnasEval(t);
