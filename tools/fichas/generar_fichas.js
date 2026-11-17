@@ -209,8 +209,8 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
 .c2 .rama li{font-size:12.5pt;line-height:2}
 .c2 .caja{line-height:2}
 .c2 .consigna{font-size:11.5pt}
-.pie.c2{grid-template-columns:1fr 58mm;min-height:40mm;font-size:12pt}
-.explica{border:2.5px solid #999;border-radius:5mm;padding:2mm 4mm;display:flex;flex-direction:column;gap:7mm;color:#333}
+.pie.c2{grid-template-columns:1fr 58mm;min-height:32mm;font-size:12pt}
+.explica{border:2.5px solid #999;border-radius:5mm;padding:2mm 4mm;display:flex;flex-direction:column;gap:6.5mm;color:#333}
 .explica i{display:block;border-bottom:1.5px solid #888;height:0}
 .frases{display:flex;flex-direction:column;gap:2mm}
 .frases span{border:1.5px solid #999;border-radius:999px;padding:.6mm 3mm;text-align:center;font-size:11pt}

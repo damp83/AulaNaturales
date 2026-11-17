@@ -863,7 +863,8 @@ const ESQUEMAS = {
   mapa3: { titulo:'El cuerpo [[humano]]', nodos:[
     {txt:'Partes', hijos:[{txt:'[[Cabeza]]'},{txt:'[[Tronco]]: tórax y [[abdomen]]'},{txt:'[[Extremidades]]: superiores e inferiores'}]},
     {txt:'Órganos de [[nutrición]]', hijos:[{txt:'[[Corazón]], pulmones, estómago e intestino'}]},
-    {txt:'Órganos de [[relación]]', hijos:[{txt:'Sentidos, [[cerebro]] y [[nervios]]'},{txt:'Huesos y músculos'}]} ], extra:['reproducción','muñeca','tobillo','pulmón'] },
+    {txt:'Órganos de [[relación]]', hijos:[{txt:'Sentidos, [[cerebro]], [[nervios]], huesos y músculos'}]},
+    {txt:'Órganos de [[reproducción]]: ovarios y testículos'} ], extra:['digestión','muñeca','tobillo','pulmón'] },
   motor3: { titulo:'El aparato [[locomotor]]', nodos:[
     {txt:'El [[esqueleto]]', hijos:[{txt:'[[Huesos]]: órganos rígidos y [[resistentes]]'},{txt:'[[Articulaciones]]: permiten girar y doblar'},{txt:'Ej.: [[cráneo]], fémur y tibia'}]},
     {txt:'La [[musculatura]]', hijos:[{txt:'Los músculos se [[encogen]] y se estiran'},{txt:'Al encogerse, [[tiran]] de los huesos'},{txt:'Ej.: bíceps, tríceps y [[gemelo]]'}]} ], extra:['codo','blandos','pulmones','corazón'] },
@@ -875,25 +876,25 @@ const ESQUEMAS = {
   bienestar3: { titulo:'La [[salud]] y los hábitos saludables', nodos:[
     {txt:'[[Higiene]]', hijos:[{txt:'Evita las [[enfermedades]]'}]},
     {txt:'[[Ejercicio]] físico', hijos:[{txt:'Mejora la salud si es [[regular]]'}]},
-    {txt:'Ocio y [[descanso]]', hijos:[{txt:'Dormir unas [[diez]] horas'}]},
+    {txt:'Ocio y [[descanso]]', hijos:[{txt:'Ocio: lo que hacemos en el tiempo [[libre]]'},{txt:'Dormir unas [[diez]] horas'}]},
     {txt:'[[Alimentación]] adecuada', hijos:[{txt:'Nos ayuda a estar sanos'}]},
     {txt:'Buena [[postura]]', hijos:[{txt:'Evita dolores de [[espalda]]'}]} ], extra:['cinco','pantallas','golosinas','cabeza'] },
   /* Tema 2 */
   superviv3: { titulo:'Las funciones vitales de los [[animales]]', nodos:[
-    {txt:'[[Nutrición]]', hijos:[{txt:'[[Herbívoros]], carnívoros y [[omnívoros]]'},{txt:'Respiran con [[pulmones]] o branquias'}]},
+    {txt:'[[Nutrición]]', hijos:[{txt:'[[Herbívoros]], carnívoros y [[omnívoros]]'},{txt:'Toman [[oxígeno]] con [[pulmones]] o branquias'}]},
     {txt:'[[Relación]]', hijos:[{txt:'Los sentidos captan y el [[cerebro]] responde'}]},
     {txt:'[[Reproducción]]', hijos:[{txt:'[[Ovíparos]]: nacen de un huevo'},{txt:'[[Vivíparos]]: nacen del vientre de la madre'}]} ], extra:['metamorfosis','escamas','larvas','columna'] },
   censo3: { titulo:'Clasificamos los animales por su [[esqueleto]]', nodos:[
     {txt:'[[Vertebrados]]', hijos:[{txt:'Esqueleto interno con [[columna]] vertebral'},{txt:'Cabeza, [[tronco]] y cola'},{txt:'Peces, anfibios, [[reptiles]], aves y mamíferos'}]},
     {txt:'[[Invertebrados]]', hijos:[{txt:'Sin huesos y casi todos [[ovíparos]]'},{txt:'Esponjas, medusas, [[gusanos]], moluscos, artrópodos y [[equinodermos]]'}]} ], extra:['vivíparos','pulmones','insectos','plumas'] },
   blandos3: { titulo:'Los [[moluscos]]', nodos:[
-    {txt:'Cuerpo [[blando]], casi siempre con [[concha]]'},
+    {txt:'Cuerpo [[blando]], casi siempre con [[concha]]', hijos:[{txt:'Viven en el agua o en [[tierra]]'},{txt:'Son ovíparos; muchas crías son [[larvas]]'}]},
     {txt:'[[Bivalvos]]: dos conchas', hijos:[{txt:'Mejillón, almeja, [[ostra]]'}]},
     {txt:'[[Gasterópodos]]: concha en [[espiral]]', hijos:[{txt:'Caracol y [[babosa]] (sin concha)'}]},
     {txt:'[[Cefalópodos]]: tentáculos con [[ventosas]]', hijos:[{txt:'Pulpo, calamar y sepia'}]} ], extra:['branquias','escarabajo','antenas','alas'] },
   armadura3: { titulo:'Los [[artrópodos]] y los insectos', nodos:[
     {txt:'Artrópodos', hijos:[{txt:'Cuerpo con una [[armadura]] de piezas'},{txt:'Patas con [[articulaciones]]'}]},
-    {txt:'[[Insectos]]', hijos:[{txt:'Cabeza, [[tórax]] y abdomen'},{txt:'Dos antenas y [[seis]] patas'}]},
+    {txt:'[[Insectos]]', hijos:[{txt:'Cabeza, [[tórax]] y abdomen'},{txt:'Dos antenas y [[seis]] patas'},{txt:'Muchos tienen dos o cuatro [[alas]]'}]},
     {txt:'[[Metamorfosis]] de la mariposa', hijos:[{txt:'Huevo, [[oruga]], crisálida y mariposa'}]} ], extra:['ocho','concha','columna','renacuajo'] },
   /* Tema 3 */
   vert3a: { titulo:'Los [[mamíferos]]', nodos:[
@@ -902,13 +903,15 @@ const ESQUEMAS = {
     {txt:'Grupos', hijos:[{txt:'[[Carnívoros]] y con pezuñas'},{txt:'[[Primates]], murciélagos y [[cetáceos]]'}]} ], extra:['plumas','ovíparos','branquias','escamas'] },
   vert3b: { titulo:'Las aves y los [[reptiles]]', nodos:[
     {txt:'[[Aves]]', hijos:[{txt:'[[Plumas]], alas y pico'},{txt:'Cuidan los huevos y a sus [[polluelos]]'},{txt:'Corredoras, ánades, [[rapaces]] y pájaros'}]},
-    {txt:'Reptiles', hijos:[{txt:'Piel con [[escamas]] y cola larga'},{txt:'No suelen [[cuidar]] sus huevos'},{txt:'Lagartos, [[tortugas]], serpientes y cocodrilos'}]} ], extra:['pelo','branquias','mamas','renacuajos'] },
+    {txt:'Reptiles', hijos:[{txt:'Piel con [[escamas]] y cola larga'},{txt:'No suelen [[cuidar]] sus huevos'},{txt:'Lagartos, [[tortugas]], serpientes y cocodrilos'}]},
+    {txt:'Las dos respiran con [[pulmones]] y ponen huevos'} ], extra:['pelo','branquias','mamas','renacuajos'] },
   vert3c: { titulo:'Los anfibios y los [[peces]]', nodos:[
-    {txt:'[[Anfibios]]', hijos:[{txt:'Piel [[desnuda]]'},{txt:'Crías: [[renacuajos]] con branquias'},{txt:'Cambian por [[metamorfosis]]'}]},
-    {txt:'Peces', hijos:[{txt:'Escamas, [[aletas]] y branquias'},{txt:'Crías: [[alevines]]'},{txt:'[[Óseos]] y cartilaginosos'}]} ], extra:['plumas','polluelos','pulmones','caparazón'] },
+    {txt:'[[Anfibios]]', hijos:[{txt:'Piel [[desnuda]]'},{txt:'Crías: [[renacuajos]] con branquias'},{txt:'Adultos: respiran con [[pulmones]]'},{txt:'Cambian por [[metamorfosis]]'},{txt:'Con cola (tritón) y sin cola (rana)'}]},
+    {txt:'Peces', hijos:[{txt:'Escamas, [[aletas]] y branquias'},{txt:'Crías: [[alevines]]'},{txt:'[[Óseos]] y cartilaginosos'}]} ], extra:['plumas','polluelos','pico','caparazón'] },
   vert3d: { titulo:'La importancia de los [[animales]]', nodos:[
     {txt:'Para el [[medioambiente]]', hijos:[{txt:'Las abejas ayudan a reproducirse a las [[plantas]]'},{txt:'Los [[carroñeros]] limpian el campo'},{txt:'Las [[lombrices]] alimentan el suelo'}]},
-    {txt:'Para las [[personas]]', hijos:[{txt:'[[Alimento]]: carne, leche, huevos y miel'},{txt:'Compañía, [[defensa]] y ocio'},{txt:'Lana, seda y [[cuero]]'}]} ], extra:['plástico','petróleo','hienas','vidrio'] },
+    {txt:'Para las [[personas]]', hijos:[{txt:'[[Alimento]]: carne, leche, huevos y miel'},{txt:'Compañía, [[defensa]] y ocio'},{txt:'Lana, seda y [[cuero]]'}]},
+    {txt:'Por eso hay que [[respetarlos]] y cuidarlos'} ], extra:['plástico','petróleo','hienas','vidrio'] },
   /* Tema 4 */
   eco3a: { titulo:'El [[ecosistema]] y sus componentes', nodos:[
     {txt:'Seres [[vivos]]', hijos:[{txt:'Misma especie en un lugar: [[población]]'},{txt:'Todas las poblaciones: [[comunidad]]'}]},
@@ -918,11 +921,12 @@ const ESQUEMAS = {
     {txt:'[[Productores]]: las plantas fabrican su alimento'},
     {txt:'Consumidores [[primarios]]: comen plantas (herbívoros)'},
     {txt:'Consumidores [[secundarios]]: comen herbívoros'},
-    {txt:'Se representan con cadenas: hierba → [[conejo]] → lince'},
-    {txt:'Varias cadenas unidas forman una [[red]] alimentaria'} ], extra:['terciarios','carnívoros','lince','omnívoros'] },
+    {txt:'Consumidores [[terciarios]]: comen consumidores secundarios'},
+    {txt:'Cadenas: las [[flechas]] van del alimento al que come'},
+    {txt:'Varias cadenas unidas forman una [[red]] alimentaria'} ], extra:['parásitos','carnívoros','lince','omnívoros'] },
   eco3c: { titulo:'Otras [[relaciones]] en los ecosistemas', nodos:[
     {txt:'En la misma [[especie]]', hijos:[{txt:'Grupos [[familiares]]: gorilas'},{txt:'[[Asociaciones]]: bancos de peces'},{txt:'[[Sociedades]]: colmenas'}]},
-    {txt:'Entre especies [[distintas]]', hijos:[{txt:'[[Mutualismo]]: las dos ganan'},{txt:'[[Parasitismo]]: una gana y la otra pierde'},{txt:'[[Competencia]]: las dos pierden'}]} ], extra:['comensalismo','población','productores','bandada'] },
+    {txt:'Entre especies [[distintas]]', hijos:[{txt:'[[Mutualismo]]: las dos ganan'},{txt:'[[Comensalismo]]: una gana y la otra ni gana ni pierde'},{txt:'[[Parasitismo]]: una gana y la otra pierde'},{txt:'[[Competencia]]: las dos pierden'}]} ], extra:['consumidores','población','productores','bandada'] },
   eco3d: { titulo:'Los principales [[ecosistemas]]', nodos:[
     {txt:'[[Terrestres]]', hijos:[{txt:'[[Bosques]]: muchos árboles'},{txt:'[[Praderas]]: abunda la hierba'},{txt:'[[Desiertos]]: casi no llueve'},{txt:'Zonas [[polares]]: hielo'}]},
     {txt:'[[Acuáticos]]', hijos:[{txt:'Agua [[dulce]]: ríos y lagunas'},{txt:'Agua [[salada]]: costa y mar abierto'}]} ], extra:['ciudad','volcán','salvaje','caliente'] },
@@ -930,7 +934,8 @@ const ESQUEMAS = {
   mat3a: { titulo:'La [[materia]] y sus propiedades', nodos:[
     {txt:'Propiedades', hijos:[{txt:'[[Masa]]: se mide en gramos o [[kilogramos]]'},{txt:'[[Volumen]]: se mide en [[litros]]'}]},
     {txt:'Estados', hijos:[{txt:'[[Sólido]]: forma y volumen fijos'},{txt:'[[Líquido]]: volumen fijo, forma del recipiente'},{txt:'[[Gaseoso]]: se adapta a todo el recipiente'}]},
-    {txt:'No es materia: la luz y la [[música]]'} ], extra:['metros','dureza','sustancia','grados'] },
+    {txt:'Cada tipo de materia es una [[sustancia]]'},
+    {txt:'No es materia: la luz y la [[música]]'} ], extra:['metros','dureza','temperatura','grados'] },
   mat3b: { titulo:'Los [[materiales]]', nodos:[
     {txt:'[[Naturales]]', hijos:[{txt:'Origen [[animal]]: lana y cuero'},{txt:'Origen [[vegetal]]: madera y algodón'},{txt:'Origen [[mineral]]: granito y mármol'}]},
     {txt:'[[Artificiales]]', hijos:[{txt:'Se fabrican con [[materias primas]]'},{txt:'Papel (madera), [[vidrio]] (arena), plástico (petróleo)'}]},
@@ -962,7 +967,7 @@ const ESQUEMAS = {
     {txt:'Usos', hijos:[{txt:'Buscar [[información]] en páginas web'},{txt:'[[Comunicarnos]] y comprar'},{txt:'Hacer [[gestiones]] y trabajar'}]},
     {txt:'¡Cuidado con las noticias [[falsas]]!', hijos:[{txt:'[[Comprobar]] en varias páginas'}]} ], extra:['virus','teclado','batería','ciberacoso'] },
   dig3d: { titulo:'Los riesgos del mundo [[digital]]', nodos:[
-    {txt:'[[Ciberacoso]]', hijos:[{txt:'No dar datos [[personales]]'},{txt:'Hablar con la [[familia]]'}]},
+    {txt:'[[Ciberacoso]]', hijos:[{txt:'Mensajes con [[amenazas]] o insultos'},{txt:'No dar datos [[personales]]'},{txt:'Hablar con la [[familia]]'}]},
     {txt:'[[Virus]]', hijos:[{txt:'Instalar un [[antivirus]]'}]},
     {txt:'[[Adicción]]', hijos:[{txt:'Controlar el [[tiempo]] de uso'}]},
     {txt:'Contenidos [[inadecuados]]', hijos:[{txt:'Usar [[filtros]]'}]} ], extra:['teclado','impresora','contraseña','monitor'] }
