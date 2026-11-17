@@ -856,112 +856,122 @@ const CURSO = {
    [[palabra]] es un hueco que el alumno completa. «extra» son palabras para despistar. */
 const ESQUEMAS = {
   /* Tema 1 */
-  vida3: { titulo:'Somos seres [[vivos]]', nodos:[
-    {txt:'Funciones [[vitales]]', hijos:[{txt:'[[Nutrición]]: tomar alimentos'},{txt:'[[Relación]]: responder al entorno'},{txt:'[[Reproducción]]: tener hijos'}]},
-    {txt:'[[Emociones]]', hijos:[{txt:'Alegría, tristeza, [[enfado]] y sorpresa'}]} ], extra:['huesos','branquias'] },
-  mapa3: { titulo:'Nuestro [[cuerpo]]', nodos:[
-    {txt:'Partes', hijos:[{txt:'[[Cabeza]]'},{txt:'[[Tronco]]: tórax y abdomen'},{txt:'[[Extremidades]]: brazos y piernas'}]},
-    {txt:'Órganos [[internos]]', hijos:[{txt:'[[Corazón]] y pulmones'},{txt:'[[Cerebro]] y nervios'},{txt:'[[Estómago]] e intestino'}]} ], extra:['alas','aletas'] },
-  motor3: { titulo:'Nos [[movemos]]', nodos:[
-    {txt:'El [[esqueleto]]', hijos:[{txt:'[[Huesos]]: rígidos y resistentes'},{txt:'[[Articulaciones]]: uniones de los huesos'}]},
-    {txt:'La [[musculatura]]', hijos:[{txt:'Los músculos se encogen y se [[estiran]]'},{txt:'Ej.: bíceps y [[gemelo]]'}]} ], extra:['fémur','pulmón'] },
+  vida3: { titulo:'Las funciones [[vitales]] y las emociones', nodos:[
+    {txt:'[[Nutrición]]', hijos:[{txt:'Tomamos [[alimentos]] y aprovechamos lo que necesitamos'},{txt:'Nos dan [[energía]] y materiales para [[crecer]]'}]},
+    {txt:'[[Relación]]', hijos:[{txt:'Recibimos [[información]] del entorno y respondemos'}]},
+    {txt:'[[Reproducción]]', hijos:[{txt:'Tener hijos que se [[parecen]] a sus padres'}]},
+    {txt:'Las [[emociones]]', hijos:[{txt:'No se ven: alegría, [[tristeza]], enfado y sorpresa'}]} ], extra:['respiración','hambre','sueño','huesos'] },
+  mapa3: { titulo:'El cuerpo [[humano]]', nodos:[
+    {txt:'Partes', hijos:[{txt:'[[Cabeza]]'},{txt:'[[Tronco]]: tórax y [[abdomen]]'},{txt:'[[Extremidades]]: superiores e inferiores'}]},
+    {txt:'Órganos de [[nutrición]]', hijos:[{txt:'[[Corazón]], pulmones, estómago e intestino'}]},
+    {txt:'Órganos de [[relación]]', hijos:[{txt:'Sentidos, [[cerebro]], [[nervios]], huesos y músculos'}]},
+    {txt:'Órganos de [[reproducción]]: ovarios y testículos'} ], extra:['digestión','muñeca','tobillo','pulmón'] },
+  motor3: { titulo:'El aparato [[locomotor]]', nodos:[
+    {txt:'El [[esqueleto]]', hijos:[{txt:'[[Huesos]]: órganos rígidos y [[resistentes]]'},{txt:'[[Articulaciones]]: permiten girar y doblar'},{txt:'Ej.: [[cráneo]], fémur y tibia'}]},
+    {txt:'La [[musculatura]]', hijos:[{txt:'Los músculos se [[encogen]] y se estiran'},{txt:'Al encogerse, [[tiran]] de los huesos'},{txt:'Ej.: bíceps, tríceps y [[gemelo]]'}]} ], extra:['codo','blandos','pulmones','corazón'] },
   etapas3: { tipo:'flujo', titulo:'Las [[etapas]] de la vida', nodos:[
-    {txt:'[[Infancia]]: de 0 a 12 años'}, {txt:'[[Adolescencia]]: de 12 a 16 años'}, {txt:'Edad [[adulta]]: de 16 a 65 años'}, {txt:'[[Ancianidad]]: desde los 65 años'} ], extra:['bebé','juventud'] },
-  bienestar3: { titulo:'Hábitos [[saludables]]', nodos:[
-    {txt:'[[Higiene]]', hijos:[{txt:'Evita [[enfermedades]]'}]},
-    {txt:'[[Ejercicio]] físico'},
-    {txt:'Ocio y [[descanso]]', hijos:[{txt:'Dormir unas [[diez]] horas'}]},
-    {txt:'[[Alimentación]] adecuada'},
-    {txt:'Buena [[postura]]'} ], extra:['cinco','pantallas'] },
+    {txt:'[[Infancia]] (0-12 años): es cuando más se [[crece]]'},
+    {txt:'[[Adolescencia]] (12-16): el cuerpo se [[diferencia]]'},
+    {txt:'Edad [[adulta]] (16-65): se cambia [[lentamente]]'},
+    {txt:'[[Ancianidad]] (desde 65): mucha [[experiencia]]'} ], extra:['juventud','deprisa','nacimiento','fuerza'] },
+  bienestar3: { titulo:'La [[salud]] y los hábitos saludables', nodos:[
+    {txt:'[[Higiene]]', hijos:[{txt:'Evita las [[enfermedades]]'}]},
+    {txt:'[[Ejercicio]] físico', hijos:[{txt:'Mejora la salud si es [[regular]]'}]},
+    {txt:'Ocio y [[descanso]]', hijos:[{txt:'Ocio: lo que hacemos en el tiempo [[libre]]'},{txt:'Dormir unas [[diez]] horas'}]},
+    {txt:'[[Alimentación]] adecuada', hijos:[{txt:'Nos ayuda a estar sanos'}]},
+    {txt:'Buena [[postura]]', hijos:[{txt:'Evita dolores de [[espalda]]'}]} ], extra:['cinco','pantallas','golosinas','cabeza'] },
   /* Tema 2 */
-  superviv3: { titulo:'Tipos de [[animales]]', nodos:[
-    {txt:'Según su [[alimentación]]', hijos:[{txt:'[[Herbívoros]]'},{txt:'[[Carnívoros]]'},{txt:'[[Omnívoros]]'}]},
-    {txt:'Según su [[reproducción]]', hijos:[{txt:'[[Ovíparos]]: ponen huevos'},{txt:'[[Vivíparos]]: nacen del vientre'}]} ], extra:['vertebrados','branquias'] },
-  censo3: { titulo:'Según su [[esqueleto]]', nodos:[
-    {txt:'[[Vertebrados]]', hijos:[{txt:'Tienen [[columna]] vertebral'},{txt:'Peces, anfibios, reptiles, aves y [[mamíferos]]'}]},
-    {txt:'[[Invertebrados]]', hijos:[{txt:'No tienen [[huesos]]'},{txt:'Esponjas, medusas, gusanos, [[moluscos]]...'}]} ], extra:['plumas','pulmones'] },
+  superviv3: { titulo:'Las funciones vitales de los [[animales]]', nodos:[
+    {txt:'[[Nutrición]]', hijos:[{txt:'[[Herbívoros]], carnívoros y [[omnívoros]]'},{txt:'Toman [[oxígeno]] con [[pulmones]] o branquias'}]},
+    {txt:'[[Relación]]', hijos:[{txt:'Los sentidos captan y el [[cerebro]] responde'}]},
+    {txt:'[[Reproducción]]', hijos:[{txt:'[[Ovíparos]]: nacen de un huevo'},{txt:'[[Vivíparos]]: nacen del vientre de la madre'}]} ], extra:['metamorfosis','escamas','larvas','columna'] },
+  censo3: { titulo:'Clasificamos los animales por su [[esqueleto]]', nodos:[
+    {txt:'[[Vertebrados]]', hijos:[{txt:'Esqueleto interno con [[columna]] vertebral'},{txt:'Cabeza, [[tronco]] y cola'},{txt:'Peces, anfibios, [[reptiles]], aves y mamíferos'}]},
+    {txt:'[[Invertebrados]]', hijos:[{txt:'Sin huesos y casi todos [[ovíparos]]'},{txt:'Esponjas, medusas, [[gusanos]], moluscos, artrópodos y [[equinodermos]]'}]} ], extra:['vivíparos','pulmones','insectos','plumas'] },
   blandos3: { titulo:'Los [[moluscos]]', nodos:[
-    {txt:'Cuerpo [[blando]]'},
-    {txt:'[[Bivalvos]]: dos conchas', hijos:[{txt:'[[Mejillón]], almeja'}]},
-    {txt:'[[Gasterópodos]]: concha en espiral', hijos:[{txt:'[[Caracol]], babosa'}]},
-    {txt:'[[Cefalópodos]]: tentáculos', hijos:[{txt:'[[Pulpo]], calamar'}]} ], extra:['plumas','escarabajo'] },
-  armadura3: { titulo:'Los [[insectos]]', nodos:[
-    {txt:'Cuerpo: cabeza, [[tórax]] y abdomen'},
-    {txt:'Dos [[antenas]] y seis [[patas]]'},
-    {txt:'[[Metamorfosis]]', hijos:[{txt:'Huevo, [[oruga]], crisálida, mariposa'}]},
-    {txt:'Son [[artrópodos]]: patas con articulaciones'} ], extra:['ocho','concha'] },
+    {txt:'Cuerpo [[blando]], casi siempre con [[concha]]', hijos:[{txt:'Viven en el agua o en [[tierra]]'},{txt:'Son ovíparos; muchas crías son [[larvas]]'}]},
+    {txt:'[[Bivalvos]]: dos conchas', hijos:[{txt:'Mejillón, almeja, [[ostra]]'}]},
+    {txt:'[[Gasterópodos]]: concha en [[espiral]]', hijos:[{txt:'Caracol y [[babosa]] (sin concha)'}]},
+    {txt:'[[Cefalópodos]]: tentáculos con [[ventosas]]', hijos:[{txt:'Pulpo, calamar y sepia'}]} ], extra:['branquias','escarabajo','antenas','alas'] },
+  armadura3: { titulo:'Los [[artrópodos]] y los insectos', nodos:[
+    {txt:'Artrópodos', hijos:[{txt:'Cuerpo con una [[armadura]] de piezas'},{txt:'Patas con [[articulaciones]]'}]},
+    {txt:'[[Insectos]]', hijos:[{txt:'Cabeza, [[tórax]] y abdomen'},{txt:'Dos antenas y [[seis]] patas'},{txt:'Muchos tienen dos o cuatro [[alas]]'}]},
+    {txt:'[[Metamorfosis]] de la mariposa', hijos:[{txt:'Huevo, [[oruga]], crisálida y mariposa'}]} ], extra:['ocho','concha','columna','renacuajo'] },
   /* Tema 3 */
   vert3a: { titulo:'Los [[mamíferos]]', nodos:[
-    {txt:'Piel cubierta de [[pelo]]'},
-    {txt:'Respiran con [[pulmones]]'},
-    {txt:'Las crías maman [[leche]]'},
-    {txt:'Grupos', hijos:[{txt:'Carnívoros, con [[pezuñas]] y primates'},{txt:'[[Murciélagos]], delfines y ballenas'}]} ], extra:['plumas','branquias'] },
-  vert3b: { titulo:'Aves y [[reptiles]]', nodos:[
-    {txt:'[[Aves]]', hijos:[{txt:'[[Plumas]], alas y [[pico]]'},{txt:'Cuidan a sus [[polluelos]]'}]},
-    {txt:'Reptiles', hijos:[{txt:'Piel con [[escamas]]'},{txt:'Lagartos, tortugas, [[serpientes]] y cocodrilos'}]} ], extra:['pelo','aletas'] },
-  vert3c: { titulo:'Anfibios y [[peces]]', nodos:[
-    {txt:'[[Anfibios]]', hijos:[{txt:'Piel [[desnuda]]'},{txt:'Sus crías son [[renacuajos]]'},{txt:'Cambian por [[metamorfosis]]'}]},
-    {txt:'Peces', hijos:[{txt:'[[Escamas]] y aletas'},{txt:'Respiran con [[branquias]]'},{txt:'Óseos y [[cartilaginosos]]'}]} ], extra:['plumas','pulmones'] },
-  vert3d: { titulo:'Los animales son [[importantes]]', nodos:[
-    {txt:'Para la [[naturaleza]]', hijos:[{txt:'Las [[abejas]] ayudan a las plantas'},{txt:'Los [[carroñeros]] limpian el campo'}]},
-    {txt:'Para las [[personas]]', hijos:[{txt:'[[Alimento]]: leche, huevos y miel'},{txt:'[[Compañía]]: perros y gatos'},{txt:'Materiales: [[lana]] y cuero'}]} ], extra:['plástico','petróleo'] },
+    {txt:'Cómo son', hijos:[{txt:'Piel cubierta de [[pelo]]'},{txt:'Labios y [[dientes]]'}]},
+    {txt:'Cómo viven', hijos:[{txt:'Respiran con [[pulmones]]'},{txt:'Son [[vivíparos]] y las crías [[maman]]'}]},
+    {txt:'Grupos', hijos:[{txt:'[[Carnívoros]] y con pezuñas'},{txt:'[[Primates]], murciélagos y [[cetáceos]]'}]} ], extra:['plumas','ovíparos','branquias','escamas'] },
+  vert3b: { titulo:'Las aves y los [[reptiles]]', nodos:[
+    {txt:'[[Aves]]', hijos:[{txt:'[[Plumas]], alas y pico'},{txt:'Cuidan los huevos y a sus [[polluelos]]'},{txt:'Corredoras, ánades, [[rapaces]] y pájaros'}]},
+    {txt:'Reptiles', hijos:[{txt:'Piel con [[escamas]] y cola larga'},{txt:'No suelen [[cuidar]] sus huevos'},{txt:'Lagartos, [[tortugas]], serpientes y cocodrilos'}]},
+    {txt:'Las dos respiran con [[pulmones]] y ponen huevos'} ], extra:['pelo','branquias','mamas','renacuajos'] },
+  vert3c: { titulo:'Los anfibios y los [[peces]]', nodos:[
+    {txt:'[[Anfibios]]', hijos:[{txt:'Piel [[desnuda]]'},{txt:'Crías: [[renacuajos]] con branquias'},{txt:'Adultos: respiran con [[pulmones]]'},{txt:'Cambian por [[metamorfosis]]'},{txt:'Con cola (tritón) y sin cola (rana)'}]},
+    {txt:'Peces', hijos:[{txt:'Escamas, [[aletas]] y branquias'},{txt:'Crías: [[alevines]]'},{txt:'[[Óseos]] y cartilaginosos'}]} ], extra:['plumas','polluelos','pico','caparazón'] },
+  vert3d: { titulo:'La importancia de los [[animales]]', nodos:[
+    {txt:'Para el [[medioambiente]]', hijos:[{txt:'Las abejas ayudan a reproducirse a las [[plantas]]'},{txt:'Los [[carroñeros]] limpian el campo'},{txt:'Las [[lombrices]] alimentan el suelo'}]},
+    {txt:'Para las [[personas]]', hijos:[{txt:'[[Alimento]]: carne, leche, huevos y miel'},{txt:'Compañía, [[defensa]] y ocio'},{txt:'Lana, seda y [[cuero]]'}]},
+    {txt:'Por eso hay que [[respetarlos]] y cuidarlos'} ], extra:['plástico','petróleo','hienas','vidrio'] },
   /* Tema 4 */
-  eco3a: { titulo:'El [[ecosistema]]', nodos:[
-    {txt:'Seres [[vivos]]', hijos:[{txt:'Misma especie: [[población]]'},{txt:'Todas las poblaciones: [[comunidad]]'}]},
-    {txt:'Medio [[físico]]', hijos:[{txt:'Rocas, [[agua]] y aire'}]},
-    {txt:'[[Relaciones]] entre ellos'} ], extra:['ordenador','calor'] },
-  eco3b: { tipo:'flujo', titulo:'Una cadena [[alimentaria]]', nodos:[
-    {txt:'[[Productor]]: la hierba'}, {txt:'Consumidor [[primario]]: el conejo'}, {txt:'Consumidor [[secundario]]: el lince'},
-    {txt:'Varias cadenas forman una [[red]] alimentaria'} ], extra:['terciario','piedra'] },
-  eco3c: { titulo:'Relaciones entre [[especies]]', nodos:[
-    {txt:'[[Mutualismo]]: las dos ganan'},
-    {txt:'[[Comensalismo]]: una gana y la otra ni gana ni pierde'},
-    {txt:'[[Parasitismo]]: una gana y la otra pierde'},
-    {txt:'[[Competencia]]: las dos pierden'} ], extra:['sociedad','bandada'] },
-  eco3d: { titulo:'Principales [[ecosistemas]]', nodos:[
-    {txt:'[[Terrestres]]', hijos:[{txt:'[[Bosques]] y praderas'},{txt:'[[Desiertos]] y zonas polares'}]},
-    {txt:'[[Acuáticos]]', hijos:[{txt:'Agua [[dulce]]: ríos y lagunas'},{txt:'Agua [[salada]]: costa y mar abierto'}]} ], extra:['ciudad','volcán'] },
+  eco3a: { titulo:'El [[ecosistema]] y sus componentes', nodos:[
+    {txt:'Seres [[vivos]]', hijos:[{txt:'Misma especie en un lugar: [[población]]'},{txt:'Todas las poblaciones: [[comunidad]]'}]},
+    {txt:'Medio [[físico]]', hijos:[{txt:'Componentes [[no vivos]]: rocas, agua y aire'},{txt:'[[Terrestre]] o acuático'}]},
+    {txt:'[[Relaciones]] entre ellos'} ], extra:['sociedad','especie','ciudad','energía'] },
+  eco3b: { tipo:'flujo', titulo:'Las relaciones de [[alimentación]]', nodos:[
+    {txt:'[[Productores]]: las plantas fabrican su alimento'},
+    {txt:'Consumidores [[primarios]]: comen plantas (herbívoros)'},
+    {txt:'Consumidores [[secundarios]]: comen herbívoros'},
+    {txt:'Consumidores [[terciarios]]: comen consumidores secundarios'},
+    {txt:'Cadenas: las [[flechas]] van del alimento al que come'},
+    {txt:'Varias cadenas unidas forman una [[red]] alimentaria'} ], extra:['parásitos','carnívoros','lince','omnívoros'] },
+  eco3c: { titulo:'Otras [[relaciones]] en los ecosistemas', nodos:[
+    {txt:'En la misma [[especie]]', hijos:[{txt:'Grupos [[familiares]]: gorilas'},{txt:'[[Asociaciones]]: bancos de peces'},{txt:'[[Sociedades]]: colmenas'}]},
+    {txt:'Entre especies [[distintas]]', hijos:[{txt:'[[Mutualismo]]: las dos ganan'},{txt:'[[Comensalismo]]: una gana y la otra ni gana ni pierde'},{txt:'[[Parasitismo]]: una gana y la otra pierde'},{txt:'[[Competencia]]: las dos pierden'}]} ], extra:['consumidores','población','productores','bandada'] },
+  eco3d: { titulo:'Los principales [[ecosistemas]]', nodos:[
+    {txt:'[[Terrestres]]', hijos:[{txt:'[[Bosques]]: muchos árboles'},{txt:'[[Praderas]]: abunda la hierba'},{txt:'[[Desiertos]]: casi no llueve'},{txt:'Zonas [[polares]]: hielo'}]},
+    {txt:'[[Acuáticos]]', hijos:[{txt:'Agua [[dulce]]: ríos y lagunas'},{txt:'Agua [[salada]]: costa y mar abierto'}]} ], extra:['ciudad','volcán','salvaje','caliente'] },
   /* Tema 5 */
-  mat3a: { titulo:'La [[materia]]', nodos:[
-    {txt:'Propiedades', hijos:[{txt:'[[Masa]]: cantidad de materia'},{txt:'[[Volumen]]: espacio que ocupa'}]},
-    {txt:'Estados', hijos:[{txt:'[[Sólido]]: forma y volumen fijos'},{txt:'[[Líquido]]: toma la forma del recipiente'},{txt:'[[Gaseoso]]: ocupa todo el recipiente'}]} ], extra:['luz','música'] },
+  mat3a: { titulo:'La [[materia]] y sus propiedades', nodos:[
+    {txt:'Propiedades', hijos:[{txt:'[[Masa]]: se mide en gramos o [[kilogramos]]'},{txt:'[[Volumen]]: se mide en [[litros]]'}]},
+    {txt:'Estados', hijos:[{txt:'[[Sólido]]: forma y volumen fijos'},{txt:'[[Líquido]]: volumen fijo, forma del recipiente'},{txt:'[[Gaseoso]]: se adapta a todo el recipiente'}]},
+    {txt:'Cada tipo de materia es una [[sustancia]]'},
+    {txt:'No es materia: la luz y la [[música]]'} ], extra:['metros','dureza','temperatura','grados'] },
   mat3b: { titulo:'Los [[materiales]]', nodos:[
-    {txt:'[[Naturales]]', hijos:[{txt:'Origen [[animal]]: lana'},{txt:'Origen [[vegetal]]: madera'},{txt:'Origen [[mineral]]: mármol'}]},
-    {txt:'[[Artificiales]]', hijos:[{txt:'Se hacen con [[materias primas]]'},{txt:'Papel, [[vidrio]] y plástico'}]} ], extra:['calor','energía'] },
+    {txt:'[[Naturales]]', hijos:[{txt:'Origen [[animal]]: lana y cuero'},{txt:'Origen [[vegetal]]: madera y algodón'},{txt:'Origen [[mineral]]: granito y mármol'}]},
+    {txt:'[[Artificiales]]', hijos:[{txt:'Se fabrican con [[materias primas]]'},{txt:'Papel (madera), [[vidrio]] (arena), plástico (petróleo)'}]},
+    {txt:'Propiedades', hijos:[{txt:'Frágil, [[flexible]], ligero, [[resistente]], elástico e impermeable'}]} ], extra:['conductor','sólido','energía','líquido'] },
   mat3c: { titulo:'El [[calor]] y la temperatura', nodos:[
-    {txt:'El calor pasa de lo [[caliente]] a lo frío', hijos:[{txt:'[[Conductores]]: los metales'},{txt:'[[Aislantes]]: madera, vidrio y plástico'}]},
-    {txt:'La [[temperatura]]', hijos:[{txt:'Se mide con el [[termómetro]]'},{txt:'En [[grados]] Celsius'}]} ], extra:['litros','masa'] },
+    {txt:'El calor', hijos:[{txt:'Pasa de lo más [[caliente]] a lo más frío'},{txt:'[[Conductores]]: los metales'},{txt:'[[Aislantes]]: madera, vidrio y plástico'}]},
+    {txt:'La [[temperatura]]', hijos:[{txt:'Se mide con el [[termómetro]] en grados [[Celsius]]'},{txt:'El agua hierve a [[100]] °C y se congela a 0 °C'}]} ], extra:['litros','37','kilogramos','frío'] },
   mat3d: { titulo:'La materia [[cambia]]', nodos:[
-    {txt:'Cambios de [[estado]]', hijos:[{txt:'[[Fusión]]: de sólido a líquido'},{txt:'[[Vaporización]]: de líquido a gas'},{txt:'[[Condensación]]: de gas a líquido'},{txt:'[[Solidificación]]: de líquido a sólido'}]},
-    {txt:'[[Dilatación]]: aumenta el tamaño con el calor'},
-    {txt:'Cambios [[químicos]]', hijos:[{txt:'Oxidación y [[combustión]]'}]} ], extra:['masa','volumen'] },
+    {txt:'Cambios de [[estado]]', hijos:[{txt:'[[Fusión]] y vaporización: reciben calor'},{txt:'[[Condensación]] y solidificación: pierden calor'}]},
+    {txt:'[[Dilatación]]', hijos:[{txt:'Al [[calentarse]], aumenta el tamaño'}]},
+    {txt:'Cambios [[químicos]]', hijos:[{txt:'Aparece una sustancia [[diferente]]'},{txt:'[[Oxidación]] y combustión'}]} ], extra:['evaporación','masa','enfriarse','mezcla'] },
   mat3e: { titulo:'La [[energía]]', nodos:[
-    {txt:'Formas', hijos:[{txt:'[[Térmica]]: calor'},{txt:'[[Luminosa]]: luz'},{txt:'[[Química]]: alimentos'},{txt:'[[Eléctrica]]: pilas'},{txt:'[[Mecánica]]: movimiento'}]},
-    {txt:'Centrales [[eléctricas]]', hijos:[{txt:'Térmicas, solares, hidroeléctricas y [[eólicas]]'}]} ], extra:['sólida','frágil'] },
+    {txt:'Produce [[cambios]] en los cuerpos'},
+    {txt:'Formas', hijos:[{txt:'[[Térmica]], luminosa y [[química]]'},{txt:'[[Eléctrica]] y mecánica'}]},
+    {txt:'Se [[transforma]] en otras formas'},
+    {txt:'Centrales eléctricas', hijos:[{txt:'[[Térmicas]]: contaminan'},{txt:'Solares, hidroeléctricas y [[eólicas]]'}]} ], extra:['sólida','frágil','masa','volumen'] },
   /* Tema 6 */
-  dig3a: { titulo:'El [[ordenador]]', nodos:[
-    {txt:'[[Torre]]: dentro está el [[disco duro]]'},
-    {txt:'[[Monitor]]: muestra textos e imágenes'},
-    {txt:'[[Teclado]]: escribir'},
-    {txt:'[[Ratón]]: mover el cursor'},
-    {txt:'[[Impresora]]: copias en papel'},
-    {txt:'La [[tableta]] tiene pantalla [[táctil]]'} ], extra:['cámara','batería'] },
-  dig3b: { titulo:'Funciones de los [[ordenadores]]', nodos:[
-    {txt:'[[Crear]] contenido: textos y dibujos'},
-    {txt:'[[Comunicarnos]]: mensajes y videollamadas'},
-    {txt:'[[Aprender]]: vídeos y actividades'},
-    {txt:'[[Divertirnos]]: música y juegos'},
-    {txt:'[[Trabajar]]: documentos'},
-    {txt:'Se necesitan [[aplicaciones]] o programas'} ], extra:['cocinar','dormir'] },
-  dig3c: { titulo:'[[Internet]]', nodos:[
-    {txt:'Millones de ordenadores [[conectados]]'},
-    {txt:'Usos', hijos:[{txt:'Buscar [[información]]'},{txt:'[[Comunicarnos]]'},{txt:'[[Comprar]]'},{txt:'Hacer [[gestiones]]'},{txt:'Divertirnos y [[trabajar]]'}]},
-    {txt:'¡Cuidado con las noticias [[falsas]]!'} ], extra:['virus','teclado'] },
-  dig3d: { titulo:'Riesgos del mundo [[digital]]', nodos:[
-    {txt:'[[Ciberacoso]]', hijos:[{txt:'Hablar con la [[familia]]'}]},
+  dig3a: { titulo:'El [[ordenador]] y la tableta', nodos:[
+    {txt:'Partes del ordenador', hijos:[{txt:'[[Torre]]: dentro está el [[disco duro]]'},{txt:'[[Monitor]]: muestra textos e imágenes'},{txt:'Teclado, [[ratón]] y cámara'},{txt:'[[Impresora]] y altavoces'}]},
+    {txt:'La [[tableta]]', hijos:[{txt:'Pantalla [[táctil]] con iconos'},{txt:'Funciona con [[batería]]'}]} ], extra:['escritorio','cursor','cables','internet'] },
+  dig3b: { titulo:'Las funciones de los [[ordenadores]]', nodos:[
+    {txt:'[[Crear]] contenido', hijos:[{txt:'Textos, dibujos y [[vídeos]]'}]},
+    {txt:'[[Comunicarnos]]', hijos:[{txt:'Mensajes y [[videollamadas]]'}]},
+    {txt:'[[Aprender]] y divertirnos'},
+    {txt:'[[Trabajar]]', hijos:[{txt:'Documentos e [[información]]'}]},
+    {txt:'Necesitan [[aplicaciones]] o programas'} ], extra:['cocinar','virus','batería','cables'] },
+  dig3c: { titulo:'[[Internet]] y sus usos', nodos:[
+    {txt:'Red de millones de ordenadores [[conectados]]'},
+    {txt:'Usos', hijos:[{txt:'Buscar [[información]] en páginas web'},{txt:'[[Comunicarnos]] y comprar'},{txt:'Hacer [[gestiones]] y trabajar'}]},
+    {txt:'¡Cuidado con las noticias [[falsas]]!', hijos:[{txt:'[[Comprobar]] en varias páginas'}]} ], extra:['virus','teclado','batería','ciberacoso'] },
+  dig3d: { titulo:'Los riesgos del mundo [[digital]]', nodos:[
+    {txt:'[[Ciberacoso]]', hijos:[{txt:'Mensajes con [[amenazas]] o insultos'},{txt:'No dar datos [[personales]]'},{txt:'Hablar con la [[familia]]'}]},
     {txt:'[[Virus]]', hijos:[{txt:'Instalar un [[antivirus]]'}]},
     {txt:'[[Adicción]]', hijos:[{txt:'Controlar el [[tiempo]] de uso'}]},
-    {txt:'Contenidos [[inadecuados]]', hijos:[{txt:'Emplear [[filtros]]'}]} ], extra:['teclado','impresora'] }
+    {txt:'Contenidos [[inadecuados]]', hijos:[{txt:'Usar [[filtros]]'}]} ], extra:['teclado','impresora','contraseña','monitor'] }
 };
 CURSO.temas.forEach(t => (t.missions || []).forEach(m => {
   const e = ESQUEMAS[m.id]; if (!e) return;

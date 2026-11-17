@@ -26,7 +26,7 @@ let SALIDA;
 const reg = {};
 vm.createContext(reg);
 vm.runInContext(fs.readFileSync(path.join(RAIZ, 'cursos.js'), 'utf8') + ';this.CURSOS = CURSOS;', reg);
-let ctx, CURSO;
+let ctx, CURSO, CICLO2 = false;
 function cargarCurso(cid) {
   const carpeta = path.join(RAIZ, 'cursos', cid);
   const en = path.join(carpeta, 'contenidos-en.js');
@@ -35,6 +35,8 @@ function cargarCurso(cid) {
   vm.runInContext(fs.readFileSync(path.join(carpeta, 'contenidos.js'), 'utf8') + '\n' + (fs.existsSync(en) ? fs.readFileSync(en, 'utf8') : '') +
     ';this.CURSO = CURSO; this.IDIOMA = typeof IDIOMA_CONTENIDOS !== "undefined" ? IDIOMA_CONTENIDOS : null;', ctx);
   CURSO = ctx.CURSO;
+  const reg1 = reg.CURSOS.find(c => c.id === cid) || {};
+  CICLO2 = reg1.ciclo === 2;
   SALIDA = path.join(RAIZ, 'fichas', cid);
   return !!ctx.IDIOMA;
 }
@@ -45,7 +47,11 @@ const TEXTOS = {
     autor: '© 2026 Diego Alberto Moya Puerta, Maestro de Educación Primaria, Comunidad Autónoma de la Región de Murcia',
     consigna: '<b>1.</b> Lee las palabras del recuadro. <b>2.</b> Escribe cada palabra en su hueco. <b>3.</b> Tacha la palabra cuando la uses.',
     dibujo: 'Haz un dibujo sobre este esquema.', auto: '¿Cómo lo he hecho?', colorea: 'Colorea una cara.', caras: ['¡Muy bien!', 'Bien', 'Tengo que repasar'],
-    paginas: p => p.replace('Págs.', 'págs.') },
+    paginas: p => p.replace('Págs.', 'págs.'),
+    // Segundo ciclo (8-10 años): sobran palabras, se explica por escrito y la autoevaluación es más concreta
+    c2: { consigna: '<b>1.</b> Lee las palabras del recuadro. <b>¡Ojo! Sobran {n}.</b> <b>2.</b> Escribe cada palabra en su hueco y tacha las que uses. <b>Reto:</b> tapa el recuadro e intenta completarlo de memoria.',
+      explica: 'Explica con tus palabras lo que has aprendido. Usa al menos tres palabras del esquema.', auto: '¿Cómo lo he hecho?', colorea: 'Rodea una frase.',
+      caras: ['Lo sé explicar', 'Lo entiendo, pero dudo', 'Tengo que repasar'] } },
   en: { nombre: 'Name', fecha: 'Date', tema: 'Topic', mision: 'Mission', libro: 'Book', sol: 'Answer key', juego: 'Nature Explorers', licencia: 'CC BY-NC-SA 4.0 licence',
     autor: '© 2026 Diego Alberto Moya Puerta, Primary School Teacher, Region of Murcia (Spain)',
     consigna: '<b>1.</b> Read the words in the box. <b>2.</b> Write each word in its gap. <b>3.</b> Tick the word when you use it.',
@@ -92,7 +98,7 @@ function ficha(tema, mision, k, e, resuelta) {
   let g = 0;
   const hueco = palabra => {
     // Ancho pensado para letra de 7-8 años (unos 6 mm por letra)
-    const ancho = Math.min(Math.max(palabra.length * 0.62 + 1.0, 2.8), 7.5).toFixed(1);
+    const ancho = (CICLO2 ? Math.min(Math.max(palabra.length * 0.5 + 0.8, 2.4), 6.5) : Math.min(Math.max(palabra.length * 0.62 + 1.0, 2.8), 7.5)).toFixed(1);
     return `<span class="hueco" style="width:${ancho}cm">${resuelta ? `<span class="sol">${esc(palabra)}</span>` : ''}</span>`;
   };
   const txt = t => partes(t).map(p => { const m = p.match(/^\[\[(.+)\]\]$/); if (m) { g++; return hueco(m[1]); } return esc(p); }).join('');
@@ -107,8 +113,9 @@ function ficha(tema, mision, k, e, resuelta) {
       <div class="rama"><div class="caja">${txt(n.txt)}</div>${(n.hijos || []).length ? `<ul>${n.hijos.map(h => `<li>${txt(h.txt)}</li>`).join('')}</ul>` : ''}</div>`).join('')}</div></div>`;
   }
 
-  const banco = barajar(ans, mision.id);
-  return `<section class="pagina" style="--fuerte:${fuerte};--suave:${suave}">
+  const C2 = CICLO2 && T.c2;
+  const banco = barajar(C2 ? ans.concat(e.extra || []) : ans, mision.id);
+  return `<section class="pagina${C2 ? ' c2' : ''}" style="--fuerte:${fuerte};--suave:${suave}">
     <header>
       <div class="datos"><span>${T.nombre}: <i class="linea larga"></i></span><span>${T.fecha}: <i class="linea"></i></span></div>
       <div class="sello">${T.tema} ${tema.n}</div>
@@ -118,10 +125,14 @@ function ficha(tema, mision, k, e, resuelta) {
       <div><h1>${esc(mision.title)}</h1><p class="sub">${T.tema} ${tema.n} · ${esc(tema.title)} · ${T.mision} ${k + 1}${mision.pages ? ' · ' + T.libro + ', ' + esc(T.paginas(mision.pages)) : ''}</p></div>
       ${resuelta ? `<div class="marca-sol">${T.sol}</div>` : ''}
     </div>
-    <p class="consigna">${T.consigna}</p>
+    <p class="consigna">${C2 ? C2.consigna.replace('{n}', (e.extra || []).length) : T.consigna}</p>
     <div class="banco">${banco.map(w => `<span class="palabra"><i class="check"></i>${esc(w)}</span>`).join('')}</div>
     ${esquema}
-    ${resuelta ? '' : `<div class="pie">
+    ${resuelta ? '' : C2 ? `<div class="pie c2">
+      <div class="explica"><b>${C2.explica}</b><i></i><i></i><i></i></div>
+      <div class="auto"><b>${C2.auto}</b><p>${C2.colorea}</p>
+        <div class="frases">${C2.caras.map(c => `<span>${c}</span>`).join('')}</div></div>
+    </div>` : `<div class="pie">
       <div class="dibujo"><b>${T.dibujo}</b></div>
       <div class="auto"><b>${T.auto}</b><p>${T.colorea}</p>
         <div class="caras"><span>${CARA(0)}${T.caras[0]}</span><span>${CARA(1)}${T.caras[1]}</span><span>${CARA(2)}${T.caras[2]}</span></div></div>
@@ -191,6 +202,18 @@ h1{font-family:'Lilita One';font-weight:400;color:var(--fuerte);font-size:23pt;m
 .caras{display:grid;grid-template-columns:repeat(3,1fr);gap:2mm;font-size:10.5pt;text-align:center;line-height:1.15}
 .caras span{display:flex;flex-direction:column;align-items:center;gap:1mm}
 .cara{width:12mm;height:12mm}
+/* Segundo ciclo: letra algo menor, huecos más estrechos y espacio para escribir */
+.c2{font-size:13pt;gap:3.5mm}
+.c2 .palabra{font-size:13.5pt}
+.c2 .raiz{font-size:17pt}
+.c2 .rama li{font-size:12.5pt;line-height:2}
+.c2 .caja{line-height:2}
+.c2 .consigna{font-size:11.5pt}
+.pie.c2{grid-template-columns:1fr 58mm;min-height:32mm;font-size:12pt}
+.explica{border:2.5px solid #999;border-radius:5mm;padding:2mm 4mm;display:flex;flex-direction:column;gap:6.5mm;color:#333}
+.explica i{display:block;border-bottom:1.5px solid #888;height:0}
+.frases{display:flex;flex-direction:column;gap:2mm}
+.frases span{border:1.5px solid #999;border-radius:999px;padding:.6mm 3mm;text-align:center;font-size:11pt}
 `;
 
 (async () => {
