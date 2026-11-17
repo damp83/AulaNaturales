@@ -15,13 +15,15 @@ const CURSOS = [
     nombre: '2.º de Primaria',           // como aparece en el selector de curso
     nombre_en: 'Primary 2',
     ingles: true,                         // tiene contenidos-en.js
-    clave: 'exploradores-cuerpo-v1'       // dónde se guarda el progreso (no cambiar en cursos ya en uso)
+    clave: 'exploradores-cuerpo-v1',       // dónde se guarda el progreso (no cambiar en cursos ya en uso)
+    fichas: '9f529a0f'                     // versión de las fichas: la escribe tools/fichas/generar_fichas.js
   },
   {
     id: '3-primaria',
     nombre: '3.º de Primaria',
     nombre_en: 'Primary 3',
     ingles: false,
-    ciclo: 2                              // fichas en papel de segundo ciclo (más exigentes)
+    ciclo: 2,                              // fichas en papel de segundo ciclo (más exigentes)
+    fichas: '882635f1'                     // versión de las fichas: la escribe tools/fichas/generar_fichas.js
   }
 ];
