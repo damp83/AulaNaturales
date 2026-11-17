@@ -21,6 +21,7 @@ const CURSOS = [
     id: '3-primaria',
     nombre: '3.º de Primaria',
     nombre_en: 'Primary 3',
-    ingles: false
+    ingles: false,
+    ciclo: 2                              // fichas en papel de segundo ciclo (más exigentes)
   }
 ];
